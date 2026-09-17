@@ -2,256 +2,199 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+      content="width=device-width,initial-scale=1.0,user-scalable=no">
+
 <title>NCB-AI</title>
 
 <style>
-* {
-    box-sizing: border-box;
+*{
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
 }
 
-html, body {
-    margin: 0;
-    width: 100%;
-    height: 100%;
+html,body{
+    margin:0;
+    padding:0;
+    width:100%;
+    height:100%;
 }
 
-body {
-    font-family: Arial, sans-serif;
-    background: #eef2f7;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+body{
+    font-family:Arial,sans-serif;
+    background:#eef2f7;
 }
 
-.app {
-    width: 100%;
-    max-width: 900px;
-    height: 100vh;
-    background: #fff;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
+.app{
+    width:100%;
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    background:white;
 }
 
-/* HEADER */
-
-.header {
-    height: 70px;
-    min-height: 70px;
-    background: #111827;
-    color: white;
-
-    display: flex;
-    align-items: center;
-
-    padding: 0 18px;
-    gap: 12px;
+.header{
+    height:68px;
+    display:flex;
+    align-items:center;
+    padding:9px 14px;
+    background:white;
+    border-bottom:1px solid #ddd;
 }
 
-.ai-avatar {
-    width: 46px;
-    height: 46px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid white;
+.avatar{
+    width:46px;
+    height:46px;
+    border-radius:50%;
+    object-fit:cover;
+    margin-right:11px;
+    border:2px solid #111;
 }
 
-.header-name {
-    font-size: 19px;
-    font-weight: bold;
+.name{
+    font-size:20px;
+    font-weight:bold;
 }
 
-.online {
-    font-size: 12px;
-    color: #22c55e;
-    margin-top: 3px;
+.status{
+    color:#20a447;
+    font-size:13px;
+    margin-top:3px;
 }
 
-/* CHAT */
-
-.chat {
-    flex: 1;
-    overflow-y: auto;
-    padding: 18px;
-    background: #f5f7fb;
+.chat{
+    flex:1;
+    overflow-y:auto;
+    padding:15px 12px;
+    background:#f4f6f9;
 }
 
-.message {
-    display: flex;
-    gap: 9px;
-    margin-bottom: 18px;
+.message{
+    display:flex;
+    width:100%;
+    margin-bottom:14px;
 }
 
-.message.you {
-    justify-content: flex-end;
+.ai{
+    justify-content:flex-start;
 }
 
-.message.ai {
-    justify-content: flex-start;
+.user{
+    justify-content:flex-end;
 }
 
-.message-content {
-    max-width: 80%;
+.content{
+    display:flex;
+    align-items:flex-end;
+    gap:7px;
+    max-width:90%;
 }
 
-.name {
-    font-size: 12px;
-    font-weight: bold;
-    color: #6b7280;
-    margin-bottom: 5px;
+.user .content{
+    flex-direction:row-reverse;
 }
 
-.you .name {
-    text-align: right;
+.msg-avatar{
+    width:31px;
+    height:31px;
+    border-radius:50%;
+    object-fit:cover;
 }
 
-.bubble {
-    padding: 12px 15px;
-    border-radius: 17px;
-    line-height: 1.5;
-    word-wrap: break-word;
-    white-space: pre-wrap;
+.bubble{
+    padding:11px 14px;
+    border-radius:17px;
+    font-size:15px;
+    line-height:1.5;
+    white-space:pre-wrap;
+    word-break:break-word;
 }
 
-.ai .bubble {
-    background: white;
-    border: 1px solid #e5e7eb;
-    color: #111827;
-    border-top-left-radius: 5px;
+.ai .bubble{
+    background:#fff;
+    color:#111;
+    border:1px solid #ddd;
+    border-bottom-left-radius:5px;
 }
 
-.you .bubble {
-    background: #2563eb;
-    color: white;
-    border-top-right-radius: 5px;
+.user .bubble{
+    background:#111;
+    color:#fff;
+    border-bottom-right-radius:5px;
 }
 
-/* TYPING */
-
-.typing {
-    display: none;
-    margin-bottom: 15px;
+.quick{
+    padding:8px 12px;
+    border-top:1px solid #eee;
 }
 
-.typing-bubble {
-    display: inline-block;
-    background: white;
-    border: 1px solid #e5e7eb;
-    border-radius: 15px;
-    padding: 10px 14px;
-    color: #777;
+.quick button{
+    padding:9px 15px;
+    border:1px solid #ccc;
+    border-radius:20px;
+    background:white;
+    font-size:14px;
 }
 
-/* QUICK */
-
-.quick-area {
-    padding: 9px 14px 5px;
-    background: white;
-    border-top: 1px solid #e5e7eb;
+.input-area{
+    display:flex;
+    gap:8px;
+    padding:10px;
+    border-top:1px solid #ddd;
 }
 
-.quick-title {
-    font-size: 12px;
-    color: #6b7280;
-    margin-bottom: 6px;
+.input{
+    flex:1;
+    height:45px;
+    border:1px solid #ccc;
+    border-radius:23px;
+    outline:none;
+    padding:0 16px;
+    font-size:15px;
+    background:#f5f5f5;
 }
 
-.quick-btn {
-    border: 1px solid #dbe2ea;
-    background: #f8fafc;
-    padding: 8px 13px;
-    border-radius: 20px;
-    font-size: 13px;
-    cursor: pointer;
+.send{
+    width:45px;
+    height:45px;
+    border:0;
+    border-radius:50%;
+    background:#111;
+    color:white;
+    font-size:20px;
 }
 
-.quick-btn:hover {
-    background: #eef2ff;
+.send:disabled{
+    opacity:.5;
 }
 
-/* INPUT */
-
-.input-area {
-    display: flex;
-    gap: 8px;
-    padding: 12px 14px;
-    background: white;
+.typing{
+    display:flex;
+    gap:4px;
 }
 
-.input {
-    flex: 1;
-    min-width: 0;
-
-    border: 1px solid #d1d5db;
-    outline: none;
-
-    padding: 12px 15px;
-    border-radius: 24px;
-
-    font-size: 15px;
+.dot{
+    width:6px;
+    height:6px;
+    background:#777;
+    border-radius:50%;
+    animation:blink 1.2s infinite;
 }
 
-.input:focus {
-    border-color: #2563eb;
+.dot:nth-child(2){
+    animation-delay:.2s;
 }
 
-.send-btn {
-    width: 46px;
-    height: 46px;
-
-    border: none;
-    border-radius: 50%;
-
-    background: #2563eb;
-    color: white;
-
-    font-size: 19px;
-
-    cursor: pointer;
+.dot:nth-child(3){
+    animation-delay:.4s;
 }
 
-.send-btn:hover {
-    background: #1d4ed8;
-}
-
-.send-btn:active {
-    transform: scale(.94);
-}
-
-.send-btn:disabled {
-    opacity: .6;
-    cursor: not-allowed;
-}
-
-/* MOBILE */
-
-@media (max-width: 600px) {
-
-    .header {
-        height: 64px;
-        min-height: 64px;
+@keyframes blink{
+    0%,80%,100%{
+        opacity:.3;
     }
-
-    .ai-avatar {
-        width: 42px;
-        height: 42px;
-    }
-
-    .header-name {
-        font-size: 17px;
-    }
-
-    .chat {
-        padding: 13px;
-    }
-
-    .message-content {
-        max-width: 85%;
-    }
-
-    .bubble {
-        font-size: 14px;
+    40%{
+        opacity:1;
     }
 }
 </style>
@@ -261,373 +204,531 @@ body {
 
 <div class="app">
 
-    <!-- HEADER -->
+<div class="header">
 
-    <div class="header">
+<img
+class="avatar"
+src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWIfjgbrzcACUkgXyYLLNBlP--ZKC_79-ZBKwkFLeX4A&s"
+>
 
-        <img
-            class="ai-avatar"
-            src="https://i.ibb.co/9HSwGJfb/inbound1817149894862564692.png"
-            alt="NCB-AI"
-        >
+<div>
 
-        <div>
-            <div class="header-name">
-                NCB-AI
-            </div>
+<div class="name">NCB-AI</div>
 
-            <div class="online">
-                ● Online
-            </div>
-        </div>
+<div class="status">
+● Đang hoạt động
+</div>
 
-    </div>
+</div>
+
+</div>
 
 
-    <!-- CHAT -->
+<div class="chat" id="chat">
 
-    <div class="chat" id="chat">
+<div class="message ai">
 
-        <div class="message ai">
+<div class="content">
 
-            <img
-                class="ai-avatar"
-                src="https://i.ibb.co/9HSwGJfb/inbound1817149894862564692.png"
-                alt="NCB-AI"
-                style="width:36px;height:36px;"
-            >
+<img
+class="msg-avatar"
+src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWIfjgbrzcACUkgXyYLLNBlP--ZKC_79-ZBKwkFLeX4A&s"
+>
 
-            <div class="message-content">
+<div class="bubble">
+Xin chào! Tôi là NCB-AI. Bạn cần tôi hỗ trợ gì?
+</div>
 
-                <div class="name">
-                    NCB-AI
-                </div>
+</div>
 
-                <div class="bubble">
-                    Chào bạn! Bạn cần gì, nói tôi sẽ hỗ trợ bạn.
-                </div>
+</div>
 
-            </div>
-
-        </div>
+</div>
 
 
-        <!-- TYPING -->
+<div class="quick">
 
-        <div
-            class="typing"
-            id="typing"
-        >
+<button onclick="quickMessage('Chào bạn')">
+Chào bạn
+</button>
 
-            <div class="typing-bubble">
-                NCB-AI đang trả lời...
-            </div>
-
-        </div>
-
-    </div>
+</div>
 
 
-    <!-- QUICK MESSAGE -->
+<div class="input-area">
 
-    <div class="quick-area">
+<input
+id="input"
+class="input"
+type="text"
+placeholder="Nhập tin nhắn..."
+autocomplete="off"
+>
 
-        <div class="quick-title">
-            Tin nhắn nhanh
-        </div>
+<button
+id="send"
+class="send"
+onclick="sendMessage()"
+>
+➤
+</button>
 
-        <button
-            class="quick-btn"
-            onclick="quickMessage()"
-        >
-            Chào bạn?
-        </button>
-
-    </div>
-
-
-    <!-- INPUT -->
-
-    <div class="input-area">
-
-        <input
-            id="messageInput"
-            class="input"
-            type="text"
-            placeholder="Chat với NCB-AI..."
-            autocomplete="off"
-        >
-
-        <button
-            id="sendButton"
-            class="send-btn"
-            onclick="sendMessage()"
-        >
-            ➤
-        </button>
-
-    </div>
+</div>
 
 </div>
 
 
 <script>
 
-const chat = document.getElementById("chat");
-const input = document.getElementById("messageInput");
-const typing = document.getElementById("typing");
-const sendButton = document.getElementById("sendButton");
+/* ==========================================
+   DÁN API KEY GOOGLE AI STUDIO Ở ĐÂY
+   ========================================== */
 
-let conversation = [];
+const API_KEY = "DAN_API_KEY_CUA_BAN_VAO_DAY";
 
 
-/*
-THÊM TIN NHẮN
-*/
+/* MODEL */
 
-function addMessage(text, type) {
+const MODEL = "gemini-2.5-flash";
 
-    const message = document.createElement("div");
 
-    message.className = "message " + type;
+/* AVATAR */
 
-    if (type === "ai") {
+const AVATAR =
+"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWIfjgbrzcACUkgXyYLLNBlP--ZKC_79-ZBKwkFLeX4A&s";
 
-        message.innerHTML = `
-            <img
-                class="ai-avatar"
-                src="https://i.ibb.co/9HSwGJfb/inbound1817149894862564692.png"
-                alt="NCB-AI"
-                style="width:36px;height:36px;"
-            >
 
-            <div class="message-content">
+const chat =
+document.getElementById("chat");
 
-                <div class="name">
-                    NCB-AI
-                </div>
+const input =
+document.getElementById("input");
 
-                <div class="bubble"></div>
+const send =
+document.getElementById("send");
 
-            </div>
-        `;
 
-    } else {
+/* ==========================================
+   THÊM TIN NHẮN
+   ========================================== */
 
-        message.innerHTML = `
-            <div class="message-content">
+function addMessage(text,type){
 
-                <div class="name">
-                    YOU
-                </div>
+    const message =
+    document.createElement("div");
 
-                <div class="bubble"></div>
+    message.className =
+    "message " + type;
 
-            </div>
-        `;
+
+    const content =
+    document.createElement("div");
+
+    content.className =
+    "content";
+
+
+    if(type === "ai"){
+
+        const avatar =
+        document.createElement("img");
+
+        avatar.className =
+        "msg-avatar";
+
+        avatar.src =
+        AVATAR;
+
+        content.appendChild(avatar);
     }
 
-    message.querySelector(".bubble").textContent = text;
 
-    chat.insertBefore(message, typing);
+    const bubble =
+    document.createElement("div");
 
-    chat.scrollTop = chat.scrollHeight;
+    bubble.className =
+    "bubble";
+
+    bubble.textContent =
+    text;
+
+
+    content.appendChild(bubble);
+
+    message.appendChild(content);
+
+    chat.appendChild(message);
+
+
+    chat.scrollTop =
+    chat.scrollHeight;
 }
 
 
-/*
-TIN NHẮN NHANH
-*/
+/* ==========================================
+   ĐANG TRẢ LỜI
+   ========================================== */
 
-function quickMessage() {
+function showTyping(){
 
-    addMessage(
-        "Chào bạn?",
-        "you"
+    const message =
+    document.createElement("div");
+
+    message.className =
+    "message ai";
+
+    message.id =
+    "typing";
+
+
+    const content =
+    document.createElement("div");
+
+    content.className =
+    "content";
+
+
+    const avatar =
+    document.createElement("img");
+
+    avatar.className =
+    "msg-avatar";
+
+    avatar.src =
+    AVATAR;
+
+
+    const bubble =
+    document.createElement("div");
+
+    bubble.className =
+    "bubble";
+
+
+    const typing =
+    document.createElement("div");
+
+    typing.className =
+    "typing";
+
+
+    typing.innerHTML =
+        '<span class="dot"></span>' +
+        '<span class="dot"></span>' +
+        '<span class="dot"></span>';
+
+
+    bubble.appendChild(typing);
+
+    content.appendChild(avatar);
+
+    content.appendChild(bubble);
+
+    message.appendChild(content);
+
+    chat.appendChild(message);
+
+
+    chat.scrollTop =
+    chat.scrollHeight;
+}
+
+
+function removeTyping(){
+
+    const typing =
+    document.getElementById("typing");
+
+    if(typing){
+        typing.remove();
+    }
+}
+
+
+/* ==========================================
+   CHỜ 8 GIÂY
+   ========================================== */
+
+function wait8(){
+
+    return new Promise(
+        function(resolve){
+
+            setTimeout(
+                resolve,
+                8000
+            );
+
+        }
     );
-
-    setTimeout(() => {
-
-        addMessage(
-            "Chào bạn! Bạn cần gì, nói tôi sẽ hỗ trợ bạn.",
-            "ai"
-        );
-
-    }, 500);
 }
 
 
-/*
-GỬI TIN NHẮN
-*/
+/* ==========================================
+   TIN NHẮN NHANH
+   ========================================== */
 
-async function sendMessage() {
+function quickMessage(text){
 
-    const text = input.value.trim();
+    input.value = text;
 
-    if (!text) {
+    sendMessage();
+}
+
+
+/* ==========================================
+   GỬI TIN NHẮN
+   ========================================== */
+
+async function sendMessage(){
+
+    const text =
+    input.value.trim();
+
+
+    if(!text){
         return;
     }
 
+
+    send.disabled = true;
+
+    input.disabled = true;
+
+
     addMessage(
         text,
-        "you"
+        "user"
     );
 
     input.value = "";
 
+
+    /* CHÀO BẠN */
+
+    if(
+        text.toLowerCase()
+        === "chào bạn"
+    ){
+
+        showTyping();
+
+        await wait8();
+
+        removeTyping();
+
+        addMessage(
+            "Chào bạn cần tôi hỗ trợ gì?",
+            "ai"
+        );
+
+        send.disabled = false;
+
+        input.disabled = false;
+
+        input.focus();
+
+        return;
+    }
+
+
+    /* KIỂM TRA KEY */
+
+    if(
+        !API_KEY ||
+        API_KEY.trim() === "" ||
+        API_KEY ===
+        "AQ.Ab8RN6L1ZiC14L01scUKy6oLjh9uXlB_Qd9BzRVgz2MwoccO9Q"
+    ){
+
+        addMessage(
+            "API key chưa được nhập trong code.",
+            "ai"
+        );
+
+        send.disabled = false;
+
+        input.disabled = false;
+
+        return;
+    }
+
+
     showTyping();
 
-    sendButton.disabled = true;
+
+    try{
+
+        const url =
+        "https://generativelanguage.googleapis.com/v1beta/models/"
+        + MODEL
+        + ":generateContent?key="
+        + encodeURIComponent(API_KEY);
 
 
-    try {
+        const body = {
 
-        const response = await fetch(
-            "/api/chat",
+            contents:[
+
+                {
+                    role:"user",
+
+                    parts:[
+
+                        {
+                            text:
+                            "Bạn là NCB-AI, trợ lý AI tiếng Việt. " +
+                            "Hỗ trợ lập trình HTML, CSS, JavaScript, Python, Lua và Roblox Lua. " +
+                            "Trả lời rõ ràng, hữu ích. " +
+                            "Không hướng dẫn truy cập trái phép hoặc phá bảo mật.\n\n" +
+                            "Người dùng hỏi: " +
+                            text
+                        }
+
+                    ]
+                }
+
+            ],
+
+            generationConfig:{
+
+                temperature:0.7,
+
+                maxOutputTokens:2048
+
+            }
+
+        };
+
+
+        const response =
+        await fetch(
+            url,
             {
-                method: "POST",
+                method:"POST",
 
-                headers: {
-                    "Content-Type": "application/json"
+                headers:{
+                    "Content-Type":
+                    "application/json"
                 },
 
-                body: JSON.stringify({
-
-                    message: text,
-
-                    history: conversation
-
-                })
+                body:
+                JSON.stringify(body)
             }
         );
 
 
-        const data = await response.json();
+        const data =
+        await response.json();
 
 
-        if (!response.ok) {
+        if(!response.ok){
 
-            throw new Error(
-                data.error ||
-                "Không thể kết nối NCB-AI."
+            console.log(
+                "Gemini API:",
+                data
             );
 
+            let errorMessage =
+                "Gemini API trả về lỗi.";
+
+            if(
+                data.error &&
+                data.error.message
+            ){
+
+                errorMessage =
+                    data.error.message;
+            }
+
+            throw new Error(
+                errorMessage
+            );
         }
 
 
-        const reply = data.reply;
+        let answer = "";
 
 
-        if (!reply) {
+        if(
+            data.candidates &&
+            data.candidates.length > 0 &&
+            data.candidates[0].content &&
+            data.candidates[0].content.parts
+        ){
 
-            throw new Error(
-                "NCB-AI không trả về câu trả lời."
-            );
-
+            answer =
+            data.candidates[0]
+            .content
+            .parts
+            .map(
+                function(part){
+                    return part.text || "";
+                }
+            )
+            .join("");
         }
 
 
-        hideTyping();
+        if(!answer){
+
+            answer =
+            "NCB-AI không nhận được câu trả lời.";
+        }
+
+
+        /* CHỜ 8 GIÂY */
+
+        await wait8();
+
+
+        removeTyping();
+
 
         addMessage(
-            reply,
+            answer,
             "ai"
         );
 
 
-        /*
-        LƯU LỊCH SỬ CHAT
-        */
+    }catch(error){
 
-        conversation.push({
+        console.error(error);
 
-            role: "user",
+        removeTyping();
 
-            text: text
-
-        });
-
-
-        conversation.push({
-
-            role: "model",
-
-            text: reply
-
-        });
-
-
-        /*
-        GIỚI HẠN LỊCH SỬ
-        */
-
-        if (conversation.length > 20) {
-
-            conversation =
-                conversation.slice(-20);
-
-        }
-
-    }
-
-    catch (error) {
-
-        hideTyping();
 
         addMessage(
-            "Xin lỗi, NCB-AI đang gặp lỗi: " +
+            "Lỗi kết nối Gemini: " +
             error.message,
             "ai"
         );
-
     }
 
 
-    sendButton.disabled = false;
+    send.disabled = false;
+
+    input.disabled = false;
 
     input.focus();
 }
 
 
-/*
-ENTER ĐỂ GỬI
-*/
+/* ENTER */
 
 input.addEventListener(
     "keydown",
-    function(event) {
+    function(e){
 
-        if (event.key === "Enter") {
+        if(e.key === "Enter"){
 
-            event.preventDefault();
+            e.preventDefault();
 
             sendMessage();
-
         }
 
     }
 );
-
-
-/*
-ĐANG TRẢ LỜI
-*/
-
-function showTyping() {
-
-    typing.style.display = "block";
-
-    chat.scrollTop =
-        chat.scrollHeight;
-}
-
-
-function hideTyping() {
-
-    typing.style.display = "none";
-
-}
 
 </script>
 
