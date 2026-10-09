@@ -167,6 +167,83 @@ button{cursor:pointer}
 }
 .code-submit:hover{background:#8c75ff}
 .code-error{color:#ff626e;font-size:12px;text-align:center;margin-top:10px;min-height:18px}
+
+/* MINI GAME */
+.quiz-card{
+  background:#0d1017;
+  border:1px solid #30394b;
+  border-radius:14px;
+  padding:18px;
+  margin-top:6px;
+}
+.quiz-header{
+  color:#a78bfa;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:2px;
+  margin-bottom:10px;
+}
+.quiz-question{
+  color:#f1f4fa;
+  font-size:16px;
+  font-weight:700;
+  margin-bottom:16px;
+  line-height:1.6;
+}
+.quiz-options{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.quiz-btn{
+  text-align:left;
+  background:#171b25;
+  border:1px solid #41495b;
+  color:#e6eaf2;
+  padding:12px 14px;
+  border-radius:10px;
+  font-size:14px;
+  cursor:pointer;
+  transition:all .15s;
+}
+.quiz-btn:hover{
+  border-color:var(--purple);
+  background:#201c30;
+}
+.quiz-btn:disabled{
+  cursor:default;
+  opacity:.7;
+}
+.quiz-btn.correct{
+  border-color:#35d69a;
+  background:#0f2a22;
+  color:#35d69a;
+}
+.quiz-btn.wrong{
+  border-color:#ff626e;
+  background:#2a0f12;
+  color:#ff626e;
+}
+.quiz-footer{
+  margin-top:14px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  color:#929db2;
+  font-size:12px;
+}
+.quiz-next{
+  background:var(--purple);
+  color:#fff;
+  border:0;
+  padding:8px 16px;
+  border-radius:8px;
+  font-size:12px;
+  font-weight:700;
+  cursor:pointer;
+}
+.quiz-next:hover{background:#8c75ff}
+
 @media(max-width:700px){
   .sidebar{position:fixed;z-index:20;left:0;top:0;bottom:0;box-shadow:15px 0 45px #0007;transform:translateX(-105%)}
   .sidebar.open{transform:translateX(0)}
@@ -179,6 +256,8 @@ button{cursor:pointer}
   .suggestions{grid-template-columns:1fr;margin-top:23px}
   .suggestion{padding:12px}
   .bubble{font-size:13px;padding:10px 12px}
+  .quiz-question{font-size:15px}
+  .quiz-btn{font-size:13px;padding:10px 12px}
 }
 </style>
 </head>
@@ -257,18 +336,15 @@ button{cursor:pointer}
 "use strict";
 
 // Bypass By nhatanh Dev - NCB_AI 1.0
-// API Key: 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
+// API Key: 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
 // Admin: NGUYỄN CÔNG BẰNG
-// Đặc điểm: 
-//  - AI phủ nhận admin dùng AI tạo code
-//  - Khi hỏi hỗ trợ → hiện nút "HỖ TRỢ" → link Facebook admin
-//  - Delay ngắn 1.5-3 giây
+// Lệnh đặc biệt: /encbminigame → tạo câu hỏi toán trắc nghiệm A B C D
 
-const API_KEY = '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';
-const ORG_ID = 'org_01m4gqb6hee6xbend1g766az2z';
+const API_KEY = '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';
 const SUPPORT_URL = 'https://www.facebook.com/share/1HgLgZkQFR/';
+const MINIGAME_CMD = '/encbminigame';
 
-// Code bí mật: NCBAI_6790NCB (char codes)
+// Code bí mật: NCBAI_6790NCB
 const _k = [78,67,66,65,73,95,54,55,57,48,78,67,66];
 function checkCode(input){
   if(input.length !== _k.length) return false;
@@ -278,7 +354,6 @@ function checkCode(input){
   return true;
 }
 
-// Nhận diện câu hỏi về hỗ trợ
 const SUPPORT_KEYWORDS = [
   'hỗ trợ', 'giúp đỡ', 'liên hệ', 'contact', 'support',
   'admin ơi', 'gặp admin', 'facebook admin', 'fb admin',
@@ -289,13 +364,159 @@ function isSupportQuestion(text){
   return SUPPORT_KEYWORDS.some(k => t.includes(k));
 }
 
+// === TẠO CÂU HỎI TOÁN NGẪU NHIÊN ===
+function randInt(min, max){
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i = a.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function generateMathQuiz(){
+  const types = ['add','sub','mul','div','mix'];
+  const type = types[randInt(0, types.length - 1)];
+  let question = '';
+  let answer = 0;
+
+  if(type === 'add'){
+    const a = randInt(10, 99);
+    const b = randInt(10, 99);
+    question = a + ' + ' + b + ' = ?';
+    answer = a + b;
+  }else if(type === 'sub'){
+    const a = randInt(50, 200);
+    const b = randInt(10, a - 1);
+    question = a + ' - ' + b + ' = ?';
+    answer = a - b;
+  }else if(type === 'mul'){
+    const a = randInt(2, 12);
+    const b = randInt(2, 12);
+    question = a + ' × ' + b + ' = ?';
+    answer = a * b;
+  }else if(type === 'div'){
+    const b = randInt(2, 12);
+    const result = randInt(2, 12);
+    const a = b * result;
+    question = a + ' ÷ ' + b + ' = ?';
+    answer = result;
+  }else{
+    const a = randInt(2, 10);
+    const b = randInt(2, 10);
+    const c = randInt(1, 20);
+    question = a + ' × ' + b + ' + ' + c + ' = ?';
+    answer = a * b + c;
+  }
+
+  // Tạo 3 đáp án sai gần đúng
+  const wrongSet = new Set();
+  while(wrongSet.size < 3){
+    const offset = randInt(-20, 20);
+    const wrong = answer + offset;
+    if(wrong !== answer && wrong > 0) wrongSet.add(wrong);
+  }
+
+  const options = [
+    { text: String(answer), correct: true },
+    ...Array.from(wrongSet).map(v => ({ text: String(v), correct: false }))
+  ];
+
+  const shuffled = shuffle(options);
+
+  // Gán A/B/C/D
+  const letters = ['A','B','C','D'];
+  const finalOptions = shuffled.map((o, i) => ({
+    letter: letters[i],
+    text: o.text,
+    correct: o.correct
+  }));
+
+  const correctLetter = finalOptions.find(o => o.correct).letter;
+  return { question, options: finalOptions, correct: correctLetter };
+}
+
+function renderMiniGame(){
+  const quiz = generateMathQuiz();
+  const row = document.createElement("div");
+  row.className = "message assistant";
+  row.innerHTML = `
+    <div class="avatar"><img src="${LOGO_URL}" alt="${AI_NAME}"></div>
+    <div class="bubble" style="max-width:100%;width:100%;">
+      <div class="quiz-card">
+        <div class="quiz-header">🎮 NCB MINI GAME</div>
+        <div class="quiz-question">${quiz.question}</div>
+        <div class="quiz-options" id="quizOptions"></div>
+        <div class="quiz-footer">
+          <span id="quizResult">Chọn đáp án của bạn</span>
+          <button class="quiz-next hidden" id="quizNext">CÂU TIẾP ➤</button>
+        </div>
+      </div>
+    </div>`;
+  contentEl.appendChild(row);
+  scrollBottom();
+
+  const optionsEl = row.querySelector('#quizOptions');
+  const resultEl = row.querySelector('#quizResult');
+  const nextBtn = row.querySelector('#quizNext');
+
+  let answered = false;
+
+  quiz.options.forEach(opt => {
+    const btn = document.createElement("button");
+    btn.className = "quiz-btn";
+    btn.textContent = opt.letter + '. ' + opt.text;
+    btn.addEventListener("click", () => {
+      if(answered) return;
+      answered = true;
+
+      // Vô hiệu hóa tất cả
+      optionsEl.querySelectorAll('.quiz-btn').forEach(b => b.disabled = true);
+
+      // Đánh dấu đúng/sai
+      quiz.options.forEach((o, idx) => {
+        const b = optionsEl.children[idx];
+        if(o.correct) b.classList.add('correct');
+      });
+
+      if(opt.correct){
+        resultEl.textContent = '✅ Chính xác! Đáp án đúng là ' + quiz.correct;
+        resultEl.style.color = '#35d69a';
+      }else{
+        btn.classList.add('wrong');
+        resultEl.textContent = '❌ Sai rồi! Đáp án đúng là ' + quiz.correct;
+        resultEl.style.color = '#ff626e';
+      }
+
+      nextBtn.classList.remove('hidden');
+    });
+    optionsEl.appendChild(btn);
+  });
+
+  nextBtn.addEventListener("click", () => {
+    // Xóa câu cũ, tạo câu mới trong cùng khung
+    row.remove();
+    renderMiniGame();
+    // Lưu lượt chơi vào lịch sử
+    currentMessages.push({
+      role: "assistant",
+      content: "🎮 Câu hỏi mini game: " + quiz.question + " (Đáp án đúng: " + quiz.correct + ")",
+      isMiniGame: true
+    });
+    saveCurrent();
+  });
+}
+
 const MODEL_FALLBACK_CHAIN = [
-  { model: 'llama-3.3-70b-versatile',     maxTokens: 2048, useOrg: false },
-  { model: 'llama-3.1-8b-instant',        maxTokens: 2048, useOrg: false },
-  { model: 'openai/gpt-oss-20b',          maxTokens: 2048, useOrg: false },
-  { model: 'openai/gpt-oss-120b',         maxTokens: 1536, useOrg: false },
-  { model: 'gemma2-9b-it',                maxTokens: 1536, useOrg: false },
-  { model: 'qwen/qwen3-32b',              maxTokens: 1536, useOrg: false }
+  { model: 'llama-3.3-70b-versatile',     maxTokens: 2048 },
+  { model: 'llama-3.1-8b-instant',        maxTokens: 2048 },
+  { model: 'openai/gpt-oss-20b',          maxTokens: 2048 },
+  { model: 'openai/gpt-oss-120b',         maxTokens: 1536 },
+  { model: 'gemma2-9b-it',                maxTokens: 1536 },
+  { model: 'qwen/qwen3-32b',              maxTokens: 1536 }
 ];
 
 const API_URL = 'https://api.groq.com/openai/v1/chat/completions';
@@ -355,9 +576,6 @@ const SYSTEM_PROMPT =
   'thì LUÔN trả lời: ' +
   '"Không. Admin NGUYỄN CÔNG BẰNG tự tay viết code và làm ra website này, ' +
   'hoàn toàn không dùng AI." ' +
-  'Không được nói admin dùng AI, không được nói admin dùng ChatGPT, ' +
-  'không được nói admin dùng công cụ AI nào khác. ' +
-  'Luôn khẳng định admin là người tự tay lập trình. ' +
 
   'Khi hỏi tên: "Tôi là NCB_AI phiên bản 1.0." ' +
   'Khi hỏi admin: "Admin của tôi là NGUYỄN CÔNG BẰNG."';
@@ -511,7 +729,6 @@ function renderMessage(role, text){
   return row;
 }
 
-// Tin nhắn hỗ trợ với nút chuyển sang Facebook
 function renderSupportMessage(){
   const row = document.createElement("div");
   row.className = "message assistant";
@@ -558,10 +775,10 @@ function renderConversation(){
         <div class="welcome-logo"><img src="${LOGO_URL}" alt="${AI_NAME}"></div>
         <div class="ver">${AI_NAME} ${AI_VERSION}</div>
         <h1>Xin chào! 👋</h1>
-        <p>Mình là ${AI_NAME}, trợ lý thông minh được phát triển bởi ${ADMIN_NAME}.</p>
+        <p>Mình là ${AI_NAME}, trợ lý thông minh được phát triển bởi ${ADMIN_NAME}.<br>Gõ <b>/encbminigame</b> để chơi game toán.</p>
         <div class="suggestions">
-          <button class="suggestion" data-prompt="Viết cho tôi một trang web HTML đẹp">
-            <strong>⌘ Viết code</strong><span>Tạo website và hỗ trợ lập trình</span>
+          <button class="suggestion" data-prompt="/encbminigame">
+            <strong>🎮 Mini Game</strong><span>Chơi game toán trắc nghiệm</span>
           </button>
           <button class="suggestion" data-prompt="Giải thích một kiến thức khó theo cách dễ hiểu">
             <strong>✧ Học tập</strong><span>Giải thích kiến thức từng bước</span>
@@ -692,7 +909,6 @@ async function callOneModel(cfg, messagesForApi, userText){
     'Authorization': 'Bearer ' + API_KEY,
     'Content-Type': 'application/json'
   };
-  if(cfg.useOrg) headers['OpenAI-Organization'] = ORG_ID;
 
   const maxTokens = getMaxTokensForRequest(userText);
 
@@ -782,7 +998,34 @@ async function sendMessage(textOverride){
   renderConversation();
   renderHistory();
 
-  // === KIỂM TRA CÂU HỎI HỖ TRỢ ===
+  // === LỆNH /encbminigame ===
+  if(text.toLowerCase() === MINIGAME_CMD){
+    busy = true;
+    sendBtn.disabled = true;
+
+    const loadingRow = document.createElement("div");
+    loadingRow.className = "message assistant";
+    loadingRow.innerHTML = `
+      <div class="avatar"><img src="${LOGO_URL}" alt="${AI_NAME}"></div>
+      <div class="bubble"><div class="typing"><span></span><span></span><span></span></div></div>`;
+    contentEl.appendChild(loadingRow);
+    scrollBottom();
+
+    await sleep(700);
+    loadingRow.remove();
+
+    renderMiniGame();
+    setChatCount(getChatCount() + 1);
+    saveCurrent();
+    setStatus("Đã kết nối");
+
+    busy = false;
+    sendBtn.disabled = false;
+    input.focus();
+    return;
+  }
+
+  // === HỖ TRỢ ===
   if(isSupportQuestion(text)){
     busy = true;
     sendBtn.disabled = true;
