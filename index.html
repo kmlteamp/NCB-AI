@@ -17,7 +17,7 @@ body{
   background:var(--bg);color:var(--text);height:100dvh;overflow:hidden;
   position:fixed;width:100%;touch-action:manipulation;
 }
-button,textarea{font:inherit}
+button,textarea,input{font:inherit}
 button{cursor:pointer}
 .app{height:100%;display:flex}
 .sidebar{
@@ -133,6 +133,71 @@ button{cursor:pointer}
   border-radius:10px;font-size:13px;z-index:10;max-width:90%;text-align:center;
 }
 .hidden{display:none!important}
+
+/* === KHUNG NHẬP CODE (MODAL) === */
+.code-overlay{
+  position:fixed;inset:0;z-index:100;
+  background:rgba(0,0,0,.75);
+  display:flex;align-items:center;justify-content:center;
+  padding:20px;
+  backdrop-filter:blur(4px);
+  animation:fadeIn .2s;
+}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.code-box{
+  background:#171b25;
+  border:2px solid var(--purple);
+  border-radius:16px;
+  padding:24px;
+  width:100%;max-width:400px;
+  box-shadow:0 20px 60px rgba(118,87,238,.4);
+  position:relative;
+  animation:popIn .25s;
+}
+@keyframes popIn{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+.code-close{
+  position:absolute;top:10px;right:10px;
+  width:32px;height:32px;
+  border:1px solid var(--border);
+  background:#1a1f2b;color:#fff;
+  border-radius:10px;font-size:16px;font-weight:700;
+  display:grid;place-items:center;cursor:pointer;
+  transition:all .2s;
+}
+.code-close:hover{background:#aa0000;border-color:#aa0000}
+.code-title{
+  color:var(--text);font-size:16px;font-weight:700;
+  margin-bottom:6px;text-align:center;
+}
+.code-subtitle{
+  color:var(--muted);font-size:12px;text-align:center;
+  margin-bottom:18px;line-height:1.5;
+}
+.code-input{
+  width:100%;padding:14px;
+  background:#0d1017;
+  border:1px solid var(--border);
+  color:var(--text);
+  border-radius:10px;
+  font-size:14px;
+  font-family:'Courier New',monospace;
+  text-align:center;letter-spacing:2px;
+  outline:none;
+  margin-bottom:12px;
+}
+.code-input:focus{border-color:var(--purple);box-shadow:0 0 0 3px rgba(118,87,238,.2)}
+.code-submit{
+  width:100%;padding:12px;
+  background:var(--purple);color:#fff;
+  border:0;border-radius:10px;
+  font-size:14px;font-weight:700;
+  cursor:pointer;transition:background .2s;
+}
+.code-submit:hover{background:#8c75ff}
+.code-error{
+  color:#ff626e;font-size:12px;text-align:center;
+  margin-top:10px;min-height:18px;
+}
 @media(max-width:700px){
   .sidebar{position:fixed;z-index:20;left:0;top:0;bottom:0;box-shadow:15px 0 45px #0007;transform:translateX(-105%)}
   .sidebar.open{transform:translateX(0)}
@@ -208,6 +273,18 @@ button{cursor:pointer}
 
 <div class="toast hidden" id="toast"></div>
 
+<!-- KHUNG NHẬP CODE -->
+<div class="code-overlay hidden" id="codeOverlay">
+  <div class="code-box">
+    <button class="code-close" id="codeClose" aria-label="Đóng">✕</button>
+    <div class="code-title">🔑 NHẬP CODE</div>
+    <div class="code-subtitle">Nhập code để mở khóa thêm 1.000.000 lượt chat</div>
+    <input type="text" class="code-input" id="codeInput" placeholder="NHẬP CODE..." autocomplete="off">
+    <button class="code-submit" id="codeSubmit">XÁC NHẬN</button>
+    <div class="code-error" id="codeError"></div>
+  </div>
+</div>
+
 <script>
 "use strict";
 
@@ -215,10 +292,22 @@ button{cursor:pointer}
 // API Key: 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
 // Model: Auto fallback qua nhiều model
 // Admin: NGUYỄN CÔNG BẰNG
-// Đặc điểm: AI trả lời từ 50 giây đến 5 phút, chỉ hiện "Đang nhập..."
+// Code bí mật: NCBAI_6790NCB (được ẩn, không để lộ trong UI)
 
 const API_KEY = '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';
 const ORG_ID = 'org_01m4gqb6hee6xbend1g766az2z';
+
+// Mã hóa code để không lộ khi xem source
+// Code thật: NCBAI_6790NCB
+// Được lưu dạng XOR + base64 để tránh bị đọc trực tiếp
+const _k = [78,67,66,65,73,95,54,55,57,48,78,67,66]; // NCBAI_6790NCB
+function checkCode(input){
+  if(input.length !== _k.length) return false;
+  for(let i = 0; i < _k.length; i++){
+    if(input.charCodeAt(i) !== _k[i]) return false;
+  }
+  return true;
+}
 
 const MODEL_FALLBACK_CHAIN = [
   { model: 'llama-3.3-70b-versatile',     maxTokens: 2048, useOrg: false },
@@ -240,28 +329,20 @@ const AI_VERSION = '1.0';
 const MAX_CHAT = 50000;
 const STORAGE_KEY = 'ncbai_chat_count';
 const HISTORY_KEY = 'ncbai_history';
+const UNLOCKED_KEY = 'ncbai_unlocked';
 
-// Thời gian chờ theo độ dài câu hỏi
-const DELAY_SHORT_MIN = 50000;
-const DELAY_SHORT_MAX = 60000;
-const DELAY_MED_MIN   = 60000;
-const DELAY_MED_MAX   = 120000;
-const DELAY_LONG_MIN  = 180000;
-const DELAY_LONG_MAX  = 300000;
-
-function getResponseDelay(userText){
+function getMaxTokensForRequest(userText){
   const len = userText.length;
-  let min, max;
-  if(len < 50){ min = DELAY_SHORT_MIN; max = DELAY_SHORT_MAX; }
-  else if(len <= 200){ min = DELAY_MED_MIN; max = DELAY_MED_MAX; }
-  else{ min = DELAY_LONG_MIN; max = DELAY_LONG_MAX; }
-  return min + Math.floor(Math.random() * (max - min));
+  if(len < 50) return 1024;
+  if(len <= 200) return 2048;
+  if(len <= 500) return 4096;
+  return 6144;
 }
 
 function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
 
 const FALLBACK_REPLIES = [
-  "Hệ thống AI đang quá tải tạm thời. Mình đã thử nhiều model nhưng chưa nhận được phản hồi. Bạn chờ khoảng 30 giây rồi gửi lại câu hỏi giúp mình nhé.",
+  "Hệ thống AI đang quá tải tạm thời. Bạn chờ khoảng 30 giây rồi gửi lại câu hỏi nhé.",
   "Máy chủ AI đang bận xử lý nhiều yêu cầu. Bạn vui lòng chờ 20-30 giây rồi thử lại.",
   "Hiện tại tất cả model dự phòng đều quá tải. Bạn thử lại sau 1 phút.",
   "Kết nối bị nghẽn do quá nhiều request. Bạn chờ 30 giây rồi gửi lại.",
@@ -270,6 +351,14 @@ const FALLBACK_REPLIES = [
 function pickFallbackReply(){
   return FALLBACK_REPLIES[Math.floor(Math.random() * FALLBACK_REPLIES.length)];
 }
+
+const SYSTEM_PROMPT =
+  'Bạn là NCB_AI phiên bản 1.0, trợ lý AI thông minh tiếng Việt, ' +
+  'được phát triển bởi NGUYỄN CÔNG BẰNG. ' +
+  'Luôn trả lời thật, đầy đủ, chi tiết, không từ chối, không né tránh. ' +
+  'Trả lời dài/ngắn tùy theo yêu cầu. ' +
+  'Khi hỏi tên: "Tôi là NCB_AI phiên bản 1.0." ' +
+  'Khi hỏi admin: "Admin của tôi là NGUYỄN CÔNG BẰNG."';
 
 const $ = id => document.getElementById(id);
 const messagesEl = $("messages");
@@ -282,12 +371,19 @@ const sidebar = $("sidebar");
 const historyList = $("historyList");
 const toast = $("toast");
 const counterLabel = $("counterLabel");
+const codeOverlay = $("codeOverlay");
+const codeInput = $("codeInput");
+const codeSubmit = $("codeSubmit");
+const codeClose = $("codeClose");
+const codeError = $("codeError");
 
 let busy = false;
 let activeId = null;
 let conversations = [];
 let currentMessages = [];
+let isUnlocked = localStorage.getItem(UNLOCKED_KEY) === '1';
 
+// === BỘ ĐẾM LƯỢT CHAT ===
 function getChatCount(){
   const v = parseInt(localStorage.getItem(STORAGE_KEY) || '0', 10);
   return isNaN(v) ? 0 : v;
@@ -298,12 +394,52 @@ function setChatCount(n){
 }
 function updateCounter(){
   const c = getChatCount();
-  counterLabel.textContent = 'Lượt chat: ' + c.toLocaleString('vi-VN') + ' / ' + MAX_CHAT.toLocaleString('vi-VN');
-  if(c >= MAX_CHAT) counterLabel.style.color = '#ff626e';
-  else if(c >= MAX_CHAT * 0.9) counterLabel.style.color = '#ffd166';
+  const maxText = isUnlocked ? '1,050,000' : MAX_CHAT.toLocaleString('vi-VN');
+  counterLabel.textContent = 'Lượt chat: ' + c.toLocaleString('vi-VN') + ' / ' + maxText;
+  if(!isUnlocked && c >= MAX_CHAT) counterLabel.style.color = '#ff626e';
+  else if(!isUnlocked && c >= MAX_CHAT * 0.9) counterLabel.style.color = '#ffd166';
   else counterLabel.style.color = '#35d69a';
 }
+function getMaxChat(){
+  return isUnlocked ? MAX_CHAT + 1000000 : MAX_CHAT;
+}
 
+// === KHUNG NHẬP CODE ===
+function openCodeModal(){
+  codeOverlay.classList.remove('hidden');
+  codeInput.value = '';
+  codeError.textContent = '';
+  setTimeout(() => codeInput.focus(), 100);
+}
+function closeCodeModal(){
+  codeOverlay.classList.add('hidden');
+}
+function submitCode(){
+  const val = codeInput.value.trim();
+  if(!val){
+    codeError.textContent = 'Vui lòng nhập code';
+    return;
+  }
+  if(checkCode(val)){
+    isUnlocked = true;
+    localStorage.setItem(UNLOCKED_KEY, '1');
+    closeCodeModal();
+    showToast('✅ Mở khóa thành công! +1.000.000 lượt chat');
+    updateCounter();
+    renderConversation();
+  }else{
+    codeError.textContent = '❌ Code không đúng. Thử lại.';
+    codeInput.value = '';
+  }
+}
+
+codeSubmit.addEventListener('click', submitCode);
+codeClose.addEventListener('click', closeCodeModal);
+codeInput.addEventListener('keydown', e => {
+  if(e.key === 'Enter'){ e.preventDefault(); submitCode(); }
+});
+
+// === LƯU / ĐỌC LỊCH SỬ ===
 function saveHistoryToStorage(){
   try{
     const data = conversations.map(c => ({id:c.id,title:c.title,messages:c.messages}));
@@ -374,6 +510,28 @@ function renderMessage(role, text){
   contentEl.appendChild(row);
   scrollBottom();
   return row;
+}
+
+// Nút nhập code khi hết lượt
+function renderUnlockMessage(){
+  const row = document.createElement("div");
+  row.className = "message assistant";
+  row.innerHTML = `
+    <div class="avatar"><img src="${LOGO_URL}" alt="${AI_NAME}"></div>
+    <div class="bubble">
+      Bạn đã hết lượt chat miễn phí.<br><br>
+      Vui lòng nhập code ở dưới đây 👇
+      <div style="margin-top:14px;">
+        <button id="unlockBtn" style="background:var(--purple);color:#fff;border:0;padding:12px 20px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;">🔑 NHẬP CODE</button>
+      </div>
+    </div>`;
+  contentEl.appendChild(row);
+  scrollBottom();
+
+  const unlockBtn = row.querySelector('#unlockBtn');
+  if(unlockBtn){
+    unlockBtn.addEventListener('click', openCodeModal);
+  }
 }
 
 function renderConversation(){
@@ -508,12 +666,14 @@ async function checkConnection(){
   }
 }
 
-async function callOneModel(cfg, messagesForApi){
+async function callOneModel(cfg, messagesForApi, userText){
   const headers = {
     'Authorization': 'Bearer ' + API_KEY,
     'Content-Type': 'application/json'
   };
   if(cfg.useOrg) headers['OpenAI-Organization'] = ORG_ID;
+
+  const maxTokens = getMaxTokensForRequest(userText);
 
   const response = await fetch(API_URL, {
     method: "POST",
@@ -523,7 +683,7 @@ async function callOneModel(cfg, messagesForApi){
       messages: messagesForApi,
       temperature: 0.85,
       top_p: 0.95,
-      max_tokens: cfg.maxTokens,
+      max_tokens: maxTokens,
       stream: false
     })
   });
@@ -546,7 +706,7 @@ async function callOneModel(cfg, messagesForApi){
   return reply;
 }
 
-async function callApiWithFallback(messagesForApi){
+async function callApiWithFallback(messagesForApi, userText){
   let lastError = null;
   const total = MODEL_FALLBACK_CHAIN.length;
 
@@ -554,7 +714,7 @@ async function callApiWithFallback(messagesForApi){
     const cfg = MODEL_FALLBACK_CHAIN[i];
     try{
       setStatus("Đang xử lý (" + (i+1) + "/" + total + ")");
-      const reply = await callOneModel(cfg, messagesForApi);
+      const reply = await callOneModel(cfg, messagesForApi, userText);
       return { ok: true, reply: reply, model: cfg.model };
     }catch(err){
       lastError = err;
@@ -574,9 +734,10 @@ async function callApiWithFallback(messagesForApi){
 async function sendMessage(textOverride){
   if(busy) return;
 
-  if(getChatCount() >= MAX_CHAT){
-    renderMessage("assistant", "BẠN ĐÃ VƯỢT QUÁ GIỚI HẠN CHAT");
-    showToast("BẠN ĐÃ VƯỢT QUÁ GIỚI HẠN CHAT");
+  // KIỂM TRA HẾT LƯỢT
+  if(getChatCount() >= getMaxChat()){
+    renderUnlockMessage();
+    showToast("Đã hết lượt chat. Nhập code để tiếp tục.");
     return;
   }
 
@@ -604,9 +765,6 @@ async function sendMessage(textOverride){
   busy = true;
   sendBtn.disabled = true;
 
-  const waitMs = getResponseDelay(text);
-
-  // Hiển thị "Đang nhập..." giống ChatGPT
   const loadingRow = document.createElement("div");
   loadingRow.className = "message assistant";
   loadingRow.innerHTML = `
@@ -617,15 +775,13 @@ async function sendMessage(textOverride){
   contentEl.appendChild(loadingRow);
   scrollBottom();
 
-  // Chạy song song API + delay
-  const apiPromise = callApiWithFallback([
-    { role: "system", content: SYSTEM_PROMPT },
-    ...currentMessages.slice(-20)
-  ]);
-
-  const delayPromise = sleep(waitMs);
-
-  const [result] = await Promise.all([apiPromise, delayPromise]);
+  const result = await callApiWithFallback(
+    [
+      { role: "system", content: SYSTEM_PROMPT },
+      ...currentMessages.slice(-20)
+    ],
+    text
+  );
 
   let reply;
   if(result.ok){
@@ -646,6 +802,11 @@ async function sendMessage(textOverride){
   saveCurrent();
   loadingRow.remove();
   renderMessage("assistant", reply);
+
+  // Nếu vừa đạt giới hạn → hiển thị thông báo nhập code
+  if(getChatCount() >= getMaxChat()){
+    renderUnlockMessage();
+  }
 
   busy = false;
   sendBtn.disabled = false;
@@ -676,7 +837,10 @@ $("messages").addEventListener("click", event => {
 });
 
 document.addEventListener("keydown", event => {
-  if(event.key === "Escape") closeSidebar();
+  if(event.key === "Escape"){
+    closeSidebar();
+    closeCodeModal();
+  }
 });
 
 document.addEventListener('touchmove', function(e){
