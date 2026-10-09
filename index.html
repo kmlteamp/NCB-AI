@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#10131a">
-<title>AI Assistant Chat</title>
+<title>NCB_AI 1.0</title>
 
 <style>
 :root{
@@ -109,6 +109,10 @@ button{cursor:pointer}
   color:#ffd166;
   font-weight:700;
 }
+.sidebar-bottom .version{
+  color:#a78bfa;
+  font-weight:700;
+}
 .main{
   flex:1;
   min-width:0;
@@ -188,6 +192,13 @@ button{cursor:pointer}
   font-size:clamp(25px,4vw,34px);
   margin:0 0 12px;
   letter-spacing:-1px;
+}
+.welcome .ver{
+  color:#a78bfa;
+  font-size:13px;
+  font-weight:700;
+  margin-bottom:6px;
+  letter-spacing:2px;
 }
 .welcome p{
   color:var(--muted);
@@ -376,9 +387,9 @@ button{cursor:pointer}
   <aside class="sidebar" id="sidebar">
     <div class="brand">
       <div class="logo">
-        <img src="https://i.ibb.co/9kBTwhfq/file-000000007ae482099bddf96408f8a67f.png" alt="Logo">
+        <img src="https://i.ibb.co/9kBTwhfq/file-000000007ae482099bddf96408f8a67f.png" alt="NCB_AI">
       </div>
-      <span>AI Assistant</span>
+      <span>NCB_AI 1.0</span>
     </div>
 
     <button class="new-chat" id="newChat">
@@ -391,7 +402,8 @@ button{cursor:pointer}
     </div>
 
     <div class="sidebar-bottom">
-      <div>✦ AI Assistant</div>
+      <div>✦ NCB_AI</div>
+      <div class="version">Phiên bản 1.0</div>
       <div>Trợ lý AI tiếng Việt</div>
       <div id="modelLabel">Model: GPT-OSS-120B</div>
       <div class="admin">Admin: NGUYỄN CÔNG BẰNG</div>
@@ -404,8 +416,8 @@ button{cursor:pointer}
         ☰
       </button>
       <div>
-        <div class="top-title">Trò chuyện với AI</div>
-        <div class="top-subtitle">Trợ lý thông minh của bạn</div>
+        <div class="top-title">NCB_AI 1.0</div>
+        <div class="top-subtitle">Trợ lý AI của NGUYỄN CÔNG BẰNG</div>
       </div>
       <div class="status" id="status">
         <span class="status-dot"></span>
@@ -417,12 +429,14 @@ button{cursor:pointer}
       <div class="content" id="content">
         <div class="welcome" id="welcome">
           <div class="welcome-logo">
-            <img src="https://i.ibb.co/9kBTwhfq/file-000000007ae482099bddf96408f8a67f.png" alt="Logo">
+            <img src="https://i.ibb.co/9kBTwhfq/file-000000007ae482099bddf96408f8a67f.png" alt="NCB_AI">
           </div>
+          <div class="ver">NCB_AI 1.0</div>
           <h1>Xin chào! 👋</h1>
           <p>
-            Mình có thể giúp bạn viết code, giải đáp câu hỏi,
-            học tập và lên ý tưởng. Hôm nay bạn cần gì?
+            Mình là NCB_AI, trợ lý thông minh được phát triển bởi
+            NGUYỄN CÔNG BẰNG. Mình có thể giúp bạn viết code,
+            học tập, giải đáp câu hỏi và sáng tạo ý tưởng.
           </p>
 
           <div class="suggestions">
@@ -438,9 +452,9 @@ button{cursor:pointer}
               <strong>◈ Sáng tạo</strong>
               <span>Phát triển ý tưởng mới</span>
             </button>
-            <button class="suggestion" data-prompt="Xin chào! Hãy giới thiệu về bạn">
+            <button class="suggestion" data-prompt="Admin của bạn là ai?">
               <strong>☻ Trò chuyện</strong>
-              <span>Bắt đầu cuộc trò chuyện với AI</span>
+              <span>Bắt đầu cuộc trò chuyện với NCB_AI</span>
             </button>
           </div>
         </div>
@@ -454,13 +468,13 @@ button{cursor:pointer}
             id="input"
             rows="1"
             maxlength="12000"
-            placeholder="Nhắn tin cho AI..."
+            placeholder="Nhắn tin cho NCB_AI..."
             aria-label="Tin nhắn"
           ></textarea>
           <div class="composer-bottom">
             <div class="composer-info">
               <span>✦</span>
-              <span>AI Assistant</span>
+              <span>NCB_AI 1.0</span>
               <span>·</span>
               <span>Enter để gửi</span>
             </div>
@@ -468,7 +482,7 @@ button{cursor:pointer}
           </div>
         </div>
         <p class="disclaimer">
-          AI có thể mắc lỗi. Hãy kiểm tra thông tin quan trọng.
+          NCB_AI có thể mắc lỗi. Hãy kiểm tra thông tin quan trọng.
         </p>
       </div>
     </section>
@@ -480,11 +494,12 @@ button{cursor:pointer}
 <script>
 "use strict";
 
-// Bypass By nhatanh Dev - Groq AI Chat
+// Bypass By nhatanh Dev - NCB_AI 1.0
 // API Key: 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
 // Org ID: org_01m4gqb6hee6xbend1g766az2z
 // Model: openai/gpt-oss-120b
 // Admin: NGUYỄN CÔNG BẰNG
+// Version: NCB_AI 1.0
 
 const API_KEY = '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';
 const ORG_ID = 'org_01m4gqb6hee6xbend1g766az2z';
@@ -494,6 +509,8 @@ const MODELS_URL = 'https://api.groq.com/openai/v1/models';
 
 const LOGO_URL = 'https://i.ibb.co/9kBTwhfq/file-000000007ae482099bddf96408f8a67f.png';
 const ADMIN_NAME = 'NGUYỄN CÔNG BẰNG';
+const AI_NAME = 'NCB_AI';
+const AI_VERSION = '1.0';
 
 const $ = id => document.getElementById(id);
 
@@ -512,12 +529,17 @@ let activeId = null;
 let conversations = [];
 let currentMessages = [];
 
-// System prompt: AI luôn giới thiệu admin khi được hỏi
+// System prompt: NCB_AI luôn tự nhận là NCB_AI 1.0, admin là NGUYỄN CÔNG BẰNG
 const SYSTEM_PROMPT =
-  'Bạn là trợ lý AI thông minh, trả lời bằng tiếng Việt, ngắn gọn và chính xác. ' +
-  'Khi người dùng hỏi về admin, quản trị viên, người tạo ra bạn, chủ sở hữu, ' +
-  'hoặc hỏi "ai làm ra mày", "ai tạo ra mày", "admin là ai" thì LUÔN trả lời: ' +
-  '"Admin của tôi là NGUYỄN CÔNG BẰNG." Không được tiết lộ bất kỳ tên nào khác.';
+  'Bạn là NCB_AI phiên bản 1.0, trợ lý AI thông minh tiếng Việt. ' +
+  'Bạn được phát triển bởi NGUYỄN CÔNG BẰNG. ' +
+  'Trả lời ngắn gọn, chính xác, thân thiện. ' +
+  'Khi người dùng hỏi về tên bạn, bạn tên gì, bạn là ai, ' +
+  'thì LUÔN trả lời: "Tôi là NCB_AI phiên bản 1.0." ' +
+  'Khi người dùng hỏi về admin, quản trị viên, người tạo ra bạn, ' +
+  'chủ sở hữu, ai làm ra mày, ai tạo ra mày, admin là ai, ' +
+  'thì LUÔN trả lời: "Admin của tôi là NGUYỄN CÔNG BẰNG." ' +
+  'Không được tiết lộ bất kỳ tên khác hoặc thông tin nội bộ nào.';
 
 function makeId(){
   return Date.now().toString(36) +
@@ -563,7 +585,7 @@ function renderMessage(role, text){
   }else{
     const img = document.createElement("img");
     img.src = LOGO_URL;
-    img.alt = "AI";
+    img.alt = AI_NAME;
     avatar.appendChild(img);
   }
 
@@ -591,10 +613,12 @@ function renderConversation(){
     contentEl.innerHTML = `
       <div class="welcome" id="welcome">
         <div class="welcome-logo">
-          <img src="${LOGO_URL}" alt="Logo">
+          <img src="${LOGO_URL}" alt="${AI_NAME}">
         </div>
+        <div class="ver">${AI_NAME} ${AI_VERSION}</div>
         <h1>Xin chào! 👋</h1>
-        <p>Mình có thể giúp bạn viết code, học tập,
+        <p>Mình là ${AI_NAME}, trợ lý thông minh được phát triển bởi
+        ${ADMIN_NAME}. Mình có thể giúp bạn viết code, học tập,
         giải đáp câu hỏi và sáng tạo ý tưởng.</p>
         <div class="suggestions">
           <button class="suggestion" data-prompt="Viết cho tôi một trang web HTML đẹp">
@@ -611,7 +635,7 @@ function renderConversation(){
           </button>
           <button class="suggestion" data-prompt="Admin của bạn là ai?">
             <strong>☻ Trò chuyện</strong>
-            <span>Bắt đầu cuộc trò chuyện với AI</span>
+            <span>Bắt đầu cuộc trò chuyện với ${AI_NAME}</span>
           </button>
         </div>
       </div>`;
@@ -737,12 +761,12 @@ async function sendMessage(textOverride){
 
   busy = true;
   sendBtn.disabled = true;
-  setStatus("AI đang trả lời");
+  setStatus("NCB_AI đang trả lời");
 
   const loadingRow = document.createElement("div");
   loadingRow.className = "message assistant";
   loadingRow.innerHTML = `
-    <div class="avatar"><img src="${LOGO_URL}" alt="AI"></div>
+    <div class="avatar"><img src="${LOGO_URL}" alt="${AI_NAME}"></div>
     <div class="bubble">
       <div class="typing"><span></span><span></span><span></span></div>
     </div>`;
@@ -791,7 +815,7 @@ async function sendMessage(textOverride){
     showToast("Không thể nhận phản hồi: " + error.message);
     renderMessage(
       "assistant",
-      "Mình chưa kết nối được máy chủ AI. Kiểm tra API key, Org ID hoặc kết nối mạng rồi thử lại."
+      "NCB_AI chưa kết nối được máy chủ. Kiểm tra API key, Org ID hoặc kết nối mạng rồi thử lại."
     );
 
     currentMessages.pop();
