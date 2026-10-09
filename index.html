@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="theme-color" content="#10131a">
 <title>NCB_AI 1.0</title>
 
@@ -19,6 +19,10 @@
   --green:#35d69a;
 }
 *{box-sizing:border-box}
+html,body{
+  overscroll-behavior:none;
+  -webkit-overflow-scrolling:touch;
+}
 body{
   margin:0;
   font-family:Inter,system-ui,-apple-system,sans-serif;
@@ -26,347 +30,159 @@ body{
   color:var(--text);
   height:100dvh;
   overflow:hidden;
+  position:fixed;
+  width:100%;
+  touch-action:manipulation;
 }
 button,textarea{font:inherit}
 button{cursor:pointer}
-.app{
-  height:100%;
-  display:flex;
-}
+.app{height:100%;display:flex}
 .sidebar{
-  width:260px;
-  flex-shrink:0;
+  width:260px;flex-shrink:0;
   background:#131722;
   border-right:1px solid var(--border);
   padding:16px;
-  display:flex;
-  flex-direction:column;
-  gap:16px;
+  display:flex;flex-direction:column;gap:16px;
   transition:transform .2s;
 }
-.brand{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-weight:750;
-  font-size:17px;
-}
+.brand{display:flex;align-items:center;gap:10px;font-weight:750;font-size:17px}
 .logo{
-  width:38px;height:38px;
-  display:grid;place-items:center;
-  background:var(--purple);
-  border-radius:12px;
-  overflow:hidden;
+  width:38px;height:38px;display:grid;place-items:center;
+  background:var(--purple);border-radius:12px;overflow:hidden;
 }
-.logo img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  display:block;
-}
+.logo img{width:100%;height:100%;object-fit:cover;display:block}
 .new-chat{
-  width:100%;
-  border:1px solid #51447f;
-  border-radius:10px;
-  background:#28213f;
-  color:#e4dcff;
-  padding:12px;
-  text-align:left;
+  width:100%;border:1px solid #51447f;border-radius:10px;
+  background:#28213f;color:#e4dcff;padding:12px;text-align:left;
 }
-.section-label{
-  color:var(--muted);
-  font-size:12px;
-  margin:8px 0;
-}
-.history-list{
-  display:flex;
-  flex-direction:column;
-  gap:5px;
-  overflow:auto;
-}
+.section-label{color:var(--muted);font-size:12px;margin:8px 0}
+.history-list{display:flex;flex-direction:column;gap:5px;overflow:auto}
 .history-item{
-  padding:10px;
-  border-radius:8px;
-  color:#c8d0df;
-  font-size:13px;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-  cursor:pointer;
+  padding:10px;border-radius:8px;color:#c8d0df;font-size:13px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer;
 }
-.history-item:hover,.history-item.active{
-  background:#27243d;
-}
+.history-item:hover,.history-item.active{background:#27243d}
 .sidebar-bottom{
-  margin-top:auto;
-  border-top:1px solid var(--border);
-  padding-top:14px;
-  color:var(--muted);
-  font-size:12px;
-  line-height:1.8;
+  margin-top:auto;border-top:1px solid var(--border);
+  padding-top:14px;color:var(--muted);font-size:12px;line-height:1.8;
 }
-.sidebar-bottom .admin{
-  color:#ffd166;
-  font-weight:700;
-}
-.sidebar-bottom .version{
-  color:#a78bfa;
-  font-weight:700;
-}
-.main{
-  flex:1;
-  min-width:0;
-  display:flex;
-  flex-direction:column;
-  height:100%;
-}
+.sidebar-bottom .admin{color:#ffd166;font-weight:700}
+.sidebar-bottom .version{color:#a78bfa;font-weight:700}
+.sidebar-bottom .counter{color:#35d69a;font-weight:700}
+.main{flex:1;min-width:0;display:flex;flex-direction:column;height:100%}
 .topbar{
-  height:68px;
-  flex-shrink:0;
-  padding:0 22px;
-  display:flex;
-  align-items:center;
-  gap:13px;
+  height:68px;flex-shrink:0;padding:0 22px;
+  display:flex;align-items:center;gap:13px;
   border-bottom:1px solid var(--border);
   background:rgba(23,27,37,.95);
 }
 .icon-btn{
-  width:38px;height:38px;
-  border:1px solid var(--border);
-  background:transparent;
-  color:var(--text);
-  border-radius:10px;
+  width:38px;height:38px;border:1px solid var(--border);
+  background:transparent;color:var(--text);border-radius:10px;
   display:grid;place-items:center;
 }
 .top-title{font-weight:700;font-size:15px}
-.top-subtitle{
-  font-size:12px;color:var(--muted);
-  margin-top:3px;
-}
+.top-subtitle{font-size:12px;color:var(--muted);margin-top:3px}
 .status{
-  margin-left:auto;
-  display:flex;align-items:center;gap:7px;
+  margin-left:auto;display:flex;align-items:center;gap:7px;
   color:#aab5c9;font-size:12px;
 }
-.status-dot{
-  width:7px;height:7px;
-  background:var(--green);border-radius:50%;
-}
+.status-dot{width:7px;height:7px;background:var(--green);border-radius:50%}
 .status.error .status-dot{background:#ff626e}
 .messages{
-  flex:1;
-  overflow-y:auto;
-  padding:28px 18px;
-  scroll-behavior:smooth;
+  flex:1;overflow-y:auto;padding:28px 18px;
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior:contain;
+  touch-action:pan-y;
 }
-.content{
-  max-width:780px;
-  width:100%;
-  margin:0 auto;
-}
+.content{max-width:780px;width:100%;margin:0 auto}
 .welcome{
-  min-height:350px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  padding:20px 0;
+  min-height:350px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;padding:20px 0;
 }
 .welcome-logo{
-  width:66px;height:66px;
-  border-radius:22px;
-  display:grid;place-items:center;
+  width:66px;height:66px;border-radius:22px;display:grid;place-items:center;
   background:linear-gradient(135deg,#8a6cff,#5436c9);
-  box-shadow:0 10px 45px #7657ee30;
-  margin-bottom:20px;
-  overflow:hidden;
+  box-shadow:0 10px 45px #7657ee30;margin-bottom:20px;overflow:hidden;
 }
-.welcome-logo img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  display:block;
-}
-.welcome h1{
-  font-size:clamp(25px,4vw,34px);
-  margin:0 0 12px;
-  letter-spacing:-1px;
-}
-.welcome .ver{
-  color:#a78bfa;
-  font-size:13px;
-  font-weight:700;
-  margin-bottom:6px;
-  letter-spacing:2px;
-}
-.welcome p{
-  color:var(--muted);
-  line-height:1.7;
-  max-width:440px;
-  font-size:14px;
-  margin:0;
-}
+.welcome-logo img{width:100%;height:100%;object-fit:cover;display:block}
+.welcome h1{font-size:clamp(25px,4vw,34px);margin:0 0 12px;letter-spacing:-1px}
+.welcome .ver{color:#a78bfa;font-size:13px;font-weight:700;margin-bottom:6px;letter-spacing:2px}
+.welcome p{color:var(--muted);line-height:1.7;max-width:440px;font-size:14px;margin:0}
 .suggestions{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:10px;
-  width:100%;
-  margin-top:30px;
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;width:100%;margin-top:30px;
 }
 .suggestion{
-  text-align:left;
-  background:#171b25;
-  border:1px solid var(--border);
-  color:#d7ddec;
-  border-radius:13px;
-  padding:15px;
-  transition:border-color .2s,background .2s;
+  text-align:left;background:#171b25;border:1px solid var(--border);
+  color:#d7ddec;border-radius:13px;padding:15px;transition:border-color .2s,background .2s;
 }
-.suggestion:hover{
-  border-color:#7860ce;
-  background:#201c30;
-}
-.suggestion strong{
-  display:block;font-size:13px;margin-bottom:6px;
-}
-.suggestion span{
-  display:block;color:var(--muted);
-  font-size:12px;line-height:1.5;
-}
-.message{
-  display:flex;
-  align-items:flex-start;
-  gap:11px;
-  margin:0 0 25px;
-}
+.suggestion:hover{border-color:#7860ce;background:#201c30}
+.suggestion strong{display:block;font-size:13px;margin-bottom:6px}
+.suggestion span{display:block;color:var(--muted);font-size:12px;line-height:1.5}
+.message{display:flex;align-items:flex-start;gap:11px;margin:0 0 25px}
 .message.user{justify-content:flex-end}
 .avatar{
-  flex-shrink:0;
-  width:31px;height:31px;
-  display:grid;place-items:center;
-  border-radius:10px;
-  background:var(--purple);
-  font-size:16px;
-  overflow:hidden;
+  flex-shrink:0;width:31px;height:31px;display:grid;place-items:center;
+  border-radius:10px;background:var(--purple);font-size:16px;overflow:hidden;
 }
-.avatar img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  display:block;
-}
-.message.user .avatar{
-  background:#394355;
-}
+.avatar img{width:100%;height:100%;object-fit:cover;display:block}
+.message.user .avatar{background:#394355}
 .bubble{
-  min-width:0;
-  max-width:calc(100% - 45px);
-  padding:12px 15px;
-  border-radius:14px;
-  background:var(--panel2);
-  color:#e6eaf2;
-  font-size:14px;
-  line-height:1.8;
-  white-space:pre-wrap;
-  overflow-wrap:anywhere;
+  min-width:0;max-width:calc(100% - 45px);padding:12px 15px;
+  border-radius:14px;background:var(--panel2);color:#e6eaf2;
+  font-size:14px;line-height:1.8;white-space:pre-wrap;overflow-wrap:anywhere;
 }
-.message.user .bubble{
-  background:var(--purple2);
-  color:white;
-  border-top-right-radius:5px;
-}
-.message.assistant .bubble{
-  border:1px solid #30394b;
-  border-top-left-radius:5px;
-}
-.typing{
-  display:flex;align-items:center;gap:5px;
-  min-height:22px;
-}
+.message.user .bubble{background:var(--purple2);color:white;border-top-right-radius:5px}
+.message.assistant .bubble{border:1px solid #30394b;border-top-left-radius:5px}
+.typing{display:flex;align-items:center;gap:5px;min-height:22px}
 .typing span{
-  width:6px;height:6px;border-radius:50%;
-  background:#9c8bfa;
+  width:6px;height:6px;border-radius:50%;background:#9c8bfa;
   animation:pulse 1s infinite alternate;
 }
 .typing span:nth-child(2){animation-delay:.2s}
 .typing span:nth-child(3){animation-delay:.4s}
 @keyframes pulse{to{opacity:.25;transform:translateY(-3px)}}
 .composer-area{
-  flex-shrink:0;
-  padding:12px 18px 18px;
+  flex-shrink:0;padding:12px 18px 18px;
   background:linear-gradient(transparent,var(--bg) 15%);
 }
-.composer-wrap{
-  max-width:780px;
-  margin:auto;
-}
+.composer-wrap{max-width:780px;margin:auto}
 .composer{
-  border:1px solid #41495b;
-  border-radius:17px;
-  background:#171b25;
-  padding:12px;
-  transition:border-color .2s;
+  border:1px solid #41495b;border-radius:17px;background:#171b25;
+  padding:12px;transition:border-color .2s;
 }
-.composer:focus-within{
-  border-color:#8068eb;
-}
+.composer:focus-within{border-color:#8068eb}
 #input{
-  display:block;
-  width:100%;
-  min-height:42px;
-  max-height:180px;
-  resize:none;
-  border:0;
-  outline:0;
-  background:transparent;
-  color:var(--text);
-  font-size:14px;
-  line-height:1.6;
+  display:block;width:100%;min-height:42px;max-height:180px;
+  resize:none;border:0;outline:0;background:transparent;
+  color:var(--text);font-size:14px;line-height:1.6;
 }
 #input::placeholder{color:#7f8ba0}
 .composer-bottom{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  margin-top:7px;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:10px;margin-top:7px;
 }
-.composer-info{
-  display:flex;align-items:center;
-  gap:7px;color:var(--muted);font-size:11px;
-}
+.composer-info{display:flex;align-items:center;gap:7px;color:var(--muted);font-size:11px}
 .send-btn{
-  width:39px;height:39px;
-  display:grid;place-items:center;
-  border:0;border-radius:12px;
-  background:var(--purple);
-  color:white;font-size:19px;
-  transition:background .2s;
+  width:39px;height:39px;display:grid;place-items:center;
+  border:0;border-radius:12px;background:var(--purple);
+  color:white;font-size:19px;transition:background .2s;
 }
 .send-btn:hover{background:#8c75ff}
 .send-btn:disabled{opacity:.4;cursor:not-allowed}
-.disclaimer{
-  text-align:center;
-  font-size:11px;color:#747f94;
-  margin:10px 0 0;
-}
+.disclaimer{text-align:center;font-size:11px;color:#747f94;margin:10px 0 0}
 .toast{
-  position:fixed;
-  left:50%;bottom:105px;
-  transform:translateX(-50%);
-  background:#303747;color:#fff;
-  border:1px solid #4b566b;
-  padding:11px 16px;border-radius:10px;
-  font-size:13px;z-index:10;
+  position:fixed;left:50%;bottom:105px;transform:translateX(-50%);
+  background:#303747;color:#fff;border:1px solid #4b566b;
+  padding:11px 16px;border-radius:10px;font-size:13px;z-index:10;
   max-width:90%;text-align:center;
 }
 .hidden{display:none!important}
 @media(max-width:700px){
   .sidebar{
     position:fixed;z-index:20;left:0;top:0;bottom:0;
-    box-shadow:15px 0 45px #0007;
-    transform:translateX(-105%);
+    box-shadow:15px 0 45px #0007;transform:translateX(-105%);
   }
   .sidebar.open{transform:translateX(0)}
   .topbar{height:60px;padding:0 13px}
@@ -392,9 +208,7 @@ button{cursor:pointer}
       <span>NCB_AI 1.0</span>
     </div>
 
-    <button class="new-chat" id="newChat">
-      ＋ &nbsp; Cuộc trò chuyện mới
-    </button>
+    <button class="new-chat" id="newChat">＋ &nbsp; Cuộc trò chuyện mới</button>
 
     <div>
       <div class="section-label">GẦN ĐÂY</div>
@@ -407,14 +221,13 @@ button{cursor:pointer}
       <div>Trợ lý AI tiếng Việt</div>
       <div id="modelLabel">Model: GPT-OSS-120B</div>
       <div class="admin">Admin: NGUYỄN CÔNG BẰNG</div>
+      <div class="counter" id="counterLabel">Lượt chat: 0 / 50000</div>
     </div>
   </aside>
 
   <main class="main">
     <header class="topbar">
-      <button class="icon-btn" id="menuBtn" aria-label="Mở lịch sử">
-        ☰
-      </button>
+      <button class="icon-btn" id="menuBtn" aria-label="Mở lịch sử">☰</button>
       <div>
         <div class="top-title">NCB_AI 1.0</div>
         <div class="top-subtitle">Trợ lý AI của NGUYỄN CÔNG BẰNG</div>
@@ -435,8 +248,7 @@ button{cursor:pointer}
           <h1>Xin chào! 👋</h1>
           <p>
             Mình là NCB_AI, trợ lý thông minh được phát triển bởi
-            NGUYỄN CÔNG BẰNG. Mình có thể giúp bạn viết code,
-            học tập, giải đáp câu hỏi và sáng tạo ý tưởng.
+            NGUYỄN CÔNG BẰNG. Giới hạn 50.000 lượt chat.
           </p>
 
           <div class="suggestions">
@@ -500,6 +312,7 @@ button{cursor:pointer}
 // Model: openai/gpt-oss-120b
 // Admin: NGUYỄN CÔNG BẰNG
 // Version: NCB_AI 1.0
+// Giới hạn: 50000 lượt chat
 
 const API_KEY = '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';
 const ORG_ID = 'org_01m4gqb6hee6xbend1g766az2z';
@@ -512,24 +325,11 @@ const ADMIN_NAME = 'NGUYỄN CÔNG BẰNG';
 const AI_NAME = 'NCB_AI';
 const AI_VERSION = '1.0';
 
-const $ = id => document.getElementById(id);
+// Giới hạn chat
+const MAX_CHAT = 50000;
+const STORAGE_KEY = 'ncbai_chat_count';
 
-const messagesEl = $("messages");
-const contentEl = $("content");
-const input = $("input");
-const sendBtn = $("sendBtn");
-const statusEl = $("status");
-const statusText = $("statusText");
-const sidebar = $("sidebar");
-const historyList = $("historyList");
-const toast = $("toast");
-
-let busy = false;
-let activeId = null;
-let conversations = [];
-let currentMessages = [];
-
-// System prompt: NCB_AI luôn tự nhận là NCB_AI 1.0, admin là NGUYỄN CÔNG BẰNG
+// System prompt
 const SYSTEM_PROMPT =
   'Bạn là NCB_AI phiên bản 1.0, trợ lý AI thông minh tiếng Việt. ' +
   'Bạn được phát triển bởi NGUYỄN CÔNG BẰNG. ' +
@@ -541,18 +341,54 @@ const SYSTEM_PROMPT =
   'thì LUÔN trả lời: "Admin của tôi là NGUYỄN CÔNG BẰNG." ' +
   'Không được tiết lộ bất kỳ tên khác hoặc thông tin nội bộ nào.';
 
+const $ = id => document.getElementById(id);
+
+const messagesEl = $("messages");
+const contentEl = $("content");
+const input = $("input");
+const sendBtn = $("sendBtn");
+const statusEl = $("status");
+const statusText = $("statusText");
+const sidebar = $("sidebar");
+const historyList = $("historyList");
+const toast = $("toast");
+const counterLabel = $("counterLabel");
+
+let busy = false;
+let activeId = null;
+let conversations = [];
+let currentMessages = [];
+
+// Đọc / ghi bộ đếm lượt chat
+function getChatCount(){
+  const v = parseInt(localStorage.getItem(STORAGE_KEY) || '0', 10);
+  return isNaN(v) ? 0 : v;
+}
+function setChatCount(n){
+  localStorage.setItem(STORAGE_KEY, String(n));
+  updateCounter();
+}
+function updateCounter(){
+  const c = getChatCount();
+  counterLabel.textContent = 'Lượt chat: ' + c.toLocaleString('vi-VN') + ' / ' + MAX_CHAT.toLocaleString('vi-VN');
+  if(c >= MAX_CHAT){
+    counterLabel.style.color = '#ff626e';
+  }else if(c >= MAX_CHAT * 0.9){
+    counterLabel.style.color = '#ffd166';
+  }else{
+    counterLabel.style.color = '#35d69a';
+  }
+}
+
 function makeId(){
-  return Date.now().toString(36) +
-    Math.random().toString(36).slice(2,8);
+  return Date.now().toString(36) + Math.random().toString(36).slice(2,8);
 }
 
 function showToast(text){
   toast.textContent = text;
   toast.classList.remove("hidden");
   clearTimeout(showToast.timer);
-  showToast.timer = setTimeout(
-    () => toast.classList.add("hidden"), 3500
-  );
+  showToast.timer = setTimeout(() => toast.classList.add("hidden"), 3500);
 }
 
 function setStatus(text, error = false){
@@ -574,12 +410,10 @@ function getHeaders(){
 
 function renderMessage(role, text){
   const row = document.createElement("div");
-  row.className = "message " +
-    (role === "user" ? "user" : "assistant");
+  row.className = "message " + (role === "user" ? "user" : "assistant");
 
   const avatar = document.createElement("div");
   avatar.className = "avatar";
-
   if(role === "user"){
     avatar.textContent = "●";
   }else{
@@ -618,8 +452,7 @@ function renderConversation(){
         <div class="ver">${AI_NAME} ${AI_VERSION}</div>
         <h1>Xin chào! 👋</h1>
         <p>Mình là ${AI_NAME}, trợ lý thông minh được phát triển bởi
-        ${ADMIN_NAME}. Mình có thể giúp bạn viết code, học tập,
-        giải đáp câu hỏi và sáng tạo ý tưởng.</p>
+        ${ADMIN_NAME}. Giới hạn 50.000 lượt chat.</p>
         <div class="suggestions">
           <button class="suggestion" data-prompt="Viết cho tôi một trang web HTML đẹp">
             <strong>⌘ Viết code</strong>
@@ -668,8 +501,7 @@ function renderHistory(){
 
   conversations.slice().reverse().forEach(c => {
     const item = document.createElement("div");
-    item.className = "history-item" +
-      (c.id === activeId ? " active" : "");
+    item.className = "history-item" + (c.id === activeId ? " active" : "");
     item.textContent = c.title;
     item.title = c.title;
     item.addEventListener("click", () => openConversation(c.id));
@@ -719,17 +551,26 @@ async function checkConnection(){
       method: "GET",
       headers: getHeaders()
     });
-
     if(!response.ok) throw new Error("API key hoặc Org không hợp lệ");
-
     setStatus("Đã kết nối");
   }catch(error){
     setStatus("Chưa kết nối", true);
   }
 }
 
+// Gửi tin nhắn
 async function sendMessage(textOverride){
   if(busy) return;
+
+  // KIỂM TRA GIỚI HẠN
+  if(getChatCount() >= MAX_CHAT){
+    renderMessage(
+      "assistant",
+      "BẠN ĐÃ VƯỢT QUÁ GIỚI HẠN CHAT"
+    );
+    showToast("BẠN ĐÃ VƯỢT QUÁ GIỚI HẠN CHAT");
+    return;
+  }
 
   const text = (textOverride ?? input.value).trim();
   if(!text) return;
@@ -743,10 +584,7 @@ async function sendMessage(textOverride){
     });
   }
 
-  currentMessages.push({
-    role: "user",
-    content: text
-  });
+  currentMessages.push({ role: "user", content: text });
 
   if(currentMessages.length === 1){
     const c = conversations.find(x => x.id === activeId);
@@ -799,10 +637,10 @@ async function sendMessage(textOverride){
     const data = await response.json();
     const reply = data.choices[0].message.content;
 
-    currentMessages.push({
-      role: "assistant",
-      content: reply
-    });
+    // Tăng bộ đếm sau khi gửi thành công
+    setChatCount(getChatCount() + 1);
+
+    currentMessages.push({ role: "assistant", content: reply });
 
     saveCurrent();
     loadingRow.remove();
@@ -831,11 +669,7 @@ async function sendMessage(textOverride){
 sendBtn.addEventListener("click", () => sendMessage());
 
 input.addEventListener("keydown", event => {
-  if(
-    event.key === "Enter" &&
-    !event.shiftKey &&
-    !event.isComposing
-  ){
+  if(event.key === "Enter" && !event.shiftKey && !event.isComposing){
     event.preventDefault();
     sendMessage();
   }
@@ -843,8 +677,7 @@ input.addEventListener("keydown", event => {
 
 input.addEventListener("input", () => {
   input.style.height = "auto";
-  input.style.height =
-    Math.min(input.scrollHeight, 180) + "px";
+  input.style.height = Math.min(input.scrollHeight, 180) + "px";
 });
 
 $("newChat").addEventListener("click", newConversation);
@@ -855,18 +688,25 @@ $("menuBtn").addEventListener("click", () => {
 
 $("messages").addEventListener("click", event => {
   const button = event.target.closest("[data-prompt]");
-  if(button){
-    sendMessage(button.dataset.prompt);
-  }
+  if(button) sendMessage(button.dataset.prompt);
 });
 
 document.addEventListener("keydown", event => {
-  if(event.key === "Escape"){
-    sidebar.classList.remove("open");
-  }
+  if(event.key === "Escape") sidebar.classList.remove("open");
 });
 
-// Khởi tạo ứng dụng
+// Chặn kéo xuống làm tải lại trang (pull-to-refresh)
+document.addEventListener('touchmove', function(e){
+  if(e.target.closest('#messages')) return;
+  e.preventDefault();
+}, { passive: false });
+
+// Chặn scroll body gây reload
+window.addEventListener('scroll', function(){
+  if(window.scrollY !== 0) window.scrollTo(0, 0);
+}, { passive: true });
+
+// Khởi tạo
 activeId = makeId();
 conversations.push({
   id: activeId,
@@ -874,10 +714,11 @@ conversations.push({
   messages: []
 });
 
+updateCounter();
 renderHistory();
 renderConversation();
 checkConnection();
 input.focus();
 </script>
 </body>
-</html>
+  </html>
