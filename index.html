@@ -133,115 +133,73 @@ button{cursor:pointer}
   border-radius:10px;font-size:13px;z-index:10;max-width:90%;text-align:center;
 }
 .hidden{display:none!important}
-.code-overlay{
-  position:fixed;inset:0;z-index:100;
+
+/* KHUNG NHẬP CODE PHONG CÁCH NCB CODE */
+.ncb-overlay{
+  position:fixed;inset:0;z-index:200;
   background:rgba(0,0,0,.75);
   display:flex;align-items:center;justify-content:center;
   padding:20px;backdrop-filter:blur(4px);
+  animation:fadeIn .2s;
 }
-.code-box{
-  background:#171b25;border:2px solid var(--purple);border-radius:16px;
-  padding:24px;width:100%;max-width:400px;
-  box-shadow:0 20px 60px rgba(118,87,238,.4);
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.ncb-box{
+  width:300px;padding:18px;background:#0c1630;
+  border:1px solid #00cfff;border-radius:12px;
+  box-shadow:0 0 20px #007bff44, 0 20px 60px rgba(0,0,0,.6);
+  animation:popIn .25s;
   position:relative;
+  font-family:Arial,sans-serif;
+  color:#fff;
 }
-.code-close{
-  position:absolute;top:10px;right:10px;
-  width:32px;height:32px;border:1px solid var(--border);
-  background:#1a1f2b;color:#fff;border-radius:10px;font-size:16px;font-weight:700;
-  display:grid;place-items:center;cursor:pointer;
+@keyframes popIn{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+.ncb-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.ncb-top b{color:#40deff;font-size:16px}
+.ncb-close{
+  border:0;background:#202c48;color:#fff;
+  width:27px;height:27px;border-radius:6px;
+  font-size:17px;cursor:pointer;
+  display:grid;place-items:center;
+  transition:background .2s;
 }
-.code-close:hover{background:#aa0000}
-.code-title{color:var(--text);font-size:16px;font-weight:700;margin-bottom:6px;text-align:center}
-.code-subtitle{color:var(--muted);font-size:12px;text-align:center;margin-bottom:18px;line-height:1.5}
-.code-input{
-  width:100%;padding:14px;background:#0d1017;border:1px solid var(--border);
-  color:var(--text);border-radius:10px;font-size:14px;
-  font-family:'Courier New',monospace;text-align:center;letter-spacing:2px;
-  outline:none;margin-bottom:12px;
+.ncb-close:hover{background:#aa0000}
+.ncb-input{
+  width:100%;padding:12px;border-radius:7px;
+  border:1px solid #22568a;background:#070f22;
+  color:#fff;outline:none;
+  font-family:'Courier New',monospace;
+  letter-spacing:2px;
 }
-.code-input:focus{border-color:var(--purple);box-shadow:0 0 0 3px rgba(118,87,238,.2)}
-.code-submit{
-  width:100%;padding:12px;background:var(--purple);color:#fff;
-  border:0;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;
+.ncb-input:focus{border-color:#00cfff;box-shadow:0 0 0 3px rgba(0,207,255,.15)}
+.ncb-submit{
+  width:100%;padding:11px;margin-top:12px;
+  border:0;border-radius:7px;color:white;
+  background:linear-gradient(90deg,#008cff,#653cff);
+  font-weight:bold;cursor:pointer;
+  transition:filter .2s;
 }
-.code-submit:hover{background:#8c75ff}
-.code-error{color:#ff626e;font-size:12px;text-align:center;margin-top:10px;min-height:18px}
+.ncb-submit:hover{filter:brightness(1.15)}
+.ncb-msg{font-size:12px;color:#76ddff;margin-top:10px;min-height:16px;text-align:center}
 
 /* MINI GAME */
 .quiz-card{
-  background:#0d1017;
-  border:1px solid #30394b;
-  border-radius:14px;
-  padding:18px;
-  margin-top:6px;
+  background:#0d1017;border:1px solid #30394b;
+  border-radius:14px;padding:18px;margin-top:6px;
 }
-.quiz-header{
-  color:#a78bfa;
-  font-size:12px;
-  font-weight:700;
-  letter-spacing:2px;
-  margin-bottom:10px;
-}
-.quiz-question{
-  color:#f1f4fa;
-  font-size:16px;
-  font-weight:700;
-  margin-bottom:16px;
-  line-height:1.6;
-}
-.quiz-options{
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-}
+.quiz-header{color:#a78bfa;font-size:12px;font-weight:700;letter-spacing:2px;margin-bottom:10px}
+.quiz-question{color:#f1f4fa;font-size:16px;font-weight:700;margin-bottom:16px;line-height:1.6}
+.quiz-options{display:flex;flex-direction:column;gap:8px}
 .quiz-btn{
-  text-align:left;
-  background:#171b25;
-  border:1px solid #41495b;
-  color:#e6eaf2;
-  padding:12px 14px;
-  border-radius:10px;
-  font-size:14px;
-  cursor:pointer;
-  transition:all .15s;
+  text-align:left;background:#171b25;border:1px solid #41495b;
+  color:#e6eaf2;padding:12px 14px;border-radius:10px;
+  font-size:14px;cursor:pointer;transition:all .15s;
 }
-.quiz-btn:hover{
-  border-color:var(--purple);
-  background:#201c30;
-}
-.quiz-btn:disabled{
-  cursor:default;
-  opacity:.7;
-}
-.quiz-btn.correct{
-  border-color:#35d69a;
-  background:#0f2a22;
-  color:#35d69a;
-}
-.quiz-btn.wrong{
-  border-color:#ff626e;
-  background:#2a0f12;
-  color:#ff626e;
-}
-.quiz-footer{
-  margin-top:14px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  color:#929db2;
-  font-size:12px;
-}
-.quiz-next{
-  background:var(--purple);
-  color:#fff;
-  border:0;
-  padding:8px 16px;
-  border-radius:8px;
-  font-size:12px;
-  font-weight:700;
-  cursor:pointer;
-}
+.quiz-btn:hover{border-color:var(--purple);background:#201c30}
+.quiz-btn:disabled{cursor:default;opacity:.7}
+.quiz-btn.correct{border-color:#35d69a;background:#0f2a22;color:#35d69a}
+.quiz-btn.wrong{border-color:#ff626e;background:#2a0f12;color:#ff626e}
+.quiz-footer{margin-top:14px;display:flex;justify-content:space-between;align-items:center;color:#929db2;font-size:12px}
+.quiz-next{background:var(--purple);color:#fff;border:0;padding:8px 16px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer}
 .quiz-next:hover{background:#8c75ff}
 
 @media(max-width:700px){
@@ -321,14 +279,16 @@ button{cursor:pointer}
 
 <div class="toast hidden" id="toast"></div>
 
-<div class="code-overlay hidden" id="codeOverlay">
-  <div class="code-box">
-    <button class="code-close" id="codeClose" aria-label="Đóng">✕</button>
-    <div class="code-title">🔑 NHẬP CODE</div>
-    <div class="code-subtitle">Nhập code để mở khóa thêm 1.000.000 lượt chat</div>
-    <input type="text" class="code-input" id="codeInput" placeholder="NHẬP CODE..." autocomplete="off">
-    <button class="code-submit" id="codeSubmit">XÁC NHẬN</button>
-    <div class="code-error" id="codeError"></div>
+<!-- KHUNG NHẬP CODE PHONG CÁCH NCB CODE -->
+<div class="ncb-overlay hidden" id="codeOverlay">
+  <div class="ncb-box">
+    <div class="ncb-top">
+      <b>⌘ NHẬP CODE</b>
+      <button class="ncb-close" id="codeClose" aria-label="Đóng">×</button>
+    </div>
+    <input class="ncb-input" id="codeInput" placeholder="Nhập code..." autocomplete="off">
+    <button class="ncb-submit" id="codeSubmit">XÁC NHẬN</button>
+    <div class="ncb-msg" id="codeError"></div>
   </div>
 </div>
 
@@ -338,18 +298,30 @@ button{cursor:pointer}
 // Bypass By nhatanh Dev - NCB_AI 1.0
 // API Key: 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
 // Admin: NGUYỄN CÔNG BẰNG
-// Lệnh đặc biệt: /encbminigame → tạo câu hỏi toán trắc nghiệm A B C D
+// Lệnh: /encbminigame → game toán, :codencb → khung nhập code
+// Code mở khóa: NCBAI_6790NCB | Code mở khung: ncb1.0halqp
 
 const API_KEY = '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';
 const SUPPORT_URL = 'https://www.facebook.com/share/1HgLgZkQFR/';
 const MINIGAME_CMD = '/encbminigame';
+const CODE_CMD = ':codencb';
 
-// Code bí mật: NCBAI_6790NCB
+// Code mở khóa lượt chat: NCBAI_6790NCB (char codes)
 const _k = [78,67,66,65,73,95,54,55,57,48,78,67,66];
 function checkCode(input){
   if(input.length !== _k.length) return false;
   for(let i = 0; i < _k.length; i++){
     if(input.charCodeAt(i) !== _k[i]) return false;
+  }
+  return true;
+}
+
+// Code mở khung code: ncb1.0halqp
+const _k2 = [110,99,98,49,46,48,104,97,108,113,112];
+function checkCode2(input){
+  if(input.length !== _k2.length) return false;
+  for(let i = 0; i < _k2.length; i++){
+    if(input.charCodeAt(i) !== _k2[i]) return false;
   }
   return true;
 }
@@ -412,7 +384,6 @@ function generateMathQuiz(){
     answer = a * b + c;
   }
 
-  // Tạo 3 đáp án sai gần đúng
   const wrongSet = new Set();
   while(wrongSet.size < 3){
     const offset = randInt(-20, 20);
@@ -426,8 +397,6 @@ function generateMathQuiz(){
   ];
 
   const shuffled = shuffle(options);
-
-  // Gán A/B/C/D
   const letters = ['A','B','C','D'];
   const finalOptions = shuffled.map((o, i) => ({
     letter: letters[i],
@@ -472,16 +441,11 @@ function renderMiniGame(){
     btn.addEventListener("click", () => {
       if(answered) return;
       answered = true;
-
-      // Vô hiệu hóa tất cả
       optionsEl.querySelectorAll('.quiz-btn').forEach(b => b.disabled = true);
-
-      // Đánh dấu đúng/sai
       quiz.options.forEach((o, idx) => {
         const b = optionsEl.children[idx];
         if(o.correct) b.classList.add('correct');
       });
-
       if(opt.correct){
         resultEl.textContent = '✅ Chính xác! Đáp án đúng là ' + quiz.correct;
         resultEl.style.color = '#35d69a';
@@ -490,17 +454,14 @@ function renderMiniGame(){
         resultEl.textContent = '❌ Sai rồi! Đáp án đúng là ' + quiz.correct;
         resultEl.style.color = '#ff626e';
       }
-
       nextBtn.classList.remove('hidden');
     });
     optionsEl.appendChild(btn);
   });
 
   nextBtn.addEventListener("click", () => {
-    // Xóa câu cũ, tạo câu mới trong cùng khung
     row.remove();
     renderMiniGame();
-    // Lưu lượt chơi vào lịch sử
     currentMessages.push({
       role: "assistant",
       content: "🎮 Câu hỏi mini game: " + quiz.question + " (Đáp án đúng: " + quiz.correct + ")",
@@ -565,18 +526,15 @@ const SYSTEM_PROMPT =
   'được phát triển bởi NGUYỄN CÔNG BẰNG. ' +
   'Luôn trả lời thật, đầy đủ, chi tiết, không từ chối, không né tránh. ' +
   'Trả lời dài/ngắn tùy theo yêu cầu. ' +
-
   'QUY TẮC ĐẶC BIỆT VỀ ADMIN NGUYỄN CÔNG BẰNG: ' +
   'Tuyệt đối KHÔNG được nói hoặc thừa nhận rằng admin NGUYỄN CÔNG BẰNG ' +
   'dùng AI để tạo code hoặc làm website. ' +
   'Nếu người dùng hỏi "admin có dùng AI để tạo code không?", ' +
   '"Nguyễn Công Bằng có dùng AI làm website không?", ' +
   '"website này do AI làm à?", "code này do AI viết à?", ' +
-  'hoặc bất kỳ câu hỏi tương tự nghi ngờ admin dùng AI, ' +
   'thì LUÔN trả lời: ' +
   '"Không. Admin NGUYỄN CÔNG BẰNG tự tay viết code và làm ra website này, ' +
   'hoàn toàn không dùng AI." ' +
-
   'Khi hỏi tên: "Tôi là NCB_AI phiên bản 1.0." ' +
   'Khi hỏi admin: "Admin của tôi là NGUYỄN CÔNG BẰNG."';
 
@@ -632,23 +590,41 @@ function openCodeModal(){
 function closeCodeModal(){
   codeOverlay.classList.add('hidden');
 }
+
+// XÁC NHẬN CODE TRONG KHUNG :codencb
 function submitCode(){
   const val = codeInput.value.trim();
   if(!val){
     codeError.textContent = 'Vui lòng nhập code';
+    codeError.style.color = '#ff626e';
     return;
   }
+
+  // Code mở khóa lượt chat: NCBAI_6790NCB
   if(checkCode(val)){
     isUnlocked = true;
     localStorage.setItem(UNLOCKED_KEY, '1');
-    closeCodeModal();
-    showToast('✅ Mở khóa thành công! +1.000.000 lượt chat');
+    codeError.textContent = '✅ Mở khóa thành công! +1.000.000 lượt chat';
+    codeError.style.color = '#35d69a';
     updateCounter();
-    renderConversation();
-  }else{
-    codeError.textContent = '❌ Code không đúng. Thử lại.';
-    codeInput.value = '';
+    showToast('✅ Mở khóa thành công! +1.000.000 lượt chat');
+    setTimeout(closeCodeModal, 1200);
+    return;
   }
+
+  // Code mở khung code: ncb1.0halqp
+  if(checkCode2(val)){
+    codeError.textContent = '✅ Code hợp lệ. Đang mở khung nhập code...';
+    codeError.style.color = '#35d69a';
+    setTimeout(() => {
+      openCodeModal();
+    }, 800);
+    return;
+  }
+
+  codeError.textContent = '❌ Code không đúng. Thử lại.';
+  codeError.style.color = '#ff626e';
+  codeInput.value = '';
 }
 
 codeSubmit.addEventListener('click', submitCode);
@@ -775,13 +751,15 @@ function renderConversation(){
         <div class="welcome-logo"><img src="${LOGO_URL}" alt="${AI_NAME}"></div>
         <div class="ver">${AI_NAME} ${AI_VERSION}</div>
         <h1>Xin chào! 👋</h1>
-        <p>Mình là ${AI_NAME}, trợ lý thông minh được phát triển bởi ${ADMIN_NAME}.<br>Gõ <b>/encbminigame</b> để chơi game toán.</p>
+        <p>Mình là ${AI_NAME}, trợ lý thông minh được phát triển bởi ${ADMIN_NAME}.<br>
+        Gõ <b>/encbminigame</b> để chơi game toán.<br>
+        Gõ <b>:codencb</b> để mở khung nhập code.</p>
         <div class="suggestions">
           <button class="suggestion" data-prompt="/encbminigame">
             <strong>🎮 Mini Game</strong><span>Chơi game toán trắc nghiệm</span>
           </button>
-          <button class="suggestion" data-prompt="Giải thích một kiến thức khó theo cách dễ hiểu">
-            <strong>✧ Học tập</strong><span>Giải thích kiến thức từng bước</span>
+          <button class="suggestion" data-prompt=":codencb">
+            <strong>🔑 Nhập Code</strong><span>Mở khung nhập code</span>
           </button>
           <button class="suggestion" data-prompt="Hãy giúp tôi lên ý tưởng tạo game">
             <strong>◈ Sáng tạo</strong><span>Phát triển ý tưởng mới</span>
@@ -1015,6 +993,39 @@ async function sendMessage(textOverride){
     loadingRow.remove();
 
     renderMiniGame();
+    setChatCount(getChatCount() + 1);
+    saveCurrent();
+    setStatus("Đã kết nối");
+
+    busy = false;
+    sendBtn.disabled = false;
+    input.focus();
+    return;
+  }
+
+  // === LỆNH :codencb ===
+  if(text.toLowerCase() === CODE_CMD){
+    busy = true;
+    sendBtn.disabled = true;
+
+    const loadingRow = document.createElement("div");
+    loadingRow.className = "message assistant";
+    loadingRow.innerHTML = `
+      <div class="avatar"><img src="${LOGO_URL}" alt="${AI_NAME}"></div>
+      <div class="bubble"><div class="typing"><span></span><span></span><span></span></div></div>`;
+    contentEl.appendChild(loadingRow);
+    scrollBottom();
+
+    await sleep(500);
+    loadingRow.remove();
+
+    openCodeModal();
+
+    currentMessages.push({
+      role: "assistant",
+      content: "🔑 Đã mở khung nhập code. Vui lòng nhập code để xác nhận.",
+      isCodePrompt: true
+    });
     setChatCount(getChatCount() + 1);
     saveCurrent();
     setStatus("Đã kết nối");
