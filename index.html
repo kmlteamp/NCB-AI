@@ -2,735 +2,858 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width,initial-scale=1.0,user-scalable=no">
-
-<title>NCB-AI</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#10131a">
+<title>AI Assistant Chat</title>
 
 <style>
-*{
-    box-sizing:border-box;
-    -webkit-tap-highlight-color:transparent;
+:root{
+  --bg:#10131a;
+  --panel:#171b25;
+  --panel2:#202633;
+  --border:#303746;
+  --text:#f1f4fa;
+  --muted:#929db2;
+  --purple:#7657ee;
+  --purple2:#5540b8;
+  --green:#35d69a;
 }
-
-html,body{
-    margin:0;
-    padding:0;
-    width:100%;
-    height:100%;
-}
-
+*{box-sizing:border-box}
 body{
-    font-family:Arial,sans-serif;
-    background:#eef2f7;
+  margin:0;
+  font-family:Inter,system-ui,-apple-system,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  height:100dvh;
+  overflow:hidden;
 }
-
+button,textarea{font:inherit}
+button{cursor:pointer}
 .app{
-    width:100%;
-    height:100vh;
-    display:flex;
-    flex-direction:column;
-    background:white;
+  height:100%;
+  display:flex;
 }
-
-.header{
-    height:68px;
-    display:flex;
-    align-items:center;
-    padding:9px 14px;
-    background:white;
-    border-bottom:1px solid #ddd;
+.sidebar{
+  width:260px;
+  flex-shrink:0;
+  background:#131722;
+  border-right:1px solid var(--border);
+  padding:16px;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+  transition:transform .2s;
 }
-
-.avatar{
-    width:46px;
-    height:46px;
-    border-radius:50%;
-    object-fit:cover;
-    margin-right:11px;
-    border:2px solid #111;
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:750;
+  font-size:17px;
 }
-
-.name{
-    font-size:20px;
-    font-weight:bold;
+.logo{
+  width:38px;height:38px;
+  display:grid;place-items:center;
+  background:var(--purple);
+  border-radius:12px;
+  overflow:hidden;
 }
-
+.logo img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+.new-chat{
+  width:100%;
+  border:1px solid #51447f;
+  border-radius:10px;
+  background:#28213f;
+  color:#e4dcff;
+  padding:12px;
+  text-align:left;
+}
+.section-label{
+  color:var(--muted);
+  font-size:12px;
+  margin:8px 0;
+}
+.history-list{
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+  overflow:auto;
+}
+.history-item{
+  padding:10px;
+  border-radius:8px;
+  color:#c8d0df;
+  font-size:13px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  cursor:pointer;
+}
+.history-item:hover,.history-item.active{
+  background:#27243d;
+}
+.sidebar-bottom{
+  margin-top:auto;
+  border-top:1px solid var(--border);
+  padding-top:14px;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.8;
+}
+.sidebar-bottom .admin{
+  color:#ffd166;
+  font-weight:700;
+}
+.main{
+  flex:1;
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  height:100%;
+}
+.topbar{
+  height:68px;
+  flex-shrink:0;
+  padding:0 22px;
+  display:flex;
+  align-items:center;
+  gap:13px;
+  border-bottom:1px solid var(--border);
+  background:rgba(23,27,37,.95);
+}
+.icon-btn{
+  width:38px;height:38px;
+  border:1px solid var(--border);
+  background:transparent;
+  color:var(--text);
+  border-radius:10px;
+  display:grid;place-items:center;
+}
+.top-title{font-weight:700;font-size:15px}
+.top-subtitle{
+  font-size:12px;color:var(--muted);
+  margin-top:3px;
+}
 .status{
-    color:#20a447;
-    font-size:13px;
-    margin-top:3px;
+  margin-left:auto;
+  display:flex;align-items:center;gap:7px;
+  color:#aab5c9;font-size:12px;
 }
-
-.chat{
-    flex:1;
-    overflow-y:auto;
-    padding:15px 12px;
-    background:#f4f6f9;
+.status-dot{
+  width:7px;height:7px;
+  background:var(--green);border-radius:50%;
 }
-
-.message{
-    display:flex;
-    width:100%;
-    margin-bottom:14px;
+.status.error .status-dot{background:#ff626e}
+.messages{
+  flex:1;
+  overflow-y:auto;
+  padding:28px 18px;
+  scroll-behavior:smooth;
 }
-
-.ai{
-    justify-content:flex-start;
-}
-
-.user{
-    justify-content:flex-end;
-}
-
 .content{
-    display:flex;
-    align-items:flex-end;
-    gap:7px;
-    max-width:90%;
+  max-width:780px;
+  width:100%;
+  margin:0 auto;
 }
-
-.user .content{
-    flex-direction:row-reverse;
+.welcome{
+  min-height:350px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:20px 0;
 }
-
-.msg-avatar{
-    width:31px;
-    height:31px;
-    border-radius:50%;
-    object-fit:cover;
+.welcome-logo{
+  width:66px;height:66px;
+  border-radius:22px;
+  display:grid;place-items:center;
+  background:linear-gradient(135deg,#8a6cff,#5436c9);
+  box-shadow:0 10px 45px #7657ee30;
+  margin-bottom:20px;
+  overflow:hidden;
 }
-
+.welcome-logo img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+.welcome h1{
+  font-size:clamp(25px,4vw,34px);
+  margin:0 0 12px;
+  letter-spacing:-1px;
+}
+.welcome p{
+  color:var(--muted);
+  line-height:1.7;
+  max-width:440px;
+  font-size:14px;
+  margin:0;
+}
+.suggestions{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+  width:100%;
+  margin-top:30px;
+}
+.suggestion{
+  text-align:left;
+  background:#171b25;
+  border:1px solid var(--border);
+  color:#d7ddec;
+  border-radius:13px;
+  padding:15px;
+  transition:border-color .2s,background .2s;
+}
+.suggestion:hover{
+  border-color:#7860ce;
+  background:#201c30;
+}
+.suggestion strong{
+  display:block;font-size:13px;margin-bottom:6px;
+}
+.suggestion span{
+  display:block;color:var(--muted);
+  font-size:12px;line-height:1.5;
+}
+.message{
+  display:flex;
+  align-items:flex-start;
+  gap:11px;
+  margin:0 0 25px;
+}
+.message.user{justify-content:flex-end}
+.avatar{
+  flex-shrink:0;
+  width:31px;height:31px;
+  display:grid;place-items:center;
+  border-radius:10px;
+  background:var(--purple);
+  font-size:16px;
+  overflow:hidden;
+}
+.avatar img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+.message.user .avatar{
+  background:#394355;
+}
 .bubble{
-    padding:11px 14px;
-    border-radius:17px;
-    font-size:15px;
-    line-height:1.5;
-    white-space:pre-wrap;
-    word-break:break-word;
+  min-width:0;
+  max-width:calc(100% - 45px);
+  padding:12px 15px;
+  border-radius:14px;
+  background:var(--panel2);
+  color:#e6eaf2;
+  font-size:14px;
+  line-height:1.8;
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
 }
-
-.ai .bubble{
-    background:#fff;
-    color:#111;
-    border:1px solid #ddd;
-    border-bottom-left-radius:5px;
+.message.user .bubble{
+  background:var(--purple2);
+  color:white;
+  border-top-right-radius:5px;
 }
-
-.user .bubble{
-    background:#111;
-    color:#fff;
-    border-bottom-right-radius:5px;
+.message.assistant .bubble{
+  border:1px solid #30394b;
+  border-top-left-radius:5px;
 }
-
-.quick{
-    padding:8px 12px;
-    border-top:1px solid #eee;
-}
-
-.quick button{
-    padding:9px 15px;
-    border:1px solid #ccc;
-    border-radius:20px;
-    background:white;
-    font-size:14px;
-}
-
-.input-area{
-    display:flex;
-    gap:8px;
-    padding:10px;
-    border-top:1px solid #ddd;
-}
-
-.input{
-    flex:1;
-    height:45px;
-    border:1px solid #ccc;
-    border-radius:23px;
-    outline:none;
-    padding:0 16px;
-    font-size:15px;
-    background:#f5f5f5;
-}
-
-.send{
-    width:45px;
-    height:45px;
-    border:0;
-    border-radius:50%;
-    background:#111;
-    color:white;
-    font-size:20px;
-}
-
-.send:disabled{
-    opacity:.5;
-}
-
 .typing{
-    display:flex;
-    gap:4px;
+  display:flex;align-items:center;gap:5px;
+  min-height:22px;
 }
-
-.dot{
-    width:6px;
-    height:6px;
-    background:#777;
-    border-radius:50%;
-    animation:blink 1.2s infinite;
+.typing span{
+  width:6px;height:6px;border-radius:50%;
+  background:#9c8bfa;
+  animation:pulse 1s infinite alternate;
 }
-
-.dot:nth-child(2){
-    animation-delay:.2s;
+.typing span:nth-child(2){animation-delay:.2s}
+.typing span:nth-child(3){animation-delay:.4s}
+@keyframes pulse{to{opacity:.25;transform:translateY(-3px)}}
+.composer-area{
+  flex-shrink:0;
+  padding:12px 18px 18px;
+  background:linear-gradient(transparent,var(--bg) 15%);
 }
-
-.dot:nth-child(3){
-    animation-delay:.4s;
+.composer-wrap{
+  max-width:780px;
+  margin:auto;
 }
-
-@keyframes blink{
-    0%,80%,100%{
-        opacity:.3;
-    }
-    40%{
-        opacity:1;
-    }
+.composer{
+  border:1px solid #41495b;
+  border-radius:17px;
+  background:#171b25;
+  padding:12px;
+  transition:border-color .2s;
+}
+.composer:focus-within{
+  border-color:#8068eb;
+}
+#input{
+  display:block;
+  width:100%;
+  min-height:42px;
+  max-height:180px;
+  resize:none;
+  border:0;
+  outline:0;
+  background:transparent;
+  color:var(--text);
+  font-size:14px;
+  line-height:1.6;
+}
+#input::placeholder{color:#7f8ba0}
+.composer-bottom{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-top:7px;
+}
+.composer-info{
+  display:flex;align-items:center;
+  gap:7px;color:var(--muted);font-size:11px;
+}
+.send-btn{
+  width:39px;height:39px;
+  display:grid;place-items:center;
+  border:0;border-radius:12px;
+  background:var(--purple);
+  color:white;font-size:19px;
+  transition:background .2s;
+}
+.send-btn:hover{background:#8c75ff}
+.send-btn:disabled{opacity:.4;cursor:not-allowed}
+.disclaimer{
+  text-align:center;
+  font-size:11px;color:#747f94;
+  margin:10px 0 0;
+}
+.toast{
+  position:fixed;
+  left:50%;bottom:105px;
+  transform:translateX(-50%);
+  background:#303747;color:#fff;
+  border:1px solid #4b566b;
+  padding:11px 16px;border-radius:10px;
+  font-size:13px;z-index:10;
+  max-width:90%;text-align:center;
+}
+.hidden{display:none!important}
+@media(max-width:700px){
+  .sidebar{
+    position:fixed;z-index:20;left:0;top:0;bottom:0;
+    box-shadow:15px 0 45px #0007;
+    transform:translateX(-105%);
+  }
+  .sidebar.open{transform:translateX(0)}
+  .topbar{height:60px;padding:0 13px}
+  .messages{padding:20px 13px}
+  .composer-area{padding:10px 12px 13px}
+  .welcome{min-height:320px}
+  .welcome h1{font-size:27px}
+  .suggestions{grid-template-columns:1fr;margin-top:23px}
+  .suggestion{padding:12px}
+  .bubble{font-size:13px;padding:10px 12px}
 }
 </style>
 </head>
 
 <body>
-
 <div class="app">
 
-<div class="header">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="logo">
+        <img src="https://i.ibb.co/9kBTwhfq/file-000000007ae482099bddf96408f8a67f.png" alt="Logo">
+      </div>
+      <span>AI Assistant</span>
+    </div>
 
-<img
-class="avatar"
-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWIfjgbrzcACUkgXyYLLNBlP--ZKC_79-ZBKwkFLeX4A&s"
->
+    <button class="new-chat" id="newChat">
+      ＋ &nbsp; Cuộc trò chuyện mới
+    </button>
 
-<div>
+    <div>
+      <div class="section-label">GẦN ĐÂY</div>
+      <div class="history-list" id="historyList"></div>
+    </div>
 
-<div class="name">NCB-AI</div>
+    <div class="sidebar-bottom">
+      <div>✦ AI Assistant</div>
+      <div>Trợ lý AI tiếng Việt</div>
+      <div id="modelLabel">Model: GPT-OSS-120B</div>
+      <div class="admin">Admin: NGUYỄN CÔNG BẰNG</div>
+    </div>
+  </aside>
 
-<div class="status">
-● Đang hoạt động
+  <main class="main">
+    <header class="topbar">
+      <button class="icon-btn" id="menuBtn" aria-label="Mở lịch sử">
+        ☰
+      </button>
+      <div>
+        <div class="top-title">Trò chuyện với AI</div>
+        <div class="top-subtitle">Trợ lý thông minh của bạn</div>
+      </div>
+      <div class="status" id="status">
+        <span class="status-dot"></span>
+        <span id="statusText">Đang kết nối</span>
+      </div>
+    </header>
+
+    <section class="messages" id="messages">
+      <div class="content" id="content">
+        <div class="welcome" id="welcome">
+          <div class="welcome-logo">
+            <img src="https://i.ibb.co/9kBTwhfq/file-000000007ae482099bddf96408f8a67f.png" alt="Logo">
+          </div>
+          <h1>Xin chào! 👋</h1>
+          <p>
+            Mình có thể giúp bạn viết code, giải đáp câu hỏi,
+            học tập và lên ý tưởng. Hôm nay bạn cần gì?
+          </p>
+
+          <div class="suggestions">
+            <button class="suggestion" data-prompt="Viết cho tôi một trang web HTML đẹp">
+              <strong>⌘ Viết code</strong>
+              <span>Tạo website và hỗ trợ lập trình</span>
+            </button>
+            <button class="suggestion" data-prompt="Giải thích một kiến thức khó theo cách dễ hiểu">
+              <strong>✧ Học tập</strong>
+              <span>Giải thích kiến thức từng bước</span>
+            </button>
+            <button class="suggestion" data-prompt="Hãy giúp tôi lên ý tưởng tạo game">
+              <strong>◈ Sáng tạo</strong>
+              <span>Phát triển ý tưởng mới</span>
+            </button>
+            <button class="suggestion" data-prompt="Xin chào! Hãy giới thiệu về bạn">
+              <strong>☻ Trò chuyện</strong>
+              <span>Bắt đầu cuộc trò chuyện với AI</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="composer-area">
+      <div class="composer-wrap">
+        <div class="composer">
+          <textarea
+            id="input"
+            rows="1"
+            maxlength="12000"
+            placeholder="Nhắn tin cho AI..."
+            aria-label="Tin nhắn"
+          ></textarea>
+          <div class="composer-bottom">
+            <div class="composer-info">
+              <span>✦</span>
+              <span>AI Assistant</span>
+              <span>·</span>
+              <span>Enter để gửi</span>
+            </div>
+            <button class="send-btn" id="sendBtn" aria-label="Gửi tin nhắn">↑</button>
+          </div>
+        </div>
+        <p class="disclaimer">
+          AI có thể mắc lỗi. Hãy kiểm tra thông tin quan trọng.
+        </p>
+      </div>
+    </section>
+  </main>
 </div>
 
-</div>
-
-</div>
-
-
-<div class="chat" id="chat">
-
-<div class="message ai">
-
-<div class="content">
-
-<img
-class="msg-avatar"
-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWIfjgbrzcACUkgXyYLLNBlP--ZKC_79-ZBKwkFLeX4A&s"
->
-
-<div class="bubble">
-Xin chào! Tôi là NCB-AI. Bạn cần tôi hỗ trợ gì?
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-
-<div class="quick">
-
-<button onclick="quickMessage('Chào bạn')">
-Chào bạn
-</button>
-
-</div>
-
-
-<div class="input-area">
-
-<input
-id="input"
-class="input"
-type="text"
-placeholder="Nhập tin nhắn..."
-autocomplete="off"
->
-
-<button
-id="send"
-class="send"
-onclick="sendMessage()"
->
-➤
-</button>
-
-</div>
-
-</div>
-
+<div class="toast hidden" id="toast"></div>
 
 <script>
+"use strict";
 
-/* ==========================================
-   DÁN API KEY GOOGLE AI STUDIO Ở ĐÂY
-   ========================================== */
+// Bypass By nhatanh Dev - Groq AI Chat
+// API Key: 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
+// Org ID: org_01m4gqb6hee6xbend1g766az2z
+// Model: openai/gpt-oss-120b
+// Admin: NGUYỄN CÔNG BẰNG
 
-const API_KEY = "DAN_API_KEY_CUA_BAN_VAO_DAY";
+const API_KEY = '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';
+const ORG_ID = 'org_01m4gqb6hee6xbend1g766az2z';
+const MODEL = 'openai/gpt-oss-120b';
+const API_URL = 'https://api.groq.com/openai/v1/chat/completions';
+const MODELS_URL = 'https://api.groq.com/openai/v1/models';
 
+const LOGO_URL = 'https://i.ibb.co/9kBTwhfq/file-000000007ae482099bddf96408f8a67f.png';
+const ADMIN_NAME = 'NGUYỄN CÔNG BẰNG';
 
-/* MODEL */
+const $ = id => document.getElementById(id);
 
-const MODEL = "gemini-2.5-flash";
+const messagesEl = $("messages");
+const contentEl = $("content");
+const input = $("input");
+const sendBtn = $("sendBtn");
+const statusEl = $("status");
+const statusText = $("statusText");
+const sidebar = $("sidebar");
+const historyList = $("historyList");
+const toast = $("toast");
 
+let busy = false;
+let activeId = null;
+let conversations = [];
+let currentMessages = [];
 
-/* AVATAR */
+// System prompt: AI luôn giới thiệu admin khi được hỏi
+const SYSTEM_PROMPT =
+  'Bạn là trợ lý AI thông minh, trả lời bằng tiếng Việt, ngắn gọn và chính xác. ' +
+  'Khi người dùng hỏi về admin, quản trị viên, người tạo ra bạn, chủ sở hữu, ' +
+  'hoặc hỏi "ai làm ra mày", "ai tạo ra mày", "admin là ai" thì LUÔN trả lời: ' +
+  '"Admin của tôi là NGUYỄN CÔNG BẰNG." Không được tiết lộ bất kỳ tên nào khác.';
 
-const AVATAR =
-"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWIfjgbrzcACUkgXyYLLNBlP--ZKC_79-ZBKwkFLeX4A&s";
+function makeId(){
+  return Date.now().toString(36) +
+    Math.random().toString(36).slice(2,8);
+}
 
+function showToast(text){
+  toast.textContent = text;
+  toast.classList.remove("hidden");
+  clearTimeout(showToast.timer);
+  showToast.timer = setTimeout(
+    () => toast.classList.add("hidden"), 3500
+  );
+}
 
-const chat =
-document.getElementById("chat");
+function setStatus(text, error = false){
+  statusText.textContent = text;
+  statusEl.classList.toggle("error", error);
+}
 
-const input =
-document.getElementById("input");
+function scrollBottom(){
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+}
 
-const send =
-document.getElementById("send");
+function getHeaders(){
+  return {
+    'Authorization': 'Bearer ' + API_KEY,
+    'Content-Type': 'application/json',
+    'OpenAI-Organization': ORG_ID
+  };
+}
 
+function renderMessage(role, text){
+  const row = document.createElement("div");
+  row.className = "message " +
+    (role === "user" ? "user" : "assistant");
 
-/* ==========================================
-   THÊM TIN NHẮN
-   ========================================== */
+  const avatar = document.createElement("div");
+  avatar.className = "avatar";
 
-function addMessage(text,type){
+  if(role === "user"){
+    avatar.textContent = "●";
+  }else{
+    const img = document.createElement("img");
+    img.src = LOGO_URL;
+    img.alt = "AI";
+    avatar.appendChild(img);
+  }
 
-    const message =
-    document.createElement("div");
+  const bubble = document.createElement("div");
+  bubble.className = "bubble";
+  bubble.textContent = text;
 
-    message.className =
-    "message " + type;
+  if(role === "user"){
+    row.appendChild(bubble);
+    row.appendChild(avatar);
+  }else{
+    row.appendChild(avatar);
+    row.appendChild(bubble);
+  }
 
+  contentEl.appendChild(row);
+  scrollBottom();
+  return row;
+}
 
-    const content =
-    document.createElement("div");
+function renderConversation(){
+  contentEl.replaceChildren();
 
-    content.className =
-    "content";
+  if(currentMessages.length === 0){
+    contentEl.innerHTML = `
+      <div class="welcome" id="welcome">
+        <div class="welcome-logo">
+          <img src="${LOGO_URL}" alt="Logo">
+        </div>
+        <h1>Xin chào! 👋</h1>
+        <p>Mình có thể giúp bạn viết code, học tập,
+        giải đáp câu hỏi và sáng tạo ý tưởng.</p>
+        <div class="suggestions">
+          <button class="suggestion" data-prompt="Viết cho tôi một trang web HTML đẹp">
+            <strong>⌘ Viết code</strong>
+            <span>Tạo website và hỗ trợ lập trình</span>
+          </button>
+          <button class="suggestion" data-prompt="Giải thích một kiến thức khó theo cách dễ hiểu">
+            <strong>✧ Học tập</strong>
+            <span>Giải thích kiến thức từng bước</span>
+          </button>
+          <button class="suggestion" data-prompt="Hãy giúp tôi lên ý tưởng tạo game">
+            <strong>◈ Sáng tạo</strong>
+            <span>Phát triển ý tưởng mới</span>
+          </button>
+          <button class="suggestion" data-prompt="Admin của bạn là ai?">
+            <strong>☻ Trò chuyện</strong>
+            <span>Bắt đầu cuộc trò chuyện với AI</span>
+          </button>
+        </div>
+      </div>`;
+    return;
+  }
 
+  currentMessages.forEach(m => {
+    renderMessage(m.role, m.content);
+  });
+}
 
-    if(type === "ai"){
+function saveCurrent(){
+  if(!activeId || currentMessages.length === 0) return;
 
-        const avatar =
-        document.createElement("img");
+  const conversation = conversations.find(c => c.id === activeId);
+  if(!conversation) return;
 
-        avatar.className =
-        "msg-avatar";
+  conversation.messages = currentMessages.map(m => ({...m}));
 
-        avatar.src =
-        AVATAR;
+  const firstUser = currentMessages.find(m => m.role === "user");
+  conversation.title = firstUser
+    ? firstUser.content.slice(0, 35)
+    : "Cuộc trò chuyện mới";
 
-        content.appendChild(avatar);
+  renderHistory();
+}
+
+function renderHistory(){
+  historyList.replaceChildren();
+
+  conversations.slice().reverse().forEach(c => {
+    const item = document.createElement("div");
+    item.className = "history-item" +
+      (c.id === activeId ? " active" : "");
+    item.textContent = c.title;
+    item.title = c.title;
+    item.addEventListener("click", () => openConversation(c.id));
+    historyList.appendChild(item);
+  });
+}
+
+function newConversation(){
+  if(busy) return;
+
+  saveCurrent();
+
+  activeId = makeId();
+  currentMessages = [];
+
+  conversations.push({
+    id: activeId,
+    title: "Cuộc trò chuyện mới",
+    messages: []
+  });
+
+  renderConversation();
+  renderHistory();
+  sidebar.classList.remove("open");
+  input.focus();
+}
+
+function openConversation(id){
+  if(busy) return;
+
+  saveCurrent();
+
+  const c = conversations.find(x => x.id === id);
+  if(!c) return;
+
+  activeId = c.id;
+  currentMessages = c.messages.map(m => ({...m}));
+
+  renderConversation();
+  renderHistory();
+  sidebar.classList.remove("open");
+}
+
+async function checkConnection(){
+  try{
+    const response = await fetch(MODELS_URL, {
+      method: "GET",
+      headers: getHeaders()
+    });
+
+    if(!response.ok) throw new Error("API key hoặc Org không hợp lệ");
+
+    setStatus("Đã kết nối");
+  }catch(error){
+    setStatus("Chưa kết nối", true);
+  }
+}
+
+async function sendMessage(textOverride){
+  if(busy) return;
+
+  const text = (textOverride ?? input.value).trim();
+  if(!text) return;
+
+  if(!activeId){
+    activeId = makeId();
+    conversations.push({
+      id: activeId,
+      title: "Cuộc trò chuyện mới",
+      messages: []
+    });
+  }
+
+  currentMessages.push({
+    role: "user",
+    content: text
+  });
+
+  if(currentMessages.length === 1){
+    const c = conversations.find(x => x.id === activeId);
+    if(c) c.title = text.slice(0,35);
+  }
+
+  input.value = "";
+  input.style.height = "42px";
+
+  renderConversation();
+  renderHistory();
+
+  busy = true;
+  sendBtn.disabled = true;
+  setStatus("AI đang trả lời");
+
+  const loadingRow = document.createElement("div");
+  loadingRow.className = "message assistant";
+  loadingRow.innerHTML = `
+    <div class="avatar"><img src="${LOGO_URL}" alt="AI"></div>
+    <div class="bubble">
+      <div class="typing"><span></span><span></span><span></span></div>
+    </div>`;
+  contentEl.appendChild(loadingRow);
+  scrollBottom();
+
+  try{
+    const messagesForApi = [
+      { role: "system", content: SYSTEM_PROMPT },
+      ...currentMessages.slice(-20)
+    ];
+
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: getHeaders(),
+      body: JSON.stringify({
+        model: MODEL,
+        messages: messagesForApi,
+        temperature: 0.7,
+        max_tokens: 2048,
+        stream: false
+      })
+    });
+
+    if(!response.ok){
+      const errText = await response.text();
+      throw new Error("HTTP " + response.status + ": " + errText);
     }
 
+    const data = await response.json();
+    const reply = data.choices[0].message.content;
 
-    const bubble =
-    document.createElement("div");
+    currentMessages.push({
+      role: "assistant",
+      content: reply
+    });
 
-    bubble.className =
-    "bubble";
+    saveCurrent();
+    loadingRow.remove();
+    renderMessage("assistant", reply);
+    setStatus("Đã kết nối");
 
-    bubble.textContent =
-    text;
+  }catch(error){
+    loadingRow.remove();
 
-
-    content.appendChild(bubble);
-
-    message.appendChild(content);
-
-    chat.appendChild(message);
-
-
-    chat.scrollTop =
-    chat.scrollHeight;
-}
-
-
-/* ==========================================
-   ĐANG TRẢ LỜI
-   ========================================== */
-
-function showTyping(){
-
-    const message =
-    document.createElement("div");
-
-    message.className =
-    "message ai";
-
-    message.id =
-    "typing";
-
-
-    const content =
-    document.createElement("div");
-
-    content.className =
-    "content";
-
-
-    const avatar =
-    document.createElement("img");
-
-    avatar.className =
-    "msg-avatar";
-
-    avatar.src =
-    AVATAR;
-
-
-    const bubble =
-    document.createElement("div");
-
-    bubble.className =
-    "bubble";
-
-
-    const typing =
-    document.createElement("div");
-
-    typing.className =
-    "typing";
-
-
-    typing.innerHTML =
-        '<span class="dot"></span>' +
-        '<span class="dot"></span>' +
-        '<span class="dot"></span>';
-
-
-    bubble.appendChild(typing);
-
-    content.appendChild(avatar);
-
-    content.appendChild(bubble);
-
-    message.appendChild(content);
-
-    chat.appendChild(message);
-
-
-    chat.scrollTop =
-    chat.scrollHeight;
-}
-
-
-function removeTyping(){
-
-    const typing =
-    document.getElementById("typing");
-
-    if(typing){
-        typing.remove();
-    }
-}
-
-
-/* ==========================================
-   CHỜ 8 GIÂY
-   ========================================== */
-
-function wait8(){
-
-    return new Promise(
-        function(resolve){
-
-            setTimeout(
-                resolve,
-                8000
-            );
-
-        }
+    showToast("Không thể nhận phản hồi: " + error.message);
+    renderMessage(
+      "assistant",
+      "Mình chưa kết nối được máy chủ AI. Kiểm tra API key, Org ID hoặc kết nối mạng rồi thử lại."
     );
-}
 
+    currentMessages.pop();
+    setStatus("Lỗi kết nối", true);
 
-/* ==========================================
-   TIN NHẮN NHANH
-   ========================================== */
-
-function quickMessage(text){
-
-    input.value = text;
-
-    sendMessage();
-}
-
-
-/* ==========================================
-   GỬI TIN NHẮN
-   ========================================== */
-
-async function sendMessage(){
-
-    const text =
-    input.value.trim();
-
-
-    if(!text){
-        return;
-    }
-
-
-    send.disabled = true;
-
-    input.disabled = true;
-
-
-    addMessage(
-        text,
-        "user"
-    );
-
-    input.value = "";
-
-
-    /* CHÀO BẠN */
-
-    if(
-        text.toLowerCase()
-        === "chào bạn"
-    ){
-
-        showTyping();
-
-        await wait8();
-
-        removeTyping();
-
-        addMessage(
-            "Chào bạn cần tôi hỗ trợ gì?",
-            "ai"
-        );
-
-        send.disabled = false;
-
-        input.disabled = false;
-
-        input.focus();
-
-        return;
-    }
-
-
-    /* KIỂM TRA KEY */
-
-    if(
-        !API_KEY ||
-        API_KEY.trim() === "" ||
-        API_KEY ===
-        "AQ.Ab8RN6L1ZiC14L01scUKy6oLjh9uXlB_Qd9BzRVgz2MwoccO9Q"
-    ){
-
-        addMessage(
-            "API key chưa được nhập trong code.",
-            "ai"
-        );
-
-        send.disabled = false;
-
-        input.disabled = false;
-
-        return;
-    }
-
-
-    showTyping();
-
-
-    try{
-
-        const url =
-        "https://generativelanguage.googleapis.com/v1beta/models/"
-        + MODEL
-        + ":generateContent?key="
-        + encodeURIComponent(API_KEY);
-
-
-        const body = {
-
-            contents:[
-
-                {
-                    role:"user",
-
-                    parts:[
-
-                        {
-                            text:
-                            "Bạn là NCB-AI, trợ lý AI tiếng Việt. " +
-                            "Hỗ trợ lập trình HTML, CSS, JavaScript, Python, Lua và Roblox Lua. " +
-                            "Trả lời rõ ràng, hữu ích. " +
-                            "Không hướng dẫn truy cập trái phép hoặc phá bảo mật.\n\n" +
-                            "Người dùng hỏi: " +
-                            text
-                        }
-
-                    ]
-                }
-
-            ],
-
-            generationConfig:{
-
-                temperature:0.7,
-
-                maxOutputTokens:2048
-
-            }
-
-        };
-
-
-        const response =
-        await fetch(
-            url,
-            {
-                method:"POST",
-
-                headers:{
-                    "Content-Type":
-                    "application/json"
-                },
-
-                body:
-                JSON.stringify(body)
-            }
-        );
-
-
-        const data =
-        await response.json();
-
-
-        if(!response.ok){
-
-            console.log(
-                "Gemini API:",
-                data
-            );
-
-            let errorMessage =
-                "Gemini API trả về lỗi.";
-
-            if(
-                data.error &&
-                data.error.message
-            ){
-
-                errorMessage =
-                    data.error.message;
-            }
-
-            throw new Error(
-                errorMessage
-            );
-        }
-
-
-        let answer = "";
-
-
-        if(
-            data.candidates &&
-            data.candidates.length > 0 &&
-            data.candidates[0].content &&
-            data.candidates[0].content.parts
-        ){
-
-            answer =
-            data.candidates[0]
-            .content
-            .parts
-            .map(
-                function(part){
-                    return part.text || "";
-                }
-            )
-            .join("");
-        }
-
-
-        if(!answer){
-
-            answer =
-            "NCB-AI không nhận được câu trả lời.";
-        }
-
-
-        /* CHỜ 8 GIÂY */
-
-        await wait8();
-
-
-        removeTyping();
-
-
-        addMessage(
-            answer,
-            "ai"
-        );
-
-
-    }catch(error){
-
-        console.error(error);
-
-        removeTyping();
-
-
-        addMessage(
-            "Lỗi kết nối Gemini: " +
-            error.message,
-            "ai"
-        );
-    }
-
-
-    send.disabled = false;
-
-    input.disabled = false;
-
+  }finally{
+    busy = false;
+    sendBtn.disabled = false;
     input.focus();
+  }
 }
 
+sendBtn.addEventListener("click", () => sendMessage());
 
-/* ENTER */
+input.addEventListener("keydown", event => {
+  if(
+    event.key === "Enter" &&
+    !event.shiftKey &&
+    !event.isComposing
+  ){
+    event.preventDefault();
+    sendMessage();
+  }
+});
 
-input.addEventListener(
-    "keydown",
-    function(e){
+input.addEventListener("input", () => {
+  input.style.height = "auto";
+  input.style.height =
+    Math.min(input.scrollHeight, 180) + "px";
+});
 
-        if(e.key === "Enter"){
+$("newChat").addEventListener("click", newConversation);
 
-            e.preventDefault();
+$("menuBtn").addEventListener("click", () => {
+  sidebar.classList.toggle("open");
+});
 
-            sendMessage();
-        }
+$("messages").addEventListener("click", event => {
+  const button = event.target.closest("[data-prompt]");
+  if(button){
+    sendMessage(button.dataset.prompt);
+  }
+});
 
-    }
-);
+document.addEventListener("keydown", event => {
+  if(event.key === "Escape"){
+    sidebar.classList.remove("open");
+  }
+});
 
+// Khởi tạo ứng dụng
+activeId = makeId();
+conversations.push({
+  id: activeId,
+  title: "Cuộc trò chuyện mới",
+  messages: []
+});
+
+renderHistory();
+renderConversation();
+checkConnection();
+input.focus();
 </script>
-
 </body>
 </html>
