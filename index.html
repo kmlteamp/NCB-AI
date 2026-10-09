@@ -109,9 +109,6 @@ button{cursor:pointer}
 .typing span:nth-child(2){animation-delay:.2s}
 .typing span:nth-child(3){animation-delay:.4s}
 @keyframes pulse{to{opacity:.25;transform:translateY(-3px)}}
-.typing-wrap{display:flex;flex-direction:column;gap:6px}
-.typing-status{color:#929db2;font-size:11px;line-height:1.4}
-.timer{color:#a78bfa;font-weight:700;font-size:11px;margin-top:2px}
 .composer-area{flex-shrink:0;padding:12px 18px 18px;background:linear-gradient(transparent,var(--bg) 15%)}
 .composer-wrap{max-width:780px;margin:auto}
 .composer{border:1px solid #41495b;border-radius:17px;background:#171b25;padding:12px;transition:border-color .2s}
@@ -218,7 +215,7 @@ button{cursor:pointer}
 // API Key: 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
 // Model: Auto fallback qua nhiều model
 // Admin: NGUYỄN CÔNG BẰNG
-// Đặc điểm: AI trả lời từ 50 giây đến 5 phút (mô phỏng độ trễ thực tế)
+// Đặc điểm: AI trả lời từ 50 giây đến 5 phút, chỉ hiện "Đang nhập..."
 
 const API_KEY = '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';
 const ORG_ID = 'org_01m4gqb6hee6xbend1g766az2z';
@@ -244,34 +241,35 @@ const MAX_CHAT = 50000;
 const STORAGE_KEY = 'ncbai_chat_count';
 const HISTORY_KEY = 'ncbai_history';
 
-// === THỜI GIAN CHỜ TRẢ LỜI ===
-// Chat ngắn (< 50 ký tự): 50 giây
-// Chat vừa (50-200 ký tự): 60-120 giây
-// Chat dài (> 200 ký tự): 180-300 giây (3-5 phút)
-const DELAY_SHORT_MIN = 50000;    // 50 giây
-const DELAY_SHORT_MAX = 60000;    // 60 giây
-const DELAY_MED_MIN   = 60000;    // 60 giây
-const DELAY_MED_MAX   = 120000;   // 120 giây
-const DELAY_LONG_MIN  = 180000;   // 180 giây
-const DELAY_LONG_MAX  = 300000;   // 300 giây
+// Thời gian chờ theo độ dài câu hỏi
+const DELAY_SHORT_MIN = 50000;
+const DELAY_SHORT_MAX = 60000;
+const DELAY_MED_MIN   = 60000;
+const DELAY_MED_MAX   = 120000;
+const DELAY_LONG_MIN  = 180000;
+const DELAY_LONG_MAX  = 300000;
 
 function getResponseDelay(userText){
   const len = userText.length;
   let min, max;
-  if(len < 50){
-    min = DELAY_SHORT_MIN;
-    max = DELAY_SHORT_MAX;
-  }else if(len <= 200){
-    min = DELAY_MED_MIN;
-    max = DELAY_MED_MAX;
-  }else{
-    min = DELAY_LONG_MIN;
-    max = DELAY_LONG_MAX;
-  }
+  if(len < 50){ min = DELAY_SHORT_MIN; max = DELAY_SHORT_MAX; }
+  else if(len <= 200){ min = DELAY_MED_MIN; max = DELAY_MED_MAX; }
+  else{ min = DELAY_LONG_MIN; max = DELAY_LONG_MAX; }
   return min + Math.floor(Math.random() * (max - min));
 }
 
 function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
+
+const FALLBACK_REPLIES = [
+  "Hệ thống AI đang quá tải tạm thời. Mình đã thử nhiều model nhưng chưa nhận được phản hồi. Bạn chờ khoảng 30 giây rồi gửi lại câu hỏi giúp mình nhé.",
+  "Máy chủ AI đang bận xử lý nhiều yêu cầu. Bạn vui lòng chờ 20-30 giây rồi thử lại.",
+  "Hiện tại tất cả model dự phòng đều quá tải. Bạn thử lại sau 1 phút.",
+  "Kết nối bị nghẽn do quá nhiều request. Bạn chờ 30 giây rồi gửi lại.",
+  "Mình đã thử nhiều model nhưng đều quá tải. Bạn thử lại sau ít phút."
+];
+function pickFallbackReply(){
+  return FALLBACK_REPLIES[Math.floor(Math.random() * FALLBACK_REPLIES.length)];
+}
 
 const $ = id => document.getElementById(id);
 const messagesEl = $("messages");
@@ -387,7 +385,7 @@ function renderConversation(){
         <div class="welcome-logo"><img src="${LOGO_URL}" alt="${AI_NAME}"></div>
         <div class="ver">${AI_NAME} ${AI_VERSION}</div>
         <h1>Xin chào! 👋</h1>
-        <p>Mình là ${AI_NAME}. Trả lời mất 50 giây - 5 phút tùy độ dài câu hỏi.</p>
+        <p>Mình là ${AI_NAME}, trợ lý thông minh được phát triển bởi ${ADMIN_NAME}.</p>
         <div class="suggestions">
           <button class="suggestion" data-prompt="Viết cho tôi một trang web HTML đẹp">
             <strong>⌘ Viết code</strong><span>Tạo website và hỗ trợ lập trình</span>
@@ -555,17 +553,15 @@ async function callApiWithFallback(messagesForApi){
   for(let i = 0; i < total; i++){
     const cfg = MODEL_FALLBACK_CHAIN[i];
     try{
-      setStatus("Đang gọi " + cfg.model.split('/').pop() + " (" + (i+1) + "/" + total + ")");
+      setStatus("Đang xử lý (" + (i+1) + "/" + total + ")");
       const reply = await callOneModel(cfg, messagesForApi);
       return { ok: true, reply: reply, model: cfg.model };
     }catch(err){
       lastError = err;
       console.warn("Model " + cfg.model + " lỗi: " + err.message);
-
       if(err.status === 401 || err.status === 400){
         return { ok: false, error: err, fatal: true };
       }
-
       if(i < total - 1){
         await sleep(1500);
       }
@@ -608,46 +604,20 @@ async function sendMessage(textOverride){
   busy = true;
   sendBtn.disabled = true;
 
-  // Tính thời gian chờ dựa trên độ dài chat
   const waitMs = getResponseDelay(text);
-  const waitSec = Math.round(waitMs / 1000);
 
-  // Tạo khung typing với bộ đếm thời gian
+  // Hiển thị "Đang nhập..." giống ChatGPT
   const loadingRow = document.createElement("div");
   loadingRow.className = "message assistant";
   loadingRow.innerHTML = `
     <div class="avatar"><img src="${LOGO_URL}" alt="${AI_NAME}"></div>
     <div class="bubble">
-      <div class="typing-wrap">
-        <div class="typing"><span></span><span></span><span></span></div>
-        <div class="typing-status" id="typingStatus">NCB_AI đang suy nghĩ...</div>
-        <div class="timer" id="timerEl">Đã chờ: 0s / ${waitSec}s</div>
-      </div>
+      <div class="typing"><span></span><span></span><span></span></div>
     </div>`;
   contentEl.appendChild(loadingRow);
   scrollBottom();
 
-  const typingStatus = loadingRow.querySelector('#typingStatus');
-  const timerEl = loadingRow.querySelector('#timerEl');
-
-  // Đếm thời gian chờ
-  const startTime = Date.now();
-  const timerInterval = setInterval(() => {
-    const elapsed = Math.round((Date.now() - startTime) / 1000);
-    timerEl.textContent = 'Đã chờ: ' + elapsed + 's / ' + waitSec + 's';
-
-    if(elapsed < waitSec * 0.3){
-      typingStatus.textContent = 'NCB_AI đang đọc câu hỏi...';
-    }else if(elapsed < waitSec * 0.6){
-      typingStatus.textContent = 'NCB_AI đang phân tích...';
-    }else if(elapsed < waitSec * 0.9){
-      typingStatus.textContent = 'NCB_AI đang soạn câu trả lời...';
-    }else{
-      typingStatus.textContent = 'NCB_AI sắp trả lời xong...';
-    }
-  }, 1000);
-
-  // Chạy song song: gọi API + đợi thời gian tối thiểu
+  // Chạy song song API + delay
   const apiPromise = callApiWithFallback([
     { role: "system", content: SYSTEM_PROMPT },
     ...currentMessages.slice(-20)
@@ -655,10 +625,7 @@ async function sendMessage(textOverride){
 
   const delayPromise = sleep(waitMs);
 
-  // Chờ CẢ HAI: API xong VÀ đủ thời gian delay
   const [result] = await Promise.all([apiPromise, delayPromise]);
-
-  clearInterval(timerInterval);
 
   let reply;
   if(result.ok){
