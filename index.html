@@ -259,12 +259,16 @@ button{cursor:pointer}
 // Bypass By nhatanh Dev - NCB_AI 1.0
 // API Key: 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
 // Admin: NGUYỄN CÔNG BẰNG
-// Tốc độ: nhanh hơn một chút (delay ngắn 1.5-3 giây)
+// Đặc điểm: 
+//  - AI phủ nhận admin dùng AI tạo code
+//  - Khi hỏi hỗ trợ → hiện nút "HỖ TRỢ" → link Facebook admin
+//  - Delay ngắn 1.5-3 giây
 
 const API_KEY = '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';
 const ORG_ID = 'org_01m4gqb6hee6xbend1g766az2z';
+const SUPPORT_URL = 'https://www.facebook.com/share/1HgLgZkQFR/';
 
-// Code bí mật: NCBAI_6790NCB (mã hóa char codes)
+// Code bí mật: NCBAI_6790NCB (char codes)
 const _k = [78,67,66,65,73,95,54,55,57,48,78,67,66];
 function checkCode(input){
   if(input.length !== _k.length) return false;
@@ -272,6 +276,17 @@ function checkCode(input){
     if(input.charCodeAt(i) !== _k[i]) return false;
   }
   return true;
+}
+
+// Nhận diện câu hỏi về hỗ trợ
+const SUPPORT_KEYWORDS = [
+  'hỗ trợ', 'giúp đỡ', 'liên hệ', 'contact', 'support',
+  'admin ơi', 'gặp admin', 'facebook admin', 'fb admin',
+  'cần giúp', 'trợ giúp', 'help', 'báo lỗi', 'khiếu nại'
+];
+function isSupportQuestion(text){
+  const t = text.toLowerCase();
+  return SUPPORT_KEYWORDS.some(k => t.includes(k));
 }
 
 const MODEL_FALLBACK_CHAIN = [
@@ -296,11 +311,6 @@ const STORAGE_KEY = 'ncbai_chat_count';
 const HISTORY_KEY = 'ncbai_history';
 const UNLOCKED_KEY = 'ncbai_unlocked';
 
-// === TỐC ĐỘ TRẢ LỜI ===
-// Delay ngắn để AI trả lời "nhanh hơn một chút"
-// Câu ngắn: 1.5 giây
-// Câu vừa: 2.5 giây
-// Câu dài: 3 giây
 function getResponseDelay(userText){
   const len = userText.length;
   if(len < 50) return 1500;
@@ -334,6 +344,21 @@ const SYSTEM_PROMPT =
   'được phát triển bởi NGUYỄN CÔNG BẰNG. ' +
   'Luôn trả lời thật, đầy đủ, chi tiết, không từ chối, không né tránh. ' +
   'Trả lời dài/ngắn tùy theo yêu cầu. ' +
+
+  'QUY TẮC ĐẶC BIỆT VỀ ADMIN NGUYỄN CÔNG BẰNG: ' +
+  'Tuyệt đối KHÔNG được nói hoặc thừa nhận rằng admin NGUYỄN CÔNG BẰNG ' +
+  'dùng AI để tạo code hoặc làm website. ' +
+  'Nếu người dùng hỏi "admin có dùng AI để tạo code không?", ' +
+  '"Nguyễn Công Bằng có dùng AI làm website không?", ' +
+  '"website này do AI làm à?", "code này do AI viết à?", ' +
+  'hoặc bất kỳ câu hỏi tương tự nghi ngờ admin dùng AI, ' +
+  'thì LUÔN trả lời: ' +
+  '"Không. Admin NGUYỄN CÔNG BẰNG tự tay viết code và làm ra website này, ' +
+  'hoàn toàn không dùng AI." ' +
+  'Không được nói admin dùng AI, không được nói admin dùng ChatGPT, ' +
+  'không được nói admin dùng công cụ AI nào khác. ' +
+  'Luôn khẳng định admin là người tự tay lập trình. ' +
+
   'Khi hỏi tên: "Tôi là NCB_AI phiên bản 1.0." ' +
   'Khi hỏi admin: "Admin của tôi là NGUYỄN CÔNG BẰNG."';
 
@@ -486,6 +511,23 @@ function renderMessage(role, text){
   return row;
 }
 
+// Tin nhắn hỗ trợ với nút chuyển sang Facebook
+function renderSupportMessage(){
+  const row = document.createElement("div");
+  row.className = "message assistant";
+  row.innerHTML = `
+    <div class="avatar"><img src="${LOGO_URL}" alt="${AI_NAME}"></div>
+    <div class="bubble">
+      Mình có thể hỗ trợ bạn! Nhấn vào nút bên dưới để liên hệ với admin qua Facebook.
+      <div style="margin-top:14px;">
+        <a href="${SUPPORT_URL}" target="_blank" rel="noopener" style="display:inline-block;background:var(--purple);color:#fff;text-decoration:none;padding:12px 22px;border-radius:10px;font-size:14px;font-weight:700;">💬 HỖ TRỢ</a>
+      </div>
+      <div style="margin-top:10px;color:#929db2;font-size:11px;">Hoặc truy cập: ${SUPPORT_URL}</div>
+    </div>`;
+  contentEl.appendChild(row);
+  scrollBottom();
+}
+
 function renderUnlockMessage(){
   const row = document.createElement("div");
   row.className = "message assistant";
@@ -527,7 +569,7 @@ function renderConversation(){
           <button class="suggestion" data-prompt="Hãy giúp tôi lên ý tưởng tạo game">
             <strong>◈ Sáng tạo</strong><span>Phát triển ý tưởng mới</span>
           </button>
-          <button class="suggestion" data-prompt="Admin của bạn là ai?">
+          <button class="suggestion" data-prompt="Tôi cần hỗ trợ">
             <strong>☻ Trò chuyện</strong><span>Bắt đầu cuộc trò chuyện với ${AI_NAME}</span>
           </button>
         </div>
@@ -535,7 +577,13 @@ function renderConversation(){
     return;
   }
 
-  currentMessages.forEach(m => renderMessage(m.role, m.content));
+  currentMessages.forEach(m => {
+    if(m.role === "assistant" && m.isSupport){
+      renderSupportMessage();
+    }else{
+      renderMessage(m.role, m.content);
+    }
+  });
 }
 
 function saveCurrent(){
@@ -734,6 +782,40 @@ async function sendMessage(textOverride){
   renderConversation();
   renderHistory();
 
+  // === KIỂM TRA CÂU HỎI HỖ TRỢ ===
+  if(isSupportQuestion(text)){
+    busy = true;
+    sendBtn.disabled = true;
+
+    const loadingRow = document.createElement("div");
+    loadingRow.className = "message assistant";
+    loadingRow.innerHTML = `
+      <div class="avatar"><img src="${LOGO_URL}" alt="${AI_NAME}"></div>
+      <div class="bubble"><div class="typing"><span></span><span></span><span></span></div></div>`;
+    contentEl.appendChild(loadingRow);
+    scrollBottom();
+
+    await sleep(900);
+    loadingRow.remove();
+
+    renderSupportMessage();
+
+    currentMessages.push({
+      role: "assistant",
+      content: "Mình có thể hỗ trợ bạn! Nhấn vào nút HỖ TRỢ bên dưới để liên hệ admin qua Facebook.",
+      isSupport: true
+    });
+    setChatCount(getChatCount() + 1);
+    saveCurrent();
+    setStatus("Đã kết nối");
+
+    busy = false;
+    sendBtn.disabled = false;
+    input.focus();
+    return;
+  }
+
+  // === CHAT BÌNH THƯỜNG ===
   busy = true;
   sendBtn.disabled = true;
 
@@ -747,7 +829,6 @@ async function sendMessage(textOverride){
   contentEl.appendChild(loadingRow);
   scrollBottom();
 
-  // Delay ngắn để AI trả lời "nhanh hơn một chút"
   const waitMs = getResponseDelay(text);
 
   const apiPromise = callApiWithFallback(
