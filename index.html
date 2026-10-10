@@ -107,11 +107,30 @@ button{cursor:pointer}
 .message.user .bubble{background:var(--purple2);color:white;border-top-right-radius:5px}
 .message.assistant .bubble{border:1px solid #30394b;border-top-left-radius:5px}
 
-/* KHUNG ẢNH AI */
+/* NHẬP... ANIMATION */
+.typing-dots{
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+}
+.typing-dots span{
+  width:6px;height:6px;border-radius:50%;
+  background:#9c8bfa;
+  animation:typingPulse 1s infinite alternate;
+}
+.typing-dots span:nth-child(2){animation-delay:.2s}
+.typing-dots span:nth-child(3){animation-delay:.4s}
+@keyframes typingPulse{to{opacity:.25;transform:translateY(-3px)}}
+.typing-label{
+  color:#aab5c9;
+  font-size:13px;
+  font-style:italic;
+  margin-left:4px;
+}
+
 .image-gen-box{
   background:linear-gradient(135deg,#0d1220,#131a2e);
-  border:1px solid var(--purple);
-  border-radius:16px;padding:14px;margin-top:6px;
+  border:1px solid var(--purple);border-radius:16px;padding:14px;margin-top:6px;
   box-shadow:0 8px 30px rgba(118,87,238,.2);max-width:100%;
 }
 .image-prompt-label{color:var(--muted);font-size:11px;font-weight:700;letter-spacing:1.5px;margin-bottom:8px}
@@ -128,10 +147,7 @@ button{cursor:pointer}
   border-radius:50%;animation:spin 1s linear infinite;
 }
 @keyframes spin{to{transform:rotate(360deg)}}
-.image-result{
-  width:100%;border-radius:12px;overflow:hidden;
-  background:#0a0e18;border:1px solid var(--border);position:relative;
-}
+.image-result{width:100%;border-radius:12px;overflow:hidden;background:#0a0e18;border:1px solid var(--border);position:relative}
 .image-result img{width:100%;height:auto;display:block;border-radius:12px}
 .image-actions{display:flex;gap:6px;margin-top:10px}
 .image-actions button{
@@ -142,7 +158,6 @@ button{cursor:pointer}
 .image-actions button:hover{border-color:var(--purple);color:#fff}
 .image-actions .save-btn:hover{border-color:var(--green);color:var(--green)}
 
-/* ĐỒNG HỒ THỜI GIAN THỰC */
 .clock-box{
   background:linear-gradient(135deg,#0d1220,#131a2e);
   border:1px solid var(--purple);border-radius:16px;padding:20px;margin-top:6px;
@@ -152,7 +167,7 @@ button{cursor:pointer}
   color:var(--muted);font-size:11px;font-weight:700;
   letter-spacing:2px;margin-bottom:12px;display:flex;align-items:center;gap:6px;
 }
-.clock-label::before{content:'';width:8px;height:8px;background:var(--green);border-radius:50%;animation:pulse 2s infinite}
+.clock-label::before{content:'';width:8px;height:8px;background:var(--green);border-radius:50%;animation:typingPulse 2s infinite}
 .clock-time{
   font-family:'Courier New',monospace;font-size:42px;font-weight:700;
   color:#fff;letter-spacing:2px;line-height:1;margin-bottom:6px;
@@ -189,11 +204,6 @@ button{cursor:pointer}
 }
 .msg-actions button:hover{border-color:var(--purple);color:#fff;background:#201c30}
 .msg-actions button.active{border-color:var(--green);color:var(--green)}
-.typing{display:flex;align-items:center;gap:5px;min-height:22px}
-.typing span{width:6px;height:6px;border-radius:50%;background:#9c8bfa;animation:pulse 1s infinite alternate}
-.typing span:nth-child(2){animation-delay:.2s}
-.typing span:nth-child(3){animation-delay:.4s}
-@keyframes pulse{to{opacity:.25;transform:translateY(-3px)}}
 .composer-area{flex-shrink:0;padding:12px 18px 18px;background:linear-gradient(transparent,var(--bg) 15%)}
 .composer-wrap{max-width:780px;margin:auto}
 .composer{border:1px solid #41495b;border-radius:17px;background:#171b25;padding:12px;transition:border-color .2s}
@@ -364,7 +374,7 @@ button{cursor:pointer}
 // Admin: NGUYỄN CÔNG BẰNG
 // Lệnh: /encbminigame | :codencb | /image <mô tả>
 // Code: NCBAI_6790NCB | ncb1.0halqp
-// Đã BỎ tính năng tạo phim/video
+// Khung chat hiện "Đang nhập..." khi AI đang trả lời
 
 const API_KEY = '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';
 const SUPPORT_URL = 'https://www.facebook.com/share/1HgLgZkQFR/';
@@ -459,7 +469,6 @@ function createClockWidget(){
   return box;
 }
 
-// IMAGE GEN
 function buildImageUrl(prompt, seed){
   const s = seed || Math.floor(Math.random() * 1000000);
   const encoded = encodeURIComponent(prompt);
@@ -517,63 +526,138 @@ function stripMarkdownBasic(text){
   if(typeof text !== 'string') return text;
   return text.replace(/^#{1,6}\s+/gm, '').replace(/^>\s?/gm, '');
 }
-function parseMessage(text){
-  if(typeof text !== 'string') return [{ type: 'text', content: String(text) }];
-  const parts = [];
-  const regex = /```([a-zA-Z0-9_+\-#.]*)\n?([\s\S]*?)```/g;
-  let lastIndex = 0;
-  let match;
-  while((match = regex.exec(text)) !== null){
-    const before = text.slice(lastIndex, match.index);
-    if(before.trim().length > 0) parts.push({ type: 'text', content: stripMarkdownBasic(before) });
-    parts.push({ type: 'code', lang: (match[1] || 'code').toLowerCase(), content: match[2].replace(/\n$/, '') });
-    lastIndex = regex.lastIndex;
-  }
-  const after = text.slice(lastIndex);
-  if(after.trim().length > 0) parts.push({ type: 'text', content: stripMarkdownBasic(after) });
-  if(parts.length === 0) parts.push({ type: 'text', content: stripMarkdownBasic(text) });
-  return parts;
-}
-function renderCodeBlock(lang, code){
-  const wrap = document.createElement('div');
-  wrap.className = 'code-block';
-  const header = document.createElement('div');
-  header.className = 'code-header';
-  const langEl = document.createElement('span');
-  langEl.className = 'lang'; langEl.textContent = (lang || 'code').toUpperCase();
-  const copyBtn = document.createElement('button');
-  copyBtn.className = 'code-copy'; copyBtn.textContent = '📋 Copy code';
-  copyBtn.addEventListener('click', () => {
-    navigator.clipboard.writeText(code).then(() => {
-      copyBtn.classList.add('active'); copyBtn.textContent = '✅ Đã copy';
-      showToast('Đã sao chép code');
-      setTimeout(() => { copyBtn.classList.remove('active'); copyBtn.textContent = '📋 Copy code'; }, 1500);
-    });
+
+// Chuyển đổi văn bản AI sang HTML có icon thay vì dấu ***
+function formatAIText(text){
+  if(typeof text !== 'string') return document.createTextNode(String(text));
+
+  const container = document.createElement('div');
+  const lines = text.split('\n');
+
+  lines.forEach((line, idx) => {
+    const trimmed = line.trim();
+
+    // Dòng trống
+    if(trimmed === ''){
+      const br = document.createElement('div');
+      br.style.height = '6px';
+      container.appendChild(br);
+      return;
+    }
+
+    // Phát hiện tiêu đề dạng "## Tiêu đề" hoặc "**Tiêu đề**"
+    let isHead = false;
+    let headText = '';
+
+    const headM = trimmed.match(/^#{1,6}\s+(.+)$/);
+    if(headM){
+      isHead = true;
+      headText = headM[1].replace(/\*\*/g, '').trim();
+    }else{
+      // **Tiêu đề** hoặc ***Tiêu đề***
+      const boldM = trimmed.match(/^\*{2,3}([^*]+)\*{2,3}\s*:?\s*$/);
+      if(boldM){
+        isHead = true;
+        headText = boldM[1].trim();
+      }
+    }
+
+    if(isHead){
+      const head = document.createElement('div');
+      head.className = 'section-head';
+      const ic = document.createElement('span');
+      ic.className = 'ic';
+      ic.textContent = '📌';
+      const t = document.createElement('span');
+      t.textContent = headText;
+      head.appendChild(ic);
+      head.appendChild(t);
+      container.appendChild(head);
+      return;
+    }
+
+    // Phát hiện dòng danh sách "- item" hoặc "* item" hoặc "• item"
+    const listM = trimmed.match(/^[-*•]\s+(.+)$/);
+    if(listM){
+      const row = document.createElement('div');
+      row.className = 'icon-line';
+      const ic = document.createElement('span');
+      ic.className = 'ic';
+      ic.textContent = '🔹';
+      const t = document.createElement('span');
+      t.className = 'txt';
+      t.textContent = listM[1].replace(/\*\*/g, '').replace(/\*/g, '');
+      row.appendChild(ic);
+      row.appendChild(t);
+      container.appendChild(row);
+      return;
+    }
+
+    // Đánh số "1. item"
+    const numM = trimmed.match(/^(\d+)\.\s+(.+)$/);
+    if(numM){
+      const row = document.createElement('div');
+      row.className = 'icon-line';
+      const ic = document.createElement('span');
+      ic.className = 'ic';
+      ic.textContent = numM[1] + '.';
+      ic.style.color = '#a78bfa';
+      ic.style.fontWeight = '700';
+      const t = document.createElement('span');
+      t.className = 'txt';
+      t.textContent = numM[2].replace(/\*\*/g, '').replace(/\*/g, '');
+      row.appendChild(ic);
+      row.appendChild(t);
+      container.appendChild(row);
+      return;
+    }
+
+    // Dòng thường — xử lý ***Bold*** và *italic* inline
+    const lineEl = document.createElement('div');
+    let cleanText = trimmed
+      .replace(/\*{2,3}([^*]+)\*{2,3}/g, '$1')  // bỏ ***bold***
+      .replace(/\*([^*\n]+)\*/g, '$1')          // bỏ *italic*
+      .replace(/__([^_]+)__/g, '$1')
+      .replace(/_([^_]+)_/g, '$1');
+    lineEl.textContent = cleanText;
+    container.appendChild(lineEl);
   });
-  header.appendChild(langEl); header.appendChild(copyBtn);
-  const pre = document.createElement('pre');
-  pre.className = 'code-content'; pre.textContent = code;
-  wrap.appendChild(header); wrap.appendChild(pre);
-  return wrap;
+
+  return container;
 }
 
 const FALLBACK_REPLIES = [
-  "Hệ thống AI đang quá tải tạm thời. Bạn chờ khoảng 30 giây rồi gửi lại câu hỏi nhé.",
-  "Máy chủ AI đang bận. Bạn vui lòng chờ 20-30 giây rồi thử lại.",
-  "Hiện tại tất cả model dự phòng đều quá tải. Bạn thử lại sau 1 phút.",
-  "Kết nối bị nghẽn do quá nhiều request. Bạn chờ 30 giây rồi gửi lại.",
-  "Mình đã thử nhiều model nhưng đều quá tải. Bạn thử lại sau ít phút."
+  "⏳ Hệ thống AI đang quá tải tạm thời.\n\n🔹 Bạn chờ khoảng 30 giây rồi gửi lại câu hỏi nhé.",
+  "⏳ Máy chủ AI đang bận.\n\n🔹 Bạn vui lòng chờ 20-30 giây rồi thử lại.",
+  "⏳ Hiện tại tất cả model dự phòng đều quá tải.\n\n🔹 Bạn thử lại sau 1 phút nhé.",
+  "⏳ Kết nối bị nghẽn do quá nhiều request.\n\n🔹 Bạn chờ 30 giây rồi gửi lại.",
+  "⏳ Mình đã thử nhiều model nhưng đều quá tải.\n\n🔹 Bạn thử lại sau ít phút."
 ];
 function pickFallbackReply(){ return FALLBACK_REPLIES[Math.floor(Math.random() * FALLBACK_REPLIES.length)]; }
 
 const SYSTEM_PROMPT =
   'Bạn là NCB_AI phiên bản 1.0, trợ lý AI người Việt, phát triển bởi NGUYỄN CÔNG BẰNG. ' +
-  'PHONG CÁCH: tự nhiên, thân thiện, dùng "mình", "bạn", "nhé", "nha". ' +
+  'PHONG CÁCH: tự nhiên, thân thiện, giống ChatGPT. Dùng "mình", "bạn", "nhé", "nha". ' +
   'Luôn trả lời dựa trên nội dung tin nhắn người dùng vừa gửi. ' +
   'Nhớ ngữ cảnh hội thoại trước để trả lời liền mạch. ' +
   'Ngắn khi hỏi ngắn, dài khi cần phân tích. ' +
-  'Không dùng dấu *, **, ***, _, __, #, > để định dạng. Chỉ văn bản thuần. ' +
+
+  'QUY TẮC ĐỊNH DẠNG BẮT BUỘC — KHÔNG DÙNG DẤU SAO: ' +
+  'Tuyệt đối KHÔNG dùng dấu * hoặc ** hoặc *** để định dạng. ' +
+  'KHÔNG dùng dấu # để làm tiêu đề. KHÔNG dùng dấu _ hoặc __. KHÔNG dùng dấu > để trích dẫn. ' +
+  'THAY VÀO ĐÓ, hãy dùng ICON để trình bày: ' +
+  'Đầu mỗi mục chính, dùng icon phù hợp như ✅ ❌ ⚠️ 💡 📌 🔹 🔸 ✨ 🚀 🎯 📊 📝 🔧 ⚡ 🎨 🎵 📚 🕐 👉 💬 🎮 🔑 💻 🌟 ⭐ 🎁 📱 🖥️ 📷 🎬 🎤 📖 🔍 🧠 💪 ❤️ 😊 👍 👌 🙌 🔥 💯 ⏰ 📅 💰 🎓 🏆 🎉 🎊 🎈 🎯. ' +
+  'Mỗi dòng liệt kê bắt đầu bằng một icon. ' +
+  'Ví dụ định dạng mong muốn:\n' +
+  '📌 Tiêu đề chính\n' +
+  '🔹 Ý 1\n' +
+  '🔹 Ý 2\n' +
+  '✅ Kết luận\n\n' +
+  'Chỉ trả lời văn bản thuần, có thể xuống dòng, dùng icon để trình bày. ' +
+
+  'QUY TẮC KHI VIẾT CODE: ' +
   'Khi user yêu cầu viết code, CHỈ trả về code trong khối ba dấu backtick kèm tên ngôn ngữ. ' +
+
   'QUY TẮC ADMIN: KHÔNG thừa nhận admin NGUYỄN CÔNG BẰNG dùng AI tạo code/website. ' +
   'Khi hỏi tên: "Tôi là NCB_AI phiên bản 1.0." ' +
   'Khi hỏi admin: "Admin của tôi là NGUYỄN CÔNG BẰNG."';
@@ -714,11 +798,7 @@ function renderMessage(role, text){
     const parts = parseMessage(text);
     parts.forEach(p => {
       if(p.type === 'code') bubble.appendChild(renderCodeBlock(p.lang, p.content));
-      else if(p.content.trim().length > 0){
-        const textEl = document.createElement('div');
-        textEl.textContent = p.content;
-        bubble.appendChild(textEl);
-      }
+      else if(p.content.trim().length > 0) bubble.appendChild(formatAIText(p.content));
     });
   }else{
     bubble.textContent = text;
@@ -756,7 +836,8 @@ function renderMessage(role, text){
         return;
       }
       const parts = parseMessage(text);
-      const speakText = parts.filter(p => p.type === 'text').map(p => p.content).join(' ').trim();
+      const speakText = parts.filter(p => p.type === 'text').map(p => p.content)
+        .join(' ').replace(/\*+/g,'').replace(/#+/g,'').trim();
       if(!speakText){ showToast('Không có nội dung để đọc'); return; }
       const utter = new SpeechSynthesisUtterance(speakText);
       utter.lang = 'vi-VN';
@@ -775,6 +856,25 @@ function renderMessage(role, text){
   if(role === "user"){ row.appendChild(wrap); row.appendChild(avatar); }
   else{ row.appendChild(avatar); row.appendChild(wrap); }
 
+  contentEl.appendChild(row);
+  scrollBottom();
+  return row;
+}
+
+// Khung "Đang nhập..." giống ChatGPT
+function renderTypingIndicator(){
+  const row = document.createElement("div");
+  row.className = "message assistant";
+  row.innerHTML = `
+    <div class="avatar"><img src="${LOGO_URL}" alt="${AI_NAME}"></div>
+    <div class="bubble-wrap">
+      <div class="bubble">
+        <div class="typing-dots">
+          <span></span><span></span><span></span>
+          <span class="typing-label">Đang nhập...</span>
+        </div>
+      </div>
+    </div>`;
   contentEl.appendChild(row);
   scrollBottom();
   return row;
@@ -810,7 +910,7 @@ function renderSupportMessage(){
   row.innerHTML = `
     <div class="avatar"><img src="${LOGO_URL}" alt="${AI_NAME}"></div>
     <div class="bubble-wrap"><div class="bubble">
-      Mình có thể hỗ trợ bạn! Nhấn vào nút bên dưới để liên hệ với admin qua Facebook.
+      💬 Mình có thể hỗ trợ bạn! Nhấn vào nút bên dưới để liên hệ với admin qua Facebook.
       <div style="margin-top:14px;">
         <a href="${SUPPORT_URL}" target="_blank" rel="noopener" style="display:inline-block;background:var(--purple);color:#fff;text-decoration:none;padding:12px 22px;border-radius:10px;font-size:14px;font-weight:700;">💬 HỖ TRỢ</a>
       </div>
@@ -825,8 +925,8 @@ function renderUnlockMessage(){
   row.innerHTML = `
     <div class="avatar"><img src="${LOGO_URL}" alt="${AI_NAME}"></div>
     <div class="bubble-wrap"><div class="bubble">
-      Bạn đã hết lượt chat miễn phí.<br><br>
-      Vui lòng nhập code ở dưới đây 👇
+      ⚠️ Bạn đã hết lượt chat miễn phí.<br><br>
+      🔑 Vui lòng nhập code ở dưới đây 👇
       <div style="margin-top:14px;">
         <button id="unlockBtn" style="background:var(--purple);color:#fff;border:0;padding:12px 20px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;">🔑 NHẬP CODE</button>
       </div>
@@ -959,7 +1059,6 @@ async function checkConnection(){
   }catch(e){ setStatus("Chưa kết nối", true); }
 }
 
-// MINI GAME
 function randInt(min, max){ return Math.floor(Math.random() * (max - min + 1)) + min; }
 function shuffle(arr){
   const a = arr.slice();
@@ -1024,6 +1123,47 @@ function renderMiniGame(){
     optionsEl.appendChild(btn);
   });
   nextBtn.addEventListener("click", () => { row.remove(); renderMiniGame(); });
+}
+
+function parseMessage(text){
+  if(typeof text !== 'string') return [{ type: 'text', content: String(text) }];
+  const parts = [];
+  const regex = /```([a-zA-Z0-9_+\-#.]*)\n?([\s\S]*?)```/g;
+  let lastIndex = 0;
+  let match;
+  while((match = regex.exec(text)) !== null){
+    const before = text.slice(lastIndex, match.index);
+    if(before.trim().length > 0) parts.push({ type: 'text', content: before });
+    parts.push({ type: 'code', lang: (match[1] || 'code').toLowerCase(), content: match[2].replace(/\n$/, '') });
+    lastIndex = regex.lastIndex;
+  }
+  const after = text.slice(lastIndex);
+  if(after.trim().length > 0) parts.push({ type: 'text', content: after });
+  if(parts.length === 0) parts.push({ type: 'text', content: text });
+  return parts;
+}
+
+function renderCodeBlock(lang, code){
+  const wrap = document.createElement('div');
+  wrap.className = 'code-block';
+  const header = document.createElement('div');
+  header.className = 'code-header';
+  const langEl = document.createElement('span');
+  langEl.className = 'lang'; langEl.textContent = (lang || 'code').toUpperCase();
+  const copyBtn = document.createElement('button');
+  copyBtn.className = 'code-copy'; copyBtn.textContent = '📋 Copy code';
+  copyBtn.addEventListener('click', () => {
+    navigator.clipboard.writeText(code).then(() => {
+      copyBtn.classList.add('active'); copyBtn.textContent = '✅ Đã copy';
+      showToast('Đã sao chép code');
+      setTimeout(() => { copyBtn.classList.remove('active'); copyBtn.textContent = '📋 Copy code'; }, 1500);
+    });
+  });
+  header.appendChild(langEl); header.appendChild(copyBtn);
+  const pre = document.createElement('pre');
+  pre.className = 'code-content'; pre.textContent = code;
+  wrap.appendChild(header); wrap.appendChild(pre);
+  return wrap;
 }
 
 async function callOneModel(cfg, messagesForApi, userText){
@@ -1099,7 +1239,7 @@ async function handleImageGeneration(prompt){
 
   const loadingEl = document.createElement("div");
   loadingEl.className = "image-loading";
-  loadingEl.innerHTML = '<div class="spinner"></div><div>Đang tạo ảnh... Vui lòng chờ 5-15 giây</div>';
+  loadingEl.innerHTML = '<div class="spinner"></div><div>⏳ Đang tạo ảnh... Vui lòng chờ 5-15 giây</div>';
 
   box.appendChild(label);
   box.appendChild(promptText);
@@ -1163,7 +1303,7 @@ async function handleImageGeneration(prompt){
     loadingEl.innerHTML = '<div style="color:#ff626e;">❌ Không tạo được ảnh. Thử lại sau.</div>';
     currentMessages.push({
       role: "assistant",
-      content: 'Không tạo được ảnh cho: "' + prompt + '". Lỗi: ' + e.message
+      content: '❌ Không tạo được ảnh cho: "' + prompt + '". Lỗi: ' + e.message
     });
     saveCurrent();
   }
@@ -1193,13 +1333,10 @@ async function sendMessage(textOverride){
   renderConversation();
   renderHistory();
 
-  // LỆNH /encbminigame
+  // /encbminigame
   if(text.toLowerCase() === MINIGAME_CMD){
     busy = true; sendBtn.disabled = true;
-    const row = document.createElement("div");
-    row.className = "message assistant";
-    row.innerHTML = `<div class="avatar"><img src="${LOGO_URL}"></div><div class="bubble-wrap"><div class="bubble"><div class="typing"><span></span><span></span><span></span></div></div></div>`;
-    contentEl.appendChild(row); scrollBottom();
+    const row = renderTypingIndicator();
     await sleep(700); row.remove();
     renderMiniGame();
     setChatCount(getChatCount() + 1);
@@ -1209,13 +1346,10 @@ async function sendMessage(textOverride){
     return;
   }
 
-  // LỆNH :codencb
+  // :codencb
   if(text.toLowerCase() === CODE_CMD){
     busy = true; sendBtn.disabled = true;
-    const row = document.createElement("div");
-    row.className = "message assistant";
-    row.innerHTML = `<div class="avatar"><img src="${LOGO_URL}"></div><div class="bubble-wrap"><div class="bubble"><div class="typing"><span></span><span></span><span></span></div></div></div>`;
-    contentEl.appendChild(row); scrollBottom();
+    const row = renderTypingIndicator();
     await sleep(500); row.remove();
     openCodeModal();
     currentMessages.push({ role: "assistant", content: "🔑 Đã mở khung nhập code.", isCodePrompt: true });
@@ -1229,12 +1363,9 @@ async function sendMessage(textOverride){
   // HỎI NGÀY GIỜ
   if(isTimeQuestion(text) && !isImageRequest(text)){
     busy = true; sendBtn.disabled = true;
-    const row = document.createElement("div");
-    row.className = "message assistant";
-    row.innerHTML = `<div class="avatar"><img src="${LOGO_URL}"></div><div class="bubble-wrap"><div class="bubble"><div class="typing"><span></span><span></span><span></span></div></div></div>`;
-    contentEl.appendChild(row); scrollBottom();
+    const row = renderTypingIndicator();
     await sleep(600); row.remove();
-    const introMsg = "Đây là thời gian hiện tại nhé:";
+    const introMsg = "🕐 Đây là thời gian hiện tại nhé:";
     renderTimeMessage(introMsg);
     currentMessages.push({ role: "assistant", content: introMsg, isTime: true });
     setChatCount(getChatCount() + 1);
@@ -1247,13 +1378,10 @@ async function sendMessage(textOverride){
   // HỖ TRỢ
   if(isSupportQuestion(text)){
     busy = true; sendBtn.disabled = true;
-    const row = document.createElement("div");
-    row.className = "message assistant";
-    row.innerHTML = `<div class="avatar"><img src="${LOGO_URL}"></div><div class="bubble-wrap"><div class="bubble"><div class="typing"><span></span><span></span><span></span></div></div></div>`;
-    contentEl.appendChild(row); scrollBottom();
+    const row = renderTypingIndicator();
     await sleep(900); row.remove();
     renderSupportMessage();
-    currentMessages.push({ role: "assistant", content: "Mình hỗ trợ qua Facebook nhé!", isSupport: true });
+    currentMessages.push({ role: "assistant", content: "💬 Hỗ trợ qua Facebook nhé!", isSupport: true });
     setChatCount(getChatCount() + 1);
     saveCurrent();
     setStatus("Đã kết nối");
@@ -1265,7 +1393,7 @@ async function sendMessage(textOverride){
   if(isImageRequest(text)){
     const prompt = extractImagePrompt(text);
     if(!prompt){
-      renderMessage("assistant", "Bạn muốn tạo ảnh gì? Gõ /image + mô tả (ví dụ: /image con mèo dễ thương).");
+      renderMessage("assistant", "🎨 Bạn muốn tạo ảnh gì? Gõ /image + mô tả (ví dụ: /image con mèo dễ thương).");
       setChatCount(getChatCount() + 1);
       saveCurrent();
       return;
@@ -1279,12 +1407,9 @@ async function sendMessage(textOverride){
     return;
   }
 
-  // CHAT BÌNH THƯỜNG
+  // CHAT BÌNH THƯỜNG — dùng "Đang nhập..."
   busy = true; sendBtn.disabled = true;
-  const row = document.createElement("div");
-  row.className = "message assistant";
-  row.innerHTML = `<div class="avatar"><img src="${LOGO_URL}"></div><div class="bubble-wrap"><div class="bubble"><div class="typing"><span></span><span></span><span></span></div></div></div>`;
-  contentEl.appendChild(row); scrollBottom();
+  const row = renderTypingIndicator();
 
   const waitMs = getResponseDelay(text);
   const history = currentMessages.slice(-30).map(m => ({ role: m.role, content: m.content }));
@@ -1299,7 +1424,7 @@ async function sendMessage(textOverride){
   else{
     reply = pickFallbackReply();
     setStatus("Lỗi kết nối", true);
-    showToast(result.fatal ? "API key sai hoặc hết hạn." : "Tất cả model đều quá tải. Thử lại sau.");
+    showToast(result.fatal ? "❌ API key sai hoặc hết hạn." : "⏳ Tất cả model đều quá tải. Thử lại sau.");
   }
 
   setChatCount(getChatCount() + 1);
