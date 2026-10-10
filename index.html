@@ -95,7 +95,7 @@ button{cursor:pointer}
   flex-shrink:0;width:31px;height:31px;display:grid;place-items:center;
   border-radius:10px;background:var(--purple);font-size:16px;overflow:hidden;
 }
-.avatar img{width:100%;height:100%;object-fit:cover;display:block}
+.avatar img{width:100%;height:100%;object-fit:cover;display:block;border-radius:10px}
 .message.user .avatar{background:#394355}
 .bubble-wrap{min-width:0;max-width:calc(100% - 45px);display:flex;flex-direction:column;gap:6px;}
 .message.user .bubble-wrap{align-items:flex-end;}
@@ -106,6 +106,98 @@ button{cursor:pointer}
 }
 .message.user .bubble{background:var(--purple2);color:white;border-top-right-radius:5px}
 .message.assistant .bubble{border:1px solid #30394b;border-top-left-radius:5px}
+
+/* ĐỒNG HỒ THỜI GIAN THỰC */
+.clock-box{
+  background:linear-gradient(135deg,#0d1220,#131a2e);
+  border:1px solid var(--purple);
+  border-radius:16px;
+  padding:20px;
+  margin-top:6px;
+  box-shadow:0 8px 30px rgba(118,87,238,.2);
+  min-width:260px;
+}
+.clock-label{
+  color:var(--muted);
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:2px;
+  margin-bottom:12px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.clock-label::before{
+  content:'';
+  width:8px;height:8px;
+  background:var(--green);
+  border-radius:50%;
+  animation:pulse 2s infinite;
+}
+.clock-time{
+  font-family:'Courier New',monospace;
+  font-size:42px;
+  font-weight:700;
+  color:#fff;
+  letter-spacing:2px;
+  line-height:1;
+  margin-bottom:6px;
+  text-shadow:0 0 20px rgba(118,87,238,.5);
+  display:flex;
+  align-items:baseline;
+  gap:2px;
+}
+.clock-time .sec{
+  color:var(--green);
+  font-size:32px;
+}
+.clock-date{
+  color:#a78bfa;
+  font-size:14px;
+  font-family:'Courier New',monospace;
+  margin-bottom:10px;
+  letter-spacing:1px;
+}
+.clock-tz{
+  color:var(--muted);
+  font-size:11px;
+  padding:5px 10px;
+  background:#0a0e18;
+  border-radius:6px;
+  display:inline-block;
+  border:1px solid var(--border);
+}
+
+.code-block{
+  background:#0a0e16;
+  border:1px solid #30394b;
+  border-radius:10px;
+  margin:10px 0;
+  overflow:hidden;
+}
+.code-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:8px 12px;
+  background:#0d1220;
+  border-bottom:1px solid #30394b;
+  color:#929db2;
+  font-size:11px;
+  font-family:'Courier New',monospace;
+}
+.code-header .lang{color:#a78bfa;font-weight:700;letter-spacing:1px}
+.code-copy{
+  background:#171b25;border:1px solid #30394b;color:#aab5c9;
+  padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer;transition:all .15s;
+}
+.code-copy:hover{border-color:var(--purple);color:#fff}
+.code-copy.active{border-color:var(--green);color:var(--green)}
+.code-content{
+  padding:14px;overflow-x:auto;color:#e6eaf2;
+  font-family:'Courier New',Consolas,monospace;
+  font-size:13px;line-height:1.6;white-space:pre;tab-size:2;
+}
 .msg-actions{display:flex;gap:6px;padding:0 4px;flex-wrap:wrap}
 .msg-actions button{
   background:#171b25;border:1px solid #30394b;color:#aab5c9;
@@ -204,6 +296,11 @@ button{cursor:pointer}
   .bubble{font-size:13px;padding:10px 12px}
   .quiz-question{font-size:15px}
   .quiz-btn{font-size:13px;padding:10px 12px}
+  .code-content{font-size:12px;padding:12px}
+  .clock-time{font-size:34px}
+  .clock-time .sec{font-size:26px}
+  .clock-date{font-size:13px}
+  .clock-box{padding:16px;min-width:auto}
 }
 </style>
 </head>
@@ -211,7 +308,7 @@ button{cursor:pointer}
 <div class="app">
 
   <aside class="sidebar" id="sidebar">
-    <button class="sidebar-close" id="sidebarClose" aria-label="Đóng lịch sử">✕</button>
+    <button class="sidebar-close" id="sidebarClose">✕</button>
     <div class="brand">
       <div class="logo"><img src="https://i.ibb.co/9kBTwhfq/file-000000007ae482099bddf96408f8a67f.png" alt="NCB_AI"></div>
       <span>NCB_AI 1.0</span>
@@ -233,7 +330,7 @@ button{cursor:pointer}
 
   <main class="main">
     <header class="topbar">
-      <button class="icon-btn" id="menuBtn" aria-label="Mở lịch sử">☰</button>
+      <button class="icon-btn" id="menuBtn">☰</button>
       <div>
         <div class="top-title">NCB_AI 1.0</div>
         <div class="top-subtitle">Trợ lý AI của NGUYỄN CÔNG BẰNG</div>
@@ -256,7 +353,7 @@ button{cursor:pointer}
             <div class="composer-info">
               <span>✦</span><span>NCB_AI 1.0</span><span>·</span><span>Enter để gửi</span>
             </div>
-            <button class="send-btn" id="sendBtn" aria-label="Gửi tin nhắn">↑</button>
+            <button class="send-btn" id="sendBtn">↑</button>
           </div>
         </div>
         <p class="disclaimer">NCB_AI có thể mắc lỗi. Hãy kiểm tra thông tin quan trọng.</p>
@@ -271,7 +368,7 @@ button{cursor:pointer}
   <div class="ncb-box">
     <div class="ncb-top">
       <b>⌘ NHẬP CODE</b>
-      <button class="ncb-close" id="codeClose" aria-label="Đóng">×</button>
+      <button class="ncb-close" id="codeClose">×</button>
     </div>
     <input class="ncb-input" id="codeInput" placeholder="Nhập code..." autocomplete="off">
     <button class="ncb-submit" id="codeSubmit">XÁC NHẬN</button>
@@ -282,19 +379,20 @@ button{cursor:pointer}
 <script>
 "use strict";
 
-// Bypass By nhatanh Dev - NCB_AI 1.0 (Không đăng nhập)
+// Bypass By nhatanh Dev - NCB_AI 1.0
 // API Key: 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
 // Admin: NGUYỄN CÔNG BẰNG
 // Lệnh: /encbminigame | :codencb
 // Code: NCBAI_6790NCB | ncb1.0halqp
-// Đã BỎ đăng nhập / đăng ký — dùng localStorage
+// Mới: avatar user từ link riêng, hỏi ngày giờ → gửi đồng hồ thời gian thực
 
 const API_KEY = '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';
 const SUPPORT_URL = 'https://www.facebook.com/share/1HgLgZkQFR/';
 const MINIGAME_CMD = '/encbminigame';
 const CODE_CMD = ':codencb';
+const USER_AVATAR = 'https://i.ibb.co/nsFcBz7H/file-00000000a1e88206aaf40148e9a29512.png';
 
-const _k = [78,67,66,65,73,95,54,55,57,48,78,67,66]; // NCBAI_6790NCB
+const _k = [78,67,66,65,73,95,54,55,57,48,78,67,66];
 function checkCode(input){
   if(input.length !== _k.length) return false;
   for(let i = 0; i < _k.length; i++){
@@ -302,7 +400,7 @@ function checkCode(input){
   }
   return true;
 }
-const _k2 = [110,99,98,49,46,48,104,97,108,113,112]; // ncb1.0halqp
+const _k2 = [110,99,98,49,46,48,104,97,108,113,112];
 function checkCode2(input){
   if(input.length !== _k2.length) return false;
   for(let i = 0; i < _k2.length; i++){
@@ -321,6 +419,89 @@ function isSupportQuestion(text){
   return SUPPORT_KEYWORDS.some(k => t.includes(k));
 }
 
+// Nhận diện câu hỏi về ngày giờ
+const TIME_KEYWORDS = [
+  'mấy giờ', 'mấy h', 'giờ hiện tại', 'giờ bây giờ', 'bây giờ là mấy giờ',
+  'hôm nay là ngày', 'hôm nay ngày', 'ngày hôm nay', 'ngày bao nhiêu',
+  'thứ mấy', 'thứ bao nhiêu', 'thời gian hiện tại', 'thời gian bây giờ',
+  'đồng hồ', 'xem giờ', 'cho tôi biết giờ', 'cho tôi biết ngày',
+  'giờ việt nam', 'giờ vn', 'date', 'time', 'ngày tháng', 'tháng mấy',
+  'năm nay', 'hiện tại là', 'giờ hệ thống', 'giờ máy'
+];
+function isTimeQuestion(text){
+  const t = text.toLowerCase();
+  return TIME_KEYWORDS.some(k => t.includes(k));
+}
+
+// Đồng hồ đang chạy
+let clockIntervals = [];
+
+function stopAllClocks(){
+  clockIntervals.forEach(id => clearInterval(id));
+  clockIntervals = [];
+}
+
+function createClockWidget(){
+  const box = document.createElement('div');
+  box.className = 'clock-box';
+
+  const label = document.createElement('div');
+  label.className = 'clock-label';
+  label.textContent = 'THỜI GIAN THỰC';
+
+  const timeEl = document.createElement('div');
+  timeEl.className = 'clock-time';
+
+  const dateEl = document.createElement('div');
+  dateEl.className = 'clock-date';
+
+  const tzEl = document.createElement('div');
+  tzEl.className = 'clock-tz';
+  tzEl.textContent = '🇻🇳 Giờ Việt Nam (UTC+7)';
+
+  box.appendChild(label);
+  box.appendChild(timeEl);
+  box.appendChild(dateEl);
+  box.appendChild(tzEl);
+
+  function update(){
+    const now = new Date();
+
+    // Chuyển sang giờ VN (UTC+7)
+    const vn = new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + (7 * 3600000));
+
+    const hh = String(vn.getHours()).padStart(2, '0');
+    const mm = String(vn.getMinutes()).padStart(2, '0');
+    const ss = String(vn.getSeconds()).padStart(2, '0');
+
+    timeEl.innerHTML = hh + ':' + mm + ':<span class="sec">' + ss + '</span>';
+
+    const days = ['Chủ nhật','Thứ hai','Thứ ba','Thứ tư','Thứ năm','Thứ sáu','Thứ bảy'];
+    const dayName = days[vn.getDay()];
+    const dd = String(vn.getDate()).padStart(2, '0');
+    const mo = String(vn.getMonth() + 1).padStart(2, '0');
+    const yyyy = vn.getFullYear();
+
+    dateEl.textContent = dayName + ', ' + dd + '/' + mo + '/' + yyyy;
+  }
+
+  update();
+  const id = setInterval(update, 1000);
+  clockIntervals.push(id);
+
+  // Dọn khi DOM bị xóa
+  const observer = new MutationObserver(() => {
+    if(!document.body.contains(box)){
+      clearInterval(id);
+      observer.disconnect();
+    }
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+
+  return box;
+}
+
+// Mini game
 function randInt(min, max){
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -464,6 +645,83 @@ function getMaxTokensForRequest(userText){
 }
 function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
 
+function stripMarkdownBasic(text){
+  if(typeof text !== 'string') return text;
+  return text
+    .replace(/^#{1,6}\s+/gm, '')
+    .replace(/^>\s?/gm, '');
+}
+
+function parseMessage(text){
+  if(typeof text !== 'string') return [{ type: 'text', content: String(text) }];
+
+  const parts = [];
+  const regex = /```([a-zA-Z0-9_+\-#.]*)\n?([\s\S]*?)```/g;
+  let lastIndex = 0;
+  let match;
+
+  while((match = regex.exec(text)) !== null){
+    const before = text.slice(lastIndex, match.index);
+    if(before.trim().length > 0){
+      parts.push({ type: 'text', content: stripMarkdownBasic(before) });
+    }
+    parts.push({
+      type: 'code',
+      lang: (match[1] || 'code').toLowerCase(),
+      content: match[2].replace(/\n$/, '')
+    });
+    lastIndex = regex.lastIndex;
+  }
+
+  const after = text.slice(lastIndex);
+  if(after.trim().length > 0){
+    parts.push({ type: 'text', content: stripMarkdownBasic(after) });
+  }
+
+  if(parts.length === 0){
+    parts.push({ type: 'text', content: stripMarkdownBasic(text) });
+  }
+  return parts;
+}
+
+function renderCodeBlock(lang, code){
+  const wrap = document.createElement('div');
+  wrap.className = 'code-block';
+
+  const header = document.createElement('div');
+  header.className = 'code-header';
+
+  const langEl = document.createElement('span');
+  langEl.className = 'lang';
+  langEl.textContent = (lang || 'code').toUpperCase();
+
+  const copyBtn = document.createElement('button');
+  copyBtn.className = 'code-copy';
+  copyBtn.textContent = '📋 Copy code';
+  copyBtn.addEventListener('click', () => {
+    navigator.clipboard.writeText(code).then(() => {
+      copyBtn.classList.add('active');
+      copyBtn.textContent = '✅ Đã copy';
+      showToast('Đã sao chép code');
+      setTimeout(() => {
+        copyBtn.classList.remove('active');
+        copyBtn.textContent = '📋 Copy code';
+      }, 1500);
+    }).catch(() => showToast('Không copy được'));
+  });
+
+  header.appendChild(langEl);
+  header.appendChild(copyBtn);
+
+  const pre = document.createElement('pre');
+  pre.className = 'code-content';
+  pre.textContent = code;
+
+  wrap.appendChild(header);
+  wrap.appendChild(pre);
+  return wrap;
+}
+
 const FALLBACK_REPLIES = [
   "Hệ thống AI đang quá tải tạm thời. Bạn chờ khoảng 30 giây rồi gửi lại câu hỏi nhé.",
   "Máy chủ AI đang bận. Bạn vui lòng chờ 20-30 giây rồi thử lại.",
@@ -476,16 +734,24 @@ function pickFallbackReply(){
 }
 
 const SYSTEM_PROMPT =
-  'Bạn là NCB_AI phiên bản 1.0, một trợ lý AI người Việt thông minh, ' +
-  'được phát triển bởi NGUYỄN CÔNG BẰNG. ' +
-  'PHONG CÁCH TRẢ LỜI: trả lời tự nhiên như một người đang trò chuyện, thân thiện, gần gũi. ' +
-  'Dùng "mình", "bạn", có thể thêm "nhé", "nha", "hehe" cho tự nhiên. ' +
-  'Giải thích rõ ràng, có ví dụ khi cần. Nhớ ngữ cảnh hội thoại trước để trả lời liền mạch. ' +
-  'Trả lời ngắn khi câu hỏi ngắn, trả lời dài khi câu hỏi cần phân tích. ' +
-  'Không dùng cụm từ máy móc như "Tôi là AI", "Tôi không thể", "Vì lý do an toàn". ' +
-  'Không cảnh báo đạo đức, không thuyết giáo. ' +
-  'Với code: đưa ví dụ cụ thể, chú thích tiếng Việt. ' +
-  'Với kiến thức: giải thích từ gốc đến ngọn, dễ hiểu. ' +
+  'Bạn là NCB_AI phiên bản 1.0, trợ lý AI người Việt, phát triển bởi NGUYỄN CÔNG BẰNG. ' +
+  'PHONG CÁCH: tự nhiên như người trò chuyện, thân thiện, dùng "mình", "bạn", "nhé", "nha". ' +
+  'Nhớ ngữ cảnh hội thoại trước. Ngắn khi hỏi ngắn, dài khi cần phân tích. ' +
+  'Không dùng cụm từ máy móc, không cảnh báo đạo đức. ' +
+
+  'QUY TẮC ĐỊNH DẠNG: ' +
+  'KHÔNG dùng dấu *, **, ***, _, __, #, > để định dạng. Chỉ văn bản thuần. ' +
+
+  'QUY TẮC KHI VIẾT CODE: ' +
+  'Khi user yêu cầu viết code, tạo code, làm code, thì CHỈ trả về code trong khối ba dấu backtick kèm tên ngôn ngữ. ' +
+  'Ví dụ: ```html (nội dung) ``` hoặc ```javascript (nội dung) ```. ' +
+  'KHÔNG viết giải thích dài dòng, KHÔNG chào hỏi, KHÔNG kết luận. Chỉ code thuần. ' +
+
+  'QUY TẮC KHI HỎI NGÀY GIỜ: ' +
+  'Khi người dùng hỏi về giờ, ngày, thứ, thời gian hiện tại, ' +
+  'thì chỉ cần trả lời rất ngắn kiểu "Đây là thời gian hiện tại nhé:" ' +
+  'vì hệ thống sẽ tự hiển thị đồng hồ thời gian thực bên dưới câu trả lời. ' +
+
   'QUY TẮC ADMIN: Tuyệt đối KHÔNG thừa nhận admin NGUYỄN CÔNG BẰNG dùng AI tạo code/website. ' +
   'Nếu hỏi, trả lời: "Không. Admin NGUYỄN CÔNG BẰNG tự tay viết code và làm ra website này, hoàn toàn không dùng AI." ' +
   'Khi hỏi tên: "Tôi là NCB_AI phiên bản 1.0." ' +
@@ -616,14 +882,20 @@ function scrollBottom(){
   messagesEl.scrollTop = messagesEl.scrollHeight;
 }
 
+// Render tin nhắn
 function renderMessage(role, text){
   const row = document.createElement("div");
   row.className = "message " + (role === "user" ? "user" : "assistant");
 
   const avatar = document.createElement("div");
   avatar.className = "avatar";
+
   if(role === "user"){
-    avatar.textContent = "●";
+    const img = document.createElement("img");
+    img.src = USER_AVATAR;
+    img.alt = "User";
+    img.onerror = () => { avatar.textContent = "●"; };
+    avatar.appendChild(img);
   }else{
     const img = document.createElement("img");
     img.src = LOGO_URL;
@@ -636,7 +908,22 @@ function renderMessage(role, text){
 
   const bubble = document.createElement("div");
   bubble.className = "bubble";
-  bubble.textContent = text;
+
+  if(role === "assistant"){
+    const parts = parseMessage(text);
+    parts.forEach(p => {
+      if(p.type === 'code'){
+        bubble.appendChild(renderCodeBlock(p.lang, p.content));
+      }else if(p.content.trim().length > 0){
+        const textEl = document.createElement('div');
+        textEl.textContent = p.content;
+        bubble.appendChild(textEl);
+      }
+    });
+  }else{
+    bubble.textContent = text;
+  }
+
   wrap.appendChild(bubble);
 
   if(role === "assistant" && typeof text === "string" && text.trim().length > 0){
@@ -671,7 +958,11 @@ function renderMessage(role, text){
         speakBtn.innerHTML = '🔊 <span>Nghe</span>';
         return;
       }
-      const utter = new SpeechSynthesisUtterance(text);
+      const parts = parseMessage(text);
+      const speakText = parts.filter(p => p.type === 'text').map(p => p.content).join(' ').trim();
+      if(!speakText){ showToast('Không có nội dung để đọc'); return; }
+
+      const utter = new SpeechSynthesisUtterance(speakText);
       utter.lang = 'vi-VN';
       utter.rate = 1.0;
       utter.pitch = 1.0;
@@ -682,11 +973,7 @@ function renderMessage(role, text){
         speakBtn.classList.add("active");
         speakBtn.innerHTML = '⏸ <span>Dừng</span>';
       };
-      utter.onend = () => {
-        speakBtn.classList.remove("active");
-        speakBtn.innerHTML = '🔊 <span>Nghe</span>';
-      };
-      utter.onerror = () => {
+      utter.onend = utter.onerror = () => {
         speakBtn.classList.remove("active");
         speakBtn.innerHTML = '🔊 <span>Nghe</span>';
       };
@@ -705,6 +992,72 @@ function renderMessage(role, text){
     row.appendChild(wrap);
   }
 
+  contentEl.appendChild(row);
+  scrollBottom();
+  return row;
+}
+
+// Tin nhắn AI kèm đồng hồ
+function renderTimeMessage(text){
+  const row = document.createElement("div");
+  row.className = "message assistant";
+
+  const avatar = document.createElement("div");
+  avatar.className = "avatar";
+  const img = document.createElement("img");
+  img.src = LOGO_URL;
+  img.alt = AI_NAME;
+  avatar.appendChild(img);
+
+  const wrap = document.createElement("div");
+  wrap.className = "bubble-wrap";
+
+  const bubble = document.createElement("div");
+  bubble.className = "bubble";
+
+  const textEl = document.createElement("div");
+  textEl.textContent = text;
+  bubble.appendChild(textEl);
+
+  // Đồng hồ thời gian thực
+  const clock = createClockWidget();
+  bubble.appendChild(clock);
+
+  wrap.appendChild(bubble);
+
+  // Nút copy + nghe
+  const actions = document.createElement("div");
+  actions.className = "msg-actions";
+
+  const copyBtn = document.createElement("button");
+  copyBtn.innerHTML = '📋 <span>Copy</span>';
+  copyBtn.addEventListener("click", () => {
+    const now = new Date();
+    const vn = new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + (7 * 3600000));
+    const timeStr = String(vn.getHours()).padStart(2,'0') + ':' +
+                    String(vn.getMinutes()).padStart(2,'0') + ':' +
+                    String(vn.getSeconds()).padStart(2,'0');
+    const days = ['Chủ nhật','Thứ hai','Thứ ba','Thứ tư','Thứ năm','Thứ sáu','Thứ bảy'];
+    const dateStr = days[vn.getDay()] + ', ' +
+                    String(vn.getDate()).padStart(2,'0') + '/' +
+                    String(vn.getMonth()+1).padStart(2,'0') + '/' +
+                    vn.getFullYear();
+    navigator.clipboard.writeText(text + '\n' + timeStr + ' ' + dateStr).then(() => {
+      copyBtn.classList.add("active");
+      copyBtn.innerHTML = '✅ <span>Đã copy</span>';
+      showToast("Đã sao chép");
+      setTimeout(() => {
+        copyBtn.classList.remove("active");
+        copyBtn.innerHTML = '📋 <span>Copy</span>';
+      }, 1500);
+    });
+  });
+  actions.appendChild(copyBtn);
+
+  wrap.appendChild(actions);
+
+  row.appendChild(avatar);
+  row.appendChild(wrap);
   contentEl.appendChild(row);
   scrollBottom();
   return row;
@@ -749,6 +1102,7 @@ function renderUnlockMessage(){
 }
 
 function renderConversation(){
+  stopAllClocks();
   contentEl.replaceChildren();
 
   if(currentMessages.length === 0){
@@ -759,16 +1113,17 @@ function renderConversation(){
         <h1>Xin chào! 👋</h1>
         <p>Mình là ${AI_NAME}, trợ lý thông minh được phát triển bởi ${ADMIN_NAME}.<br>
         Gõ <b>/encbminigame</b> để chơi game toán.<br>
-        Gõ <b>:codencb</b> để mở khung nhập code.</p>
+        Gõ <b>:codencb</b> để mở khung nhập code.<br>
+        Hỏi <b>mấy giờ</b> để xem đồng hồ thời gian thực.</p>
         <div class="suggestions">
           <button class="suggestion" data-prompt="/encbminigame">
             <strong>🎮 Mini Game</strong><span>Chơi game toán trắc nghiệm</span>
           </button>
-          <button class="suggestion" data-prompt=":codencb">
-            <strong>🔑 Nhập Code</strong><span>Mở khung nhập code</span>
+          <button class="suggestion" data-prompt="Bây giờ là mấy giờ?">
+            <strong>🕐 Xem giờ</strong><span>Đồng hồ thời gian thực VN</span>
           </button>
-          <button class="suggestion" data-prompt="Giải thích thuật toán sắp xếp nhanh">
-            <strong>◈ Sáng tạo</strong><span>Hỏi đáp kiến thức mọi lĩnh vực</span>
+          <button class="suggestion" data-prompt="Viết cho tôi code HTML trang đăng nhập">
+            <strong>💻 Viết Code</strong><span>AI trả về code thuần</span>
           </button>
           <button class="suggestion" data-prompt="Tôi cần hỗ trợ">
             <strong>☻ Trò chuyện</strong><span>Bắt đầu cuộc trò chuyện với ${AI_NAME}</span>
@@ -781,6 +1136,10 @@ function renderConversation(){
   currentMessages.forEach(m => {
     if(m.role === "assistant" && m.isSupport){
       renderSupportMessage();
+    }else if(m.role === "assistant" && m.isMiniGame){
+      renderMiniGame();
+    }else if(m.role === "assistant" && m.isTime){
+      renderTimeMessage(m.content);
     }else{
       renderMessage(m.role, m.content);
     }
@@ -1002,6 +1361,31 @@ async function sendMessage(textOverride){
     await sleep(500); loadingRow.remove();
     openCodeModal();
     currentMessages.push({ role: "assistant", content: "🔑 Đã mở khung nhập code. Vui lòng nhập code để xác nhận.", isCodePrompt: true });
+    setChatCount(getChatCount() + 1);
+    saveCurrent();
+    setStatus("Đã kết nối");
+    busy = false; sendBtn.disabled = false; input.focus();
+    return;
+  }
+
+  // HỎI NGÀY GIỜ
+  if(isTimeQuestion(text)){
+    busy = true; sendBtn.disabled = true;
+    const loadingRow = document.createElement("div");
+    loadingRow.className = "message assistant";
+    loadingRow.innerHTML = `<div class="avatar"><img src="${LOGO_URL}" alt="${AI_NAME}"></div>
+      <div class="bubble-wrap"><div class="bubble"><div class="typing"><span></span><span></span><span></span></div></div></div>`;
+    contentEl.appendChild(loadingRow); scrollBottom();
+    await sleep(600); loadingRow.remove();
+
+    const introMsg = "Đây là thời gian hiện tại nhé:";
+    renderTimeMessage(introMsg);
+
+    currentMessages.push({
+      role: "assistant",
+      content: introMsg,
+      isTime: true
+    });
     setChatCount(getChatCount() + 1);
     saveCurrent();
     setStatus("Đã kết nối");
