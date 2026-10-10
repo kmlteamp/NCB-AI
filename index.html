@@ -107,7 +107,7 @@ button{cursor:pointer}
 .message.user .bubble{background:var(--purple2);color:white;border-top-right-radius:5px}
 .message.assistant .bubble{border:1px solid #30394b;border-top-left-radius:5px}
 
-/* IMAGE GEN */
+/* KHUNG ẢNH AI */
 .image-gen-box{
   background:linear-gradient(135deg,#0d1220,#131a2e);
   border:1px solid var(--purple);
@@ -141,95 +141,8 @@ button{cursor:pointer}
 }
 .image-actions button:hover{border-color:var(--purple);color:#fff}
 .image-actions .save-btn:hover{border-color:var(--green);color:var(--green)}
-.image-note{
-  color:var(--muted);font-size:11px;padding:8px 10px;margin-top:8px;
-  background:#0a0e18;border-radius:6px;border:1px solid var(--border);line-height:1.5;
-}
 
-/* VIDEO GEN */
-.video-gen-box{
-  background:linear-gradient(135deg,#0d1220,#131a2e);
-  border:1px solid #ff88cc;
-  border-radius:16px;padding:14px;margin-top:6px;
-  box-shadow:0 8px 30px rgba(255,136,204,.2);max-width:100%;
-}
-.video-prompt-label{
-  color:#ff88cc;font-size:11px;font-weight:700;
-  letter-spacing:1.5px;margin-bottom:8px;
-}
-.video-config{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
-  margin-bottom:12px;
-}
-.video-config-item{
-  padding:8px 10px;background:#0a0e18;border:1px solid var(--border);
-  border-radius:8px;color:#e6eaf2;font-size:11px;
-}
-.video-config-item .lbl{color:var(--muted);font-size:10px;margin-bottom:3px;display:block}
-.video-config-item .val{color:#ff88cc;font-weight:700}
-.video-scene-list{
-  display:flex;flex-direction:column;gap:6px;
-  max-height:200px;overflow-y:auto;
-  margin-bottom:12px;padding-right:4px;
-}
-.video-scene{
-  display:flex;align-items:center;gap:8px;
-  padding:8px 10px;background:#0a0e18;
-  border:1px solid var(--border);border-radius:8px;
-  font-size:11px;
-}
-.video-scene .num{
-  color:#ff88cc;font-weight:700;
-  min-width:20px;text-align:center;
-}
-.video-scene .desc{
-  flex:1;color:#c8d0df;
-  overflow:hidden;text-overflow:ellipsis;
-  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
-}
-.video-scene .status-icon{font-size:14px}
-.video-scene.done{border-color:var(--green)}
-.video-scene.done .num{color:var(--green)}
-.video-scene.done .status-icon{color:var(--green)}
-.video-scene.loading{border-color:#ffcc66}
-.video-scene.loading .status-icon{animation:spin 1s linear infinite}
-.video-scene.error{border-color:#ff626e}
-.video-scene.error .status-icon{color:#ff626e}
-.video-preview{
-  width:100%;border-radius:12px;overflow:hidden;
-  background:#000;border:1px solid var(--border);
-  margin-top:10px;
-}
-.video-preview video{
-  width:100%;height:auto;display:block;max-height:400px;
-}
-.video-progress{
-  height:4px;background:#0a0e18;border-radius:2px;
-  overflow:hidden;margin-top:10px;
-}
-.video-progress-bar{
-  height:100%;background:linear-gradient(90deg,#ff88cc,#35d69a);
-  width:0%;transition:width .3s;
-}
-.video-note{
-  color:var(--muted);font-size:11px;padding:8px 10px;
-  margin-top:8px;background:#0a0e18;border-radius:6px;
-  border:1px solid var(--border);line-height:1.5;
-}
-.video-actions{display:flex;gap:6px;margin-top:10px}
-.video-actions button{
-  flex:1;padding:10px;border:1px solid #30394b;
-  background:#171b25;color:#aab5c9;border-radius:8px;
-  font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;
-}
-.video-actions button:hover{border-color:#ff88cc;color:#fff}
-.video-actions .download-btn{
-  background:#ff88cc;color:#000;border-color:#ff88cc;
-}
-.video-actions .download-btn:hover{filter:brightness(1.15)}
-
+/* ĐỒNG HỒ THỜI GIAN THỰC */
 .clock-box{
   background:linear-gradient(135deg,#0d1220,#131a2e);
   border:1px solid var(--purple);border-radius:16px;padding:20px;margin-top:6px;
@@ -415,7 +328,7 @@ button{cursor:pointer}
     <section class="composer-area">
       <div class="composer-wrap">
         <div class="composer">
-          <textarea id="input" rows="1" maxlength="12000" placeholder="Nhắn tin... (/image tạo ảnh, /video tạo video)" aria-label="Tin nhắn"></textarea>
+          <textarea id="input" rows="1" maxlength="12000" placeholder="Nhắn tin... (/image tạo ảnh, /encbminigame chơi game)" aria-label="Tin nhắn"></textarea>
           <div class="composer-bottom">
             <div class="composer-info">
               <span>✦</span><span>NCB_AI 1.0</span><span>·</span><span>Enter để gửi</span>
@@ -449,25 +362,16 @@ button{cursor:pointer}
 // Bypass By nhatanh Dev - NCB_AI 1.0
 // API Key: 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
 // Admin: NGUYỄN CÔNG BẰNG
-// Lệnh: /encbminigame | :codencb | /image <mô tả> | /video <chủ đề>
+// Lệnh: /encbminigame | :codencb | /image <mô tả>
 // Code: NCBAI_6790NCB | ncb1.0halqp
-// Video: Ghép nhiều ảnh AI thành video WebM 5 phút bằng Canvas + MediaRecorder
+// Đã BỎ tính năng tạo phim/video
 
 const API_KEY = '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';
 const SUPPORT_URL = 'https://www.facebook.com/share/1HgLgZkQFR/';
 const MINIGAME_CMD = '/encbminigame';
 const CODE_CMD = ':codencb';
 const IMAGE_CMD = '/image';
-const VIDEO_CMD = '/video';
 const USER_AVATAR = 'https://i.ibb.co/nsFcBz7H/file-00000000a1e88206aaf40148e9a29512.png';
-
-// Video config
-const VIDEO_DURATION_SEC = 300; // 5 phút
-const VIDEO_FPS = 24;
-const VIDEO_WIDTH = 1280;
-const VIDEO_HEIGHT = 720;
-const VIDEO_SCENE_DURATION = 6; // giây/ảnh
-const VIDEO_TOTAL_SCENES = Math.ceil(VIDEO_DURATION_SEC / VIDEO_SCENE_DURATION); // 50 cảnh
 
 const _k = [78,67,66,65,73,95,54,55,57,48,78,67,66];
 function checkCode(input){
@@ -505,22 +409,14 @@ function isImageRequest(text){
   return IMAGE_KEYWORDS.some(k => t.includes(k));
 }
 
-const VIDEO_KEYWORDS = ['tạo video','làm video','sinh video','video ai','video về','video dài','video 5 phút','tạo phim','làm phim','video ca nhạc','video ngắn','tạo video dài'];
-function isVideoRequest(text){
-  const t = text.toLowerCase();
-  if(t.startsWith(VIDEO_CMD)) return true;
-  return VIDEO_KEYWORDS.some(k => t.includes(k));
-}
-
-function extractPrompt(text, cmd){
+function extractImagePrompt(text){
   let t = text.trim();
-  if(t.toLowerCase().startsWith(cmd)){
-    return t.slice(cmd.length).trim();
+  if(t.toLowerCase().startsWith(IMAGE_CMD)){
+    return t.slice(IMAGE_CMD.length).trim();
   }
   t = t.replace(/^(hãy|vui lòng|giúp tôi|giúp mình|cho tôi|cho mình)\s+/i, '');
-  t = t.replace(/^(tạo|vẽ|sinh|generate|make|create|làm)\s+(ảnh|hình|tranh|poster|banner|logo|video|phim)\s+/i, '');
-  t = t.replace(/^(ảnh|hình|tranh|video|phim)\s+(về|về chủ đề|của)\s+/i, '');
-  t = t.replace(/\s+(dài|khoảng)\s+\d+\s*(phút|giây|s|m)\s*$/i, '');
+  t = t.replace(/^(tạo|vẽ|sinh|generate|make|create)\s+(ảnh|hình|tranh|poster|banner|logo)\s+/i, '');
+  t = t.replace(/^(ảnh|hình|tranh)\s+(về|về chủ đề|của)\s+/i, '');
   return t.trim();
 }
 
@@ -563,43 +459,13 @@ function createClockWidget(){
   return box;
 }
 
-// ===== IMAGE GEN =====
+// IMAGE GEN
 function buildImageUrl(prompt, seed){
   const s = seed || Math.floor(Math.random() * 1000000);
   const encoded = encodeURIComponent(prompt);
   return 'https://image.pollinations.ai/prompt/' + encoded +
          '?width=1024&height=1024&seed=' + s + '&nologo=true&enhance=true';
 }
-
-// ===== VIDEO GEN =====
-async function generateVideoScenes(topic){
-  // Chia video thành 50 cảnh, mỗi cảnh 6 giây = 5 phút
-  // Sinh 50 prompt con mô tả các phân cảnh khác nhau
-  const scenes = [];
-  const angles = [
-    'toàn cảnh', 'cận cảnh', 'góc rộng', 'góc hẹp', 'từ trên cao',
-    'góc nghiêng', 'gần gũi', 'xa xăm', 'chi tiết', 'tổng thể',
-    'buổi sáng', 'buổi trưa', 'buổi chiều', 'hoàng hôn', 'buổi tối',
-    'không khí tĩnh lặng', 'không khí sôi động', 'góc nghệ thuật',
-    'ánh sáng ấm', 'ánh sáng lạnh', 'phong cách cinematic',
-    'phong cách hoạt hình', 'phong cách tả thực', 'phong cách watercolor',
-    'phong cách vector', 'phong cách 3D', 'phong cách retro'
-  ];
-
-  for(let i = 0; i < VIDEO_TOTAL_SCENES; i++){
-    const angle = angles[i % angles.length];
-    const partNum = Math.floor(i / 5) + 1;
-    scenes.push({
-      index: i + 1,
-      prompt: topic + ', ' + angle + ', phân cảnh ' + partNum + ', high quality, detailed, cinematic',
-      status: 'pending',
-      url: '',
-      error: ''
-    });
-  }
-  return scenes;
-}
-
 async function loadImage(url){
   return new Promise((resolve, reject) => {
     const img = new Image();
@@ -610,251 +476,6 @@ async function loadImage(url){
   });
 }
 
-async function renderVideoMessage(prompt, scenes){
-  const row = document.createElement("div");
-  row.className = "message assistant";
-
-  const avatar = document.createElement("div");
-  avatar.className = "avatar";
-  const aImg = document.createElement("img");
-  aImg.src = LOGO_URL; aImg.alt = AI_NAME;
-  avatar.appendChild(aImg);
-
-  const wrap = document.createElement("div");
-  wrap.className = "bubble-wrap";
-  wrap.style.width = '100%'; wrap.style.maxWidth = '100%';
-
-  const bubble = document.createElement("div");
-  bubble.className = "bubble";
-  bubble.style.width = '100%'; bubble.style.maxWidth = '100%';
-
-  const box = document.createElement("div");
-  box.className = "video-gen-box";
-
-  const label = document.createElement("div");
-  label.className = "video-prompt-label";
-  label.textContent = '🎬 VIDEO AI';
-
-  const promptEl = document.createElement("div");
-  promptEl.className = "image-prompt-text";
-  promptEl.textContent = prompt;
-
-  const config = document.createElement("div");
-  config.className = "video-config";
-  config.innerHTML = `
-    <div class="video-config-item"><span class="lbl">Thời lượng</span><span class="val">5 phút</span></div>
-    <div class="video-config-item"><span class="lbl">Số cảnh</span><span class="val">${VIDEO_TOTAL_SCENES}</span></div>
-    <div class="video-config-item"><span class="lbl">Độ phân giải</span><span class="val">${VIDEO_WIDTH}x${VIDEO_HEIGHT}</span></div>
-    <div class="video-config-item"><span class="lbl">FPS</span><span class="val">${VIDEO_FPS}</span></div>
-  `;
-
-  const sceneList = document.createElement("div");
-  sceneList.className = "video-scene-list";
-  sceneList.id = 'videoSceneList';
-
-  const progressWrap = document.createElement("div");
-  progressWrap.className = "video-progress";
-  const progressBar = document.createElement("div");
-  progressBar.className = "video-progress-bar";
-  progressWrap.appendChild(progressBar);
-
-  const previewWrap = document.createElement("div");
-  previewWrap.className = "video-preview hidden";
-  previewWrap.id = 'videoPreviewWrap';
-
-  const note = document.createElement("div");
-  note.className = "video-note";
-  note.textContent = '💡 Video được tạo bằng cách ghép ảnh AI Pollinations thành chuỗi slideshow 5 phút. Chất lượng phụ thuộc vào dịch vụ miễn phí. Nếu ảnh nào lỗi, hệ thống sẽ tự bỏ qua.';
-
-  box.appendChild(label);
-  box.appendChild(promptEl);
-  box.appendChild(config);
-  box.appendChild(sceneList);
-  box.appendChild(progressWrap);
-  box.appendChild(previewWrap);
-  box.appendChild(note);
-
-  bubble.appendChild(box);
-  wrap.appendChild(bubble);
-  row.appendChild(avatar);
-  row.appendChild(wrap);
-  contentEl.appendChild(row);
-  scrollBottom();
-
-  // Render danh sách cảnh
-  scenes.forEach(sc => {
-    const el = document.createElement("div");
-    el.className = "video-scene";
-    el.id = 'scene-' + sc.index;
-    el.innerHTML = `
-      <span class="num">${sc.index}</span>
-      <span class="desc">${sc.prompt.replace(/<[^>]+>/g, '').slice(0, 80)}...</span>
-      <span class="status-icon">⏳</span>
-    `;
-    sceneList.appendChild(el);
-  });
-
-  return { row, progressBar, previewWrap, scenes };
-}
-
-function updateSceneStatus(index, status){
-  const el = document.getElementById('scene-' + index);
-  if(!el) return;
-  el.classList.remove('done', 'loading', 'error');
-  const icon = el.querySelector('.status-icon');
-  if(status === 'loading'){ el.classList.add('loading'); icon.textContent = '🔄'; }
-  else if(status === 'done'){ el.classList.add('done'); icon.textContent = '✅'; }
-  else if(status === 'error'){ el.classList.add('error'); icon.textContent = '❌'; }
-  else { icon.textContent = '⏳'; }
-}
-
-async function buildVideoFile(scenes, onProgress){
-  // Canvas và MediaRecorder
-  const canvas = document.createElement('canvas');
-  canvas.width = VIDEO_WIDTH;
-  canvas.height = VIDEO_HEIGHT;
-  const ctx = canvas.getContext('2d');
-
-  // Nền đen
-  ctx.fillStyle = '#000';
-  ctx.fillRect(0, 0, VIDEO_WIDTH, VIDEO_HEIGHT);
-
-  const stream = canvas.captureStream(VIDEO_FPS);
-
-  // Cố gắng thêm âm thanh từ Web Speech API
-  // (MediaRecorder không ghi trực tiếp SpeechSynthesis, nên chỉ ghi video thuần)
-
-  const mimeTypes = [
-    'video/webm;codecs=vp9,opus',
-    'video/webm;codecs=vp8,opus',
-    'video/webm;codecs=vp9',
-    'video/webm;codecs=vp8',
-    'video/webm'
-  ];
-  let mimeType = '';
-  for(const m of mimeTypes){
-    if(MediaRecorder.isTypeSupported(m)){ mimeType = m; break; }
-  }
-  if(!mimeType){
-    throw new Error('Trình duyệt không hỗ trợ MediaRecorder');
-  }
-
-  const chunks = [];
-  const recorder = new MediaRecorder(stream, { mimeType, videoBitsPerSecond: 2500000 });
-
-  recorder.ondataavailable = (e) => {
-    if(e.data && e.data.size > 0) chunks.push(e.data);
-  };
-
-  return new Promise((resolve, reject) => {
-    recorder.onstop = () => {
-      const blob = new Blob(chunks, { type: mimeType });
-      resolve(blob);
-    };
-    recorder.onerror = (e) => reject(e.error || new Error('Recorder error'));
-
-    recorder.start(1000);
-
-    // Chuẩn bị ảnh đã load
-    const loadedImages = scenes
-      .filter(s => s.status === 'done' && s.img)
-      .map(s => s.img);
-
-    if(loadedImages.length === 0){
-      recorder.stop();
-      return reject(new Error('Không có ảnh nào load được'));
-    }
-
-    // Vòng lặp render
-    let currentSceneIdx = 0;
-    let frameCount = 0;
-    const totalFrames = VIDEO_DURATION_SEC * VIDEO_FPS;
-    const framesPerScene = Math.floor(totalFrames / loadedImages.length);
-
-    const startTime = performance.now();
-    let lastFrame = 0;
-
-    function drawFrame(){
-      const now = performance.now();
-      if(now - lastFrame < 1000 / VIDEO_FPS){ return requestAnimationFrame(drawFrame); }
-      lastFrame = now;
-
-      const currentImage = loadedImages[currentSceneIdx % loadedImages.length];
-
-      // Vẽ ảnh fit canvas
-      const imgAspect = currentImage.width / currentImage.height;
-      const canvasAspect = VIDEO_WIDTH / VIDEO_HEIGHT;
-      let dw, dh, dx, dy;
-
-      if(imgAspect > canvasAspect){
-        dw = VIDEO_WIDTH;
-        dh = VIDEO_WIDTH / imgAspect;
-        dx = 0;
-        dy = (VIDEO_HEIGHT - dh) / 2;
-      }else{
-        dh = VIDEO_HEIGHT;
-        dw = VIDEO_HEIGHT * imgAspect;
-        dy = 0;
-        dx = (VIDEO_WIDTH - dw) / 2;
-      }
-
-      // Zoom nhẹ (Ken Burns)
-      const zoom = 1 + (frameCount % framesPerScene) / framesPerScene * 0.08;
-      const cw = dw * zoom;
-      const ch = dh * zoom;
-      const cx = dx - (cw - dw) / 2;
-      const cy = dy - (ch - dh) / 2;
-
-      ctx.fillStyle = '#000';
-      ctx.fillRect(0, 0, VIDEO_WIDTH, VIDEO_HEIGHT);
-      ctx.drawImage(currentImage, cx, cy, cw, ch);
-
-      // Overlay chữ
-      ctx.fillStyle = 'rgba(0,0,0,0.4)';
-      ctx.fillRect(0, VIDEO_HEIGHT - 100, VIDEO_WIDTH, 100);
-
-      ctx.fillStyle = '#fff';
-      ctx.font = 'bold 28px Arial';
-      ctx.fillText('NCB_AI 1.0 - Video AI', 40, VIDEO_HEIGHT - 55);
-
-      ctx.font = '18px Arial';
-      ctx.fillStyle = '#a78bfa';
-      ctx.fillText('Cảnh ' + (currentSceneIdx + 1) + '/' + loadedImages.length, 40, VIDEO_HEIGHT - 25);
-
-      // Đồng hồ đếm
-      const elapsed = Math.floor((now - startTime) / 1000);
-      const mm = String(Math.floor(elapsed / 60)).padStart(2, '0');
-      const ss = String(elapsed % 60).padStart(2, '0');
-      ctx.font = 'bold 22px Courier New';
-      ctx.fillStyle = '#35d69a';
-      ctx.textAlign = 'right';
-      ctx.fillText(mm + ':' + ss + ' / 05:00', VIDEO_WIDTH - 40, VIDEO_HEIGHT - 35);
-      ctx.textAlign = 'left';
-
-      frameCount++;
-
-      // Chuyển cảnh
-      if(frameCount >= (currentSceneIdx + 1) * framesPerScene && currentSceneIdx < loadedImages.length - 1){
-        currentSceneIdx++;
-      }
-
-      if(onProgress){
-        onProgress(Math.min(frameCount / totalFrames * 100, 100));
-      }
-
-      if(frameCount >= totalFrames){
-        recorder.stop();
-        return;
-      }
-
-      requestAnimationFrame(drawFrame);
-    }
-
-    requestAnimationFrame(drawFrame);
-  });
-}
-
-// ===== MAIN APP STATE =====
 const MODEL_FALLBACK_CHAIN = [
   { model: 'llama-3.3-70b-versatile' },
   { model: 'llama-3.1-8b-instant' },
@@ -896,7 +517,6 @@ function stripMarkdownBasic(text){
   if(typeof text !== 'string') return text;
   return text.replace(/^#{1,6}\s+/gm, '').replace(/^>\s?/gm, '');
 }
-
 function parseMessage(text){
   if(typeof text !== 'string') return [{ type: 'text', content: String(text) }];
   const parts = [];
@@ -905,48 +525,35 @@ function parseMessage(text){
   let match;
   while((match = regex.exec(text)) !== null){
     const before = text.slice(lastIndex, match.index);
-    if(before.trim().length > 0){
-      parts.push({ type: 'text', content: stripMarkdownBasic(before) });
-    }
+    if(before.trim().length > 0) parts.push({ type: 'text', content: stripMarkdownBasic(before) });
     parts.push({ type: 'code', lang: (match[1] || 'code').toLowerCase(), content: match[2].replace(/\n$/, '') });
     lastIndex = regex.lastIndex;
   }
   const after = text.slice(lastIndex);
-  if(after.trim().length > 0){
-    parts.push({ type: 'text', content: stripMarkdownBasic(after) });
-  }
-  if(parts.length === 0){
-    parts.push({ type: 'text', content: stripMarkdownBasic(text) });
-  }
+  if(after.trim().length > 0) parts.push({ type: 'text', content: stripMarkdownBasic(after) });
+  if(parts.length === 0) parts.push({ type: 'text', content: stripMarkdownBasic(text) });
   return parts;
 }
-
 function renderCodeBlock(lang, code){
   const wrap = document.createElement('div');
   wrap.className = 'code-block';
   const header = document.createElement('div');
   header.className = 'code-header';
   const langEl = document.createElement('span');
-  langEl.className = 'lang';
-  langEl.textContent = (lang || 'code').toUpperCase();
+  langEl.className = 'lang'; langEl.textContent = (lang || 'code').toUpperCase();
   const copyBtn = document.createElement('button');
-  copyBtn.className = 'code-copy';
-  copyBtn.textContent = '📋 Copy code';
+  copyBtn.className = 'code-copy'; copyBtn.textContent = '📋 Copy code';
   copyBtn.addEventListener('click', () => {
     navigator.clipboard.writeText(code).then(() => {
-      copyBtn.classList.add('active');
-      copyBtn.textContent = '✅ Đã copy';
+      copyBtn.classList.add('active'); copyBtn.textContent = '✅ Đã copy';
       showToast('Đã sao chép code');
       setTimeout(() => { copyBtn.classList.remove('active'); copyBtn.textContent = '📋 Copy code'; }, 1500);
     });
   });
-  header.appendChild(langEl);
-  header.appendChild(copyBtn);
+  header.appendChild(langEl); header.appendChild(copyBtn);
   const pre = document.createElement('pre');
-  pre.className = 'code-content';
-  pre.textContent = code;
-  wrap.appendChild(header);
-  wrap.appendChild(pre);
+  pre.className = 'code-content'; pre.textContent = code;
+  wrap.appendChild(header); wrap.appendChild(pre);
   return wrap;
 }
 
@@ -962,7 +569,9 @@ function pickFallbackReply(){ return FALLBACK_REPLIES[Math.floor(Math.random() *
 const SYSTEM_PROMPT =
   'Bạn là NCB_AI phiên bản 1.0, trợ lý AI người Việt, phát triển bởi NGUYỄN CÔNG BẰNG. ' +
   'PHONG CÁCH: tự nhiên, thân thiện, dùng "mình", "bạn", "nhé", "nha". ' +
-  'Nhớ ngữ cảnh hội thoại trước. Ngắn khi hỏi ngắn, dài khi cần phân tích. ' +
+  'Luôn trả lời dựa trên nội dung tin nhắn người dùng vừa gửi. ' +
+  'Nhớ ngữ cảnh hội thoại trước để trả lời liền mạch. ' +
+  'Ngắn khi hỏi ngắn, dài khi cần phân tích. ' +
   'Không dùng dấu *, **, ***, _, __, #, > để định dạng. Chỉ văn bản thuần. ' +
   'Khi user yêu cầu viết code, CHỈ trả về code trong khối ba dấu backtick kèm tên ngôn ngữ. ' +
   'QUY TẮC ADMIN: KHÔNG thừa nhận admin NGUYỄN CÔNG BẰNG dùng AI tạo code/website. ' +
@@ -1087,14 +696,12 @@ function renderMessage(role, text){
   avatar.className = "avatar";
   if(role === "user"){
     const img = document.createElement("img");
-    img.src = USER_AVATAR;
-    img.alt = "User";
+    img.src = USER_AVATAR; img.alt = "User";
     img.onerror = () => { avatar.textContent = "●"; };
     avatar.appendChild(img);
   }else{
     const img = document.createElement("img");
-    img.src = LOGO_URL;
-    img.alt = AI_NAME;
+    img.src = LOGO_URL; img.alt = AI_NAME;
     avatar.appendChild(img);
   }
 
@@ -1106,9 +713,8 @@ function renderMessage(role, text){
   if(role === "assistant"){
     const parts = parseMessage(text);
     parts.forEach(p => {
-      if(p.type === 'code'){
-        bubble.appendChild(renderCodeBlock(p.lang, p.content));
-      }else if(p.content.trim().length > 0){
+      if(p.type === 'code') bubble.appendChild(renderCodeBlock(p.lang, p.content));
+      else if(p.content.trim().length > 0){
         const textEl = document.createElement('div');
         textEl.textContent = p.content;
         bubble.appendChild(textEl);
@@ -1242,20 +848,19 @@ function renderConversation(){
         <h1>Xin chào! 👋</h1>
         <p>Mình là ${AI_NAME}, trợ lý thông minh của ${ADMIN_NAME}.<br>
         Gõ <b>/image mô tả</b> để tạo ảnh AI.<br>
-        Gõ <b>/video chủ đề</b> để tạo video 5 phút.<br>
         Gõ <b>/encbminigame</b> chơi game, <b>:codencb</b> nhập code.</p>
         <div class="suggestions">
           <button class="suggestion" data-prompt="/image con mèo dễ thương phong cách hoạt hình">
             <strong>🎨 Tạo ảnh AI</strong><span>Gõ /image + mô tả</span>
-          </button>
-          <button class="suggestion" data-prompt="/video phong cảnh Việt Nam">
-            <strong>🎬 Tạo video AI</strong><span>Video slideshow 5 phút</span>
           </button>
           <button class="suggestion" data-prompt="/encbminigame">
             <strong>🎮 Mini Game</strong><span>Chơi game toán</span>
           </button>
           <button class="suggestion" data-prompt="Bây giờ là mấy giờ?">
             <strong>🕐 Xem giờ</strong><span>Đồng hồ thực VN</span>
+          </button>
+          <button class="suggestion" data-prompt="Tôi cần hỗ trợ">
+            <strong>☻ Trò chuyện</strong><span>Liên hệ admin</span>
           </button>
         </div>
       </div>`;
@@ -1287,14 +892,11 @@ function renderHistory(){
     item.className = "history-item" + (c.id === activeId ? " active" : "");
     item.title = c.title;
     const title = document.createElement("span");
-    title.className = "title";
-    title.textContent = c.title;
+    title.className = "title"; title.textContent = c.title;
     const delX = document.createElement("span");
-    delX.className = "del-x";
-    delX.textContent = "✕";
+    delX.className = "del-x"; delX.textContent = "✕";
     delX.addEventListener("click", (e) => { e.stopPropagation(); deleteConversation(c.id); });
-    item.appendChild(title);
-    item.appendChild(delX);
+    item.appendChild(title); item.appendChild(delX);
     item.addEventListener("click", () => openConversation(c.id));
     historyList.appendChild(item);
   });
@@ -1357,7 +959,7 @@ async function checkConnection(){
   }catch(e){ setStatus("Chưa kết nối", true); }
 }
 
-// ===== MINI GAME =====
+// MINI GAME
 function randInt(min, max){ return Math.floor(Math.random() * (max - min + 1)) + min; }
 function shuffle(arr){
   const a = arr.slice();
@@ -1466,6 +1068,107 @@ async function callApiWithFallback(messagesForApi, userText){
   return { ok: false, error: lastError };
 }
 
+async function handleImageGeneration(prompt){
+  const row = document.createElement("div");
+  row.className = "message assistant";
+  const avatar = document.createElement("div");
+  avatar.className = "avatar";
+  const aImg = document.createElement("img");
+  aImg.src = LOGO_URL;
+  avatar.appendChild(aImg);
+
+  const wrap = document.createElement("div");
+  wrap.className = "bubble-wrap";
+  wrap.style.width = '100%';
+  wrap.style.maxWidth = '100%';
+
+  const bubble = document.createElement("div");
+  bubble.className = "bubble";
+  bubble.style.width = '100%';
+
+  const box = document.createElement("div");
+  box.className = "image-gen-box";
+
+  const label = document.createElement("div");
+  label.className = "image-prompt-label";
+  label.textContent = '🎨 ẢNH AI';
+
+  const promptText = document.createElement("div");
+  promptText.className = "image-prompt-text";
+  promptText.textContent = prompt;
+
+  const loadingEl = document.createElement("div");
+  loadingEl.className = "image-loading";
+  loadingEl.innerHTML = '<div class="spinner"></div><div>Đang tạo ảnh... Vui lòng chờ 5-15 giây</div>';
+
+  box.appendChild(label);
+  box.appendChild(promptText);
+  box.appendChild(loadingEl);
+  bubble.appendChild(box);
+  wrap.appendChild(bubble);
+  row.appendChild(avatar);
+  row.appendChild(wrap);
+  contentEl.appendChild(row);
+  scrollBottom();
+
+  const imageUrl = buildImageUrl(prompt);
+  try{
+    await loadImage(imageUrl);
+    loadingEl.remove();
+
+    const resultDiv = document.createElement("div");
+    resultDiv.className = "image-result";
+    const imgEl = document.createElement("img");
+    imgEl.src = imageUrl;
+    imgEl.alt = prompt;
+    resultDiv.appendChild(imgEl);
+
+    const actions = document.createElement("div");
+    actions.className = "image-actions";
+
+    const downloadBtn = document.createElement("button");
+    downloadBtn.className = 'save-btn';
+    downloadBtn.textContent = '💾 Tải về';
+    downloadBtn.addEventListener('click', () => {
+      const a = document.createElement('a');
+      a.href = imageUrl;
+      a.download = 'ncb-ai-' + Date.now() + '.jpg';
+      a.target = '_blank';
+      a.click();
+    });
+
+    const regenBtn = document.createElement("button");
+    regenBtn.textContent = '🔄 Tạo lại';
+    regenBtn.addEventListener('click', () => { imgEl.src = buildImageUrl(prompt); });
+
+    const openBtn = document.createElement("button");
+    openBtn.textContent = '🔗 Mở tab';
+    openBtn.addEventListener('click', () => window.open(imageUrl, '_blank'));
+
+    actions.appendChild(downloadBtn);
+    actions.appendChild(regenBtn);
+    actions.appendChild(openBtn);
+
+    box.appendChild(resultDiv);
+    box.appendChild(actions);
+
+    currentMessages.push({
+      role: "assistant",
+      content: '🎨 Ảnh AI cho: "' + prompt + '"\n' + imageUrl,
+      isImage: true,
+      imageUrl: imageUrl
+    });
+    saveCurrent();
+  }catch(e){
+    loadingEl.innerHTML = '<div style="color:#ff626e;">❌ Không tạo được ảnh. Thử lại sau.</div>';
+    currentMessages.push({
+      role: "assistant",
+      content: 'Không tạo được ảnh cho: "' + prompt + '". Lỗi: ' + e.message
+    });
+    saveCurrent();
+  }
+}
+
 async function sendMessage(textOverride){
   if(busy) return;
   if(getChatCount() >= getMaxChat()){
@@ -1524,7 +1227,7 @@ async function sendMessage(textOverride){
   }
 
   // HỎI NGÀY GIỜ
-  if(isTimeQuestion(text) && !isImageRequest(text) && !isVideoRequest(text)){
+  if(isTimeQuestion(text) && !isImageRequest(text)){
     busy = true; sendBtn.disabled = true;
     const row = document.createElement("div");
     row.className = "message assistant";
@@ -1558,37 +1261,17 @@ async function sendMessage(textOverride){
     return;
   }
 
-  // TẠO ẢNH AI
+  // TẠO ẢNH
   if(isImageRequest(text)){
-    const prompt = extractPrompt(text, IMAGE_CMD);
+    const prompt = extractImagePrompt(text);
     if(!prompt){
       renderMessage("assistant", "Bạn muốn tạo ảnh gì? Gõ /image + mô tả (ví dụ: /image con mèo dễ thương).");
       setChatCount(getChatCount() + 1);
       saveCurrent();
       return;
     }
-
     busy = true; sendBtn.disabled = true;
     await handleImageGeneration(prompt);
-    setChatCount(getChatCount() + 1);
-    saveCurrent();
-    setStatus("Đã kết nối");
-    busy = false; sendBtn.disabled = false; input.focus();
-    return;
-  }
-
-  // TẠO VIDEO AI
-  if(isVideoRequest(text)){
-    const topic = extractPrompt(text, VIDEO_CMD);
-    if(!topic){
-      renderMessage("assistant", "Bạn muốn video về chủ đề gì? Gõ /video + chủ đề (ví dụ: /video phong cảnh Việt Nam). Video sẽ dài 5 phút.");
-      setChatCount(getChatCount() + 1);
-      saveCurrent();
-      return;
-    }
-
-    busy = true; sendBtn.disabled = true;
-    await handleVideoGeneration(topic);
     setChatCount(getChatCount() + 1);
     saveCurrent();
     setStatus("Đã kết nối");
@@ -1628,201 +1311,6 @@ async function sendMessage(textOverride){
 
   if(getChatCount() >= getMaxChat()) renderUnlockMessage();
   busy = false; sendBtn.disabled = false; input.focus();
-}
-
-// ===== HANDLE IMAGE GEN =====
-async function handleImageGeneration(prompt){
-  // Render khung loading
-  const row = document.createElement("div");
-  row.className = "message assistant";
-  const avatar = document.createElement("div");
-  avatar.className = "avatar";
-  const aImg = document.createElement("img");
-  aImg.src = LOGO_URL;
-  avatar.appendChild(aImg);
-
-  const wrap = document.createElement("div");
-  wrap.className = "bubble-wrap";
-  wrap.style.width = '100%';
-  wrap.style.maxWidth = '100%';
-
-  const bubble = document.createElement("div");
-  bubble.className = "bubble";
-  bubble.style.width = '100%';
-
-  const box = document.createElement("div");
-  box.className = "image-gen-box";
-
-  const label = document.createElement("div");
-  label.className = "image-prompt-label";
-  label.textContent = '🎨 ẢNH AI';
-
-  const promptText = document.createElement("div");
-  promptText.className = "image-prompt-text";
-  promptText.textContent = prompt;
-
-  const loadingEl = document.createElement("div");
-  loadingEl.className = "image-loading";
-  loadingEl.innerHTML = '<div class="spinner"></div><div>Đang tạo ảnh... Vui lòng chờ 5-15 giây</div>';
-
-  box.appendChild(label);
-  box.appendChild(promptText);
-  box.appendChild(loadingEl);
-  bubble.appendChild(box);
-  wrap.appendChild(bubble);
-  row.appendChild(avatar);
-  row.appendChild(wrap);
-  contentEl.appendChild(row);
-  scrollBottom();
-
-  // Gọi API tạo ảnh
-  const imageUrl = buildImageUrl(prompt);
-  try{
-    const img = await loadImage(imageUrl);
-    loadingEl.remove();
-
-    const resultDiv = document.createElement("div");
-    resultDiv.className = "image-result";
-    const imgEl = document.createElement("img");
-    imgEl.src = imageUrl;
-    imgEl.alt = prompt;
-    resultDiv.appendChild(imgEl);
-
-    const actions = document.createElement("div");
-    actions.className = "image-actions";
-
-    const downloadBtn = document.createElement("button");
-    downloadBtn.className = 'save-btn';
-    downloadBtn.textContent = '💾 Tải về';
-    downloadBtn.addEventListener('click', () => {
-      const a = document.createElement('a');
-      a.href = imageUrl;
-      a.download = 'ncb-ai-' + Date.now() + '.jpg';
-      a.target = '_blank';
-      a.click();
-    });
-
-    const regenBtn = document.createElement("button");
-    regenBtn.textContent = '🔄 Tạo lại';
-    regenBtn.addEventListener('click', () => {
-      const newUrl = buildImageUrl(prompt);
-      imgEl.src = newUrl;
-    });
-
-    const openBtn = document.createElement("button");
-    openBtn.textContent = '🔗 Mở tab';
-    openBtn.addEventListener('click', () => window.open(imageUrl, '_blank'));
-
-    actions.appendChild(downloadBtn);
-    actions.appendChild(regenBtn);
-    actions.appendChild(openBtn);
-
-    box.appendChild(resultDiv);
-    box.appendChild(actions);
-
-    currentMessages.push({
-      role: "assistant",
-      content: '🎨 Ảnh AI cho: "' + prompt + '"\n' + imageUrl,
-      isImage: true,
-      imageUrl: imageUrl
-    });
-    saveCurrent();
-  }catch(e){
-    loadingEl.innerHTML = '<div style="color:#ff626e;">❌ Không tạo được ảnh. Thử lại sau.</div>';
-    currentMessages.push({
-      role: "assistant",
-      content: 'Không tạo được ảnh cho: "' + prompt + '". Lỗi: ' + e.message
-    });
-    saveCurrent();
-  }
-}
-
-// ===== HANDLE VIDEO GEN =====
-async function handleVideoGeneration(topic){
-  showToast("Đang chuẩn bị video 5 phút. Quá trình này mất 3-8 phút.");
-
-  const scenes = await generateVideoScenes(topic);
-  const { progressBar, previewWrap } = await renderVideoMessage(topic, scenes);
-
-  // Load ảnh từng cảnh
-  let loadedCount = 0;
-  for(let i = 0; i < scenes.length; i++){
-    const sc = scenes[i];
-    updateSceneStatus(sc.index, 'loading');
-    const url = buildImageUrl(sc.prompt, i * 1337 + 42);
-    sc.url = url;
-    try{
-      const img = await loadImage(url);
-      sc.img = img;
-      sc.status = 'done';
-      updateSceneStatus(sc.index, 'done');
-    }catch(e){
-      sc.status = 'error';
-      sc.error = e.message;
-      updateSceneStatus(sc.index, 'error');
-    }
-    loadedCount++;
-    progressBar.style.width = Math.floor((loadedCount / scenes.length) * 40) + '%';
-  }
-
-  // Đếm cảnh thành công
-  const okScenes = scenes.filter(s => s.status === 'done');
-  if(okScenes.length < 5){
-    showToast("Quá ít ảnh load được. Cần ít nhất 5 ảnh để tạo video.");
-    return;
-  }
-
-  showToast("Bắt đầu render video... Vui lòng không đóng tab.");
-
-  // Render video
-  try{
-    const blob = await buildVideoFile(scenes, (pct) => {
-      progressBar.style.width = (40 + Math.floor(pct * 0.6)) + '%';
-    });
-
-    progressBar.style.width = '100%';
-
-    const videoUrl = URL.createObjectURL(blob);
-
-    const video = document.createElement('video');
-    video.controls = true;
-    video.src = videoUrl;
-    video.preload = 'metadata';
-    previewWrap.appendChild(video);
-    previewWrap.classList.remove('hidden');
-
-    const actions = document.createElement('div');
-    actions.className = 'video-actions';
-
-    const downloadBtn = document.createElement('button');
-    downloadBtn.className = 'download-btn';
-    downloadBtn.textContent = '💾 Tải video';
-    downloadBtn.addEventListener('click', () => {
-      const a = document.createElement('a');
-      a.href = videoUrl;
-      a.download = 'ncb-ai-video-' + Date.now() + '.webm';
-      a.click();
-    });
-
-    const openBtn = document.createElement('button');
-    openBtn.textContent = '🔗 Mở tab';
-    openBtn.addEventListener('click', () => window.open(videoUrl, '_blank'));
-
-    actions.appendChild(downloadBtn);
-    actions.appendChild(openBtn);
-    previewWrap.appendChild(actions);
-
-    currentMessages.push({
-      role: "assistant",
-      content: '🎬 Video AI cho chủ đề: "' + topic + '" (5 phút, ' + okScenes.length + ' cảnh)',
-      isVideo: true
-    });
-    saveCurrent();
-    showToast("Video đã tạo xong! Nhấn 💾 để tải về.");
-
-  }catch(e){
-    showToast("Render video lỗi: " + e.message);
-  }
 }
 
 sendBtn.addEventListener("click", () => sendMessage());
