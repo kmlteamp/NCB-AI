@@ -107,26 +107,56 @@ button{cursor:pointer}
 .message.user .bubble{background:var(--purple2);color:white;border-top-right-radius:5px}
 .message.assistant .bubble{border:1px solid #30394b;border-top-left-radius:5px}
 
-/* NHẬP... ANIMATION */
-.typing-dots{
-  display:inline-flex;
-  align-items:center;
+/* ANIMATION SÓNG LÊN XUỐNG — AI ĐANG GỬI */
+.wave-anim{
+  display:flex;
+  align-items:flex-end;
   gap:4px;
+  height:22px;
+  padding:2px 0;
 }
-.typing-dots span{
-  width:6px;height:6px;border-radius:50%;
+.wave-anim span{
+  display:inline-block;
+  width:5px;
+  height:5px;
+  border-radius:3px;
   background:#9c8bfa;
-  animation:typingPulse 1s infinite alternate;
+  animation:waveBounce 1.1s ease-in-out infinite;
 }
-.typing-dots span:nth-child(2){animation-delay:.2s}
-.typing-dots span:nth-child(3){animation-delay:.4s}
-@keyframes typingPulse{to{opacity:.25;transform:translateY(-3px)}}
-.typing-label{
-  color:#aab5c9;
-  font-size:13px;
+.wave-anim span:nth-child(1){animation-delay:0s}
+.wave-anim span:nth-child(2){animation-delay:.12s}
+.wave-anim span:nth-child(3){animation-delay:.24s}
+.wave-anim span:nth-child(4){animation-delay:.36s}
+.wave-anim span:nth-child(5){animation-delay:.48s}
+@keyframes waveBounce{
+  0%, 100%{height:5px;background:#9c8bfa;opacity:.6}
+  50%{height:20px;background:#a78bfa;opacity:1}
+}
+
+/* Ô NHẬP TIN NHẮN — trạng thái "Đang nhập..." của người chơi */
+.composer.is-typing{
+  border-color:#7657ee;
+  box-shadow:0 0 0 3px rgba(118,87,238,.15);
+}
+.typing-hint{
+  color:#a78bfa;
+  font-size:11px;
   font-style:italic;
-  margin-left:4px;
+  display:none;
+  align-items:center;
+  gap:5px;
 }
+.typing-hint.show{
+  display:flex;
+}
+.typing-hint .dot{
+  width:5px;height:5px;border-radius:50%;
+  background:#a78bfa;
+  animation:pulseDot 1s infinite alternate;
+}
+.typing-hint .dot:nth-child(2){animation-delay:.2s}
+.typing-hint .dot:nth-child(3){animation-delay:.4s}
+@keyframes pulseDot{to{opacity:.3;transform:translateY(-2px)}}
 
 .image-gen-box{
   background:linear-gradient(135deg,#0d1220,#131a2e);
@@ -137,8 +167,7 @@ button{cursor:pointer}
 .image-prompt-text{
   color:#e6eaf2;font-size:13px;line-height:1.6;
   padding:10px 12px;background:#0a0e18;border-radius:8px;
-  margin-bottom:12px;border:1px solid var(--border);
-  font-family:'Courier New',monospace;
+  margin-bottom:12px;border:1px solid var(--border);font-family:'Courier New',monospace;
 }
 .image-loading{padding:30px;text-align:center;color:var(--muted);font-size:13px}
 .image-loading .spinner{
@@ -151,9 +180,8 @@ button{cursor:pointer}
 .image-result img{width:100%;height:auto;display:block;border-radius:12px}
 .image-actions{display:flex;gap:6px;margin-top:10px}
 .image-actions button{
-  flex:1;padding:9px;border:1px solid #30394b;
-  background:#171b25;color:#aab5c9;border-radius:8px;
-  font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;
+  flex:1;padding:9px;border:1px solid #30394b;background:#171b25;
+  color:#aab5c9;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;
 }
 .image-actions button:hover{border-color:var(--purple);color:#fff}
 .image-actions .save-btn:hover{border-color:var(--green);color:var(--green)}
@@ -167,7 +195,7 @@ button{cursor:pointer}
   color:var(--muted);font-size:11px;font-weight:700;
   letter-spacing:2px;margin-bottom:12px;display:flex;align-items:center;gap:6px;
 }
-.clock-label::before{content:'';width:8px;height:8px;background:var(--green);border-radius:50%;animation:typingPulse 2s infinite}
+.clock-label::before{content:'';width:8px;height:8px;background:var(--green);border-radius:50%;animation:pulseDot 2s infinite}
 .clock-time{
   font-family:'Courier New',monospace;font-size:42px;font-weight:700;
   color:#fff;letter-spacing:2px;line-height:1;margin-bottom:6px;
@@ -204,10 +232,10 @@ button{cursor:pointer}
 }
 .msg-actions button:hover{border-color:var(--purple);color:#fff;background:#201c30}
 .msg-actions button.active{border-color:var(--green);color:var(--green)}
+
 .composer-area{flex-shrink:0;padding:12px 18px 18px;background:linear-gradient(transparent,var(--bg) 15%)}
 .composer-wrap{max-width:780px;margin:auto}
-.composer{border:1px solid #41495b;border-radius:17px;background:#171b25;padding:12px;transition:border-color .2s}
-.composer:focus-within{border-color:#8068eb}
+.composer{border:1px solid #41495b;border-radius:17px;background:#171b25;padding:12px;transition:border-color .2s, box-shadow .2s}
 #input{
   display:block;width:100%;min-height:42px;max-height:180px;resize:none;
   border:0;outline:0;background:transparent;color:var(--text);font-size:14px;line-height:1.6;
@@ -337,11 +365,18 @@ button{cursor:pointer}
 
     <section class="composer-area">
       <div class="composer-wrap">
-        <div class="composer">
-          <textarea id="input" rows="1" maxlength="12000" placeholder="Nhắn tin... (/image tạo ảnh, /encbminigame chơi game)" aria-label="Tin nhắn"></textarea>
+        <div class="composer" id="composer">
+          <textarea id="input" rows="1" maxlength="12000" placeholder="Nhập tin nhắn..." aria-label="Tin nhắn"></textarea>
           <div class="composer-bottom">
             <div class="composer-info">
-              <span>✦</span><span>NCB_AI 1.0</span><span>·</span><span>Enter để gửi</span>
+              <span>✦</span><span>NCB_AI 1.0</span><span>·</span>
+              <span class="typing-hint" id="typingHint">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span>Đang nhập...</span>
+              </span>
+              <span id="sendHint">Enter để gửi</span>
             </div>
             <button class="send-btn" id="sendBtn">↑</button>
           </div>
@@ -374,7 +409,8 @@ button{cursor:pointer}
 // Admin: NGUYỄN CÔNG BẰNG
 // Lệnh: /encbminigame | :codencb | /image <mô tả>
 // Code: NCBAI_6790NCB | ncb1.0halqp
-// Khung chat hiện "Đang nhập..." khi AI đang trả lời
+// Khi AI đang gửi → animation sóng lên xuống
+// Khi người chơi đang nhập → ô input hiện "Đang nhập..."
 
 const API_KEY = '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';
 const SUPPORT_URL = 'https://www.facebook.com/share/1HgLgZkQFR/';
@@ -522,78 +558,39 @@ function getMaxTokensForRequest(userText){
 }
 function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
 
-function stripMarkdownBasic(text){
-  if(typeof text !== 'string') return text;
-  return text.replace(/^#{1,6}\s+/gm, '').replace(/^>\s?/gm, '');
-}
-
-// Chuyển đổi văn bản AI sang HTML có icon thay vì dấu ***
+// Chuyển văn bản AI sang HTML có icon thay dấu ***
 function formatAIText(text){
   if(typeof text !== 'string') return document.createTextNode(String(text));
-
   const container = document.createElement('div');
   const lines = text.split('\n');
-
-  lines.forEach((line, idx) => {
+  lines.forEach(line => {
     const trimmed = line.trim();
+    if(trimmed === ''){ const sp = document.createElement('div'); sp.style.height = '6px'; container.appendChild(sp); return; }
 
-    // Dòng trống
-    if(trimmed === ''){
-      const br = document.createElement('div');
-      br.style.height = '6px';
-      container.appendChild(br);
-      return;
-    }
-
-    // Phát hiện tiêu đề dạng "## Tiêu đề" hoặc "**Tiêu đề**"
-    let isHead = false;
-    let headText = '';
-
+    let isHead = false, headText = '';
     const headM = trimmed.match(/^#{1,6}\s+(.+)$/);
-    if(headM){
-      isHead = true;
-      headText = headM[1].replace(/\*\*/g, '').trim();
-    }else{
-      // **Tiêu đề** hoặc ***Tiêu đề***
+    if(headM){ isHead = true; headText = headM[1].replace(/\*\*/g,'').trim(); }
+    else{
       const boldM = trimmed.match(/^\*{2,3}([^*]+)\*{2,3}\s*:?\s*$/);
-      if(boldM){
-        isHead = true;
-        headText = boldM[1].trim();
-      }
+      if(boldM){ isHead = true; headText = boldM[1].trim(); }
     }
-
     if(isHead){
       const head = document.createElement('div');
       head.className = 'section-head';
-      const ic = document.createElement('span');
-      ic.className = 'ic';
-      ic.textContent = '📌';
-      const t = document.createElement('span');
-      t.textContent = headText;
-      head.appendChild(ic);
-      head.appendChild(t);
-      container.appendChild(head);
-      return;
+      head.innerHTML = '<span class="ic">📌</span><span></span>';
+      head.querySelector('span:last-child').textContent = headText;
+      container.appendChild(head); return;
     }
-
-    // Phát hiện dòng danh sách "- item" hoặc "* item" hoặc "• item"
     const listM = trimmed.match(/^[-*•]\s+(.+)$/);
     if(listM){
       const row = document.createElement('div');
       row.className = 'icon-line';
-      const ic = document.createElement('span');
-      ic.className = 'ic';
-      ic.textContent = '🔹';
+      row.innerHTML = '<span class="ic">🔹</span>';
       const t = document.createElement('span');
       t.className = 'txt';
-      t.textContent = listM[1].replace(/\*\*/g, '').replace(/\*/g, '');
-      row.appendChild(ic);
-      row.appendChild(t);
-      container.appendChild(row);
-      return;
+      t.textContent = listM[1].replace(/\*\*/g,'').replace(/\*/g,'');
+      row.appendChild(t); container.appendChild(row); return;
     }
-
-    // Đánh số "1. item"
     const numM = trimmed.match(/^(\d+)\.\s+(.+)$/);
     if(numM){
       const row = document.createElement('div');
@@ -605,24 +602,13 @@ function formatAIText(text){
       ic.style.fontWeight = '700';
       const t = document.createElement('span');
       t.className = 'txt';
-      t.textContent = numM[2].replace(/\*\*/g, '').replace(/\*/g, '');
-      row.appendChild(ic);
-      row.appendChild(t);
-      container.appendChild(row);
-      return;
+      t.textContent = numM[2].replace(/\*\*/g,'').replace(/\*/g,'');
+      row.appendChild(ic); row.appendChild(t); container.appendChild(row); return;
     }
-
-    // Dòng thường — xử lý ***Bold*** và *italic* inline
     const lineEl = document.createElement('div');
-    let cleanText = trimmed
-      .replace(/\*{2,3}([^*]+)\*{2,3}/g, '$1')  // bỏ ***bold***
-      .replace(/\*([^*\n]+)\*/g, '$1')          // bỏ *italic*
-      .replace(/__([^_]+)__/g, '$1')
-      .replace(/_([^_]+)_/g, '$1');
-    lineEl.textContent = cleanText;
+    lineEl.textContent = trimmed.replace(/\*{2,3}([^*]+)\*{2,3}/g,'$1').replace(/\*([^*\n]+)\*/g,'$1');
     container.appendChild(lineEl);
   });
-
   return container;
 }
 
@@ -638,26 +624,12 @@ function pickFallbackReply(){ return FALLBACK_REPLIES[Math.floor(Math.random() *
 const SYSTEM_PROMPT =
   'Bạn là NCB_AI phiên bản 1.0, trợ lý AI người Việt, phát triển bởi NGUYỄN CÔNG BẰNG. ' +
   'PHONG CÁCH: tự nhiên, thân thiện, giống ChatGPT. Dùng "mình", "bạn", "nhé", "nha". ' +
-  'Luôn trả lời dựa trên nội dung tin nhắn người dùng vừa gửi. ' +
-  'Nhớ ngữ cảnh hội thoại trước để trả lời liền mạch. ' +
+  'Luôn trả lời dựa trên nội dung tin nhắn người dùng vừa gửi. Nhớ ngữ cảnh hội thoại trước. ' +
   'Ngắn khi hỏi ngắn, dài khi cần phân tích. ' +
-
-  'QUY TẮC ĐỊNH DẠNG BẮT BUỘC — KHÔNG DÙNG DẤU SAO: ' +
-  'Tuyệt đối KHÔNG dùng dấu * hoặc ** hoặc *** để định dạng. ' +
-  'KHÔNG dùng dấu # để làm tiêu đề. KHÔNG dùng dấu _ hoặc __. KHÔNG dùng dấu > để trích dẫn. ' +
-  'THAY VÀO ĐÓ, hãy dùng ICON để trình bày: ' +
-  'Đầu mỗi mục chính, dùng icon phù hợp như ✅ ❌ ⚠️ 💡 📌 🔹 🔸 ✨ 🚀 🎯 📊 📝 🔧 ⚡ 🎨 🎵 📚 🕐 👉 💬 🎮 🔑 💻 🌟 ⭐ 🎁 📱 🖥️ 📷 🎬 🎤 📖 🔍 🧠 💪 ❤️ 😊 👍 👌 🙌 🔥 💯 ⏰ 📅 💰 🎓 🏆 🎉 🎊 🎈 🎯. ' +
-  'Mỗi dòng liệt kê bắt đầu bằng một icon. ' +
-  'Ví dụ định dạng mong muốn:\n' +
-  '📌 Tiêu đề chính\n' +
-  '🔹 Ý 1\n' +
-  '🔹 Ý 2\n' +
-  '✅ Kết luận\n\n' +
-  'Chỉ trả lời văn bản thuần, có thể xuống dòng, dùng icon để trình bày. ' +
-
-  'QUY TẮC KHI VIẾT CODE: ' +
-  'Khi user yêu cầu viết code, CHỈ trả về code trong khối ba dấu backtick kèm tên ngôn ngữ. ' +
-
+  'QUY TẮC ĐỊNH DẠNG: KHÔNG dùng dấu *, **, ***, _, __, #, >. ' +
+  'THAY VÀO ĐÓ dùng icon như ✅ ❌ ⚠️ 💡 📌 🔹 ✨ 🚀 🎯 📝 🕐 👉 💬 🔑 💻 🌟 ⭐ 📖 🔍 🧠 💪 ❤️ 👍 🔥 💯 ⏰ 📅 🎓 🏆 🎉 để trình bày. ' +
+  'Mỗi mục chính dùng icon phù hợp. Mỗi dòng liệt kê bắt đầu bằng icon. ' +
+  'QUY TẮC CODE: khi user yêu cầu viết code, CHỈ trả về code trong khối ba dấu backtick kèm tên ngôn ngữ. ' +
   'QUY TẮC ADMIN: KHÔNG thừa nhận admin NGUYỄN CÔNG BẰNG dùng AI tạo code/website. ' +
   'Khi hỏi tên: "Tôi là NCB_AI phiên bản 1.0." ' +
   'Khi hỏi admin: "Admin của tôi là NGUYỄN CÔNG BẰNG."';
@@ -678,12 +650,16 @@ const codeInput = $("codeInput");
 const codeSubmit = $("codeSubmit");
 const codeClose = $("codeClose");
 const codeError = $("codeError");
+const composerEl = $("composer");
+const typingHint = $("typingHint");
+const sendHint = $("sendHint");
 
 let busy = false;
 let activeId = null;
 let conversations = [];
 let currentMessages = [];
 let isUnlocked = localStorage.getItem(UNLOCKED_KEY) === '1';
+let userTypingTimer = null;
 
 function getChatCount(){
   const v = parseInt(localStorage.getItem(STORAGE_KEY) || '0', 10);
@@ -771,6 +747,19 @@ function setStatus(text, error = false){
   statusEl.classList.toggle("error", error);
 }
 function scrollBottom(){ messagesEl.scrollTop = messagesEl.scrollHeight; }
+
+// Hiện "Đang nhập..." khi người chơi gõ phím
+function handleUserTyping(){
+  if(!input.value.trim()){
+    typingHint.classList.remove('show');
+    sendHint.style.display = 'inline';
+    composerEl.classList.remove('is-typing');
+    return;
+  }
+  typingHint.classList.add('show');
+  sendHint.style.display = 'none';
+  composerEl.classList.add('is-typing');
+}
 
 function renderMessage(role, text){
   const row = document.createElement("div");
@@ -861,17 +850,20 @@ function renderMessage(role, text){
   return row;
 }
 
-// Khung "Đang nhập..." giống ChatGPT
-function renderTypingIndicator(){
+// AI ĐANG GỬI → ANIMATION SÓNG LÊN XUỐNG
+function renderSendingIndicator(){
   const row = document.createElement("div");
   row.className = "message assistant";
   row.innerHTML = `
     <div class="avatar"><img src="${LOGO_URL}" alt="${AI_NAME}"></div>
     <div class="bubble-wrap">
       <div class="bubble">
-        <div class="typing-dots">
-          <span></span><span></span><span></span>
-          <span class="typing-label">Đang nhập...</span>
+        <div class="wave-anim">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
         </div>
       </div>
     </div>`;
@@ -1330,13 +1322,16 @@ async function sendMessage(textOverride){
   }
   input.value = "";
   input.style.height = "42px";
+  typingHint.classList.remove('show');
+  sendHint.style.display = 'inline';
+  composerEl.classList.remove('is-typing');
   renderConversation();
   renderHistory();
 
   // /encbminigame
   if(text.toLowerCase() === MINIGAME_CMD){
     busy = true; sendBtn.disabled = true;
-    const row = renderTypingIndicator();
+    const row = renderSendingIndicator();
     await sleep(700); row.remove();
     renderMiniGame();
     setChatCount(getChatCount() + 1);
@@ -1349,7 +1344,7 @@ async function sendMessage(textOverride){
   // :codencb
   if(text.toLowerCase() === CODE_CMD){
     busy = true; sendBtn.disabled = true;
-    const row = renderTypingIndicator();
+    const row = renderSendingIndicator();
     await sleep(500); row.remove();
     openCodeModal();
     currentMessages.push({ role: "assistant", content: "🔑 Đã mở khung nhập code.", isCodePrompt: true });
@@ -1363,7 +1358,7 @@ async function sendMessage(textOverride){
   // HỎI NGÀY GIỜ
   if(isTimeQuestion(text) && !isImageRequest(text)){
     busy = true; sendBtn.disabled = true;
-    const row = renderTypingIndicator();
+    const row = renderSendingIndicator();
     await sleep(600); row.remove();
     const introMsg = "🕐 Đây là thời gian hiện tại nhé:";
     renderTimeMessage(introMsg);
@@ -1378,7 +1373,7 @@ async function sendMessage(textOverride){
   // HỖ TRỢ
   if(isSupportQuestion(text)){
     busy = true; sendBtn.disabled = true;
-    const row = renderTypingIndicator();
+    const row = renderSendingIndicator();
     await sleep(900); row.remove();
     renderSupportMessage();
     currentMessages.push({ role: "assistant", content: "💬 Hỗ trợ qua Facebook nhé!", isSupport: true });
@@ -1407,9 +1402,9 @@ async function sendMessage(textOverride){
     return;
   }
 
-  // CHAT BÌNH THƯỜNG — dùng "Đang nhập..."
+  // CHAT BÌNH THƯỜNG — AI đang gửi → animation sóng
   busy = true; sendBtn.disabled = true;
-  const row = renderTypingIndicator();
+  const row = renderSendingIndicator();
 
   const waitMs = getResponseDelay(text);
   const history = currentMessages.slice(-30).map(m => ({ role: m.role, content: m.content }));
@@ -1448,6 +1443,12 @@ input.addEventListener("keydown", event => {
 input.addEventListener("input", () => {
   input.style.height = "auto";
   input.style.height = Math.min(input.scrollHeight, 180) + "px";
+  handleUserTyping();
+});
+input.addEventListener("blur", () => {
+  typingHint.classList.remove('show');
+  sendHint.style.display = 'inline';
+  composerEl.classList.remove('is-typing');
 });
 
 $("newChat").addEventListener("click", newConversation);
