@@ -107,84 +107,153 @@ button{cursor:pointer}
 .message.user .bubble{background:var(--purple2);color:white;border-top-right-radius:5px}
 .message.assistant .bubble{border:1px solid #30394b;border-top-left-radius:5px}
 
-/* ĐỒNG HỒ THỜI GIAN THỰC */
-.clock-box{
+/* IMAGE GEN */
+.image-gen-box{
   background:linear-gradient(135deg,#0d1220,#131a2e);
   border:1px solid var(--purple);
-  border-radius:16px;
-  padding:20px;
-  margin-top:6px;
-  box-shadow:0 8px 30px rgba(118,87,238,.2);
-  min-width:260px;
+  border-radius:16px;padding:14px;margin-top:6px;
+  box-shadow:0 8px 30px rgba(118,87,238,.2);max-width:100%;
 }
-.clock-label{
-  color:var(--muted);
-  font-size:11px;
-  font-weight:700;
-  letter-spacing:2px;
-  margin-bottom:12px;
-  display:flex;
-  align-items:center;
-  gap:6px;
-}
-.clock-label::before{
-  content:'';
-  width:8px;height:8px;
-  background:var(--green);
-  border-radius:50%;
-  animation:pulse 2s infinite;
-}
-.clock-time{
+.image-prompt-label{color:var(--muted);font-size:11px;font-weight:700;letter-spacing:1.5px;margin-bottom:8px}
+.image-prompt-text{
+  color:#e6eaf2;font-size:13px;line-height:1.6;
+  padding:10px 12px;background:#0a0e18;border-radius:8px;
+  margin-bottom:12px;border:1px solid var(--border);
   font-family:'Courier New',monospace;
-  font-size:42px;
-  font-weight:700;
-  color:#fff;
-  letter-spacing:2px;
-  line-height:1;
-  margin-bottom:6px;
-  text-shadow:0 0 20px rgba(118,87,238,.5);
-  display:flex;
-  align-items:baseline;
-  gap:2px;
 }
-.clock-time .sec{
-  color:var(--green);
-  font-size:32px;
+.image-loading{padding:30px;text-align:center;color:var(--muted);font-size:13px}
+.image-loading .spinner{
+  width:40px;height:40px;margin:0 auto 12px;
+  border:3px solid var(--border);border-top-color:var(--purple);
+  border-radius:50%;animation:spin 1s linear infinite;
 }
-.clock-date{
-  color:#a78bfa;
-  font-size:14px;
-  font-family:'Courier New',monospace;
-  margin-bottom:10px;
-  letter-spacing:1px;
+@keyframes spin{to{transform:rotate(360deg)}}
+.image-result{
+  width:100%;border-radius:12px;overflow:hidden;
+  background:#0a0e18;border:1px solid var(--border);position:relative;
 }
-.clock-tz{
-  color:var(--muted);
-  font-size:11px;
-  padding:5px 10px;
-  background:#0a0e18;
-  border-radius:6px;
-  display:inline-block;
-  border:1px solid var(--border);
+.image-result img{width:100%;height:auto;display:block;border-radius:12px}
+.image-actions{display:flex;gap:6px;margin-top:10px}
+.image-actions button{
+  flex:1;padding:9px;border:1px solid #30394b;
+  background:#171b25;color:#aab5c9;border-radius:8px;
+  font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;
+}
+.image-actions button:hover{border-color:var(--purple);color:#fff}
+.image-actions .save-btn:hover{border-color:var(--green);color:var(--green)}
+.image-note{
+  color:var(--muted);font-size:11px;padding:8px 10px;margin-top:8px;
+  background:#0a0e18;border-radius:6px;border:1px solid var(--border);line-height:1.5;
 }
 
-.code-block{
-  background:#0a0e16;
-  border:1px solid #30394b;
-  border-radius:10px;
-  margin:10px 0;
-  overflow:hidden;
+/* VIDEO GEN */
+.video-gen-box{
+  background:linear-gradient(135deg,#0d1220,#131a2e);
+  border:1px solid #ff88cc;
+  border-radius:16px;padding:14px;margin-top:6px;
+  box-shadow:0 8px 30px rgba(255,136,204,.2);max-width:100%;
 }
-.code-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:8px 12px;
-  background:#0d1220;
-  border-bottom:1px solid #30394b;
-  color:#929db2;
+.video-prompt-label{
+  color:#ff88cc;font-size:11px;font-weight:700;
+  letter-spacing:1.5px;margin-bottom:8px;
+}
+.video-config{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-bottom:12px;
+}
+.video-config-item{
+  padding:8px 10px;background:#0a0e18;border:1px solid var(--border);
+  border-radius:8px;color:#e6eaf2;font-size:11px;
+}
+.video-config-item .lbl{color:var(--muted);font-size:10px;margin-bottom:3px;display:block}
+.video-config-item .val{color:#ff88cc;font-weight:700}
+.video-scene-list{
+  display:flex;flex-direction:column;gap:6px;
+  max-height:200px;overflow-y:auto;
+  margin-bottom:12px;padding-right:4px;
+}
+.video-scene{
+  display:flex;align-items:center;gap:8px;
+  padding:8px 10px;background:#0a0e18;
+  border:1px solid var(--border);border-radius:8px;
   font-size:11px;
-  font-family:'Courier New',monospace;
+}
+.video-scene .num{
+  color:#ff88cc;font-weight:700;
+  min-width:20px;text-align:center;
+}
+.video-scene .desc{
+  flex:1;color:#c8d0df;
+  overflow:hidden;text-overflow:ellipsis;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
+}
+.video-scene .status-icon{font-size:14px}
+.video-scene.done{border-color:var(--green)}
+.video-scene.done .num{color:var(--green)}
+.video-scene.done .status-icon{color:var(--green)}
+.video-scene.loading{border-color:#ffcc66}
+.video-scene.loading .status-icon{animation:spin 1s linear infinite}
+.video-scene.error{border-color:#ff626e}
+.video-scene.error .status-icon{color:#ff626e}
+.video-preview{
+  width:100%;border-radius:12px;overflow:hidden;
+  background:#000;border:1px solid var(--border);
+  margin-top:10px;
+}
+.video-preview video{
+  width:100%;height:auto;display:block;max-height:400px;
+}
+.video-progress{
+  height:4px;background:#0a0e18;border-radius:2px;
+  overflow:hidden;margin-top:10px;
+}
+.video-progress-bar{
+  height:100%;background:linear-gradient(90deg,#ff88cc,#35d69a);
+  width:0%;transition:width .3s;
+}
+.video-note{
+  color:var(--muted);font-size:11px;padding:8px 10px;
+  margin-top:8px;background:#0a0e18;border-radius:6px;
+  border:1px solid var(--border);line-height:1.5;
+}
+.video-actions{display:flex;gap:6px;margin-top:10px}
+.video-actions button{
+  flex:1;padding:10px;border:1px solid #30394b;
+  background:#171b25;color:#aab5c9;border-radius:8px;
+  font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;
+}
+.video-actions button:hover{border-color:#ff88cc;color:#fff}
+.video-actions .download-btn{
+  background:#ff88cc;color:#000;border-color:#ff88cc;
+}
+.video-actions .download-btn:hover{filter:brightness(1.15)}
+
+.clock-box{
+  background:linear-gradient(135deg,#0d1220,#131a2e);
+  border:1px solid var(--purple);border-radius:16px;padding:20px;margin-top:6px;
+  box-shadow:0 8px 30px rgba(118,87,238,.2);min-width:260px;
+}
+.clock-label{
+  color:var(--muted);font-size:11px;font-weight:700;
+  letter-spacing:2px;margin-bottom:12px;display:flex;align-items:center;gap:6px;
+}
+.clock-label::before{content:'';width:8px;height:8px;background:var(--green);border-radius:50%;animation:pulse 2s infinite}
+.clock-time{
+  font-family:'Courier New',monospace;font-size:42px;font-weight:700;
+  color:#fff;letter-spacing:2px;line-height:1;margin-bottom:6px;
+  text-shadow:0 0 20px rgba(118,87,238,.5);display:flex;align-items:baseline;gap:2px;
+}
+.clock-time .sec{color:var(--green);font-size:32px}
+.clock-date{color:#a78bfa;font-size:14px;font-family:'Courier New',monospace;margin-bottom:10px;letter-spacing:1px}
+.clock-tz{color:var(--muted);font-size:11px;padding:5px 10px;background:#0a0e18;border-radius:6px;display:inline-block;border:1px solid var(--border)}
+
+.code-block{background:#0a0e16;border:1px solid #30394b;border-radius:10px;margin:10px 0;overflow:hidden}
+.code-header{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:8px 12px;background:#0d1220;border-bottom:1px solid #30394b;
+  color:#929db2;font-size:11px;font-family:'Courier New',monospace;
 }
 .code-header .lang{color:#a78bfa;font-weight:700;letter-spacing:1px}
 .code-copy{
@@ -238,13 +307,11 @@ button{cursor:pointer}
 .hidden{display:none!important}
 .ncb-overlay{
   position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.75);
-  display:flex;align-items:center;justify-content:center;
-  padding:20px;backdrop-filter:blur(4px);
+  display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px);
 }
 .ncb-box{
-  width:300px;padding:18px;background:#0c1630;
-  border:1px solid #00cfff;border-radius:12px;
-  box-shadow:0 0 20px #007bff44, 0 20px 60px rgba(0,0,0,.6);
+  width:300px;padding:18px;background:#0c1630;border:1px solid #00cfff;
+  border-radius:12px;box-shadow:0 0 20px #007bff44, 0 20px 60px rgba(0,0,0,.6);
   position:relative;font-family:Arial,sans-serif;color:#fff;
 }
 .ncb-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
@@ -348,7 +415,7 @@ button{cursor:pointer}
     <section class="composer-area">
       <div class="composer-wrap">
         <div class="composer">
-          <textarea id="input" rows="1" maxlength="12000" placeholder="Nhắn tin cho NCB_AI..." aria-label="Tin nhắn"></textarea>
+          <textarea id="input" rows="1" maxlength="12000" placeholder="Nhắn tin... (/image tạo ảnh, /video tạo video)" aria-label="Tin nhắn"></textarea>
           <div class="composer-bottom">
             <div class="composer-info">
               <span>✦</span><span>NCB_AI 1.0</span><span>·</span><span>Enter để gửi</span>
@@ -382,15 +449,25 @@ button{cursor:pointer}
 // Bypass By nhatanh Dev - NCB_AI 1.0
 // API Key: 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
 // Admin: NGUYỄN CÔNG BẰNG
-// Lệnh: /encbminigame | :codencb
+// Lệnh: /encbminigame | :codencb | /image <mô tả> | /video <chủ đề>
 // Code: NCBAI_6790NCB | ncb1.0halqp
-// Mới: avatar user từ link riêng, hỏi ngày giờ → gửi đồng hồ thời gian thực
+// Video: Ghép nhiều ảnh AI thành video WebM 5 phút bằng Canvas + MediaRecorder
 
 const API_KEY = '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';
 const SUPPORT_URL = 'https://www.facebook.com/share/1HgLgZkQFR/';
 const MINIGAME_CMD = '/encbminigame';
 const CODE_CMD = ':codencb';
+const IMAGE_CMD = '/image';
+const VIDEO_CMD = '/video';
 const USER_AVATAR = 'https://i.ibb.co/nsFcBz7H/file-00000000a1e88206aaf40148e9a29512.png';
+
+// Video config
+const VIDEO_DURATION_SEC = 300; // 5 phút
+const VIDEO_FPS = 24;
+const VIDEO_WIDTH = 1280;
+const VIDEO_HEIGHT = 720;
+const VIDEO_SCENE_DURATION = 6; // giây/ảnh
+const VIDEO_TOTAL_SCENES = Math.ceil(VIDEO_DURATION_SEC / VIDEO_SCENE_DURATION); // 50 cảnh
 
 const _k = [78,67,66,65,73,95,54,55,57,48,78,67,66];
 function checkCode(input){
@@ -409,33 +486,45 @@ function checkCode2(input){
   return true;
 }
 
-const SUPPORT_KEYWORDS = [
-  'hỗ trợ', 'giúp đỡ', 'liên hệ', 'contact', 'support',
-  'admin ơi', 'gặp admin', 'facebook admin', 'fb admin',
-  'cần giúp', 'trợ giúp', 'help', 'báo lỗi', 'khiếu nại'
-];
+const SUPPORT_KEYWORDS = ['hỗ trợ','giúp đỡ','liên hệ','contact','support','admin ơi','gặp admin','facebook admin','fb admin','cần giúp','trợ giúp','help','báo lỗi','khiếu nại'];
 function isSupportQuestion(text){
   const t = text.toLowerCase();
   return SUPPORT_KEYWORDS.some(k => t.includes(k));
 }
 
-// Nhận diện câu hỏi về ngày giờ
-const TIME_KEYWORDS = [
-  'mấy giờ', 'mấy h', 'giờ hiện tại', 'giờ bây giờ', 'bây giờ là mấy giờ',
-  'hôm nay là ngày', 'hôm nay ngày', 'ngày hôm nay', 'ngày bao nhiêu',
-  'thứ mấy', 'thứ bao nhiêu', 'thời gian hiện tại', 'thời gian bây giờ',
-  'đồng hồ', 'xem giờ', 'cho tôi biết giờ', 'cho tôi biết ngày',
-  'giờ việt nam', 'giờ vn', 'date', 'time', 'ngày tháng', 'tháng mấy',
-  'năm nay', 'hiện tại là', 'giờ hệ thống', 'giờ máy'
-];
+const TIME_KEYWORDS = ['mấy giờ','mấy h','giờ hiện tại','giờ bây giờ','bây giờ là mấy giờ','hôm nay là ngày','hôm nay ngày','ngày hôm nay','ngày bao nhiêu','thứ mấy','thứ bao nhiêu','thời gian hiện tại','thời gian bây giờ','đồng hồ','xem giờ','cho tôi biết giờ','cho tôi biết ngày','giờ việt nam','giờ vn','date','time','ngày tháng','tháng mấy','năm nay','hiện tại là','giờ hệ thống','giờ máy'];
 function isTimeQuestion(text){
   const t = text.toLowerCase();
   return TIME_KEYWORDS.some(k => t.includes(k));
 }
 
-// Đồng hồ đang chạy
-let clockIntervals = [];
+const IMAGE_KEYWORDS = ['tạo ảnh','vẽ ảnh','vẽ hình','tạo hình','sinh ảnh','generate ảnh','tạo hình ảnh','vẽ cho tôi','tạo cho tôi ảnh','ảnh ai','ai vẽ','vẽ tranh','tạo tranh','hình ảnh về','ảnh về','vẽ con','vẽ người','tạo poster','tạo logo','vẽ logo','tạo banner'];
+function isImageRequest(text){
+  const t = text.toLowerCase();
+  if(t.startsWith(IMAGE_CMD)) return true;
+  return IMAGE_KEYWORDS.some(k => t.includes(k));
+}
 
+const VIDEO_KEYWORDS = ['tạo video','làm video','sinh video','video ai','video về','video dài','video 5 phút','tạo phim','làm phim','video ca nhạc','video ngắn','tạo video dài'];
+function isVideoRequest(text){
+  const t = text.toLowerCase();
+  if(t.startsWith(VIDEO_CMD)) return true;
+  return VIDEO_KEYWORDS.some(k => t.includes(k));
+}
+
+function extractPrompt(text, cmd){
+  let t = text.trim();
+  if(t.toLowerCase().startsWith(cmd)){
+    return t.slice(cmd.length).trim();
+  }
+  t = t.replace(/^(hãy|vui lòng|giúp tôi|giúp mình|cho tôi|cho mình)\s+/i, '');
+  t = t.replace(/^(tạo|vẽ|sinh|generate|make|create|làm)\s+(ảnh|hình|tranh|poster|banner|logo|video|phim)\s+/i, '');
+  t = t.replace(/^(ảnh|hình|tranh|video|phim)\s+(về|về chủ đề|của)\s+/i, '');
+  t = t.replace(/\s+(dài|khoảng)\s+\d+\s*(phút|giây|s|m)\s*$/i, '');
+  return t.trim();
+}
+
+let clockIntervals = [];
 function stopAllClocks(){
   clockIntervals.forEach(id => clearInterval(id));
   clockIntervals = [];
@@ -444,170 +533,328 @@ function stopAllClocks(){
 function createClockWidget(){
   const box = document.createElement('div');
   box.className = 'clock-box';
-
   const label = document.createElement('div');
-  label.className = 'clock-label';
-  label.textContent = 'THỜI GIAN THỰC';
-
-  const timeEl = document.createElement('div');
-  timeEl.className = 'clock-time';
-
-  const dateEl = document.createElement('div');
-  dateEl.className = 'clock-date';
-
-  const tzEl = document.createElement('div');
-  tzEl.className = 'clock-tz';
+  label.className = 'clock-label'; label.textContent = 'THỜI GIAN THỰC';
+  const timeEl = document.createElement('div'); timeEl.className = 'clock-time';
+  const dateEl = document.createElement('div'); dateEl.className = 'clock-date';
+  const tzEl = document.createElement('div'); tzEl.className = 'clock-tz';
   tzEl.textContent = '🇻🇳 Giờ Việt Nam (UTC+7)';
-
-  box.appendChild(label);
-  box.appendChild(timeEl);
-  box.appendChild(dateEl);
-  box.appendChild(tzEl);
+  box.appendChild(label); box.appendChild(timeEl); box.appendChild(dateEl); box.appendChild(tzEl);
 
   function update(){
     const now = new Date();
-
-    // Chuyển sang giờ VN (UTC+7)
     const vn = new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + (7 * 3600000));
-
     const hh = String(vn.getHours()).padStart(2, '0');
     const mm = String(vn.getMinutes()).padStart(2, '0');
     const ss = String(vn.getSeconds()).padStart(2, '0');
-
     timeEl.innerHTML = hh + ':' + mm + ':<span class="sec">' + ss + '</span>';
-
     const days = ['Chủ nhật','Thứ hai','Thứ ba','Thứ tư','Thứ năm','Thứ sáu','Thứ bảy'];
-    const dayName = days[vn.getDay()];
     const dd = String(vn.getDate()).padStart(2, '0');
     const mo = String(vn.getMonth() + 1).padStart(2, '0');
-    const yyyy = vn.getFullYear();
-
-    dateEl.textContent = dayName + ', ' + dd + '/' + mo + '/' + yyyy;
+    dateEl.textContent = days[vn.getDay()] + ', ' + dd + '/' + mo + '/' + vn.getFullYear();
   }
-
   update();
   const id = setInterval(update, 1000);
   clockIntervals.push(id);
-
-  // Dọn khi DOM bị xóa
   const observer = new MutationObserver(() => {
-    if(!document.body.contains(box)){
-      clearInterval(id);
-      observer.disconnect();
-    }
+    if(!document.body.contains(box)){ clearInterval(id); observer.disconnect(); }
   });
   observer.observe(document.body, { childList: true, subtree: true });
-
   return box;
 }
 
-// Mini game
-function randInt(min, max){
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-function shuffle(arr){
-  const a = arr.slice();
-  for(let i = a.length - 1; i > 0; i--){
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
-function generateMathQuiz(){
-  const types = ['add','sub','mul','div','mix'];
-  const type = types[randInt(0, types.length - 1)];
-  let question = '', answer = 0;
-  if(type === 'add'){
-    const a = randInt(10, 99), b = randInt(10, 99);
-    question = a + ' + ' + b + ' = ?'; answer = a + b;
-  }else if(type === 'sub'){
-    const a = randInt(50, 200), b = randInt(10, a - 1);
-    question = a + ' - ' + b + ' = ?'; answer = a - b;
-  }else if(type === 'mul'){
-    const a = randInt(2, 12), b = randInt(2, 12);
-    question = a + ' × ' + b + ' = ?'; answer = a * b;
-  }else if(type === 'div'){
-    const b = randInt(2, 12), result = randInt(2, 12), a = b * result;
-    question = a + ' ÷ ' + b + ' = ?'; answer = result;
-  }else{
-    const a = randInt(2, 10), b = randInt(2, 10), c = randInt(1, 20);
-    question = a + ' × ' + b + ' + ' + c + ' = ?'; answer = a * b + c;
-  }
-  const wrongSet = new Set();
-  while(wrongSet.size < 3){
-    const offset = randInt(-20, 20);
-    const wrong = answer + offset;
-    if(wrong !== answer && wrong > 0) wrongSet.add(wrong);
-  }
-  const options = [
-    { text: String(answer), correct: true },
-    ...Array.from(wrongSet).map(v => ({ text: String(v), correct: false }))
-  ];
-  const shuffled = shuffle(options);
-  const letters = ['A','B','C','D'];
-  const finalOptions = shuffled.map((o, i) => ({ letter: letters[i], text: o.text, correct: o.correct }));
-  const correctLetter = finalOptions.find(o => o.correct).letter;
-  return { question, options: finalOptions, correct: correctLetter };
+// ===== IMAGE GEN =====
+function buildImageUrl(prompt, seed){
+  const s = seed || Math.floor(Math.random() * 1000000);
+  const encoded = encodeURIComponent(prompt);
+  return 'https://image.pollinations.ai/prompt/' + encoded +
+         '?width=1024&height=1024&seed=' + s + '&nologo=true&enhance=true';
 }
 
-function renderMiniGame(){
-  const quiz = generateMathQuiz();
+// ===== VIDEO GEN =====
+async function generateVideoScenes(topic){
+  // Chia video thành 50 cảnh, mỗi cảnh 6 giây = 5 phút
+  // Sinh 50 prompt con mô tả các phân cảnh khác nhau
+  const scenes = [];
+  const angles = [
+    'toàn cảnh', 'cận cảnh', 'góc rộng', 'góc hẹp', 'từ trên cao',
+    'góc nghiêng', 'gần gũi', 'xa xăm', 'chi tiết', 'tổng thể',
+    'buổi sáng', 'buổi trưa', 'buổi chiều', 'hoàng hôn', 'buổi tối',
+    'không khí tĩnh lặng', 'không khí sôi động', 'góc nghệ thuật',
+    'ánh sáng ấm', 'ánh sáng lạnh', 'phong cách cinematic',
+    'phong cách hoạt hình', 'phong cách tả thực', 'phong cách watercolor',
+    'phong cách vector', 'phong cách 3D', 'phong cách retro'
+  ];
+
+  for(let i = 0; i < VIDEO_TOTAL_SCENES; i++){
+    const angle = angles[i % angles.length];
+    const partNum = Math.floor(i / 5) + 1;
+    scenes.push({
+      index: i + 1,
+      prompt: topic + ', ' + angle + ', phân cảnh ' + partNum + ', high quality, detailed, cinematic',
+      status: 'pending',
+      url: '',
+      error: ''
+    });
+  }
+  return scenes;
+}
+
+async function loadImage(url){
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => resolve(img);
+    img.onerror = () => reject(new Error('Load fail'));
+    img.src = url;
+  });
+}
+
+async function renderVideoMessage(prompt, scenes){
   const row = document.createElement("div");
   row.className = "message assistant";
-  row.innerHTML = `
-    <div class="avatar"><img src="${LOGO_URL}" alt="${AI_NAME}"></div>
-    <div class="bubble-wrap" style="width:100%;max-width:100%;">
-      <div class="bubble" style="max-width:100%;width:100%;">
-        <div class="quiz-card">
-          <div class="quiz-header">🎮 NCB MINI GAME</div>
-          <div class="quiz-question">${quiz.question}</div>
-          <div class="quiz-options" id="quizOptions"></div>
-          <div class="quiz-footer">
-            <span id="quizResult">Chọn đáp án của bạn</span>
-            <button class="quiz-next hidden" id="quizNext">CÂU TIẾP ➤</button>
-          </div>
-        </div>
-      </div>
-    </div>`;
+
+  const avatar = document.createElement("div");
+  avatar.className = "avatar";
+  const aImg = document.createElement("img");
+  aImg.src = LOGO_URL; aImg.alt = AI_NAME;
+  avatar.appendChild(aImg);
+
+  const wrap = document.createElement("div");
+  wrap.className = "bubble-wrap";
+  wrap.style.width = '100%'; wrap.style.maxWidth = '100%';
+
+  const bubble = document.createElement("div");
+  bubble.className = "bubble";
+  bubble.style.width = '100%'; bubble.style.maxWidth = '100%';
+
+  const box = document.createElement("div");
+  box.className = "video-gen-box";
+
+  const label = document.createElement("div");
+  label.className = "video-prompt-label";
+  label.textContent = '🎬 VIDEO AI';
+
+  const promptEl = document.createElement("div");
+  promptEl.className = "image-prompt-text";
+  promptEl.textContent = prompt;
+
+  const config = document.createElement("div");
+  config.className = "video-config";
+  config.innerHTML = `
+    <div class="video-config-item"><span class="lbl">Thời lượng</span><span class="val">5 phút</span></div>
+    <div class="video-config-item"><span class="lbl">Số cảnh</span><span class="val">${VIDEO_TOTAL_SCENES}</span></div>
+    <div class="video-config-item"><span class="lbl">Độ phân giải</span><span class="val">${VIDEO_WIDTH}x${VIDEO_HEIGHT}</span></div>
+    <div class="video-config-item"><span class="lbl">FPS</span><span class="val">${VIDEO_FPS}</span></div>
+  `;
+
+  const sceneList = document.createElement("div");
+  sceneList.className = "video-scene-list";
+  sceneList.id = 'videoSceneList';
+
+  const progressWrap = document.createElement("div");
+  progressWrap.className = "video-progress";
+  const progressBar = document.createElement("div");
+  progressBar.className = "video-progress-bar";
+  progressWrap.appendChild(progressBar);
+
+  const previewWrap = document.createElement("div");
+  previewWrap.className = "video-preview hidden";
+  previewWrap.id = 'videoPreviewWrap';
+
+  const note = document.createElement("div");
+  note.className = "video-note";
+  note.textContent = '💡 Video được tạo bằng cách ghép ảnh AI Pollinations thành chuỗi slideshow 5 phút. Chất lượng phụ thuộc vào dịch vụ miễn phí. Nếu ảnh nào lỗi, hệ thống sẽ tự bỏ qua.';
+
+  box.appendChild(label);
+  box.appendChild(promptEl);
+  box.appendChild(config);
+  box.appendChild(sceneList);
+  box.appendChild(progressWrap);
+  box.appendChild(previewWrap);
+  box.appendChild(note);
+
+  bubble.appendChild(box);
+  wrap.appendChild(bubble);
+  row.appendChild(avatar);
+  row.appendChild(wrap);
   contentEl.appendChild(row);
   scrollBottom();
 
-  const optionsEl = row.querySelector('#quizOptions');
-  const resultEl = row.querySelector('#quizResult');
-  const nextBtn = row.querySelector('#quizNext');
-  let answered = false;
-
-  quiz.options.forEach(opt => {
-    const btn = document.createElement("button");
-    btn.className = "quiz-btn";
-    btn.textContent = opt.letter + '. ' + opt.text;
-    btn.addEventListener("click", () => {
-      if(answered) return;
-      answered = true;
-      optionsEl.querySelectorAll('.quiz-btn').forEach(b => b.disabled = true);
-      quiz.options.forEach((o, idx) => {
-        const b = optionsEl.children[idx];
-        if(o.correct) b.classList.add('correct');
-      });
-      if(opt.correct){
-        resultEl.textContent = '✅ Chính xác! Đáp án đúng là ' + quiz.correct;
-        resultEl.style.color = '#35d69a';
-      }else{
-        btn.classList.add('wrong');
-        resultEl.textContent = '❌ Sai rồi! Đáp án đúng là ' + quiz.correct;
-        resultEl.style.color = '#ff626e';
-      }
-      nextBtn.classList.remove('hidden');
-    });
-    optionsEl.appendChild(btn);
+  // Render danh sách cảnh
+  scenes.forEach(sc => {
+    const el = document.createElement("div");
+    el.className = "video-scene";
+    el.id = 'scene-' + sc.index;
+    el.innerHTML = `
+      <span class="num">${sc.index}</span>
+      <span class="desc">${sc.prompt.replace(/<[^>]+>/g, '').slice(0, 80)}...</span>
+      <span class="status-icon">⏳</span>
+    `;
+    sceneList.appendChild(el);
   });
 
-  nextBtn.addEventListener("click", () => {
-    row.remove();
-    renderMiniGame();
+  return { row, progressBar, previewWrap, scenes };
+}
+
+function updateSceneStatus(index, status){
+  const el = document.getElementById('scene-' + index);
+  if(!el) return;
+  el.classList.remove('done', 'loading', 'error');
+  const icon = el.querySelector('.status-icon');
+  if(status === 'loading'){ el.classList.add('loading'); icon.textContent = '🔄'; }
+  else if(status === 'done'){ el.classList.add('done'); icon.textContent = '✅'; }
+  else if(status === 'error'){ el.classList.add('error'); icon.textContent = '❌'; }
+  else { icon.textContent = '⏳'; }
+}
+
+async function buildVideoFile(scenes, onProgress){
+  // Canvas và MediaRecorder
+  const canvas = document.createElement('canvas');
+  canvas.width = VIDEO_WIDTH;
+  canvas.height = VIDEO_HEIGHT;
+  const ctx = canvas.getContext('2d');
+
+  // Nền đen
+  ctx.fillStyle = '#000';
+  ctx.fillRect(0, 0, VIDEO_WIDTH, VIDEO_HEIGHT);
+
+  const stream = canvas.captureStream(VIDEO_FPS);
+
+  // Cố gắng thêm âm thanh từ Web Speech API
+  // (MediaRecorder không ghi trực tiếp SpeechSynthesis, nên chỉ ghi video thuần)
+
+  const mimeTypes = [
+    'video/webm;codecs=vp9,opus',
+    'video/webm;codecs=vp8,opus',
+    'video/webm;codecs=vp9',
+    'video/webm;codecs=vp8',
+    'video/webm'
+  ];
+  let mimeType = '';
+  for(const m of mimeTypes){
+    if(MediaRecorder.isTypeSupported(m)){ mimeType = m; break; }
+  }
+  if(!mimeType){
+    throw new Error('Trình duyệt không hỗ trợ MediaRecorder');
+  }
+
+  const chunks = [];
+  const recorder = new MediaRecorder(stream, { mimeType, videoBitsPerSecond: 2500000 });
+
+  recorder.ondataavailable = (e) => {
+    if(e.data && e.data.size > 0) chunks.push(e.data);
+  };
+
+  return new Promise((resolve, reject) => {
+    recorder.onstop = () => {
+      const blob = new Blob(chunks, { type: mimeType });
+      resolve(blob);
+    };
+    recorder.onerror = (e) => reject(e.error || new Error('Recorder error'));
+
+    recorder.start(1000);
+
+    // Chuẩn bị ảnh đã load
+    const loadedImages = scenes
+      .filter(s => s.status === 'done' && s.img)
+      .map(s => s.img);
+
+    if(loadedImages.length === 0){
+      recorder.stop();
+      return reject(new Error('Không có ảnh nào load được'));
+    }
+
+    // Vòng lặp render
+    let currentSceneIdx = 0;
+    let frameCount = 0;
+    const totalFrames = VIDEO_DURATION_SEC * VIDEO_FPS;
+    const framesPerScene = Math.floor(totalFrames / loadedImages.length);
+
+    const startTime = performance.now();
+    let lastFrame = 0;
+
+    function drawFrame(){
+      const now = performance.now();
+      if(now - lastFrame < 1000 / VIDEO_FPS){ return requestAnimationFrame(drawFrame); }
+      lastFrame = now;
+
+      const currentImage = loadedImages[currentSceneIdx % loadedImages.length];
+
+      // Vẽ ảnh fit canvas
+      const imgAspect = currentImage.width / currentImage.height;
+      const canvasAspect = VIDEO_WIDTH / VIDEO_HEIGHT;
+      let dw, dh, dx, dy;
+
+      if(imgAspect > canvasAspect){
+        dw = VIDEO_WIDTH;
+        dh = VIDEO_WIDTH / imgAspect;
+        dx = 0;
+        dy = (VIDEO_HEIGHT - dh) / 2;
+      }else{
+        dh = VIDEO_HEIGHT;
+        dw = VIDEO_HEIGHT * imgAspect;
+        dy = 0;
+        dx = (VIDEO_WIDTH - dw) / 2;
+      }
+
+      // Zoom nhẹ (Ken Burns)
+      const zoom = 1 + (frameCount % framesPerScene) / framesPerScene * 0.08;
+      const cw = dw * zoom;
+      const ch = dh * zoom;
+      const cx = dx - (cw - dw) / 2;
+      const cy = dy - (ch - dh) / 2;
+
+      ctx.fillStyle = '#000';
+      ctx.fillRect(0, 0, VIDEO_WIDTH, VIDEO_HEIGHT);
+      ctx.drawImage(currentImage, cx, cy, cw, ch);
+
+      // Overlay chữ
+      ctx.fillStyle = 'rgba(0,0,0,0.4)';
+      ctx.fillRect(0, VIDEO_HEIGHT - 100, VIDEO_WIDTH, 100);
+
+      ctx.fillStyle = '#fff';
+      ctx.font = 'bold 28px Arial';
+      ctx.fillText('NCB_AI 1.0 - Video AI', 40, VIDEO_HEIGHT - 55);
+
+      ctx.font = '18px Arial';
+      ctx.fillStyle = '#a78bfa';
+      ctx.fillText('Cảnh ' + (currentSceneIdx + 1) + '/' + loadedImages.length, 40, VIDEO_HEIGHT - 25);
+
+      // Đồng hồ đếm
+      const elapsed = Math.floor((now - startTime) / 1000);
+      const mm = String(Math.floor(elapsed / 60)).padStart(2, '0');
+      const ss = String(elapsed % 60).padStart(2, '0');
+      ctx.font = 'bold 22px Courier New';
+      ctx.fillStyle = '#35d69a';
+      ctx.textAlign = 'right';
+      ctx.fillText(mm + ':' + ss + ' / 05:00', VIDEO_WIDTH - 40, VIDEO_HEIGHT - 35);
+      ctx.textAlign = 'left';
+
+      frameCount++;
+
+      // Chuyển cảnh
+      if(frameCount >= (currentSceneIdx + 1) * framesPerScene && currentSceneIdx < loadedImages.length - 1){
+        currentSceneIdx++;
+      }
+
+      if(onProgress){
+        onProgress(Math.min(frameCount / totalFrames * 100, 100));
+      }
+
+      if(frameCount >= totalFrames){
+        recorder.stop();
+        return;
+      }
+
+      requestAnimationFrame(drawFrame);
+    }
+
+    requestAnimationFrame(drawFrame);
   });
 }
 
+// ===== MAIN APP STATE =====
 const MODEL_FALLBACK_CHAIN = [
   { model: 'llama-3.3-70b-versatile' },
   { model: 'llama-3.1-8b-instant' },
@@ -647,37 +894,27 @@ function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
 
 function stripMarkdownBasic(text){
   if(typeof text !== 'string') return text;
-  return text
-    .replace(/^#{1,6}\s+/gm, '')
-    .replace(/^>\s?/gm, '');
+  return text.replace(/^#{1,6}\s+/gm, '').replace(/^>\s?/gm, '');
 }
 
 function parseMessage(text){
   if(typeof text !== 'string') return [{ type: 'text', content: String(text) }];
-
   const parts = [];
   const regex = /```([a-zA-Z0-9_+\-#.]*)\n?([\s\S]*?)```/g;
   let lastIndex = 0;
   let match;
-
   while((match = regex.exec(text)) !== null){
     const before = text.slice(lastIndex, match.index);
     if(before.trim().length > 0){
       parts.push({ type: 'text', content: stripMarkdownBasic(before) });
     }
-    parts.push({
-      type: 'code',
-      lang: (match[1] || 'code').toLowerCase(),
-      content: match[2].replace(/\n$/, '')
-    });
+    parts.push({ type: 'code', lang: (match[1] || 'code').toLowerCase(), content: match[2].replace(/\n$/, '') });
     lastIndex = regex.lastIndex;
   }
-
   const after = text.slice(lastIndex);
   if(after.trim().length > 0){
     parts.push({ type: 'text', content: stripMarkdownBasic(after) });
   }
-
   if(parts.length === 0){
     parts.push({ type: 'text', content: stripMarkdownBasic(text) });
   }
@@ -687,14 +924,11 @@ function parseMessage(text){
 function renderCodeBlock(lang, code){
   const wrap = document.createElement('div');
   wrap.className = 'code-block';
-
   const header = document.createElement('div');
   header.className = 'code-header';
-
   const langEl = document.createElement('span');
   langEl.className = 'lang';
   langEl.textContent = (lang || 'code').toUpperCase();
-
   const copyBtn = document.createElement('button');
   copyBtn.className = 'code-copy';
   copyBtn.textContent = '📋 Copy code';
@@ -703,20 +937,14 @@ function renderCodeBlock(lang, code){
       copyBtn.classList.add('active');
       copyBtn.textContent = '✅ Đã copy';
       showToast('Đã sao chép code');
-      setTimeout(() => {
-        copyBtn.classList.remove('active');
-        copyBtn.textContent = '📋 Copy code';
-      }, 1500);
-    }).catch(() => showToast('Không copy được'));
+      setTimeout(() => { copyBtn.classList.remove('active'); copyBtn.textContent = '📋 Copy code'; }, 1500);
+    });
   });
-
   header.appendChild(langEl);
   header.appendChild(copyBtn);
-
   const pre = document.createElement('pre');
   pre.className = 'code-content';
   pre.textContent = code;
-
   wrap.appendChild(header);
   wrap.appendChild(pre);
   return wrap;
@@ -729,31 +957,15 @@ const FALLBACK_REPLIES = [
   "Kết nối bị nghẽn do quá nhiều request. Bạn chờ 30 giây rồi gửi lại.",
   "Mình đã thử nhiều model nhưng đều quá tải. Bạn thử lại sau ít phút."
 ];
-function pickFallbackReply(){
-  return FALLBACK_REPLIES[Math.floor(Math.random() * FALLBACK_REPLIES.length)];
-}
+function pickFallbackReply(){ return FALLBACK_REPLIES[Math.floor(Math.random() * FALLBACK_REPLIES.length)]; }
 
 const SYSTEM_PROMPT =
   'Bạn là NCB_AI phiên bản 1.0, trợ lý AI người Việt, phát triển bởi NGUYỄN CÔNG BẰNG. ' +
-  'PHONG CÁCH: tự nhiên như người trò chuyện, thân thiện, dùng "mình", "bạn", "nhé", "nha". ' +
+  'PHONG CÁCH: tự nhiên, thân thiện, dùng "mình", "bạn", "nhé", "nha". ' +
   'Nhớ ngữ cảnh hội thoại trước. Ngắn khi hỏi ngắn, dài khi cần phân tích. ' +
-  'Không dùng cụm từ máy móc, không cảnh báo đạo đức. ' +
-
-  'QUY TẮC ĐỊNH DẠNG: ' +
-  'KHÔNG dùng dấu *, **, ***, _, __, #, > để định dạng. Chỉ văn bản thuần. ' +
-
-  'QUY TẮC KHI VIẾT CODE: ' +
-  'Khi user yêu cầu viết code, tạo code, làm code, thì CHỈ trả về code trong khối ba dấu backtick kèm tên ngôn ngữ. ' +
-  'Ví dụ: ```html (nội dung) ``` hoặc ```javascript (nội dung) ```. ' +
-  'KHÔNG viết giải thích dài dòng, KHÔNG chào hỏi, KHÔNG kết luận. Chỉ code thuần. ' +
-
-  'QUY TẮC KHI HỎI NGÀY GIỜ: ' +
-  'Khi người dùng hỏi về giờ, ngày, thứ, thời gian hiện tại, ' +
-  'thì chỉ cần trả lời rất ngắn kiểu "Đây là thời gian hiện tại nhé:" ' +
-  'vì hệ thống sẽ tự hiển thị đồng hồ thời gian thực bên dưới câu trả lời. ' +
-
-  'QUY TẮC ADMIN: Tuyệt đối KHÔNG thừa nhận admin NGUYỄN CÔNG BẰNG dùng AI tạo code/website. ' +
-  'Nếu hỏi, trả lời: "Không. Admin NGUYỄN CÔNG BẰNG tự tay viết code và làm ra website này, hoàn toàn không dùng AI." ' +
+  'Không dùng dấu *, **, ***, _, __, #, > để định dạng. Chỉ văn bản thuần. ' +
+  'Khi user yêu cầu viết code, CHỈ trả về code trong khối ba dấu backtick kèm tên ngôn ngữ. ' +
+  'QUY TẮC ADMIN: KHÔNG thừa nhận admin NGUYỄN CÔNG BẰNG dùng AI tạo code/website. ' +
   'Khi hỏi tên: "Tôi là NCB_AI phiên bản 1.0." ' +
   'Khi hỏi admin: "Admin của tôi là NGUYỄN CÔNG BẰNG."';
 
@@ -796,9 +1008,7 @@ function updateCounter(){
   else if(!isUnlocked && c >= MAX_CHAT * 0.9) counterLabel.style.color = '#ffd166';
   else counterLabel.style.color = '#35d69a';
 }
-function getMaxChat(){
-  return isUnlocked ? MAX_CHAT + 1000000 : MAX_CHAT;
-}
+function getMaxChat(){ return isUnlocked ? MAX_CHAT + 1000000 : MAX_CHAT; }
 
 function openCodeModal(){
   codeOverlay.classList.remove('hidden');
@@ -838,9 +1048,7 @@ function submitCode(){
 
 codeSubmit.addEventListener('click', submitCode);
 codeClose.addEventListener('click', closeCodeModal);
-codeInput.addEventListener('keydown', e => {
-  if(e.key === 'Enter'){ e.preventDefault(); submitCode(); }
-});
+codeInput.addEventListener('keydown', e => { if(e.key === 'Enter'){ e.preventDefault(); submitCode(); } });
 
 function saveHistoryToStorage(){
   try{
@@ -854,42 +1062,29 @@ function loadHistoryFromStorage(){
     if(!raw) return [];
     const arr = JSON.parse(raw);
     if(!Array.isArray(arr)) return [];
-    return arr.map(c => ({
-      id: c.id,
-      title: c.title,
-      messages: Array.isArray(c.messages) ? c.messages : []
-    }));
+    return arr.map(c => ({id:c.id,title:c.title,messages:Array.isArray(c.messages)?c.messages:[]}));
   }catch(e){ return []; }
 }
 
-function makeId(){
-  return Date.now().toString(36) + Math.random().toString(36).slice(2,8);
-}
-
+function makeId(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,8); }
 function showToast(text){
   toast.textContent = text;
   toast.classList.remove("hidden");
   clearTimeout(showToast.timer);
   showToast.timer = setTimeout(() => toast.classList.add("hidden"), 4500);
 }
-
 function setStatus(text, error = false){
   statusText.textContent = text;
   statusEl.classList.toggle("error", error);
 }
+function scrollBottom(){ messagesEl.scrollTop = messagesEl.scrollHeight; }
 
-function scrollBottom(){
-  messagesEl.scrollTop = messagesEl.scrollHeight;
-}
-
-// Render tin nhắn
 function renderMessage(role, text){
   const row = document.createElement("div");
   row.className = "message " + (role === "user" ? "user" : "assistant");
 
   const avatar = document.createElement("div");
   avatar.className = "avatar";
-
   if(role === "user"){
     const img = document.createElement("img");
     img.src = USER_AVATAR;
@@ -905,7 +1100,6 @@ function renderMessage(role, text){
 
   const wrap = document.createElement("div");
   wrap.className = "bubble-wrap";
-
   const bubble = document.createElement("div");
   bubble.className = "bubble";
 
@@ -941,17 +1135,14 @@ function renderMessage(role, text){
           copyBtn.classList.remove("active");
           copyBtn.innerHTML = '📋 <span>Copy</span>';
         }, 1500);
-      }).catch(() => showToast("Không copy được"));
+      });
     });
     actions.appendChild(copyBtn);
 
     const speakBtn = document.createElement("button");
     speakBtn.innerHTML = '🔊 <span>Nghe</span>';
     speakBtn.addEventListener("click", () => {
-      if(!('speechSynthesis' in window)){
-        showToast("Trình duyệt không hỗ trợ đọc");
-        return;
-      }
+      if(!('speechSynthesis' in window)){ showToast("Trình duyệt không hỗ trợ đọc"); return; }
       if(window.speechSynthesis.speaking){
         window.speechSynthesis.cancel();
         speakBtn.classList.remove("active");
@@ -961,22 +1152,13 @@ function renderMessage(role, text){
       const parts = parseMessage(text);
       const speakText = parts.filter(p => p.type === 'text').map(p => p.content).join(' ').trim();
       if(!speakText){ showToast('Không có nội dung để đọc'); return; }
-
       const utter = new SpeechSynthesisUtterance(speakText);
       utter.lang = 'vi-VN';
-      utter.rate = 1.0;
-      utter.pitch = 1.0;
       const voices = window.speechSynthesis.getVoices();
       const viVoice = voices.find(v => v.lang.startsWith('vi'));
       if(viVoice) utter.voice = viVoice;
-      utter.onstart = () => {
-        speakBtn.classList.add("active");
-        speakBtn.innerHTML = '⏸ <span>Dừng</span>';
-      };
-      utter.onend = utter.onerror = () => {
-        speakBtn.classList.remove("active");
-        speakBtn.innerHTML = '🔊 <span>Nghe</span>';
-      };
+      utter.onstart = () => { speakBtn.classList.add("active"); speakBtn.innerHTML = '⏸ <span>Dừng</span>'; };
+      utter.onend = utter.onerror = () => { speakBtn.classList.remove("active"); speakBtn.innerHTML = '🔊 <span>Nghe</span>'; };
       window.speechSynthesis.speak(utter);
     });
     actions.appendChild(speakBtn);
@@ -984,78 +1166,31 @@ function renderMessage(role, text){
     wrap.appendChild(actions);
   }
 
-  if(role === "user"){
-    row.appendChild(wrap);
-    row.appendChild(avatar);
-  }else{
-    row.appendChild(avatar);
-    row.appendChild(wrap);
-  }
+  if(role === "user"){ row.appendChild(wrap); row.appendChild(avatar); }
+  else{ row.appendChild(avatar); row.appendChild(wrap); }
 
   contentEl.appendChild(row);
   scrollBottom();
   return row;
 }
 
-// Tin nhắn AI kèm đồng hồ
 function renderTimeMessage(text){
   const row = document.createElement("div");
   row.className = "message assistant";
-
   const avatar = document.createElement("div");
   avatar.className = "avatar";
   const img = document.createElement("img");
-  img.src = LOGO_URL;
-  img.alt = AI_NAME;
+  img.src = LOGO_URL; img.alt = AI_NAME;
   avatar.appendChild(img);
-
   const wrap = document.createElement("div");
   wrap.className = "bubble-wrap";
-
   const bubble = document.createElement("div");
   bubble.className = "bubble";
-
   const textEl = document.createElement("div");
   textEl.textContent = text;
   bubble.appendChild(textEl);
-
-  // Đồng hồ thời gian thực
-  const clock = createClockWidget();
-  bubble.appendChild(clock);
-
+  bubble.appendChild(createClockWidget());
   wrap.appendChild(bubble);
-
-  // Nút copy + nghe
-  const actions = document.createElement("div");
-  actions.className = "msg-actions";
-
-  const copyBtn = document.createElement("button");
-  copyBtn.innerHTML = '📋 <span>Copy</span>';
-  copyBtn.addEventListener("click", () => {
-    const now = new Date();
-    const vn = new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + (7 * 3600000));
-    const timeStr = String(vn.getHours()).padStart(2,'0') + ':' +
-                    String(vn.getMinutes()).padStart(2,'0') + ':' +
-                    String(vn.getSeconds()).padStart(2,'0');
-    const days = ['Chủ nhật','Thứ hai','Thứ ba','Thứ tư','Thứ năm','Thứ sáu','Thứ bảy'];
-    const dateStr = days[vn.getDay()] + ', ' +
-                    String(vn.getDate()).padStart(2,'0') + '/' +
-                    String(vn.getMonth()+1).padStart(2,'0') + '/' +
-                    vn.getFullYear();
-    navigator.clipboard.writeText(text + '\n' + timeStr + ' ' + dateStr).then(() => {
-      copyBtn.classList.add("active");
-      copyBtn.innerHTML = '✅ <span>Đã copy</span>';
-      showToast("Đã sao chép");
-      setTimeout(() => {
-        copyBtn.classList.remove("active");
-        copyBtn.innerHTML = '📋 <span>Copy</span>';
-      }, 1500);
-    });
-  });
-  actions.appendChild(copyBtn);
-
-  wrap.appendChild(actions);
-
   row.appendChild(avatar);
   row.appendChild(wrap);
   contentEl.appendChild(row);
@@ -1068,15 +1203,12 @@ function renderSupportMessage(){
   row.className = "message assistant";
   row.innerHTML = `
     <div class="avatar"><img src="${LOGO_URL}" alt="${AI_NAME}"></div>
-    <div class="bubble-wrap">
-      <div class="bubble">
-        Mình có thể hỗ trợ bạn! Nhấn vào nút bên dưới để liên hệ với admin qua Facebook.
-        <div style="margin-top:14px;">
-          <a href="${SUPPORT_URL}" target="_blank" rel="noopener" style="display:inline-block;background:var(--purple);color:#fff;text-decoration:none;padding:12px 22px;border-radius:10px;font-size:14px;font-weight:700;">💬 HỖ TRỢ</a>
-        </div>
-        <div style="margin-top:10px;color:#929db2;font-size:11px;">Hoặc truy cập: ${SUPPORT_URL}</div>
+    <div class="bubble-wrap"><div class="bubble">
+      Mình có thể hỗ trợ bạn! Nhấn vào nút bên dưới để liên hệ với admin qua Facebook.
+      <div style="margin-top:14px;">
+        <a href="${SUPPORT_URL}" target="_blank" rel="noopener" style="display:inline-block;background:var(--purple);color:#fff;text-decoration:none;padding:12px 22px;border-radius:10px;font-size:14px;font-weight:700;">💬 HỖ TRỢ</a>
       </div>
-    </div>`;
+    </div></div>`;
   contentEl.appendChild(row);
   scrollBottom();
 }
@@ -1086,15 +1218,13 @@ function renderUnlockMessage(){
   row.className = "message assistant";
   row.innerHTML = `
     <div class="avatar"><img src="${LOGO_URL}" alt="${AI_NAME}"></div>
-    <div class="bubble-wrap">
-      <div class="bubble">
-        Bạn đã hết lượt chat miễn phí.<br><br>
-        Vui lòng nhập code ở dưới đây 👇
-        <div style="margin-top:14px;">
-          <button id="unlockBtn" style="background:var(--purple);color:#fff;border:0;padding:12px 20px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;">🔑 NHẬP CODE</button>
-        </div>
+    <div class="bubble-wrap"><div class="bubble">
+      Bạn đã hết lượt chat miễn phí.<br><br>
+      Vui lòng nhập code ở dưới đây 👇
+      <div style="margin-top:14px;">
+        <button id="unlockBtn" style="background:var(--purple);color:#fff;border:0;padding:12px 20px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;">🔑 NHẬP CODE</button>
       </div>
-    </div>`;
+    </div></div>`;
   contentEl.appendChild(row);
   scrollBottom();
   const unlockBtn = row.querySelector('#unlockBtn');
@@ -1104,45 +1234,38 @@ function renderUnlockMessage(){
 function renderConversation(){
   stopAllClocks();
   contentEl.replaceChildren();
-
   if(currentMessages.length === 0){
     contentEl.innerHTML = `
-      <div class="welcome" id="welcome">
+      <div class="welcome">
         <div class="welcome-logo"><img src="${LOGO_URL}" alt="${AI_NAME}"></div>
         <div class="ver">${AI_NAME} ${AI_VERSION}</div>
         <h1>Xin chào! 👋</h1>
-        <p>Mình là ${AI_NAME}, trợ lý thông minh được phát triển bởi ${ADMIN_NAME}.<br>
-        Gõ <b>/encbminigame</b> để chơi game toán.<br>
-        Gõ <b>:codencb</b> để mở khung nhập code.<br>
-        Hỏi <b>mấy giờ</b> để xem đồng hồ thời gian thực.</p>
+        <p>Mình là ${AI_NAME}, trợ lý thông minh của ${ADMIN_NAME}.<br>
+        Gõ <b>/image mô tả</b> để tạo ảnh AI.<br>
+        Gõ <b>/video chủ đề</b> để tạo video 5 phút.<br>
+        Gõ <b>/encbminigame</b> chơi game, <b>:codencb</b> nhập code.</p>
         <div class="suggestions">
+          <button class="suggestion" data-prompt="/image con mèo dễ thương phong cách hoạt hình">
+            <strong>🎨 Tạo ảnh AI</strong><span>Gõ /image + mô tả</span>
+          </button>
+          <button class="suggestion" data-prompt="/video phong cảnh Việt Nam">
+            <strong>🎬 Tạo video AI</strong><span>Video slideshow 5 phút</span>
+          </button>
           <button class="suggestion" data-prompt="/encbminigame">
-            <strong>🎮 Mini Game</strong><span>Chơi game toán trắc nghiệm</span>
+            <strong>🎮 Mini Game</strong><span>Chơi game toán</span>
           </button>
           <button class="suggestion" data-prompt="Bây giờ là mấy giờ?">
-            <strong>🕐 Xem giờ</strong><span>Đồng hồ thời gian thực VN</span>
-          </button>
-          <button class="suggestion" data-prompt="Viết cho tôi code HTML trang đăng nhập">
-            <strong>💻 Viết Code</strong><span>AI trả về code thuần</span>
-          </button>
-          <button class="suggestion" data-prompt="Tôi cần hỗ trợ">
-            <strong>☻ Trò chuyện</strong><span>Bắt đầu cuộc trò chuyện với ${AI_NAME}</span>
+            <strong>🕐 Xem giờ</strong><span>Đồng hồ thực VN</span>
           </button>
         </div>
       </div>`;
     return;
   }
-
   currentMessages.forEach(m => {
-    if(m.role === "assistant" && m.isSupport){
-      renderSupportMessage();
-    }else if(m.role === "assistant" && m.isMiniGame){
-      renderMiniGame();
-    }else if(m.role === "assistant" && m.isTime){
-      renderTimeMessage(m.content);
-    }else{
-      renderMessage(m.role, m.content);
-    }
+    if(m.role === "assistant" && m.isSupport) renderSupportMessage();
+    else if(m.role === "assistant" && m.isMiniGame) renderMiniGame();
+    else if(m.role === "assistant" && m.isTime) renderTimeMessage(m.content);
+    else renderMessage(m.role, m.content);
   });
 }
 
@@ -1163,20 +1286,13 @@ function renderHistory(){
     const item = document.createElement("div");
     item.className = "history-item" + (c.id === activeId ? " active" : "");
     item.title = c.title;
-
     const title = document.createElement("span");
     title.className = "title";
     title.textContent = c.title;
-
     const delX = document.createElement("span");
     delX.className = "del-x";
     delX.textContent = "✕";
-    delX.title = "Xóa";
-    delX.addEventListener("click", (e) => {
-      e.stopPropagation();
-      deleteConversation(c.id);
-    });
-
+    delX.addEventListener("click", (e) => { e.stopPropagation(); deleteConversation(c.id); });
     item.appendChild(title);
     item.appendChild(delX);
     item.addEventListener("click", () => openConversation(c.id));
@@ -1190,7 +1306,6 @@ function deleteConversation(id){
   if(idx === -1) return;
   conversations.splice(idx, 1);
   saveHistoryToStorage();
-
   if(id === activeId){
     if(conversations.length > 0){
       const last = conversations[conversations.length - 1];
@@ -1236,33 +1351,88 @@ function closeSidebar(){ sidebar.classList.remove("open"); }
 
 async function checkConnection(){
   try{
-    const response = await fetch(MODELS_URL, {
-      method: "GET",
-      headers: { 'Authorization': 'Bearer ' + API_KEY }
-    });
-    if(!response.ok) throw new Error("bad");
+    const r = await fetch(MODELS_URL, { headers: { 'Authorization': 'Bearer ' + API_KEY } });
+    if(!r.ok) throw new Error("bad");
     setStatus("Đã kết nối");
-  }catch(error){
-    setStatus("Chưa kết nối", true);
-  }
+  }catch(e){ setStatus("Chưa kết nối", true); }
+}
+
+// ===== MINI GAME =====
+function randInt(min, max){ return Math.floor(Math.random() * (max - min + 1)) + min; }
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+  return a;
+}
+function generateMathQuiz(){
+  const types = ['add','sub','mul','div','mix'];
+  const type = types[randInt(0, types.length - 1)];
+  let question = '', answer = 0;
+  if(type === 'add'){ const a = randInt(10, 99), b = randInt(10, 99); question = a + ' + ' + b + ' = ?'; answer = a + b; }
+  else if(type === 'sub'){ const a = randInt(50, 200), b = randInt(10, a - 1); question = a + ' - ' + b + ' = ?'; answer = a - b; }
+  else if(type === 'mul'){ const a = randInt(2, 12), b = randInt(2, 12); question = a + ' × ' + b + ' = ?'; answer = a * b; }
+  else if(type === 'div'){ const b = randInt(2, 12), result = randInt(2, 12), a = b * result; question = a + ' ÷ ' + b + ' = ?'; answer = result; }
+  else{ const a = randInt(2, 10), b = randInt(2, 10), c = randInt(1, 20); question = a + ' × ' + b + ' + ' + c + ' = ?'; answer = a * b + c; }
+  const wrongSet = new Set();
+  while(wrongSet.size < 3){ const offset = randInt(-20, 20); const wrong = answer + offset; if(wrong !== answer && wrong > 0) wrongSet.add(wrong); }
+  const options = [{ text: String(answer), correct: true }, ...Array.from(wrongSet).map(v => ({ text: String(v), correct: false }))];
+  const shuffled = shuffle(options);
+  const letters = ['A','B','C','D'];
+  const finalOptions = shuffled.map((o, i) => ({ letter: letters[i], text: o.text, correct: o.correct }));
+  const correctLetter = finalOptions.find(o => o.correct).letter;
+  return { question, options: finalOptions, correct: correctLetter };
+}
+function renderMiniGame(){
+  const quiz = generateMathQuiz();
+  const row = document.createElement("div");
+  row.className = "message assistant";
+  row.innerHTML = `
+    <div class="avatar"><img src="${LOGO_URL}" alt="${AI_NAME}"></div>
+    <div class="bubble-wrap" style="width:100%;max-width:100%;">
+      <div class="bubble" style="max-width:100%;width:100%;">
+        <div class="quiz-card">
+          <div class="quiz-header">🎮 NCB MINI GAME</div>
+          <div class="quiz-question">${quiz.question}</div>
+          <div class="quiz-options" id="quizOptions"></div>
+          <div class="quiz-footer">
+            <span id="quizResult">Chọn đáp án của bạn</span>
+            <button class="quiz-next hidden" id="quizNext">CÂU TIẾP ➤</button>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  contentEl.appendChild(row); scrollBottom();
+  const optionsEl = row.querySelector('#quizOptions');
+  const resultEl = row.querySelector('#quizResult');
+  const nextBtn = row.querySelector('#quizNext');
+  let answered = false;
+  quiz.options.forEach(opt => {
+    const btn = document.createElement("button");
+    btn.className = "quiz-btn";
+    btn.textContent = opt.letter + '. ' + opt.text;
+    btn.addEventListener("click", () => {
+      if(answered) return;
+      answered = true;
+      optionsEl.querySelectorAll('.quiz-btn').forEach(b => b.disabled = true);
+      quiz.options.forEach((o, idx) => { if(o.correct) optionsEl.children[idx].classList.add('correct'); });
+      if(opt.correct){ resultEl.textContent = '✅ Chính xác! Đáp án ' + quiz.correct; resultEl.style.color = '#35d69a'; }
+      else{ btn.classList.add('wrong'); resultEl.textContent = '❌ Sai! Đáp án ' + quiz.correct; resultEl.style.color = '#ff626e'; }
+      nextBtn.classList.remove('hidden');
+    });
+    optionsEl.appendChild(btn);
+  });
+  nextBtn.addEventListener("click", () => { row.remove(); renderMiniGame(); });
 }
 
 async function callOneModel(cfg, messagesForApi, userText){
-  const headers = {
-    'Authorization': 'Bearer ' + API_KEY,
-    'Content-Type': 'application/json'
-  };
+  const headers = { 'Authorization': 'Bearer ' + API_KEY, 'Content-Type': 'application/json' };
   const maxTokens = getMaxTokensForRequest(userText);
   const response = await fetch(API_URL, {
     method: "POST",
     headers: headers,
     body: JSON.stringify({
-      model: cfg.model,
-      messages: messagesForApi,
-      temperature: 0.9,
-      top_p: 0.95,
-      max_tokens: maxTokens,
-      stream: false
+      model: cfg.model, messages: messagesForApi,
+      temperature: 0.9, top_p: 0.95, max_tokens: maxTokens, stream: false
     })
   });
   if(!response.ok){
@@ -1272,13 +1442,9 @@ async function callOneModel(cfg, messagesForApi, userText){
     throw err;
   }
   const data = await response.json();
-  if(!data || !data.choices || !data.choices[0] || !data.choices[0].message){
-    throw new Error("Phản hồi không hợp lệ");
-  }
+  if(!data || !data.choices || !data.choices[0] || !data.choices[0].message) throw new Error("Phản hồi không hợp lệ");
   const reply = data.choices[0].message.content;
-  if(typeof reply !== "string" || reply.trim().length === 0){
-    throw new Error("Phản hồi rỗng");
-  }
+  if(typeof reply !== "string" || reply.trim().length === 0) throw new Error("Phản hồi rỗng");
   return reply;
 }
 
@@ -1293,10 +1459,7 @@ async function callApiWithFallback(messagesForApi, userText){
       return { ok: true, reply: reply, model: cfg.model };
     }catch(err){
       lastError = err;
-      console.warn("Model " + cfg.model + " lỗi: " + err.message);
-      if(err.status === 401 || err.status === 400){
-        return { ok: false, error: err, fatal: true };
-      }
+      if(err.status === 401 || err.status === 400) return { ok: false, error: err, fatal: true };
       if(i < total - 1) await sleep(800);
     }
   }
@@ -1305,13 +1468,11 @@ async function callApiWithFallback(messagesForApi, userText){
 
 async function sendMessage(textOverride){
   if(busy) return;
-
   if(getChatCount() >= getMaxChat()){
     renderUnlockMessage();
     showToast("Đã hết lượt chat. Nhập code để tiếp tục.");
     return;
   }
-
   const text = (textOverride ?? input.value).trim();
   if(!text) return;
 
@@ -1319,29 +1480,24 @@ async function sendMessage(textOverride){
     activeId = makeId();
     conversations.push({id: activeId, title: "Cuộc trò chuyện mới", messages: []});
   }
-
   currentMessages.push({ role: "user", content: text });
-
   if(currentMessages.length === 1){
     const c = conversations.find(x => x.id === activeId);
     if(c) c.title = text.slice(0,35);
   }
-
   input.value = "";
   input.style.height = "42px";
-
   renderConversation();
   renderHistory();
 
   // LỆNH /encbminigame
   if(text.toLowerCase() === MINIGAME_CMD){
     busy = true; sendBtn.disabled = true;
-    const loadingRow = document.createElement("div");
-    loadingRow.className = "message assistant";
-    loadingRow.innerHTML = `<div class="avatar"><img src="${LOGO_URL}" alt="${AI_NAME}"></div>
-      <div class="bubble-wrap"><div class="bubble"><div class="typing"><span></span><span></span><span></span></div></div></div>`;
-    contentEl.appendChild(loadingRow); scrollBottom();
-    await sleep(700); loadingRow.remove();
+    const row = document.createElement("div");
+    row.className = "message assistant";
+    row.innerHTML = `<div class="avatar"><img src="${LOGO_URL}"></div><div class="bubble-wrap"><div class="bubble"><div class="typing"><span></span><span></span><span></span></div></div></div>`;
+    contentEl.appendChild(row); scrollBottom();
+    await sleep(700); row.remove();
     renderMiniGame();
     setChatCount(getChatCount() + 1);
     saveCurrent();
@@ -1353,14 +1509,13 @@ async function sendMessage(textOverride){
   // LỆNH :codencb
   if(text.toLowerCase() === CODE_CMD){
     busy = true; sendBtn.disabled = true;
-    const loadingRow = document.createElement("div");
-    loadingRow.className = "message assistant";
-    loadingRow.innerHTML = `<div class="avatar"><img src="${LOGO_URL}" alt="${AI_NAME}"></div>
-      <div class="bubble-wrap"><div class="bubble"><div class="typing"><span></span><span></span><span></span></div></div></div>`;
-    contentEl.appendChild(loadingRow); scrollBottom();
-    await sleep(500); loadingRow.remove();
+    const row = document.createElement("div");
+    row.className = "message assistant";
+    row.innerHTML = `<div class="avatar"><img src="${LOGO_URL}"></div><div class="bubble-wrap"><div class="bubble"><div class="typing"><span></span><span></span><span></span></div></div></div>`;
+    contentEl.appendChild(row); scrollBottom();
+    await sleep(500); row.remove();
     openCodeModal();
-    currentMessages.push({ role: "assistant", content: "🔑 Đã mở khung nhập code. Vui lòng nhập code để xác nhận.", isCodePrompt: true });
+    currentMessages.push({ role: "assistant", content: "🔑 Đã mở khung nhập code.", isCodePrompt: true });
     setChatCount(getChatCount() + 1);
     saveCurrent();
     setStatus("Đã kết nối");
@@ -1369,23 +1524,16 @@ async function sendMessage(textOverride){
   }
 
   // HỎI NGÀY GIỜ
-  if(isTimeQuestion(text)){
+  if(isTimeQuestion(text) && !isImageRequest(text) && !isVideoRequest(text)){
     busy = true; sendBtn.disabled = true;
-    const loadingRow = document.createElement("div");
-    loadingRow.className = "message assistant";
-    loadingRow.innerHTML = `<div class="avatar"><img src="${LOGO_URL}" alt="${AI_NAME}"></div>
-      <div class="bubble-wrap"><div class="bubble"><div class="typing"><span></span><span></span><span></span></div></div></div>`;
-    contentEl.appendChild(loadingRow); scrollBottom();
-    await sleep(600); loadingRow.remove();
-
+    const row = document.createElement("div");
+    row.className = "message assistant";
+    row.innerHTML = `<div class="avatar"><img src="${LOGO_URL}"></div><div class="bubble-wrap"><div class="bubble"><div class="typing"><span></span><span></span><span></span></div></div></div>`;
+    contentEl.appendChild(row); scrollBottom();
+    await sleep(600); row.remove();
     const introMsg = "Đây là thời gian hiện tại nhé:";
     renderTimeMessage(introMsg);
-
-    currentMessages.push({
-      role: "assistant",
-      content: introMsg,
-      isTime: true
-    });
+    currentMessages.push({ role: "assistant", content: introMsg, isTime: true });
     setChatCount(getChatCount() + 1);
     saveCurrent();
     setStatus("Đã kết nối");
@@ -1396,18 +1544,51 @@ async function sendMessage(textOverride){
   // HỖ TRỢ
   if(isSupportQuestion(text)){
     busy = true; sendBtn.disabled = true;
-    const loadingRow = document.createElement("div");
-    loadingRow.className = "message assistant";
-    loadingRow.innerHTML = `<div class="avatar"><img src="${LOGO_URL}" alt="${AI_NAME}"></div>
-      <div class="bubble-wrap"><div class="bubble"><div class="typing"><span></span><span></span><span></span></div></div></div>`;
-    contentEl.appendChild(loadingRow); scrollBottom();
-    await sleep(900); loadingRow.remove();
+    const row = document.createElement("div");
+    row.className = "message assistant";
+    row.innerHTML = `<div class="avatar"><img src="${LOGO_URL}"></div><div class="bubble-wrap"><div class="bubble"><div class="typing"><span></span><span></span><span></span></div></div></div>`;
+    contentEl.appendChild(row); scrollBottom();
+    await sleep(900); row.remove();
     renderSupportMessage();
-    currentMessages.push({
-      role: "assistant",
-      content: "Mình có thể hỗ trợ bạn! Nhấn vào nút HỖ TRỢ bên dưới để liên hệ admin qua Facebook.",
-      isSupport: true
-    });
+    currentMessages.push({ role: "assistant", content: "Mình hỗ trợ qua Facebook nhé!", isSupport: true });
+    setChatCount(getChatCount() + 1);
+    saveCurrent();
+    setStatus("Đã kết nối");
+    busy = false; sendBtn.disabled = false; input.focus();
+    return;
+  }
+
+  // TẠO ẢNH AI
+  if(isImageRequest(text)){
+    const prompt = extractPrompt(text, IMAGE_CMD);
+    if(!prompt){
+      renderMessage("assistant", "Bạn muốn tạo ảnh gì? Gõ /image + mô tả (ví dụ: /image con mèo dễ thương).");
+      setChatCount(getChatCount() + 1);
+      saveCurrent();
+      return;
+    }
+
+    busy = true; sendBtn.disabled = true;
+    await handleImageGeneration(prompt);
+    setChatCount(getChatCount() + 1);
+    saveCurrent();
+    setStatus("Đã kết nối");
+    busy = false; sendBtn.disabled = false; input.focus();
+    return;
+  }
+
+  // TẠO VIDEO AI
+  if(isVideoRequest(text)){
+    const topic = extractPrompt(text, VIDEO_CMD);
+    if(!topic){
+      renderMessage("assistant", "Bạn muốn video về chủ đề gì? Gõ /video + chủ đề (ví dụ: /video phong cảnh Việt Nam). Video sẽ dài 5 phút.");
+      setChatCount(getChatCount() + 1);
+      saveCurrent();
+      return;
+    }
+
+    busy = true; sendBtn.disabled = true;
+    await handleVideoGeneration(topic);
     setChatCount(getChatCount() + 1);
     saveCurrent();
     setStatus("Đã kết nối");
@@ -1417,44 +1598,231 @@ async function sendMessage(textOverride){
 
   // CHAT BÌNH THƯỜNG
   busy = true; sendBtn.disabled = true;
-  const loadingRow = document.createElement("div");
-  loadingRow.className = "message assistant";
-  loadingRow.innerHTML = `<div class="avatar"><img src="${LOGO_URL}" alt="${AI_NAME}"></div>
-    <div class="bubble-wrap"><div class="bubble"><div class="typing"><span></span><span></span><span></span></div></div></div>`;
-  contentEl.appendChild(loadingRow); scrollBottom();
+  const row = document.createElement("div");
+  row.className = "message assistant";
+  row.innerHTML = `<div class="avatar"><img src="${LOGO_URL}"></div><div class="bubble-wrap"><div class="bubble"><div class="typing"><span></span><span></span><span></span></div></div></div>`;
+  contentEl.appendChild(row); scrollBottom();
 
   const waitMs = getResponseDelay(text);
   const history = currentMessages.slice(-30).map(m => ({ role: m.role, content: m.content }));
-  const messagesForApi = [
-    { role: "system", content: SYSTEM_PROMPT },
-    ...history
-  ];
+  const messagesForApi = [{ role: "system", content: SYSTEM_PROMPT }, ...history];
 
   const apiPromise = callApiWithFallback(messagesForApi, text);
   const delayPromise = sleep(waitMs);
   const [result] = await Promise.all([apiPromise, delayPromise]);
 
   let reply;
-  if(result.ok){
-    reply = result.reply;
-    setStatus("Đã kết nối");
-  }else{
+  if(result.ok){ reply = result.reply; setStatus("Đã kết nối"); }
+  else{
     reply = pickFallbackReply();
     setStatus("Lỗi kết nối", true);
-    const msg = result.fatal ? "API key sai hoặc hết hạn." : "Tất cả model đều quá tải. Thử lại sau.";
-    showToast(msg);
+    showToast(result.fatal ? "API key sai hoặc hết hạn." : "Tất cả model đều quá tải. Thử lại sau.");
   }
 
   setChatCount(getChatCount() + 1);
   currentMessages.push({ role: "assistant", content: reply });
 
   saveCurrent();
-  loadingRow.remove();
+  row.remove();
   renderMessage("assistant", reply);
 
   if(getChatCount() >= getMaxChat()) renderUnlockMessage();
-
   busy = false; sendBtn.disabled = false; input.focus();
+}
+
+// ===== HANDLE IMAGE GEN =====
+async function handleImageGeneration(prompt){
+  // Render khung loading
+  const row = document.createElement("div");
+  row.className = "message assistant";
+  const avatar = document.createElement("div");
+  avatar.className = "avatar";
+  const aImg = document.createElement("img");
+  aImg.src = LOGO_URL;
+  avatar.appendChild(aImg);
+
+  const wrap = document.createElement("div");
+  wrap.className = "bubble-wrap";
+  wrap.style.width = '100%';
+  wrap.style.maxWidth = '100%';
+
+  const bubble = document.createElement("div");
+  bubble.className = "bubble";
+  bubble.style.width = '100%';
+
+  const box = document.createElement("div");
+  box.className = "image-gen-box";
+
+  const label = document.createElement("div");
+  label.className = "image-prompt-label";
+  label.textContent = '🎨 ẢNH AI';
+
+  const promptText = document.createElement("div");
+  promptText.className = "image-prompt-text";
+  promptText.textContent = prompt;
+
+  const loadingEl = document.createElement("div");
+  loadingEl.className = "image-loading";
+  loadingEl.innerHTML = '<div class="spinner"></div><div>Đang tạo ảnh... Vui lòng chờ 5-15 giây</div>';
+
+  box.appendChild(label);
+  box.appendChild(promptText);
+  box.appendChild(loadingEl);
+  bubble.appendChild(box);
+  wrap.appendChild(bubble);
+  row.appendChild(avatar);
+  row.appendChild(wrap);
+  contentEl.appendChild(row);
+  scrollBottom();
+
+  // Gọi API tạo ảnh
+  const imageUrl = buildImageUrl(prompt);
+  try{
+    const img = await loadImage(imageUrl);
+    loadingEl.remove();
+
+    const resultDiv = document.createElement("div");
+    resultDiv.className = "image-result";
+    const imgEl = document.createElement("img");
+    imgEl.src = imageUrl;
+    imgEl.alt = prompt;
+    resultDiv.appendChild(imgEl);
+
+    const actions = document.createElement("div");
+    actions.className = "image-actions";
+
+    const downloadBtn = document.createElement("button");
+    downloadBtn.className = 'save-btn';
+    downloadBtn.textContent = '💾 Tải về';
+    downloadBtn.addEventListener('click', () => {
+      const a = document.createElement('a');
+      a.href = imageUrl;
+      a.download = 'ncb-ai-' + Date.now() + '.jpg';
+      a.target = '_blank';
+      a.click();
+    });
+
+    const regenBtn = document.createElement("button");
+    regenBtn.textContent = '🔄 Tạo lại';
+    regenBtn.addEventListener('click', () => {
+      const newUrl = buildImageUrl(prompt);
+      imgEl.src = newUrl;
+    });
+
+    const openBtn = document.createElement("button");
+    openBtn.textContent = '🔗 Mở tab';
+    openBtn.addEventListener('click', () => window.open(imageUrl, '_blank'));
+
+    actions.appendChild(downloadBtn);
+    actions.appendChild(regenBtn);
+    actions.appendChild(openBtn);
+
+    box.appendChild(resultDiv);
+    box.appendChild(actions);
+
+    currentMessages.push({
+      role: "assistant",
+      content: '🎨 Ảnh AI cho: "' + prompt + '"\n' + imageUrl,
+      isImage: true,
+      imageUrl: imageUrl
+    });
+    saveCurrent();
+  }catch(e){
+    loadingEl.innerHTML = '<div style="color:#ff626e;">❌ Không tạo được ảnh. Thử lại sau.</div>';
+    currentMessages.push({
+      role: "assistant",
+      content: 'Không tạo được ảnh cho: "' + prompt + '". Lỗi: ' + e.message
+    });
+    saveCurrent();
+  }
+}
+
+// ===== HANDLE VIDEO GEN =====
+async function handleVideoGeneration(topic){
+  showToast("Đang chuẩn bị video 5 phút. Quá trình này mất 3-8 phút.");
+
+  const scenes = await generateVideoScenes(topic);
+  const { progressBar, previewWrap } = await renderVideoMessage(topic, scenes);
+
+  // Load ảnh từng cảnh
+  let loadedCount = 0;
+  for(let i = 0; i < scenes.length; i++){
+    const sc = scenes[i];
+    updateSceneStatus(sc.index, 'loading');
+    const url = buildImageUrl(sc.prompt, i * 1337 + 42);
+    sc.url = url;
+    try{
+      const img = await loadImage(url);
+      sc.img = img;
+      sc.status = 'done';
+      updateSceneStatus(sc.index, 'done');
+    }catch(e){
+      sc.status = 'error';
+      sc.error = e.message;
+      updateSceneStatus(sc.index, 'error');
+    }
+    loadedCount++;
+    progressBar.style.width = Math.floor((loadedCount / scenes.length) * 40) + '%';
+  }
+
+  // Đếm cảnh thành công
+  const okScenes = scenes.filter(s => s.status === 'done');
+  if(okScenes.length < 5){
+    showToast("Quá ít ảnh load được. Cần ít nhất 5 ảnh để tạo video.");
+    return;
+  }
+
+  showToast("Bắt đầu render video... Vui lòng không đóng tab.");
+
+  // Render video
+  try{
+    const blob = await buildVideoFile(scenes, (pct) => {
+      progressBar.style.width = (40 + Math.floor(pct * 0.6)) + '%';
+    });
+
+    progressBar.style.width = '100%';
+
+    const videoUrl = URL.createObjectURL(blob);
+
+    const video = document.createElement('video');
+    video.controls = true;
+    video.src = videoUrl;
+    video.preload = 'metadata';
+    previewWrap.appendChild(video);
+    previewWrap.classList.remove('hidden');
+
+    const actions = document.createElement('div');
+    actions.className = 'video-actions';
+
+    const downloadBtn = document.createElement('button');
+    downloadBtn.className = 'download-btn';
+    downloadBtn.textContent = '💾 Tải video';
+    downloadBtn.addEventListener('click', () => {
+      const a = document.createElement('a');
+      a.href = videoUrl;
+      a.download = 'ncb-ai-video-' + Date.now() + '.webm';
+      a.click();
+    });
+
+    const openBtn = document.createElement('button');
+    openBtn.textContent = '🔗 Mở tab';
+    openBtn.addEventListener('click', () => window.open(videoUrl, '_blank'));
+
+    actions.appendChild(downloadBtn);
+    actions.appendChild(openBtn);
+    previewWrap.appendChild(actions);
+
+    currentMessages.push({
+      role: "assistant",
+      content: '🎬 Video AI cho chủ đề: "' + topic + '" (5 phút, ' + okScenes.length + ' cảnh)',
+      isVideo: true
+    });
+    saveCurrent();
+    showToast("Video đã tạo xong! Nhấn 💾 để tải về.");
+
+  }catch(e){
+    showToast("Render video lỗi: " + e.message);
+  }
 }
 
 sendBtn.addEventListener("click", () => sendMessage());
@@ -1481,12 +1849,10 @@ $("messages").addEventListener("click", event => {
 document.addEventListener("keydown", event => {
   if(event.key === "Escape"){ closeSidebar(); closeCodeModal(); }
 });
-
 document.addEventListener('touchmove', function(e){
   if(e.target.closest('#messages')) return;
   e.preventDefault();
 }, { passive: false });
-
 window.addEventListener('scroll', function(){
   if(window.scrollY !== 0) window.scrollTo(0, 0);
 }, { passive: true });
