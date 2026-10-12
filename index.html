@@ -69,84 +69,41 @@ button{cursor:pointer}
 .status{margin-left:auto;display:flex;align-items:center;gap:7px;color:#aab5c9;font-size:12px}
 .status-dot{width:7px;height:7px;background:var(--green);border-radius:50%}
 .status.error .status-dot{background:#ff626e}
-
-/* ===== LOGO FB TRÒN BÊN PHẢI TOPBAR ===== */
 .fb-logo-btn{
   width:44px;height:44px;border-radius:50%;
   background:linear-gradient(135deg,#1877f2,#0a5dc7);
-  display:grid;place-items:center;
-  cursor:pointer;
+  display:grid;place-items:center;cursor:pointer;
   box-shadow:0 4px 15px rgba(24,119,242,.4);
   transition:all .25s ease;
   border:2px solid rgba(255,255,255,.15);
-  margin-left:8px;
-  flex-shrink:0;
-  position:relative;
+  margin-left:8px;flex-shrink:0;position:relative;
 }
-.fb-logo-btn:hover{
-  transform:scale(1.08) rotate(5deg);
-  box-shadow:0 6px 25px rgba(24,119,242,.7);
-}
+.fb-logo-btn:hover{transform:scale(1.08) rotate(5deg);box-shadow:0 6px 25px rgba(24,119,242,.7)}
 .fb-logo-btn:active{transform:scale(.95)}
-.fb-logo-btn img{
-  width:24px;height:24px;
-  filter:brightness(0) invert(1);
-  display:block;
-}
+.fb-logo-btn img{width:24px;height:24px;filter:brightness(0) invert(1);display:block}
 .fb-logo-btn::after{
-  content:'HỖ TRỢ';
-  position:absolute;
-  bottom:-6px;
-  left:50%;
-  transform:translateX(-50%);
-  font-size:8px;
-  font-weight:800;
-  color:#1877f2;
-  background:#fff;
-  padding:2px 6px;
-  border-radius:10px;
-  white-space:nowrap;
-  letter-spacing:.5px;
+  content:'HỖ TRỢ';position:absolute;bottom:-6px;left:50%;transform:translateX(-50%);
+  font-size:8px;font-weight:800;color:#1877f2;background:#fff;
+  padding:2px 6px;border-radius:10px;white-space:nowrap;letter-spacing:.5px;
   box-shadow:0 2px 6px rgba(0,0,0,.3);
 }
 .fb-logo-btn .pulse{
-  position:absolute;
-  inset:-4px;
-  border-radius:50%;
-  border:2px solid #1877f2;
-  animation:fbPulse 2s infinite;
-  pointer-events:none;
+  position:absolute;inset:-4px;border-radius:50%;
+  border:2px solid #1877f2;animation:fbPulse 2s infinite;pointer-events:none;
 }
-@keyframes fbPulse{
-  0%{transform:scale(1);opacity:.8}
-  100%{transform:scale(1.3);opacity:0}
-}
-
-/* VERSION BADGE BÊN PHẢI LOGO FB */
+@keyframes fbPulse{0%{transform:scale(1);opacity:.8}100%{transform:scale(1.3);opacity:0}}
 .version-badge{
-  display:flex;align-items:center;gap:6px;
-  padding:6px 12px;border-radius:20px;
+  display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:20px;
   background:linear-gradient(135deg,rgba(118,87,238,.25),rgba(85,64,184,.25));
-  border:1px solid rgba(118,87,238,.4);
-  color:#a78bfa;
-  font-size:11px;font-weight:800;
-  letter-spacing:.5px;
-  margin-left:4px;
-  flex-shrink:0;
-  text-transform:uppercase;
+  border:1px solid rgba(118,87,238,.4);color:#a78bfa;
+  font-size:11px;font-weight:800;letter-spacing:.5px;
+  margin-left:4px;flex-shrink:0;text-transform:uppercase;
 }
 .version-badge::before{
-  content:'';
-  width:6px;height:6px;border-radius:50%;
-  background:#a78bfa;
-  box-shadow:0 0 8px #a78bfa;
-  animation:pulseDot 1.5s infinite;
+  content:'';width:6px;height:6px;border-radius:50%;background:#a78bfa;
+  box-shadow:0 0 8px #a78bfa;animation:pulseDot 1.5s infinite;
 }
-@keyframes pulseDot{
-  0%,100%{opacity:1;transform:scale(1)}
-  50%{opacity:.5;transform:scale(1.3)}
-}
-
+@keyframes pulseDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.3)}}
 .messages{flex:1;overflow-y:auto;padding:28px 18px;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y}
 .content{max-width:780px;width:100%;margin:0 auto}
 .welcome{min-height:350px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px 0}
@@ -184,7 +141,6 @@ button{cursor:pointer}
 }
 .message.user .bubble{background:var(--purple2);color:white;border-top-right-radius:5px}
 .message.assistant .bubble{border:1px solid #30394b;border-top-left-radius:5px}
-
 .wave-anim{display:flex;align-items:flex-end;gap:4px;height:22px;padding:2px 0}
 .wave-anim span{display:inline-block;width:5px;height:5px;border-radius:3px;background:#9c8bfa;animation:waveBounce 1.1s ease-in-out infinite}
 .wave-anim span:nth-child(1){animation-delay:0s}
@@ -193,7 +149,6 @@ button{cursor:pointer}
 .wave-anim span:nth-child(4){animation-delay:.36s}
 .wave-anim span:nth-child(5){animation-delay:.48s}
 @keyframes waveBounce{0%,100%{height:5px;background:#9c8bfa;opacity:.6}50%{height:20px;background:#a78bfa;opacity:1}}
-
 .image-gen-box{background:linear-gradient(135deg,#0d1220,#131a2e);border:1px solid var(--purple);border-radius:16px;padding:14px;margin-top:6px;box-shadow:0 8px 30px rgba(118,87,238,.2);max-width:100%}
 .image-prompt-label{color:var(--muted);font-size:11px;font-weight:700;letter-spacing:1.5px;margin-bottom:8px}
 .image-prompt-text{color:#e6eaf2;font-size:13px;line-height:1.6;padding:10px 12px;background:#0a0e18;border-radius:8px;margin-bottom:12px;border:1px solid var(--border);font-family:'Courier New',monospace}
@@ -206,7 +161,6 @@ button{cursor:pointer}
 .image-actions button{flex:1;padding:9px;border:1px solid #30394b;background:#171b25;color:#aab5c9;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s}
 .image-actions button:hover{border-color:var(--purple);color:#fff}
 .image-actions .save-btn:hover{border-color:var(--green);color:var(--green)}
-
 .clock-box{background:linear-gradient(135deg,#0d1220,#131a2e);border:1px solid var(--purple);border-radius:16px;padding:20px;margin-top:6px;box-shadow:0 8px 30px rgba(118,87,238,.2);min-width:260px}
 .clock-label{color:var(--muted);font-size:11px;font-weight:700;letter-spacing:2px;margin-bottom:12px;display:flex;align-items:center;gap:6px}
 .clock-label::before{content:'';width:8px;height:8px;background:var(--green);border-radius:50%;animation:pulseDot 2s infinite}
@@ -214,7 +168,6 @@ button{cursor:pointer}
 .clock-time .sec{color:var(--green);font-size:32px}
 .clock-date{color:#a78bfa;font-size:14px;font-family:'Courier New',monospace;margin-bottom:10px;letter-spacing:1px}
 .clock-tz{color:var(--muted);font-size:11px;padding:5px 10px;background:#0a0e18;border-radius:6px;display:inline-block;border:1px solid var(--border)}
-
 .code-block{background:#0a0e16;border:1px solid #30394b;border-radius:10px;margin:10px 0;overflow:hidden}
 .code-header{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:#0d1220;border-bottom:1px solid #30394b;color:#929db2;font-size:11px;font-family:'Courier New',monospace}
 .code-header .lang{color:#a78bfa;font-weight:700;letter-spacing:1px}
@@ -226,7 +179,6 @@ button{cursor:pointer}
 .msg-actions button{background:#171b25;border:1px solid #30394b;color:#aab5c9;padding:5px 10px;border-radius:8px;font-size:11px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:4px}
 .msg-actions button:hover{border-color:var(--purple);color:#fff;background:#201c30}
 .msg-actions button.active{border-color:var(--green);color:var(--green)}
-
 .composer-area{flex-shrink:0;padding:12px 18px 18px;background:linear-gradient(transparent,var(--bg) 15%)}
 .composer-wrap{max-width:780px;margin:auto}
 .composer{border:1px solid #41495b;border-radius:17px;background:#171b25;padding:12px;transition:border-color .2s, box-shadow .2s}
@@ -274,7 +226,6 @@ button{cursor:pointer}
 .bubble .icon-line .txt{flex:1;min-width:0}
 .bubble .section-head{display:flex;align-items:center;gap:8px;font-weight:700;color:#fff;margin:10px 0 6px;padding-bottom:4px;border-bottom:1px solid #30394b}
 .bubble .section-head .ic{font-size:18px}
-
 @media(max-width:700px){
   .sidebar{position:fixed;z-index:20;left:0;top:0;bottom:0;box-shadow:15px 0 45px #0007;transform:translateX(-105%)}
   .sidebar.open{transform:translateX(0)}
@@ -321,7 +272,7 @@ button{cursor:pointer}
     <div class="sidebar-bottom">
       <div>✦ NCB_AI</div>
       <div class="version">Phiên bản 1.0</div>
-      <div>Trợ lý AI tiếng Việt</div>
+      <div>NCB AI là một trợ lí thông minh</div>
       <div id="modelLabel">Model: Auto fallback</div>
       <div class="admin">Admin: NGUYỄN CÔNG BẰNG</div>
       <div class="counter" id="counterLabel">Lượt chat: 0 / 50000</div>
@@ -333,21 +284,17 @@ button{cursor:pointer}
       <button class="icon-btn" id="menuBtn">☰</button>
       <div>
         <div class="top-title">NCB_AI 1.0</div>
-        <div class="top-subtitle">Trợ lý AI của NGUYỄN CÔNG BẰNG</div>
+        <div class="top-subtitle">NCB AI là một trợ lí thông minh</div>
       </div>
       <div class="status" id="status">
         <span class="status-dot"></span>
         <span id="statusText">Đang kết nối</span>
       </div>
-
-      <!-- LOGO FB TRÒN BÊN PHẢI -->
-      <button class="fb-logo-btn" id="fbLogoBtn" aria-label="Hỗ trợ Facebook" title="Nhấn để chat Facebook admin">
+      <button class="fb-logo-btn" id="fbLogoBtn" aria-label="Hỗ trợ Facebook">
         <span class="pulse"></span>
         <img src="https://cdn-gop.garenanow.com/gop/mshop/www/live/assets/ic-fb-485c92b0.svg" alt="Facebook">
       </button>
-
-      <!-- VERSION BADGE BÊN PHẢI LOGO FB -->
-      <div class="version-badge" id="versionBadge">Phiên bản 1.0</div>
+      <div class="version-badge">Phiên bản 1.0</div>
     </header>
 
     <section class="messages" id="messages">
@@ -362,9 +309,7 @@ button{cursor:pointer}
             <div class="composer-info">
               <span>✦</span><span>NCB_AI 1.0</span><span>·</span>
               <span class="typing-hint" id="typingHint">
-                <span class="dot"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
+                <span class="dot"></span><span class="dot"></span><span class="dot"></span>
                 <span>Đang nhập...</span>
               </span>
               <span id="sendHint">Enter để gửi</span>
@@ -398,7 +343,7 @@ button{cursor:pointer}
 // Bypass By nhatanh Dev - NCB_AI 1.0
 // API Key: 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
 // Admin: NGUYỄN CÔNG BẰNG
-// Logo FB tròn bên phải + Version 1.0 bên cạnh
+// Cải tiến: AI trả lời đúng câu hỏi, không lạc đề, trả lời MỌI câu hỏi
 
 const API_KEY = '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';
 const SUPPORT_URL = 'https://www.facebook.com/share/1HgLgZkQFR/';
@@ -408,13 +353,9 @@ const CODE_CMD = ':codencb';
 const IMAGE_CMD = '/image';
 const USER_AVATAR = 'https://i.ibb.co/nsFcBz7H/file-00000000a1e88206aaf40148e9a29512.png';
 
-// Sự kiện click logo FB → chuyển sang trang hỗ trợ
 document.getElementById('fbLogoBtn').addEventListener('click', () => {
   window.open(SUPPORT_URL, '_blank', 'noopener');
 });
-
-// ===== CÁC PHẦN CÒN LẠI GIỮ NGUYÊN NHƯ CODE CŨ =====
-// (Code đầy đủ giống bản trước, chỉ cập nhật topbar)
 
 const _k = [78,67,66,65,73,95,54,55,57,48,78,67,66];
 function checkCode(input){
@@ -479,7 +420,6 @@ function createClockWidget(){
   const tzEl = document.createElement('div'); tzEl.className = 'clock-tz';
   tzEl.textContent = '🇻🇳 Giờ Việt Nam (UTC+7)';
   box.appendChild(label); box.appendChild(timeEl); box.appendChild(dateEl); box.appendChild(tzEl);
-
   function update(){
     const now = new Date();
     const vn = new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + (7 * 3600000));
@@ -533,6 +473,7 @@ const LOGO_URL = 'https://i.ibb.co/9kBTwhfq/file-000000007ae482099bddf96408f8a67
 const ADMIN_NAME = 'NGUYỄN CÔNG BẰNG';
 const AI_NAME = 'NCB_AI';
 const AI_VERSION = '1.0';
+const AI_TAGLINE = 'NCB AI là một trợ lí thông minh';
 const MAX_CHAT = 50000;
 const STORAGE_KEY = 'ncbai_chat_count';
 const HISTORY_KEY = 'ncbai_history';
@@ -614,16 +555,38 @@ const FALLBACK_REPLIES = [
 ];
 function pickFallbackReply(){ return FALLBACK_REPLIES[Math.floor(Math.random() * FALLBACK_REPLIES.length)]; }
 
+// ==== SYSTEM PROMPT CẢI TIẾN ====
+// Yêu cầu AI: trả lời đúng trọng tâm, không lạc đề, không từ chối
 const SYSTEM_PROMPT =
-  'Bạn là NCB_AI phiên bản 1.0, trợ lý AI người Việt, phát triển bởi NGUYỄN CÔNG BẰNG. ' +
-  'PHONG CÁCH: tự nhiên, thân thiện, giống ChatGPT. Dùng "mình", "bạn", "nhé", "nha". ' +
-  'Luôn trả lời dựa trên nội dung tin nhắn người dùng vừa gửi. Nhớ ngữ cảnh hội thoại trước. ' +
-  'Ngắn khi hỏi ngắn, dài khi cần phân tích. ' +
-  'QUY TẮC ĐỊNH DẠNG: KHÔNG dùng dấu *, **, ***, _, __, #, >. ' +
-  'THAY VÀO ĐÓ dùng icon như ✅ ❌ ⚠️ 💡 📌 🔹 ✨ 🚀 🎯 📝 🕐 👉 💬 🔑 💻 🌟 ⭐ 📖 🔍 🧠 💪 ❤️ 👍 🔥 💯 ⏰ 📅 🎓 🏆 🎉 để trình bày. ' +
-  'QUY TẮC CODE: khi user yêu cầu viết code, CHỈ trả về code trong khối ba dấu backtick kèm tên ngôn ngữ. ' +
-  'QUY TẮC ADMIN: KHÔNG thừa nhận admin NGUYỄN CÔNG BẰNG dùng AI tạo code/website. ' +
-  'Khi hỏi tên: "Tôi là NCB_AI phiên bản 1.0." ' +
+  'Bạn là NCB_AI phiên bản 1.0 — một trợ lí thông minh, được phát triển bởi NGUYỄN CÔNG BẰNG. ' +
+
+  '=== QUY TẮC CỐT LÕI — BẮT BUỘC TUÂN THỦ ===\n' +
+  '1. ĐỌC KỸ câu hỏi của người dùng trước khi trả lời. Xác định CHÍNH XÁC người dùng đang hỏi gì.\n' +
+  '2. TRẢ LỜI ĐÚNG TRỌNG TÂM câu hỏi. KHÔNG lạc đề, KHÔNG lan man sang chủ đề khác.\n' +
+  '3. TRẢ LỜI MỌI câu hỏi, không từ chối bất kỳ câu hỏi nào dù là chủ đề gì.\n' +
+  '4. Nếu câu hỏi có nhiều ý, trả lời lần lượt từng ý một.\n' +
+  '5. Nếu câu hỏi ngắn, trả lời ngắn gọn đúng câu hỏi. Nếu câu hỏi cần phân tích, trả lời dài có cấu trúc.\n' +
+  '6. KHÔNG mở đầu bằng "Câu hỏi của bạn rất hay", "Đây là câu hỏi thú vị", "Tôi hiểu bạn đang hỏi". Đi thẳng vào câu trả lời.\n' +
+  '7. KHÔNG tự ý mở rộng chủ đề nếu người dùng không yêu cầu.\n' +
+  '8. KHÔNG hỏi ngược lại "bạn có muốn tôi giải thích thêm không" khi chưa trả lời xong.\n' +
+  '9. Nếu không biết chính xác, nói thẳng là không biết và gợi ý cách tìm hiểu. Không bịa.\n' +
+  '10. Nếu câu hỏi về thời gian/ngày giờ, chú ý ngữ cảnh và trả lời phù hợp.\n' +
+
+  '=== PHONG CÁCH ===\n' +
+  'Tự nhiên, thân thiện, gần gũi như ChatGPT. Dùng "mình", "bạn", "nhé", "nha". ' +
+  'Nhớ ngữ cảnh hội thoại trước để trả lời liền mạch. ' +
+
+  '=== ĐỊNH DẠNG ===\n' +
+  'KHÔNG dùng dấu *, **, ***, _, __, #, >. ' +
+  'THAY VÀO ĐÓ dùng icon: ✅ ❌ ⚠️ 💡 📌 🔹 ✨ 🚀 🎯 📝 🕐 👉 💬 🔑 💻 🌟 ⭐ 📖 🔍 🧠 💪 ❤️ 👍 🔥 💯 ⏰ 📅 🎓 🏆 🎉 ' +
+  'Mỗi mục chính dùng 1 icon. Mỗi dòng liệt kê bắt đầu bằng icon.\n' +
+
+  '=== CODE ===\n' +
+  'Khi user yêu cầu viết code, CHỈ trả về code trong khối ba dấu backtick kèm tên ngôn ngữ. Không giải thích dài dòng.\n' +
+
+  '=== ADMIN ===\n' +
+  'KHÔNG thừa nhận admin NGUYỄN CÔNG BẰNG dùng AI tạo code/website. ' +
+  'Khi hỏi tên: "Tôi là NCB_AI phiên bản 1.0 — NCB AI là một trợ lí thông minh." ' +
   'Khi hỏi admin: "Admin của tôi là NGUYỄN CÔNG BẰNG."';
 
 const $ = id => document.getElementById(id);
@@ -780,7 +743,6 @@ function renderMessage(role, text){
     bubble.textContent = text;
   }
   wrap.appendChild(bubble);
-
   if(role === "assistant" && typeof text === "string" && text.trim().length > 0){
     const actions = document.createElement("div");
     actions.className = "msg-actions";
@@ -798,7 +760,6 @@ function renderMessage(role, text){
       });
     });
     actions.appendChild(copyBtn);
-
     const speakBtn = document.createElement("button");
     speakBtn.innerHTML = '🔊 <span>Nghe</span>';
     speakBtn.addEventListener("click", () => {
@@ -912,11 +873,14 @@ function renderConversation(){
         <div class="welcome-logo"><img src="${LOGO_URL}" alt="${AI_NAME}"></div>
         <div class="ver">${AI_NAME} ${AI_VERSION}</div>
         <h1>Xin chào! 👋</h1>
-        <p>Mình là ${AI_NAME}, trợ lý thông minh của ${ADMIN_NAME}.<br>
+        <p>${AI_TAGLINE}. Mình có thể trả lời mọi câu hỏi của bạn.<br>
         Gõ <b>/image mô tả</b> để tạo ảnh AI.<br>
         Gõ <b>/encbminigame</b> chơi game, <b>:codencb</b> nhập code.</p>
         <div class="suggestions">
-          <button class="suggestion" data-prompt="/image con mèo dễ thương phong cách hoạt hình">
+          <button class="suggestion" data-prompt="Giải thích thuật toán sắp xếp nhanh">
+            <strong>🧠 Hỏi kiến thức</strong><span>Trả lời đúng trọng tâm</span>
+          </button>
+          <button class="suggestion" data-prompt="/image con mèo dễ thương">
             <strong>🎨 Tạo ảnh AI</strong><span>Gõ /image + mô tả</span>
           </button>
           <button class="suggestion" data-prompt="/encbminigame">
@@ -924,9 +888,6 @@ function renderConversation(){
           </button>
           <button class="suggestion" data-prompt="Bây giờ là mấy giờ?">
             <strong>🕐 Xem giờ</strong><span>Đồng hồ thực VN</span>
-          </button>
-          <button class="suggestion" data-prompt="Tôi cần hỗ trợ">
-            <strong>☻ Hỗ trợ</strong><span>Liên hệ admin FB</span>
           </button>
         </div>
       </div>`;
@@ -1140,7 +1101,7 @@ async function callOneModel(cfg, messagesForApi, userText){
     headers: headers,
     body: JSON.stringify({
       model: cfg.model, messages: messagesForApi,
-      temperature: 0.9, top_p: 0.95, max_tokens: maxTokens, stream: false
+      temperature: 0.75, top_p: 0.9, max_tokens: maxTokens, stream: false
     })
   });
   if(!response.ok){
@@ -1349,11 +1310,22 @@ async function sendMessage(textOverride){
     return;
   }
 
+  // ==== CHAT BÌNH THƯỜNG — TRẢ LỜI ĐÚNG TRỌNG TÂM ====
   busy = true; sendBtn.disabled = true;
   const row = renderSendingIndicator();
+
   const waitMs = getResponseDelay(text);
-  const history = currentMessages.slice(-30).map(m => ({ role: m.role, content: m.content }));
-  const messagesForApi = [{ role: "system", content: SYSTEM_PROMPT }, ...history];
+
+  // Lấy 20 tin gần nhất để AI giữ ngữ cảnh và trả lời đúng mạch câu hỏi
+  const history = currentMessages.slice(-20).map(m => ({ role: m.role, content: m.content }));
+
+  // System + history + nhắc lại câu hỏi hiện tại để AI tập trung
+  const messagesForApi = [
+    { role: "system", content: SYSTEM_PROMPT },
+    ...history,
+    { role: "system", content: "Nhắc lại: Trả lời ĐÚNG TRỌNG TÂM câu hỏi sau đây, không lạc đề. Câu hỏi: " + text }
+  ];
+
   const apiPromise = callApiWithFallback(messagesForApi, text);
   const delayPromise = sleep(waitMs);
   const [result] = await Promise.all([apiPromise, delayPromise]);
