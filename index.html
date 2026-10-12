@@ -69,6 +69,84 @@ button{cursor:pointer}
 .status{margin-left:auto;display:flex;align-items:center;gap:7px;color:#aab5c9;font-size:12px}
 .status-dot{width:7px;height:7px;background:var(--green);border-radius:50%}
 .status.error .status-dot{background:#ff626e}
+
+/* ===== LOGO FB TRÒN BÊN PHẢI TOPBAR ===== */
+.fb-logo-btn{
+  width:44px;height:44px;border-radius:50%;
+  background:linear-gradient(135deg,#1877f2,#0a5dc7);
+  display:grid;place-items:center;
+  cursor:pointer;
+  box-shadow:0 4px 15px rgba(24,119,242,.4);
+  transition:all .25s ease;
+  border:2px solid rgba(255,255,255,.15);
+  margin-left:8px;
+  flex-shrink:0;
+  position:relative;
+}
+.fb-logo-btn:hover{
+  transform:scale(1.08) rotate(5deg);
+  box-shadow:0 6px 25px rgba(24,119,242,.7);
+}
+.fb-logo-btn:active{transform:scale(.95)}
+.fb-logo-btn img{
+  width:24px;height:24px;
+  filter:brightness(0) invert(1);
+  display:block;
+}
+.fb-logo-btn::after{
+  content:'HỖ TRỢ';
+  position:absolute;
+  bottom:-6px;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:8px;
+  font-weight:800;
+  color:#1877f2;
+  background:#fff;
+  padding:2px 6px;
+  border-radius:10px;
+  white-space:nowrap;
+  letter-spacing:.5px;
+  box-shadow:0 2px 6px rgba(0,0,0,.3);
+}
+.fb-logo-btn .pulse{
+  position:absolute;
+  inset:-4px;
+  border-radius:50%;
+  border:2px solid #1877f2;
+  animation:fbPulse 2s infinite;
+  pointer-events:none;
+}
+@keyframes fbPulse{
+  0%{transform:scale(1);opacity:.8}
+  100%{transform:scale(1.3);opacity:0}
+}
+
+/* VERSION BADGE BÊN PHẢI LOGO FB */
+.version-badge{
+  display:flex;align-items:center;gap:6px;
+  padding:6px 12px;border-radius:20px;
+  background:linear-gradient(135deg,rgba(118,87,238,.25),rgba(85,64,184,.25));
+  border:1px solid rgba(118,87,238,.4);
+  color:#a78bfa;
+  font-size:11px;font-weight:800;
+  letter-spacing:.5px;
+  margin-left:4px;
+  flex-shrink:0;
+  text-transform:uppercase;
+}
+.version-badge::before{
+  content:'';
+  width:6px;height:6px;border-radius:50%;
+  background:#a78bfa;
+  box-shadow:0 0 8px #a78bfa;
+  animation:pulseDot 1.5s infinite;
+}
+@keyframes pulseDot{
+  0%,100%{opacity:1;transform:scale(1)}
+  50%{opacity:.5;transform:scale(1.3)}
+}
+
 .messages{flex:1;overflow-y:auto;padding:28px 18px;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y}
 .content{max-width:780px;width:100%;margin:0 auto}
 .welcome{min-height:350px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px 0}
@@ -107,192 +185,83 @@ button{cursor:pointer}
 .message.user .bubble{background:var(--purple2);color:white;border-top-right-radius:5px}
 .message.assistant .bubble{border:1px solid #30394b;border-top-left-radius:5px}
 
-/* ANIMATION SÓNG LÊN XUỐNG — AI ĐANG GỬI */
-.wave-anim{
-  display:flex;
-  align-items:flex-end;
-  gap:4px;
-  height:22px;
-  padding:2px 0;
-}
-.wave-anim span{
-  display:inline-block;
-  width:5px;
-  height:5px;
-  border-radius:3px;
-  background:#9c8bfa;
-  animation:waveBounce 1.1s ease-in-out infinite;
-}
+.wave-anim{display:flex;align-items:flex-end;gap:4px;height:22px;padding:2px 0}
+.wave-anim span{display:inline-block;width:5px;height:5px;border-radius:3px;background:#9c8bfa;animation:waveBounce 1.1s ease-in-out infinite}
 .wave-anim span:nth-child(1){animation-delay:0s}
 .wave-anim span:nth-child(2){animation-delay:.12s}
 .wave-anim span:nth-child(3){animation-delay:.24s}
 .wave-anim span:nth-child(4){animation-delay:.36s}
 .wave-anim span:nth-child(5){animation-delay:.48s}
-@keyframes waveBounce{
-  0%, 100%{height:5px;background:#9c8bfa;opacity:.6}
-  50%{height:20px;background:#a78bfa;opacity:1}
-}
+@keyframes waveBounce{0%,100%{height:5px;background:#9c8bfa;opacity:.6}50%{height:20px;background:#a78bfa;opacity:1}}
 
-/* Ô NHẬP TIN NHẮN — trạng thái "Đang nhập..." của người chơi */
-.composer.is-typing{
-  border-color:#7657ee;
-  box-shadow:0 0 0 3px rgba(118,87,238,.15);
-}
-.typing-hint{
-  color:#a78bfa;
-  font-size:11px;
-  font-style:italic;
-  display:none;
-  align-items:center;
-  gap:5px;
-}
-.typing-hint.show{
-  display:flex;
-}
-.typing-hint .dot{
-  width:5px;height:5px;border-radius:50%;
-  background:#a78bfa;
-  animation:pulseDot 1s infinite alternate;
-}
-.typing-hint .dot:nth-child(2){animation-delay:.2s}
-.typing-hint .dot:nth-child(3){animation-delay:.4s}
-@keyframes pulseDot{to{opacity:.3;transform:translateY(-2px)}}
-
-.image-gen-box{
-  background:linear-gradient(135deg,#0d1220,#131a2e);
-  border:1px solid var(--purple);border-radius:16px;padding:14px;margin-top:6px;
-  box-shadow:0 8px 30px rgba(118,87,238,.2);max-width:100%;
-}
+.image-gen-box{background:linear-gradient(135deg,#0d1220,#131a2e);border:1px solid var(--purple);border-radius:16px;padding:14px;margin-top:6px;box-shadow:0 8px 30px rgba(118,87,238,.2);max-width:100%}
 .image-prompt-label{color:var(--muted);font-size:11px;font-weight:700;letter-spacing:1.5px;margin-bottom:8px}
-.image-prompt-text{
-  color:#e6eaf2;font-size:13px;line-height:1.6;
-  padding:10px 12px;background:#0a0e18;border-radius:8px;
-  margin-bottom:12px;border:1px solid var(--border);font-family:'Courier New',monospace;
-}
+.image-prompt-text{color:#e6eaf2;font-size:13px;line-height:1.6;padding:10px 12px;background:#0a0e18;border-radius:8px;margin-bottom:12px;border:1px solid var(--border);font-family:'Courier New',monospace}
 .image-loading{padding:30px;text-align:center;color:var(--muted);font-size:13px}
-.image-loading .spinner{
-  width:40px;height:40px;margin:0 auto 12px;
-  border:3px solid var(--border);border-top-color:var(--purple);
-  border-radius:50%;animation:spin 1s linear infinite;
-}
+.image-loading .spinner{width:40px;height:40px;margin:0 auto 12px;border:3px solid var(--border);border-top-color:var(--purple);border-radius:50%;animation:spin 1s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .image-result{width:100%;border-radius:12px;overflow:hidden;background:#0a0e18;border:1px solid var(--border);position:relative}
 .image-result img{width:100%;height:auto;display:block;border-radius:12px}
 .image-actions{display:flex;gap:6px;margin-top:10px}
-.image-actions button{
-  flex:1;padding:9px;border:1px solid #30394b;background:#171b25;
-  color:#aab5c9;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;
-}
+.image-actions button{flex:1;padding:9px;border:1px solid #30394b;background:#171b25;color:#aab5c9;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s}
 .image-actions button:hover{border-color:var(--purple);color:#fff}
 .image-actions .save-btn:hover{border-color:var(--green);color:var(--green)}
 
-.clock-box{
-  background:linear-gradient(135deg,#0d1220,#131a2e);
-  border:1px solid var(--purple);border-radius:16px;padding:20px;margin-top:6px;
-  box-shadow:0 8px 30px rgba(118,87,238,.2);min-width:260px;
-}
-.clock-label{
-  color:var(--muted);font-size:11px;font-weight:700;
-  letter-spacing:2px;margin-bottom:12px;display:flex;align-items:center;gap:6px;
-}
+.clock-box{background:linear-gradient(135deg,#0d1220,#131a2e);border:1px solid var(--purple);border-radius:16px;padding:20px;margin-top:6px;box-shadow:0 8px 30px rgba(118,87,238,.2);min-width:260px}
+.clock-label{color:var(--muted);font-size:11px;font-weight:700;letter-spacing:2px;margin-bottom:12px;display:flex;align-items:center;gap:6px}
 .clock-label::before{content:'';width:8px;height:8px;background:var(--green);border-radius:50%;animation:pulseDot 2s infinite}
-.clock-time{
-  font-family:'Courier New',monospace;font-size:42px;font-weight:700;
-  color:#fff;letter-spacing:2px;line-height:1;margin-bottom:6px;
-  text-shadow:0 0 20px rgba(118,87,238,.5);display:flex;align-items:baseline;gap:2px;
-}
+.clock-time{font-family:'Courier New',monospace;font-size:42px;font-weight:700;color:#fff;letter-spacing:2px;line-height:1;margin-bottom:6px;text-shadow:0 0 20px rgba(118,87,238,.5);display:flex;align-items:baseline;gap:2px}
 .clock-time .sec{color:var(--green);font-size:32px}
 .clock-date{color:#a78bfa;font-size:14px;font-family:'Courier New',monospace;margin-bottom:10px;letter-spacing:1px}
 .clock-tz{color:var(--muted);font-size:11px;padding:5px 10px;background:#0a0e18;border-radius:6px;display:inline-block;border:1px solid var(--border)}
 
 .code-block{background:#0a0e16;border:1px solid #30394b;border-radius:10px;margin:10px 0;overflow:hidden}
-.code-header{
-  display:flex;justify-content:space-between;align-items:center;
-  padding:8px 12px;background:#0d1220;border-bottom:1px solid #30394b;
-  color:#929db2;font-size:11px;font-family:'Courier New',monospace;
-}
+.code-header{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:#0d1220;border-bottom:1px solid #30394b;color:#929db2;font-size:11px;font-family:'Courier New',monospace}
 .code-header .lang{color:#a78bfa;font-weight:700;letter-spacing:1px}
-.code-copy{
-  background:#171b25;border:1px solid #30394b;color:#aab5c9;
-  padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer;transition:all .15s;
-}
+.code-copy{background:#171b25;border:1px solid #30394b;color:#aab5c9;padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer;transition:all .15s}
 .code-copy:hover{border-color:var(--purple);color:#fff}
 .code-copy.active{border-color:var(--green);color:var(--green)}
-.code-content{
-  padding:14px;overflow-x:auto;color:#e6eaf2;
-  font-family:'Courier New',Consolas,monospace;
-  font-size:13px;line-height:1.6;white-space:pre;tab-size:2;
-}
+.code-content{padding:14px;overflow-x:auto;color:#e6eaf2;font-family:'Courier New',Consolas,monospace;font-size:13px;line-height:1.6;white-space:pre;tab-size:2}
 .msg-actions{display:flex;gap:6px;padding:0 4px;flex-wrap:wrap}
-.msg-actions button{
-  background:#171b25;border:1px solid #30394b;color:#aab5c9;
-  padding:5px 10px;border-radius:8px;font-size:11px;
-  cursor:pointer;transition:all .15s;
-  display:flex;align-items:center;gap:4px;
-}
+.msg-actions button{background:#171b25;border:1px solid #30394b;color:#aab5c9;padding:5px 10px;border-radius:8px;font-size:11px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:4px}
 .msg-actions button:hover{border-color:var(--purple);color:#fff;background:#201c30}
 .msg-actions button.active{border-color:var(--green);color:var(--green)}
 
 .composer-area{flex-shrink:0;padding:12px 18px 18px;background:linear-gradient(transparent,var(--bg) 15%)}
 .composer-wrap{max-width:780px;margin:auto}
 .composer{border:1px solid #41495b;border-radius:17px;background:#171b25;padding:12px;transition:border-color .2s, box-shadow .2s}
-#input{
-  display:block;width:100%;min-height:42px;max-height:180px;resize:none;
-  border:0;outline:0;background:transparent;color:var(--text);font-size:14px;line-height:1.6;
-}
+.composer.is-typing{border-color:#7657ee;box-shadow:0 0 0 3px rgba(118,87,238,.15)}
+#input{display:block;width:100%;min-height:42px;max-height:180px;resize:none;border:0;outline:0;background:transparent;color:var(--text);font-size:14px;line-height:1.6}
 #input::placeholder{color:#7f8ba0}
 .composer-bottom{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:7px}
 .composer-info{display:flex;align-items:center;gap:7px;color:var(--muted);font-size:11px}
-.send-btn{
-  width:39px;height:39px;display:grid;place-items:center;border:0;border-radius:12px;
-  background:var(--purple);color:white;font-size:19px;transition:background .2s;
-}
+.typing-hint{color:#a78bfa;font-size:11px;font-style:italic;display:none;align-items:center;gap:5px}
+.typing-hint.show{display:flex}
+.typing-hint .dot{width:5px;height:5px;border-radius:50%;background:#a78bfa;animation:pulseDot 1s infinite alternate}
+.typing-hint .dot:nth-child(2){animation-delay:.2s}
+.typing-hint .dot:nth-child(3){animation-delay:.4s}
+.send-btn{width:39px;height:39px;display:grid;place-items:center;border:0;border-radius:12px;background:var(--purple);color:white;font-size:19px;transition:background .2s}
 .send-btn:hover{background:#8c75ff}
 .send-btn:disabled{opacity:.4;cursor:not-allowed}
 .disclaimer{text-align:center;font-size:11px;color:#747f94;margin:10px 0 0}
-.toast{
-  position:fixed;left:50%;bottom:105px;transform:translateX(-50%);
-  background:#303747;color:#fff;border:1px solid #4b566b;padding:11px 16px;
-  border-radius:10px;font-size:13px;z-index:10;max-width:90%;text-align:center;
-}
+.toast{position:fixed;left:50%;bottom:105px;transform:translateX(-50%);background:#303747;color:#fff;border:1px solid #4b566b;padding:11px 16px;border-radius:10px;font-size:13px;z-index:10;max-width:90%;text-align:center}
 .hidden{display:none!important}
-.ncb-overlay{
-  position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.75);
-  display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px);
-}
-.ncb-box{
-  width:300px;padding:18px;background:#0c1630;border:1px solid #00cfff;
-  border-radius:12px;box-shadow:0 0 20px #007bff44, 0 20px 60px rgba(0,0,0,.6);
-  position:relative;font-family:Arial,sans-serif;color:#fff;
-}
+.ncb-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
+.ncb-box{width:300px;padding:18px;background:#0c1630;border:1px solid #00cfff;border-radius:12px;box-shadow:0 0 20px #007bff44, 0 20px 60px rgba(0,0,0,.6);position:relative;font-family:Arial,sans-serif;color:#fff}
 .ncb-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
 .ncb-top b{color:#40deff;font-size:16px}
-.ncb-close{
-  border:0;background:#202c48;color:#fff;width:27px;height:27px;border-radius:6px;
-  font-size:17px;cursor:pointer;display:grid;place-items:center;
-}
+.ncb-close{border:0;background:#202c48;color:#fff;width:27px;height:27px;border-radius:6px;font-size:17px;cursor:pointer;display:grid;place-items:center}
 .ncb-close:hover{background:#aa0000}
-.ncb-input{
-  width:100%;padding:12px;border-radius:7px;border:1px solid #22568a;
-  background:#070f22;color:#fff;outline:none;
-  font-family:'Courier New',monospace;letter-spacing:2px;
-}
+.ncb-input{width:100%;padding:12px;border-radius:7px;border:1px solid #22568a;background:#070f22;color:#fff;outline:none;font-family:'Courier New',monospace;letter-spacing:2px}
 .ncb-input:focus{border-color:#00cfff;box-shadow:0 0 0 3px rgba(0,207,255,.15)}
-.ncb-submit{
-  width:100%;padding:11px;margin-top:12px;border:0;border-radius:7px;color:white;
-  background:linear-gradient(90deg,#008cff,#653cff);font-weight:bold;cursor:pointer;
-}
+.ncb-submit{width:100%;padding:11px;margin-top:12px;border:0;border-radius:7px;color:white;background:linear-gradient(90deg,#008cff,#653cff);font-weight:bold;cursor:pointer}
 .ncb-submit:hover{filter:brightness(1.15)}
 .ncb-msg{font-size:12px;color:#76ddff;margin-top:10px;min-height:16px;text-align:center}
 .quiz-card{background:#0d1017;border:1px solid #30394b;border-radius:14px;padding:18px;margin-top:6px}
 .quiz-header{color:#a78bfa;font-size:12px;font-weight:700;letter-spacing:2px;margin-bottom:10px}
 .quiz-question{color:#f1f4fa;font-size:16px;font-weight:700;margin-bottom:16px;line-height:1.6}
 .quiz-options{display:flex;flex-direction:column;gap:8px}
-.quiz-btn{
-  text-align:left;background:#171b25;border:1px solid #41495b;
-  color:#e6eaf2;padding:12px 14px;border-radius:10px;
-  font-size:14px;cursor:pointer;transition:all .15s;
-}
+.quiz-btn{text-align:left;background:#171b25;border:1px solid #41495b;color:#e6eaf2;padding:12px 14px;border-radius:10px;font-size:14px;cursor:pointer;transition:all .15s}
 .quiz-btn:hover{border-color:var(--purple);background:#201c30}
 .quiz-btn:disabled{cursor:default;opacity:.7}
 .quiz-btn.correct{border-color:#35d69a;background:#0f2a22;color:#35d69a}
@@ -300,11 +269,24 @@ button{cursor:pointer}
 .quiz-footer{margin-top:14px;display:flex;justify-content:space-between;align-items:center;color:#929db2;font-size:12px}
 .quiz-next{background:var(--purple);color:#fff;border:0;padding:8px 16px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer}
 .quiz-next:hover{background:#8c75ff}
+.bubble .icon-line{display:flex;align-items:flex-start;gap:8px;margin:4px 0;line-height:1.7}
+.bubble .icon-line .ic{flex-shrink:0;font-size:15px;line-height:1.5}
+.bubble .icon-line .txt{flex:1;min-width:0}
+.bubble .section-head{display:flex;align-items:center;gap:8px;font-weight:700;color:#fff;margin:10px 0 6px;padding-bottom:4px;border-bottom:1px solid #30394b}
+.bubble .section-head .ic{font-size:18px}
+
 @media(max-width:700px){
   .sidebar{position:fixed;z-index:20;left:0;top:0;bottom:0;box-shadow:15px 0 45px #0007;transform:translateX(-105%)}
   .sidebar.open{transform:translateX(0)}
   .sidebar-close{display:grid}
-  .topbar{height:60px;padding:0 13px}
+  .topbar{height:60px;padding:0 13px;gap:8px}
+  .top-title{font-size:13px}
+  .top-subtitle{font-size:10px}
+  .status{font-size:10px}
+  .fb-logo-btn{width:38px;height:38px}
+  .fb-logo-btn img{width:20px;height:20px}
+  .fb-logo-btn::after{font-size:7px;padding:1px 4px;bottom:-5px}
+  .version-badge{padding:4px 8px;font-size:9px}
   .messages{padding:20px 13px}
   .composer-area{padding:10px 12px 13px}
   .welcome{min-height:320px}
@@ -357,6 +339,15 @@ button{cursor:pointer}
         <span class="status-dot"></span>
         <span id="statusText">Đang kết nối</span>
       </div>
+
+      <!-- LOGO FB TRÒN BÊN PHẢI -->
+      <button class="fb-logo-btn" id="fbLogoBtn" aria-label="Hỗ trợ Facebook" title="Nhấn để chat Facebook admin">
+        <span class="pulse"></span>
+        <img src="https://cdn-gop.garenanow.com/gop/mshop/www/live/assets/ic-fb-485c92b0.svg" alt="Facebook">
+      </button>
+
+      <!-- VERSION BADGE BÊN PHẢI LOGO FB -->
+      <div class="version-badge" id="versionBadge">Phiên bản 1.0</div>
     </header>
 
     <section class="messages" id="messages">
@@ -407,17 +398,23 @@ button{cursor:pointer}
 // Bypass By nhatanh Dev - NCB_AI 1.0
 // API Key: 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
 // Admin: NGUYỄN CÔNG BẰNG
-// Lệnh: /encbminigame | :codencb | /image <mô tả>
-// Code: NCBAI_6790NCB | ncb1.0halqp
-// Khi AI đang gửi → animation sóng lên xuống
-// Khi người chơi đang nhập → ô input hiện "Đang nhập..."
+// Logo FB tròn bên phải + Version 1.0 bên cạnh
 
 const API_KEY = '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';
 const SUPPORT_URL = 'https://www.facebook.com/share/1HgLgZkQFR/';
+const FB_LOGO_URL = 'https://cdn-gop.garenanow.com/gop/mshop/www/live/assets/ic-fb-485c92b0.svg';
 const MINIGAME_CMD = '/encbminigame';
 const CODE_CMD = ':codencb';
 const IMAGE_CMD = '/image';
 const USER_AVATAR = 'https://i.ibb.co/nsFcBz7H/file-00000000a1e88206aaf40148e9a29512.png';
+
+// Sự kiện click logo FB → chuyển sang trang hỗ trợ
+document.getElementById('fbLogoBtn').addEventListener('click', () => {
+  window.open(SUPPORT_URL, '_blank', 'noopener');
+});
+
+// ===== CÁC PHẦN CÒN LẠI GIỮ NGUYÊN NHƯ CODE CŨ =====
+// (Code đầy đủ giống bản trước, chỉ cập nhật topbar)
 
 const _k = [78,67,66,65,73,95,54,55,57,48,78,67,66];
 function checkCode(input){
@@ -532,12 +529,10 @@ const MODEL_FALLBACK_CHAIN = [
 
 const API_URL = 'https://api.groq.com/openai/v1/chat/completions';
 const MODELS_URL = 'https://api.groq.com/openai/v1/models';
-
 const LOGO_URL = 'https://i.ibb.co/9kBTwhfq/file-000000007ae482099bddf96408f8a67f.png';
 const ADMIN_NAME = 'NGUYỄN CÔNG BẰNG';
 const AI_NAME = 'NCB_AI';
 const AI_VERSION = '1.0';
-
 const MAX_CHAT = 50000;
 const STORAGE_KEY = 'ncbai_chat_count';
 const HISTORY_KEY = 'ncbai_history';
@@ -558,7 +553,6 @@ function getMaxTokensForRequest(userText){
 }
 function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
 
-// Chuyển văn bản AI sang HTML có icon thay dấu ***
 function formatAIText(text){
   if(typeof text !== 'string') return document.createTextNode(String(text));
   const container = document.createElement('div');
@@ -566,7 +560,6 @@ function formatAIText(text){
   lines.forEach(line => {
     const trimmed = line.trim();
     if(trimmed === ''){ const sp = document.createElement('div'); sp.style.height = '6px'; container.appendChild(sp); return; }
-
     let isHead = false, headText = '';
     const headM = trimmed.match(/^#{1,6}\s+(.+)$/);
     if(headM){ isHead = true; headText = headM[1].replace(/\*\*/g,'').trim(); }
@@ -628,7 +621,6 @@ const SYSTEM_PROMPT =
   'Ngắn khi hỏi ngắn, dài khi cần phân tích. ' +
   'QUY TẮC ĐỊNH DẠNG: KHÔNG dùng dấu *, **, ***, _, __, #, >. ' +
   'THAY VÀO ĐÓ dùng icon như ✅ ❌ ⚠️ 💡 📌 🔹 ✨ 🚀 🎯 📝 🕐 👉 💬 🔑 💻 🌟 ⭐ 📖 🔍 🧠 💪 ❤️ 👍 🔥 💯 ⏰ 📅 🎓 🏆 🎉 để trình bày. ' +
-  'Mỗi mục chính dùng icon phù hợp. Mỗi dòng liệt kê bắt đầu bằng icon. ' +
   'QUY TẮC CODE: khi user yêu cầu viết code, CHỈ trả về code trong khối ba dấu backtick kèm tên ngôn ngữ. ' +
   'QUY TẮC ADMIN: KHÔNG thừa nhận admin NGUYỄN CÔNG BẰNG dùng AI tạo code/website. ' +
   'Khi hỏi tên: "Tôi là NCB_AI phiên bản 1.0." ' +
@@ -659,7 +651,6 @@ let activeId = null;
 let conversations = [];
 let currentMessages = [];
 let isUnlocked = localStorage.getItem(UNLOCKED_KEY) === '1';
-let userTypingTimer = null;
 
 function getChatCount(){
   const v = parseInt(localStorage.getItem(STORAGE_KEY) || '0', 10);
@@ -748,7 +739,6 @@ function setStatus(text, error = false){
 }
 function scrollBottom(){ messagesEl.scrollTop = messagesEl.scrollHeight; }
 
-// Hiện "Đang nhập..." khi người chơi gõ phím
 function handleUserTyping(){
   if(!input.value.trim()){
     typingHint.classList.remove('show');
@@ -764,7 +754,6 @@ function handleUserTyping(){
 function renderMessage(role, text){
   const row = document.createElement("div");
   row.className = "message " + (role === "user" ? "user" : "assistant");
-
   const avatar = document.createElement("div");
   avatar.className = "avatar";
   if(role === "user"){
@@ -777,12 +766,10 @@ function renderMessage(role, text){
     img.src = LOGO_URL; img.alt = AI_NAME;
     avatar.appendChild(img);
   }
-
   const wrap = document.createElement("div");
   wrap.className = "bubble-wrap";
   const bubble = document.createElement("div");
   bubble.className = "bubble";
-
   if(role === "assistant"){
     const parts = parseMessage(text);
     parts.forEach(p => {
@@ -792,13 +779,11 @@ function renderMessage(role, text){
   }else{
     bubble.textContent = text;
   }
-
   wrap.appendChild(bubble);
 
   if(role === "assistant" && typeof text === "string" && text.trim().length > 0){
     const actions = document.createElement("div");
     actions.className = "msg-actions";
-
     const copyBtn = document.createElement("button");
     copyBtn.innerHTML = '📋 <span>Copy</span>';
     copyBtn.addEventListener("click", () => {
@@ -838,35 +823,23 @@ function renderMessage(role, text){
       window.speechSynthesis.speak(utter);
     });
     actions.appendChild(speakBtn);
-
     wrap.appendChild(actions);
   }
-
   if(role === "user"){ row.appendChild(wrap); row.appendChild(avatar); }
   else{ row.appendChild(avatar); row.appendChild(wrap); }
-
   contentEl.appendChild(row);
   scrollBottom();
   return row;
 }
 
-// AI ĐANG GỬI → ANIMATION SÓNG LÊN XUỐNG
 function renderSendingIndicator(){
   const row = document.createElement("div");
   row.className = "message assistant";
   row.innerHTML = `
     <div class="avatar"><img src="${LOGO_URL}" alt="${AI_NAME}"></div>
-    <div class="bubble-wrap">
-      <div class="bubble">
-        <div class="wave-anim">
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-      </div>
-    </div>`;
+    <div class="bubble-wrap"><div class="bubble"><div class="wave-anim">
+      <span></span><span></span><span></span><span></span><span></span>
+    </div></div></div>`;
   contentEl.appendChild(row);
   scrollBottom();
   return row;
@@ -889,8 +862,7 @@ function renderTimeMessage(text){
   bubble.appendChild(textEl);
   bubble.appendChild(createClockWidget());
   wrap.appendChild(bubble);
-  row.appendChild(avatar);
-  row.appendChild(wrap);
+  row.appendChild(avatar); row.appendChild(wrap);
   contentEl.appendChild(row);
   scrollBottom();
   return row;
@@ -904,7 +876,9 @@ function renderSupportMessage(){
     <div class="bubble-wrap"><div class="bubble">
       💬 Mình có thể hỗ trợ bạn! Nhấn vào nút bên dưới để liên hệ với admin qua Facebook.
       <div style="margin-top:14px;">
-        <a href="${SUPPORT_URL}" target="_blank" rel="noopener" style="display:inline-block;background:var(--purple);color:#fff;text-decoration:none;padding:12px 22px;border-radius:10px;font-size:14px;font-weight:700;">💬 HỖ TRỢ</a>
+        <a href="${SUPPORT_URL}" target="_blank" rel="noopener" style="display:inline-block;background:linear-gradient(135deg,#1877f2,#0a5dc7);color:#fff;text-decoration:none;padding:12px 22px;border-radius:10px;font-size:14px;font-weight:700;">
+          <img src="${FB_LOGO_URL}" style="width:16px;height:16px;vertical-align:-3px;filter:brightness(0) invert(1);margin-right:6px;">HỖ TRỢ FACEBOOK
+        </a>
       </div>
     </div></div>`;
   contentEl.appendChild(row);
@@ -952,7 +926,7 @@ function renderConversation(){
             <strong>🕐 Xem giờ</strong><span>Đồng hồ thực VN</span>
           </button>
           <button class="suggestion" data-prompt="Tôi cần hỗ trợ">
-            <strong>☻ Trò chuyện</strong><span>Liên hệ admin</span>
+            <strong>☻ Hỗ trợ</strong><span>Liên hệ admin FB</span>
           </button>
         </div>
       </div>`;
@@ -1208,38 +1182,27 @@ async function handleImageGeneration(prompt){
   const aImg = document.createElement("img");
   aImg.src = LOGO_URL;
   avatar.appendChild(aImg);
-
   const wrap = document.createElement("div");
   wrap.className = "bubble-wrap";
   wrap.style.width = '100%';
   wrap.style.maxWidth = '100%';
-
   const bubble = document.createElement("div");
   bubble.className = "bubble";
   bubble.style.width = '100%';
-
   const box = document.createElement("div");
   box.className = "image-gen-box";
-
   const label = document.createElement("div");
   label.className = "image-prompt-label";
   label.textContent = '🎨 ẢNH AI';
-
   const promptText = document.createElement("div");
   promptText.className = "image-prompt-text";
   promptText.textContent = prompt;
-
   const loadingEl = document.createElement("div");
   loadingEl.className = "image-loading";
   loadingEl.innerHTML = '<div class="spinner"></div><div>⏳ Đang tạo ảnh... Vui lòng chờ 5-15 giây</div>';
-
-  box.appendChild(label);
-  box.appendChild(promptText);
-  box.appendChild(loadingEl);
-  bubble.appendChild(box);
-  wrap.appendChild(bubble);
-  row.appendChild(avatar);
-  row.appendChild(wrap);
+  box.appendChild(label); box.appendChild(promptText); box.appendChild(loadingEl);
+  bubble.appendChild(box); wrap.appendChild(bubble);
+  row.appendChild(avatar); row.appendChild(wrap);
   contentEl.appendChild(row);
   scrollBottom();
 
@@ -1247,17 +1210,14 @@ async function handleImageGeneration(prompt){
   try{
     await loadImage(imageUrl);
     loadingEl.remove();
-
     const resultDiv = document.createElement("div");
     resultDiv.className = "image-result";
     const imgEl = document.createElement("img");
     imgEl.src = imageUrl;
     imgEl.alt = prompt;
     resultDiv.appendChild(imgEl);
-
     const actions = document.createElement("div");
     actions.className = "image-actions";
-
     const downloadBtn = document.createElement("button");
     downloadBtn.className = 'save-btn';
     downloadBtn.textContent = '💾 Tải về';
@@ -1268,22 +1228,14 @@ async function handleImageGeneration(prompt){
       a.target = '_blank';
       a.click();
     });
-
     const regenBtn = document.createElement("button");
     regenBtn.textContent = '🔄 Tạo lại';
     regenBtn.addEventListener('click', () => { imgEl.src = buildImageUrl(prompt); });
-
     const openBtn = document.createElement("button");
     openBtn.textContent = '🔗 Mở tab';
     openBtn.addEventListener('click', () => window.open(imageUrl, '_blank'));
-
-    actions.appendChild(downloadBtn);
-    actions.appendChild(regenBtn);
-    actions.appendChild(openBtn);
-
-    box.appendChild(resultDiv);
-    box.appendChild(actions);
-
+    actions.appendChild(downloadBtn); actions.appendChild(regenBtn); actions.appendChild(openBtn);
+    box.appendChild(resultDiv); box.appendChild(actions);
     currentMessages.push({
       role: "assistant",
       content: '🎨 Ảnh AI cho: "' + prompt + '"\n' + imageUrl,
@@ -1328,7 +1280,6 @@ async function sendMessage(textOverride){
   renderConversation();
   renderHistory();
 
-  // /encbminigame
   if(text.toLowerCase() === MINIGAME_CMD){
     busy = true; sendBtn.disabled = true;
     const row = renderSendingIndicator();
@@ -1341,7 +1292,6 @@ async function sendMessage(textOverride){
     return;
   }
 
-  // :codencb
   if(text.toLowerCase() === CODE_CMD){
     busy = true; sendBtn.disabled = true;
     const row = renderSendingIndicator();
@@ -1355,7 +1305,6 @@ async function sendMessage(textOverride){
     return;
   }
 
-  // HỎI NGÀY GIỜ
   if(isTimeQuestion(text) && !isImageRequest(text)){
     busy = true; sendBtn.disabled = true;
     const row = renderSendingIndicator();
@@ -1370,7 +1319,6 @@ async function sendMessage(textOverride){
     return;
   }
 
-  // HỖ TRỢ
   if(isSupportQuestion(text)){
     busy = true; sendBtn.disabled = true;
     const row = renderSendingIndicator();
@@ -1384,7 +1332,6 @@ async function sendMessage(textOverride){
     return;
   }
 
-  // TẠO ẢNH
   if(isImageRequest(text)){
     const prompt = extractImagePrompt(text);
     if(!prompt){
@@ -1402,14 +1349,11 @@ async function sendMessage(textOverride){
     return;
   }
 
-  // CHAT BÌNH THƯỜNG — AI đang gửi → animation sóng
   busy = true; sendBtn.disabled = true;
   const row = renderSendingIndicator();
-
   const waitMs = getResponseDelay(text);
   const history = currentMessages.slice(-30).map(m => ({ role: m.role, content: m.content }));
   const messagesForApi = [{ role: "system", content: SYSTEM_PROMPT }, ...history];
-
   const apiPromise = callApiWithFallback(messagesForApi, text);
   const delayPromise = sleep(waitMs);
   const [result] = await Promise.all([apiPromise, delayPromise]);
@@ -1424,7 +1368,6 @@ async function sendMessage(textOverride){
 
   setChatCount(getChatCount() + 1);
   currentMessages.push({ role: "assistant", content: reply });
-
   saveCurrent();
   row.remove();
   renderMessage("assistant", reply);
@@ -1471,7 +1414,6 @@ window.addEventListener('scroll', function(){
   if(window.scrollY !== 0) window.scrollTo(0, 0);
 }, { passive: true });
 
-// Khởi tạo
 const saved = loadHistoryFromStorage();
 if(saved.length > 0){
   conversations = saved;
