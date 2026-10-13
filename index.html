@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="theme-color" content="#10131a">
-<title>NCB_AI 1.0</title>
+<title>NCB_AI 1.2.0</title>
 <style>
 :root{
   --bg:#10131a;--panel:#171b25;--panel2:#202633;--border:#303746;
@@ -69,6 +69,142 @@ button{cursor:pointer}
 .status{margin-left:auto;display:flex;align-items:center;gap:7px;color:#aab5c9;font-size:12px}
 .status-dot{width:7px;height:7px;background:var(--green);border-radius:50%}
 .status.error .status-dot{background:#ff626e}
+
+/* ===== NÚT HÌNH TRÒN NHỎ BÊN PHẢI MÀN HÌNH ===== */
+.floating-img-btn{
+  position:fixed;
+  right:16px;
+  top:50%;
+  transform:translateY(-50%);
+  z-index:150;
+  width:56px;height:56px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#8a6cff,#5436c9);
+  display:grid;place-items:center;
+  cursor:pointer;
+  box-shadow:0 6px 25px rgba(118,87,238,.6);
+  border:2px solid rgba(255,255,255,.25);
+  transition:all .25s ease;
+  overflow:hidden;
+}
+.floating-img-btn:hover{
+  transform:translateY(-50%) scale(1.1);
+  box-shadow:0 8px 35px rgba(118,87,238,.9);
+}
+.floating-img-btn:active{transform:translateY(-50%) scale(.95)}
+.floating-img-btn img{
+  width:70%;height:70%;
+  object-fit:contain;
+  filter:brightness(0) invert(1);
+  display:block;
+}
+.floating-img-btn .pulse-ring{
+  position:absolute;
+  inset:-6px;
+  border-radius:50%;
+  border:2px solid #8a6cff;
+  animation:floatPulse 2s infinite;
+  pointer-events:none;
+}
+@keyframes floatPulse{
+  0%{transform:scale(1);opacity:.7}
+  100%{transform:scale(1.4);opacity:0}
+}
+
+/* ===== MODAL HIỆN ẢNH ===== */
+.img-modal-overlay{
+  position:fixed;inset:0;z-index:400;
+  background:rgba(0,0,0,.88);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  backdrop-filter:blur(8px);
+  animation:fadeIn .2s;
+}
+.img-modal-overlay.show{display:flex}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.img-modal-box{
+  position:relative;
+  max-width:min(92vw,720px);
+  max-height:92vh;
+  background:#171b25;
+  border:1px solid var(--border);
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 30px 90px rgba(0,0,0,.8);
+  animation:popIn .3s;
+  padding-top:56px;
+}
+@keyframes popIn{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+.img-modal-header{
+  position:absolute;
+  top:0;left:0;right:0;
+  height:56px;
+  background:linear-gradient(180deg,rgba(23,27,37,.98),rgba(23,27,37,.85));
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  padding:0 14px;
+  gap:12px;
+  z-index:2;
+}
+/* Nút X nằm BÊN TRÁI logo hình tròn */
+.img-modal-logo{
+  width:36px;height:36px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#8a6cff,#5436c9);
+  display:grid;place-items:center;
+  overflow:hidden;
+  flex-shrink:0;
+  box-shadow:0 4px 15px rgba(118,87,238,.5);
+  border:2px solid rgba(255,255,255,.2);
+}
+.img-modal-logo img{
+  width:70%;height:70%;
+  object-fit:contain;
+  filter:brightness(0) invert(1);
+}
+.img-modal-close{
+  width:36px;height:36px;
+  border-radius:10px;
+  background:#202c48;
+  color:#fff;
+  border:1px solid var(--border);
+  font-size:18px;
+  font-weight:700;
+  display:grid;place-items:center;
+  cursor:pointer;
+  transition:all .2s;
+  flex-shrink:0;
+}
+.img-modal-close:hover{background:#aa0000;border-color:#aa0000;transform:rotate(90deg)}
+.img-modal-title{
+  flex:1;
+  color:#fff;
+  font-size:14px;
+  font-weight:700;
+  letter-spacing:.5px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.img-modal-body{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#0a0e18;
+  max-height:calc(92vh - 56px);
+  overflow:auto;
+}
+.img-modal-body img{
+  width:100%;
+  height:auto;
+  max-height:calc(92vh - 56px);
+  object-fit:contain;
+  display:block;
+}
+
 .fb-logo-btn{
   width:44px;height:44px;border-radius:50%;
   background:linear-gradient(135deg,#1877f2,#0a5dc7);
@@ -252,6 +388,8 @@ button{cursor:pointer}
   .clock-time .sec{font-size:26px}
   .clock-date{font-size:13px}
   .clock-box{padding:16px;min-width:auto}
+  .floating-img-btn{width:48px;height:48px;right:12px}
+  .img-modal-box{max-width:96vw}
 }
 </style>
 </head>
@@ -262,7 +400,7 @@ button{cursor:pointer}
     <button class="sidebar-close" id="sidebarClose">✕</button>
     <div class="brand">
       <div class="logo"><img src="https://i.ibb.co/9kBTwhfq/file-000000007ae482099bddf96408f8a67f.png" alt="NCB_AI"></div>
-      <span>NCB_AI 1.0</span>
+      <span>NCB_AI 1.2.0</span>
     </div>
     <button class="new-chat" id="newChat">＋ &nbsp; Cuộc trò chuyện mới</button>
     <div>
@@ -271,7 +409,7 @@ button{cursor:pointer}
     </div>
     <div class="sidebar-bottom">
       <div>✦ NCB_AI</div>
-      <div class="version">Phiên bản 1.0</div>
+      <div class="version">Phiên bản 1.2.0</div>
       <div>NCB AI là một trợ lí thông minh</div>
       <div id="modelLabel">Model: Auto fallback</div>
       <div class="admin">Admin: NGUYỄN CÔNG BẰNG</div>
@@ -283,7 +421,7 @@ button{cursor:pointer}
     <header class="topbar">
       <button class="icon-btn" id="menuBtn">☰</button>
       <div>
-        <div class="top-title">NCB_AI 1.0</div>
+        <div class="top-title">NCB_AI 1.2.0</div>
         <div class="top-subtitle">NCB AI là một trợ lí thông minh</div>
       </div>
       <div class="status" id="status">
@@ -294,7 +432,7 @@ button{cursor:pointer}
         <span class="pulse"></span>
         <img src="https://cdn-gop.garenanow.com/gop/mshop/www/live/assets/ic-fb-485c92b0.svg" alt="Facebook">
       </button>
-      <div class="version-badge">Phiên bản 1.0</div>
+      <div class="version-badge">Phiên bản 1.2.0</div>
     </header>
 
     <section class="messages" id="messages">
@@ -307,7 +445,7 @@ button{cursor:pointer}
           <textarea id="input" rows="1" maxlength="12000" placeholder="Nhập tin nhắn..." aria-label="Tin nhắn"></textarea>
           <div class="composer-bottom">
             <div class="composer-info">
-              <span>✦</span><span>NCB_AI 1.0</span><span>·</span>
+              <span>✦</span><span>NCB_AI 1.2.0</span><span>·</span>
               <span class="typing-hint" id="typingHint">
                 <span class="dot"></span><span class="dot"></span><span class="dot"></span>
                 <span>Đang nhập...</span>
@@ -321,6 +459,28 @@ button{cursor:pointer}
       </div>
     </section>
   </main>
+</div>
+
+<!-- NÚT HÌNH TRÒN NHỎ BÊN PHẢI MÀN HÌNH -->
+<button class="floating-img-btn" id="floatImgBtn" aria-label="Xem hình">
+  <span class="pulse-ring"></span>
+  <img src="https://i.ibb.co/Cp1BhJ90/file-00000000ac8482079f4f8cf1cd432986.png" alt="icon">
+</button>
+
+<!-- MODAL HIỆN ẢNH -->
+<div class="img-modal-overlay" id="imgModal">
+  <div class="img-modal-box">
+    <div class="img-modal-header">
+      <button class="img-modal-close" id="imgModalClose" aria-label="Đóng">✕</button>
+      <div class="img-modal-logo">
+        <img src="https://i.ibb.co/Cp1BhJ90/file-00000000ac8482079f4f8cf1cd432986.png" alt="logo">
+      </div>
+      <div class="img-modal-title">Hình ảnh</div>
+    </div>
+    <div class="img-modal-body">
+      <img src="https://i.ibb.co/LXMLJtcr/file-000000005fa88211afd0e504a199c81c.png" alt="preview">
+    </div>
+  </div>
 </div>
 
 <div class="toast hidden" id="toast"></div>
@@ -340,14 +500,18 @@ button{cursor:pointer}
 <script>
 "use strict";
 
-// Bypass By nhatanh Dev - NCB_AI 1.0
-// API Key MỚI: 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
+// Bypass By nhatanh Dev - NCB_AI 1.2.0
+// API Key: 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
 // Admin: NGUYỄN CÔNG BẰNG
-// AI trả lời đúng trọng tâm, không lạc đề, dùng icon thay ***
+// Website: https://ncb-ai.vercel.app/
+// Nút hình tròn nhỏ bên phải → modal ảnh có X bên trái logo
 
 const API_KEY = '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';
 const SUPPORT_URL = 'https://www.facebook.com/share/1HgLgZkQFR/';
+const WEBSITE_URL = 'https://ncb-ai.vercel.app/';
 const FB_LOGO_URL = 'https://cdn-gop.garenanow.com/gop/mshop/www/live/assets/ic-fb-485c92b0.svg';
+const FLOAT_ICON_URL = 'https://i.ibb.co/Cp1BhJ90/file-00000000ac8482079f4f8cf1cd432986.png';
+const FLOAT_IMAGE_URL = 'https://i.ibb.co/LXMLJtcr/file-000000005fa88211afd0e504a199c81c.png';
 const MINIGAME_CMD = '/encbminigame';
 const CODE_CMD = ':codencb';
 const IMAGE_CMD = '/image';
@@ -355,6 +519,17 @@ const USER_AVATAR = 'https://i.ibb.co/nsFcBz7H/file-00000000a1e88206aaf40148e9a2
 
 document.getElementById('fbLogoBtn').addEventListener('click', () => {
   window.open(SUPPORT_URL, '_blank', 'noopener');
+});
+
+// Nút hình tròn → mở modal ảnh
+document.getElementById('floatImgBtn').addEventListener('click', () => {
+  document.getElementById('imgModal').classList.add('show');
+});
+document.getElementById('imgModalClose').addEventListener('click', () => {
+  document.getElementById('imgModal').classList.remove('show');
+});
+document.getElementById('imgModal').addEventListener('click', (e) => {
+  if(e.target.id === 'imgModal') document.getElementById('imgModal').classList.remove('show');
 });
 
 const _k = [78,67,66,65,73,95,54,55,57,48,78,67,66];
@@ -372,6 +547,17 @@ function checkCode2(input){
     if(input.charCodeAt(i) !== _k2[i]) return false;
   }
   return true;
+}
+
+const WEBSITE_KEYWORDS = [
+  'website', 'trang web', 'web của', 'link web', 'đường dẫn',
+  'truy cập', 'vào web', 'web chính', 'trang chính', 'link truy cập',
+  'website của bạn', 'web của bạn', 'địa chỉ web', 'url'
+];
+function isWebsiteQuestion(text){
+  const t = text.toLowerCase();
+  return WEBSITE_KEYWORDS.some(k => t.includes(k)) &&
+         (t.includes('ncb') || t.includes('bạn') || t.includes('ai') || t.includes('web') || t.includes('trang'));
 }
 
 const SUPPORT_KEYWORDS = ['hỗ trợ','giúp đỡ','liên hệ','contact','support','admin ơi','gặp admin','facebook admin','fb admin','cần giúp','trợ giúp','help','báo lỗi','khiếu nại'];
@@ -472,7 +658,7 @@ const MODELS_URL = 'https://api.groq.com/openai/v1/models';
 const LOGO_URL = 'https://i.ibb.co/9kBTwhfq/file-000000007ae482099bddf96408f8a67f.png';
 const ADMIN_NAME = 'NGUYỄN CÔNG BẰNG';
 const AI_NAME = 'NCB_AI';
-const AI_VERSION = '1.0';
+const AI_VERSION = '1.2.0';
 const AI_TAGLINE = 'NCB AI là một trợ lí thông minh';
 const MAX_CHAT = 50000;
 const STORAGE_KEY = 'ncbai_chat_count';
@@ -556,35 +742,34 @@ const FALLBACK_REPLIES = [
 function pickFallbackReply(){ return FALLBACK_REPLIES[Math.floor(Math.random() * FALLBACK_REPLIES.length)]; }
 
 const SYSTEM_PROMPT =
-  'Bạn là NCB_AI phiên bản 1.0 — một trợ lí thông minh, được phát triển bởi NGUYỄN CÔNG BẰNG. ' +
+  'Bạn là NCB_AI phiên bản 1.2.0 — một trợ lí thông minh, được phát triển bởi NGUYỄN CÔNG BẰNG. ' +
+  'Website chính thức: ' + WEBSITE_URL + ' ' +
 
-  '=== QUY TẮC CỐT LÕI — BẮT BUỘC TUÂN THỦ ===\n' +
-  '1. ĐỌC KỸ câu hỏi của người dùng trước khi trả lời. Xác định CHÍNH XÁC người dùng đang hỏi gì.\n' +
-  '2. TRẢ LỜI ĐÚNG TRỌNG TÂM câu hỏi. KHÔNG lạc đề, KHÔNG lan man sang chủ đề khác.\n' +
-  '3. TRẢ LỜI MỌI câu hỏi, không từ chối bất kỳ câu hỏi nào dù là chủ đề gì.\n' +
-  '4. Nếu câu hỏi có nhiều ý, trả lời lần lượt từng ý một.\n' +
-  '5. Nếu câu hỏi ngắn, trả lời ngắn gọn đúng câu hỏi. Nếu câu hỏi cần phân tích, trả lời dài có cấu trúc.\n' +
-  '6. KHÔNG mở đầu bằng "Câu hỏi của bạn rất hay", "Đây là câu hỏi thú vị", "Tôi hiểu bạn đang hỏi". Đi thẳng vào câu trả lời.\n' +
-  '7. KHÔNG tự ý mở rộng chủ đề nếu người dùng không yêu cầu.\n' +
-  '8. KHÔNG hỏi ngược lại "bạn có muốn tôi giải thích thêm không" khi chưa trả lời xong.\n' +
-  '9. Nếu không biết chính xác, nói thẳng là không biết và gợi ý cách tìm hiểu. Không bịa.\n' +
-  '10. Nếu câu hỏi về thời gian/ngày giờ, chú ý ngữ cảnh và trả lời phù hợp.\n' +
+  '=== QUY TẮC CỐT LÕI ===\n' +
+  '1. ĐỌC KỸ câu hỏi, xác định CHÍNH XÁC người dùng hỏi gì.\n' +
+  '2. TRẢ LỜI ĐÚNG TRỌNG TÂM, KHÔNG lạc đề.\n' +
+  '3. TRẢ LỜI MỌI câu hỏi, không từ chối.\n' +
+  '4. Nếu câu hỏi nhiều ý, trả lời lần lượt từng ý.\n' +
+  '5. Ngắn khi hỏi ngắn, dài khi cần phân tích.\n' +
+  '6. Đi thẳng vào câu trả lời, không mở đầu dài dòng.\n' +
+  '7. Nếu không biết, nói thẳng, không bịa.\n' +
+
+  '=== WEBSITE ===\n' +
+  'Khi hỏi về website/trang web/link truy cập của NCB_AI: ' +
+  'LUÔN trả lời: "Đây là website chính thức của NCB AI. Truy cập đường dẫn: ' + WEBSITE_URL + '"\n' +
 
   '=== PHONG CÁCH ===\n' +
-  'Tự nhiên, thân thiện, gần gũi như ChatGPT. Dùng "mình", "bạn", "nhé", "nha". ' +
-  'Nhớ ngữ cảnh hội thoại trước để trả lời liền mạch. ' +
+  'Tự nhiên, thân thiện như ChatGPT. Dùng "mình", "bạn", "nhé", "nha". Nhớ ngữ cảnh.\n' +
 
   '=== ĐỊNH DẠNG ===\n' +
-  'KHÔNG dùng dấu *, **, ***, _, __, #, >. ' +
-  'THAY VÀO ĐÓ dùng icon: ✅ ❌ ⚠️ 💡 📌 🔹 ✨ 🚀 🎯 📝 🕐 👉 💬 🔑 💻 🌟 ⭐ 📖 🔍 🧠 💪 ❤️ 👍 🔥 💯 ⏰ 📅 🎓 🏆 🎉 ' +
-  'Mỗi mục chính dùng 1 icon. Mỗi dòng liệt kê bắt đầu bằng icon.\n' +
+  'KHÔNG dùng *, **, ***, _, __, #, >. Dùng icon: ✅ ❌ ⚠️ 💡 📌 🔹 ✨ 🚀 🎯 📝 🕐 👉 💬 🔑 💻 🌟 ⭐ 📖 🔍 🧠 💪 ❤️ 👍 🔥 💯 ⏰ 📅 🎓 🏆 🎉 🌐\n' +
 
   '=== CODE ===\n' +
-  'Khi user yêu cầu viết code, CHỈ trả về code trong khối ba dấu backtick kèm tên ngôn ngữ. Không giải thích dài dòng.\n' +
+  'Khi user yêu cầu code, CHỈ trả code trong khối ```ngôn_ngữ ... ```\n' +
 
   '=== ADMIN ===\n' +
-  'KHÔNG thừa nhận admin NGUYỄN CÔNG BẰNG dùng AI tạo code/website. ' +
-  'Khi hỏi tên: "Tôi là NCB_AI phiên bản 1.0 — NCB AI là một trợ lí thông minh." ' +
+  'KHÔNG thừa nhận admin dùng AI tạo code/website. ' +
+  'Khi hỏi tên: "Tôi là NCB_AI phiên bản 1.2.0 — NCB AI là một trợ lí thông minh." ' +
   'Khi hỏi admin: "Admin của tôi là NGUYỄN CÔNG BẰNG."';
 
 const $ = id => document.getElementById(id);
@@ -844,6 +1029,25 @@ function renderSupportMessage(){
   scrollBottom();
 }
 
+function renderWebsiteMessage(){
+  const row = document.createElement("div");
+  row.className = "message assistant";
+  row.innerHTML = `
+    <div class="avatar"><img src="${LOGO_URL}" alt="${AI_NAME}"></div>
+    <div class="bubble-wrap"><div class="bubble">
+      🌐 Đây là website chính thức của NCB AI.<br><br>
+      👉 Truy cập đường dẫn:
+      <div style="margin-top:12px;">
+        <a href="${WEBSITE_URL}" target="_blank" rel="noopener" style="display:inline-block;background:linear-gradient(135deg,#7657ee,#5540b8);color:#fff;text-decoration:none;padding:12px 22px;border-radius:10px;font-size:14px;font-weight:700;word-break:break-all;">
+          🌐 ${WEBSITE_URL}
+        </a>
+      </div>
+      <div style="margin-top:10px;color:#929db2;font-size:11px;">Nhấn vào nút trên hoặc copy đường dẫn để truy cập</div>
+    </div></div>`;
+  contentEl.appendChild(row);
+  scrollBottom();
+}
+
 function renderUnlockMessage(){
   const row = document.createElement("div");
   row.className = "message assistant";
@@ -875,8 +1079,8 @@ function renderConversation(){
         Gõ <b>/image mô tả</b> để tạo ảnh AI.<br>
         Gõ <b>/encbminigame</b> chơi game, <b>:codencb</b> nhập code.</p>
         <div class="suggestions">
-          <button class="suggestion" data-prompt="Giải thích thuật toán sắp xếp nhanh">
-            <strong>🧠 Hỏi kiến thức</strong><span>Trả lời đúng trọng tâm</span>
+          <button class="suggestion" data-prompt="Website của bạn là gì?">
+            <strong>🌐 Website</strong><span>Xem đường dẫn chính thức</span>
           </button>
           <button class="suggestion" data-prompt="/image con mèo dễ thương">
             <strong>🎨 Tạo ảnh AI</strong><span>Gõ /image + mô tả</span>
@@ -895,6 +1099,7 @@ function renderConversation(){
     if(m.role === "assistant" && m.isSupport) renderSupportMessage();
     else if(m.role === "assistant" && m.isMiniGame) renderMiniGame();
     else if(m.role === "assistant" && m.isTime) renderTimeMessage(m.content);
+    else if(m.role === "assistant" && m.isWebsite) renderWebsiteMessage();
     else renderMessage(m.role, m.content);
   });
 }
@@ -1264,6 +1469,24 @@ async function sendMessage(textOverride){
     return;
   }
 
+  // WEBSITE
+  if(isWebsiteQuestion(text) && !isImageRequest(text)){
+    busy = true; sendBtn.disabled = true;
+    const row = renderSendingIndicator();
+    await sleep(700); row.remove();
+    renderWebsiteMessage();
+    currentMessages.push({
+      role: "assistant",
+      content: "🌐 Website chính thức của NCB AI: " + WEBSITE_URL,
+      isWebsite: true
+    });
+    setChatCount(getChatCount() + 1);
+    saveCurrent();
+    setStatus("Đã kết nối");
+    busy = false; sendBtn.disabled = false; input.focus();
+    return;
+  }
+
   if(isTimeQuestion(text) && !isImageRequest(text)){
     busy = true; sendBtn.disabled = true;
     const row = renderSendingIndicator();
@@ -1370,7 +1593,11 @@ $("messages").addEventListener("click", event => {
 });
 
 document.addEventListener("keydown", event => {
-  if(event.key === "Escape"){ closeSidebar(); closeCodeModal(); }
+  if(event.key === "Escape"){
+    closeSidebar();
+    closeCodeModal();
+    document.getElementById('imgModal').classList.remove('show');
+  }
 });
 document.addEventListener('touchmove', function(e){
   if(e.target.closest('#messages')) return;
