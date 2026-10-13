@@ -341,11 +341,11 @@ button{cursor:pointer}
 "use strict";
 
 // Bypass By nhatanh Dev - NCB_AI 1.0
-// API Key: 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
+// API Key MỚI: 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
 // Admin: NGUYỄN CÔNG BẰNG
-// Cải tiến: AI trả lời đúng câu hỏi, không lạc đề, trả lời MỌI câu hỏi
+// AI trả lời đúng trọng tâm, không lạc đề, dùng icon thay ***
 
-const API_KEY = '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';
+const API_KEY = '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';
 const SUPPORT_URL = 'https://www.facebook.com/share/1HgLgZkQFR/';
 const FB_LOGO_URL = 'https://cdn-gop.garenanow.com/gop/mshop/www/live/assets/ic-fb-485c92b0.svg';
 const MINIGAME_CMD = '/encbminigame';
@@ -555,8 +555,6 @@ const FALLBACK_REPLIES = [
 ];
 function pickFallbackReply(){ return FALLBACK_REPLIES[Math.floor(Math.random() * FALLBACK_REPLIES.length)]; }
 
-// ==== SYSTEM PROMPT CẢI TIẾN ====
-// Yêu cầu AI: trả lời đúng trọng tâm, không lạc đề, không từ chối
 const SYSTEM_PROMPT =
   'Bạn là NCB_AI phiên bản 1.0 — một trợ lí thông minh, được phát triển bởi NGUYỄN CÔNG BẰNG. ' +
 
@@ -1310,16 +1308,12 @@ async function sendMessage(textOverride){
     return;
   }
 
-  // ==== CHAT BÌNH THƯỜNG — TRẢ LỜI ĐÚNG TRỌNG TÂM ====
   busy = true; sendBtn.disabled = true;
   const row = renderSendingIndicator();
 
   const waitMs = getResponseDelay(text);
-
-  // Lấy 20 tin gần nhất để AI giữ ngữ cảnh và trả lời đúng mạch câu hỏi
   const history = currentMessages.slice(-20).map(m => ({ role: m.role, content: m.content }));
 
-  // System + history + nhắc lại câu hỏi hiện tại để AI tập trung
   const messagesForApi = [
     { role: "system", content: SYSTEM_PROMPT },
     ...history,
