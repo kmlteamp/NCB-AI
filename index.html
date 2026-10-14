@@ -32,11 +32,11 @@ button{cursor:pointer}
 .login-box{
   background:var(--panel);border:1px solid var(--border);border-radius:24px;
   padding:40px 28px;max-width:400px;width:100%;text-align:center;
-  box-shadow:0 30px 90px rgba(24,119,242,.25);position:relative;overflow:hidden;
+  box-shadow:0 30px 90px rgba(118,87,238,.25);position:relative;overflow:hidden;
 }
 .login-box::before{
   content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;
-  background:conic-gradient(from 0deg,transparent,#1877f2,transparent,#42a5f5,transparent);
+  background:conic-gradient(from 0deg,transparent,#7657ee,transparent,#a78bfa,transparent);
   animation:rotateGlow 8s linear infinite;opacity:.08;z-index:0;
 }
 @keyframes rotateGlow{to{transform:rotate(360deg)}}
@@ -57,33 +57,53 @@ button{cursor:pointer}
 }
 .login-sub{color:var(--muted);font-size:14px;line-height:1.7;margin-bottom:28px;}
 
-/* FB BUTTON */
-.fb-login-wrapper{
-  display:flex;justify-content:center;align-items:center;
-  min-height:50px;width:100%;margin-bottom:8px;
-}
-.fb-login-btn{
-  width:100%;height:50px;
-  background:linear-gradient(135deg,#1877f2,#0a5dc7);
-  color:#fff;border:0;border-radius:12px;
-  font-size:15px;font-weight:700;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;gap:10px;
+/* NCB LOGIN BUTTON */
+.ncb-login-btn{
+  width:100%;
+  height:52px;
+  background:linear-gradient(135deg,#7657ee,#5540b8);
+  color:#fff;
+  border:0;
+  border-radius:12px;
+  font-size:16px;
+  font-weight:800;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
   transition:all .2s;
-  box-shadow:0 6px 25px rgba(24,119,242,.4);
+  box-shadow:0 6px 25px rgba(118,87,238,.5);
   font-family:Inter,system-ui,-apple-system,sans-serif;
+  letter-spacing:1px;
 }
-.fb-login-btn:hover{transform:translateY(-2px);box-shadow:0 8px 35px rgba(24,119,242,.7)}
-.fb-login-btn:active{transform:translateY(0)}
-.fb-login-btn svg{width:22px;height:22px;fill:#fff;flex-shrink:0;}
-.fb-login-btn .loading{
-  display:none;width:18px;height:18px;
-  border:2px solid rgba(255,255,255,.4);
-  border-top-color:#fff;border-radius:50%;
+.ncb-login-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 35px rgba(118,87,238,.8);
+}
+.ncb-login-btn:active{transform:translateY(0)}
+.ncb-login-btn svg{
+  width:24px;height:24px;
+  fill:none;
+  stroke:#fff;
+  stroke-width:2;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  flex-shrink:0;
+}
+.ncb-login-btn .loading{
+  display:none;
+  width:20px;height:20px;
+  border:2.5px solid rgba(255,255,255,.4);
+  border-top-color:#fff;
+  border-radius:50%;
   animation:spin 1s linear infinite;
 }
-.fb-login-btn.loading .loading{display:block}
-.fb-login-btn.loading svg{display:none}
+.ncb-login-btn.loading .loading{display:block}
+.ncb-login-btn.loading svg{display:none}
+.ncb-login-btn.loading span:not(.loading){display:none}
 @keyframes spin{to{transform:rotate(360deg)}}
+
 .login-footer{
   margin-top:22px;padding-top:18px;border-top:1px solid var(--border);
   color:var(--muted);font-size:11px;line-height:1.7;
@@ -106,13 +126,14 @@ button{cursor:pointer}
 .user-avatar{
   width:38px;height:38px;border-radius:50%;
   background:linear-gradient(135deg,#8a6cff,#5436c9);
-  display:grid;place-items:center;color:#fff;font-weight:700;font-size:16px;
+  display:grid;place-items:center;color:#fff;font-weight:700;font-size:13px;
   overflow:hidden;flex-shrink:0;border:2px solid rgba(255,255,255,.1);
+  font-family:'Courier New',monospace;
 }
 .user-avatar img{width:100%;height:100%;object-fit:cover}
 .user-info{min-width:0;flex:1}
-.user-name{color:var(--text);font-size:13px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.user-email{color:var(--muted);font-size:10px;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.user-name{color:var(--text);font-size:11px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:'Courier New',monospace;}
+.user-email{color:var(--muted);font-size:9px;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .logout-btn{
   background:transparent;border:1px solid #3a2a3a;color:#ff8888;
   padding:6px 10px;border-radius:8px;font-size:11px;cursor:pointer;
@@ -430,21 +451,21 @@ button{cursor:pointer}
       </div>
       <div class="login-title">NCB_AI 1.2.0</div>
       <div class="login-sub">
-        Đăng nhập bằng Facebook để bắt đầu trò chuyện.<br>
-        Mỗi tài khoản được <b style="color:#ffd166">50.000 lượt chat</b><br>
+        Đăng nhập để bắt đầu trò chuyện.<br>
+        Mỗi thiết bị được <b style="color:#ffd166">50.000 lượt chat</b><br>
         (1 lần chat = 10 lượt)
       </div>
-      <div class="fb-login-wrapper">
-        <button class="fb-login-btn" id="fbLoginBtn">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-          </svg>
-          <span class="loading"></span>
-          <span>Đăng nhập bằng Facebook</span>
-        </button>
-      </div>
+      <button class="ncb-login-btn" id="ncbLoginBtn">
+        <svg viewBox="0 0 24 24">
+          <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+          <polyline points="10 17 15 12 10 7"/>
+          <line x1="15" y1="12" x2="3" y2="12"/>
+        </svg>
+        <span class="loading"></span>
+        <span>ĐĂNG NHẬP NCB</span>
+      </button>
       <div class="login-footer">
-        NCB_AI 1.2.0 · Bypass By nhatanh Dev<br>
+        NCB_AI 1.2.0<br>
         Admin: <strong>NGUYỄN CÔNG BẰNG</strong>
       </div>
     </div>
@@ -463,8 +484,8 @@ button{cursor:pointer}
     <div class="user-card">
       <div class="user-avatar" id="userAvatar">?</div>
       <div class="user-info">
-        <div class="user-name" id="userName">User</div>
-        <div class="user-email" id="userEmail">user@fb.com</div>
+        <div class="user-name" id="userName">NCB_...</div>
+        <div class="user-email" id="userEmail">Thiết bị ẩn danh</div>
       </div>
       <button class="logout-btn" id="logoutBtn">Thoát</button>
     </div>
@@ -569,14 +590,10 @@ button{cursor:pointer}
 <script>
 "use strict";
 
-// Bypass By nhatanh Dev - NCB_AI 1.2.0
+// NCB_AI 1.2.0
 // API Key: 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
-// Đăng nhập Facebook + 50.000 lượt / tài khoản + 1 chat = 10 lượt
-// LƯU Ý: Điền Facebook App ID vào biến FB_APP_ID bên dưới
-
-// ============ CẤU HÌNH FACEBOOK ============
-const FB_APP_ID = 'YOUR_FB_APP_ID';  // ← Thay App ID Facebook của bạn vào đây
-const FB_API_VERSION = 'v18.0';
+// Admin: NGUYỄN CÔNG BẰNG
+// Đăng nhập NCB: random device ID + 50.000 lượt / thiết bị + 1 chat = 10 lượt
 
 const API_KEY = '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';
 const SUPPORT_URL = 'https://www.facebook.com/share/1HgLgZkQFR/';
@@ -587,115 +604,102 @@ const CODE_CMD = ':codencb';
 const IMAGE_CMD = '/image';
 const USER_AVATAR_DEFAULT = 'https://i.ibb.co/nsFcBz7H/file-00000000a1e88206aaf40148e9a29512.png';
 
-// ==== CẤU HÌNH LƯỢT CHAT ====
 const MAX_TURNS_PER_ACCOUNT = 50000;
 const TURNS_PER_CHAT = 10;
 
 let currentUser = null;
 let currentUserSub = null;
 
-// ============ FACEBOOK LOGIN ============
-// Load Facebook SDK
-window.fbAsyncInit = function() {
-  FB.init({
-    appId: FB_APP_ID,
-    cookie: true,
-    xfbml: true,
-    version: FB_API_VERSION
-  });
-
-  // Kiểm tra trạng thái đăng nhập
-  FB.getLoginStatus(function(response) {
-    statusChangeCallback(response);
-  });
-};
-
-// Load SDK không đồng bộ
-(function(d, s, id){
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if(d.getElementById(id)) { return; }
-  js = d.createElement(s); js.id = id;
-  js.src = "https://connect.facebook.net/vi_VN/sdk.js";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));
-
-// Xử lý callback trạng thái
-function statusChangeCallback(response) {
-  console.log('FB Status:', response);
-
-  if (response.status === 'connected') {
-    // Đã đăng nhập
-    const accessToken = response.authResponse.accessToken;
-    const userID = response.authResponse.userID;
-
-    // Lấy thông tin người dùng
-    FB.api('/me', { fields: 'id,name,email,picture.width(200)' }, function(profile) {
-      if (profile && !profile.error) {
-        currentUserSub = profile.id;
-        currentUser = {
-          id: profile.id,
-          name: profile.name || 'User',
-          email: profile.email || '',
-          picture: (profile.picture && profile.picture.data) ? profile.picture.data.url : '',
-          sub: profile.id
-        };
-
-        localStorage.setItem('ncb_user', JSON.stringify(currentUser));
-        showApp();
-      } else {
-        showToast('❌ Không lấy được thông tin Facebook');
-      }
-    });
-  } else {
-    // Chưa đăng nhập
-    console.log('Chưa đăng nhập Facebook');
-    // Thử restore từ localStorage
-    const savedUser = localStorage.getItem('ncb_user');
-    if (savedUser) {
-      try {
-        currentUser = JSON.parse(savedUser);
-        currentUserSub = currentUser.sub || currentUser.id;
-        showApp();
-        return;
-      } catch (e) {}
-    }
-  }
+// ============ TẠO DEVICE ID NGẪU NHIÊN ============
+function generateRandomDeviceID(){
+  // Format: NCB_ + random 1 đến 999999999993939399399
+  const min = 1;
+  const max = 999999999993939399399;
+  // Dùng BigInt vì max vượt quá giới hạn Number
+  const range = BigInt(max) - BigInt(min);
+  const randomBig = BigInt(Math.floor(Math.random() * Number.MAX_SAFE_INTEGER)) * 
+                    BigInt(Math.floor(Math.random() * 1000));
+  const randomID = (randomBig % range) + BigInt(min);
+  return 'NCB_' + randomID.toString();
 }
 
-// Nút đăng nhập
-document.getElementById('fbLoginBtn').addEventListener('click', function() {
+// ============ ĐĂNG NHẬP NCB ============
+document.getElementById('ncbLoginBtn').addEventListener('click', function(){
   const btn = this;
   btn.classList.add('loading');
   btn.disabled = true;
 
-  if (typeof FB === 'undefined') {
-    showToast('❌ Facebook SDK chưa tải xong');
-    btn.classList.remove('loading');
-    btn.disabled = false;
-    return;
-  }
-
-  FB.login(function(response) {
-    btn.classList.remove('loading');
-    btn.disabled = false;
-
-    if (response.status === 'connected') {
-      statusChangeCallback(response);
-    } else {
-      showToast('❌ Bạn đã hủy đăng nhập');
+  setTimeout(() => {
+    // Kiểm tra session cũ
+    const existingUser = localStorage.getItem('ncb_user');
+    if(existingUser){
+      try{
+        currentUser = JSON.parse(existingUser);
+        currentUserSub = currentUser.sub || currentUser.id;
+        btn.classList.remove('loading');
+        btn.disabled = false;
+        showApp();
+        showToast('✅ Chào mừng trở lại! ' + currentUser.id);
+        return;
+      }catch(e){}
     }
-  }, { scope: 'public_profile,email' });
+
+    // Tạo mới device ID
+    const deviceID = generateRandomDeviceID();
+    currentUserSub = deviceID;
+    currentUser = {
+      id: deviceID,
+      name: 'GL ' + deviceID,
+      sub: deviceID,
+      createdAt: Date.now()
+    };
+
+    localStorage.setItem('ncb_user', JSON.stringify(currentUser));
+
+    btn.classList.remove('loading');
+    btn.disabled = false;
+    showApp();
+    showToast('✅ Đăng nhập thành công! ' + deviceID);
+  }, 800);
 });
 
-// ============ ĐĂNG XUẤT ============
-function signOut() {
-  if (!confirm('Đăng xuất khỏi tài khoản Facebook?')) return;
+// ============ HIỆN APP ============
+function showApp(){
+  document.getElementById('loginScreen').classList.add('hide');
+  document.getElementById('appMain').classList.remove('hidden');
 
-  if (typeof FB !== 'undefined') {
-    FB.logout(function(response) {
-      console.log('User signed out from FB.');
-    });
+  if(currentUser){
+    const nameEl = document.getElementById('userName');
+    const emailEl = document.getElementById('userEmail');
+    const avatarEl = document.getElementById('userAvatar');
+
+    // Format: GL NCB_xxxxx
+    const displayID = currentUser.id || 'NCB_0';
+    nameEl.textContent = 'GL ' + displayID;
+    emailEl.textContent = 'Thiết bị ẩn danh';
+    emailEl.title = displayID;
+
+    // Avatar: 2 ký tự cuối của ID
+    const suffix = displayID.slice(-2);
+    avatarEl.textContent = suffix;
   }
+
+  initUserSession();
+
+  setTimeout(() => {
+    const inp = document.getElementById('input');
+    if(inp) inp.focus();
+  }, 300);
+
+  checkConnection();
+  updateCounter();
+}
+
+// ============ ĐĂNG XUẤT ============
+function signOut(){
+  if(!confirm('Đăng xuất khỏi thiết bị này?\n\nLượt chat sẽ bị reset khi đăng nhập lại!')) return;
+
+  const oldSub = currentUserSub;
 
   currentUser = null;
   currentUserSub = null;
@@ -710,31 +714,33 @@ function signOut() {
   renderConversation();
   renderHistory();
   updateCounter();
+
+  showToast('👋 Đã đăng xuất');
 }
 
 document.getElementById('logoutBtn').addEventListener('click', signOut);
 
-// ============ LƯỢT CHAT THEO TÀI KHOẢN ============
-function getTurnKey(sub) {
+// ============ LƯỢT CHAT THEO THIẾT BỊ ============
+function getTurnKey(sub){
   return 'ncb_turns_' + (sub || 'guest');
 }
 
-function getTurnData(sub) {
+function getTurnData(sub){
   const key = getTurnKey(sub);
-  try {
+  try{
     const raw = localStorage.getItem(key);
-    if (!raw) return { used: 0, bonus: 0 };
+    if(!raw) return { used: 0, bonus: 0 };
     const data = JSON.parse(raw);
     return {
       used: parseInt(data.used, 10) || 0,
       bonus: parseInt(data.bonus, 10) || 0
     };
-  } catch (e) {
+  }catch(e){
     return { used: 0, bonus: 0 };
   }
 }
 
-function setTurnData(sub, data) {
+function setTurnData(sub, data){
   const key = getTurnKey(sub);
   localStorage.setItem(key, JSON.stringify({
     used: parseInt(data.used, 10) || 0,
@@ -742,49 +748,49 @@ function setTurnData(sub, data) {
   }));
 }
 
-function initUserSession() {
-  if (!currentUserSub) return;
-  if (!localStorage.getItem(getTurnKey(currentUserSub))) {
+function initUserSession(){
+  if(!currentUserSub) return;
+  if(!localStorage.getItem(getTurnKey(currentUserSub))){
     setTurnData(currentUserSub, { used: 0, bonus: 0 });
   }
   updateCounter();
 }
 
-function getMaxTurns() {
-  if (!currentUserSub) return MAX_TURNS_PER_ACCOUNT;
+function getMaxTurns(){
+  if(!currentUserSub) return MAX_TURNS_PER_ACCOUNT;
   const data = getTurnData(currentUserSub);
   return MAX_TURNS_PER_ACCOUNT + data.bonus;
 }
 
-function getTurnsLeft() {
-  if (!currentUserSub) return MAX_TURNS_PER_ACCOUNT;
+function getTurnsLeft(){
+  if(!currentUserSub) return MAX_TURNS_PER_ACCOUNT;
   const data = getTurnData(currentUserSub);
   const max = MAX_TURNS_PER_ACCOUNT + data.bonus;
   return Math.max(0, max - data.used);
 }
 
-function consumeTurns() {
-  if (!currentUserSub) return false;
+function consumeTurns(){
+  if(!currentUserSub) return false;
   const data = getTurnData(currentUserSub);
   const max = MAX_TURNS_PER_ACCOUNT + data.bonus;
-  if (data.used + TURNS_PER_CHAT > max) return false;
+  if(data.used + TURNS_PER_CHAT > max) return false;
   data.used += TURNS_PER_CHAT;
   setTurnData(currentUserSub, data);
   return true;
 }
 
-function addBonusTurns(amount) {
-  if (!currentUserSub) return;
+function addBonusTurns(amount){
+  if(!currentUserSub) return;
   const data = getTurnData(currentUserSub);
   data.bonus += amount;
   setTurnData(currentUserSub, data);
   updateCounter();
 }
 
-function updateCounter() {
-  if (!currentUserSub) {
+function updateCounter(){
+  if(!currentUserSub){
     const c2 = document.getElementById('counterLabel2');
-    if (c2) c2.textContent = 'Chưa đăng nhập';
+    if(c2) c2.textContent = 'Chưa đăng nhập';
     return;
   }
   const data = getTurnData(currentUserSub);
@@ -795,48 +801,21 @@ function updateCounter() {
   const text = 'Lượt chat: ' + left.toLocaleString('vi-VN') + ' / ' + max.toLocaleString('vi-VN');
 
   const c2 = document.getElementById('counterLabel2');
-  if (c2) c2.textContent = text;
+  if(c2) c2.textContent = text;
 
   let color = '#35d69a';
-  if (left <= 0) color = '#ff626e';
-  else if (left <= max * 0.1) color = '#ffd166';
+  if(left <= 0) color = '#ff626e';
+  else if(left <= max * 0.1) color = '#ffd166';
 
-  if (c2) c2.style.color = color;
+  if(c2) c2.style.color = color;
 }
 
-// ============ HIỆN APP ============
-function showApp() {
-  document.getElementById('loginScreen').classList.add('hide');
-  document.getElementById('appMain').classList.remove('hidden');
-
-  if (currentUser) {
-    document.getElementById('userName').textContent = currentUser.name || 'User';
-    document.getElementById('userEmail').textContent = currentUser.email || ('FB ID: ' + currentUser.id);
-
-    const avatarEl = document.getElementById('userAvatar');
-    if (currentUser.picture) {
-      avatarEl.innerHTML = '<img src="' + currentUser.picture + '" alt="avatar">';
-    } else {
-      avatarEl.textContent = (currentUser.name || '?').charAt(0).toUpperCase();
-    }
-  }
-
-  initUserSession();
-
-  setTimeout(() => {
-    const inp = document.getElementById('input');
-    if (inp) inp.focus();
-  }, 300);
-
-  checkConnection();
-  updateCounter();
-}
-
-// ============ CÁC HÀM KHÁC ============
+// ============ FB LOGO HỖ TRỢ ============
 document.getElementById('fbLogoBtn').addEventListener('click', () => {
   window.open(SUPPORT_URL, '_blank', 'noopener');
 });
 
+// ============ MODAL MIC ============
 const updateOverlay = document.getElementById('updateOverlay');
 document.getElementById('micBtn').addEventListener('click', () => {
   updateOverlay.classList.add('show');
@@ -845,9 +824,10 @@ document.getElementById('updateCancel').addEventListener('click', () => {
   updateOverlay.classList.remove('show');
 });
 updateOverlay.addEventListener('click', (e) => {
-  if (e.target === updateOverlay) updateOverlay.classList.remove('show');
+  if(e.target === updateOverlay) updateOverlay.classList.remove('show');
 });
 
+// ============ CODE CHECK ============
 const _k = [78,67,66,65,73,95,54,55,57,48,78,67,66];
 function checkCode(input){
   if(input.length !== _k.length) return false;
@@ -865,6 +845,7 @@ function checkCode2(input){
   return true;
 }
 
+// ============ DETECT CÂU HỎI ============
 const WEBSITE_KEYWORDS = ['website','trang web','web của','link web','đường dẫn','truy cập','vào web','web chính','trang chính','link truy cập','website của bạn','web của bạn','địa chỉ web','url'];
 function isWebsiteQuestion(text){
   const t = text.toLowerCase();
@@ -896,6 +877,7 @@ function extractImagePrompt(text){
   return t.trim();
 }
 
+// ============ CLOCK WIDGET ============
 let clockIntervals = [];
 function stopAllClocks(){ clockIntervals.forEach(id => clearInterval(id)); clockIntervals = []; }
 
@@ -931,6 +913,7 @@ function createClockWidget(){
   return box;
 }
 
+// ============ IMAGE GEN ============
 function buildImageUrl(prompt, seed){
   const s = seed || Math.floor(Math.random() * 1000000);
   const encoded = encodeURIComponent(prompt);
@@ -947,6 +930,7 @@ async function loadImage(url){
   });
 }
 
+// ============ AI MODEL ============
 const MODEL_FALLBACK_CHAIN = [
   { model: 'llama-3.3-70b-versatile' },
   { model: 'llama-3.1-8b-instant' },
@@ -1209,7 +1193,7 @@ function renderMessage(role, text){
   avatar.className = "avatar";
   if(role === "user"){
     const img = document.createElement("img");
-    img.src = (currentUser && currentUser.picture) ? currentUser.picture : USER_AVATAR_DEFAULT;
+    img.src = USER_AVATAR_DEFAULT;
     img.alt = "User";
     img.onerror = () => { avatar.textContent = "●"; };
     avatar.appendChild(img);
@@ -1926,6 +1910,7 @@ window.addEventListener('scroll', function(){
   if(window.scrollY !== 0) window.scrollTo(0, 0);
 }, { passive: true });
 
+// Khởi tạo lịch sử
 const saved = loadHistoryFromStorage();
 if(saved.length > 0){
   conversations = saved;
@@ -1941,6 +1926,20 @@ if('speechSynthesis' in window){
   window.speechSynthesis.onvoiceschanged = () => {};
   window.speechSynthesis.getVoices();
 }
+
+// Tự động đăng nhập nếu đã có session
+(function autoLogin(){
+  const savedUser = localStorage.getItem('ncb_user');
+  if(savedUser){
+    try{
+      currentUser = JSON.parse(savedUser);
+      currentUserSub = currentUser.sub || currentUser.id;
+      showApp();
+    }catch(e){
+      localStorage.removeItem('ncb_user');
+    }
+  }
+})();
 
 renderHistory();
 renderConversation();
