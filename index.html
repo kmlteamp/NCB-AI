@@ -9,6 +9,7 @@
 :root{
   --bg:#10131a;--panel:#171b25;--panel2:#202633;--border:#303746;
   --text:#f1f4fa;--muted:#929db2;--purple:#7657ee;--purple2:#5540b8;--green:#35d69a;
+  --red:#ff3d5a;
 }
 *{box-sizing:border-box}
 html,body{overscroll-behavior:none;-webkit-overflow-scrolling:touch}
@@ -69,142 +70,6 @@ button{cursor:pointer}
 .status{margin-left:auto;display:flex;align-items:center;gap:7px;color:#aab5c9;font-size:12px}
 .status-dot{width:7px;height:7px;background:var(--green);border-radius:50%}
 .status.error .status-dot{background:#ff626e}
-
-/* ===== NÚT HÌNH TRÒN NHỎ BÊN PHẢI MÀN HÌNH ===== */
-.floating-img-btn{
-  position:fixed;
-  right:16px;
-  top:50%;
-  transform:translateY(-50%);
-  z-index:150;
-  width:56px;height:56px;
-  border-radius:50%;
-  background:linear-gradient(135deg,#8a6cff,#5436c9);
-  display:grid;place-items:center;
-  cursor:pointer;
-  box-shadow:0 6px 25px rgba(118,87,238,.6);
-  border:2px solid rgba(255,255,255,.25);
-  transition:all .25s ease;
-  overflow:hidden;
-}
-.floating-img-btn:hover{
-  transform:translateY(-50%) scale(1.1);
-  box-shadow:0 8px 35px rgba(118,87,238,.9);
-}
-.floating-img-btn:active{transform:translateY(-50%) scale(.95)}
-.floating-img-btn img{
-  width:70%;height:70%;
-  object-fit:contain;
-  filter:brightness(0) invert(1);
-  display:block;
-}
-.floating-img-btn .pulse-ring{
-  position:absolute;
-  inset:-6px;
-  border-radius:50%;
-  border:2px solid #8a6cff;
-  animation:floatPulse 2s infinite;
-  pointer-events:none;
-}
-@keyframes floatPulse{
-  0%{transform:scale(1);opacity:.7}
-  100%{transform:scale(1.4);opacity:0}
-}
-
-/* ===== MODAL HIỆN ẢNH ===== */
-.img-modal-overlay{
-  position:fixed;inset:0;z-index:400;
-  background:rgba(0,0,0,.88);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-  backdrop-filter:blur(8px);
-  animation:fadeIn .2s;
-}
-.img-modal-overlay.show{display:flex}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-.img-modal-box{
-  position:relative;
-  max-width:min(92vw,720px);
-  max-height:92vh;
-  background:#171b25;
-  border:1px solid var(--border);
-  border-radius:16px;
-  overflow:hidden;
-  box-shadow:0 30px 90px rgba(0,0,0,.8);
-  animation:popIn .3s;
-  padding-top:56px;
-}
-@keyframes popIn{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
-.img-modal-header{
-  position:absolute;
-  top:0;left:0;right:0;
-  height:56px;
-  background:linear-gradient(180deg,rgba(23,27,37,.98),rgba(23,27,37,.85));
-  border-bottom:1px solid var(--border);
-  display:flex;
-  align-items:center;
-  padding:0 14px;
-  gap:12px;
-  z-index:2;
-}
-/* Nút X nằm BÊN TRÁI logo hình tròn */
-.img-modal-logo{
-  width:36px;height:36px;
-  border-radius:50%;
-  background:linear-gradient(135deg,#8a6cff,#5436c9);
-  display:grid;place-items:center;
-  overflow:hidden;
-  flex-shrink:0;
-  box-shadow:0 4px 15px rgba(118,87,238,.5);
-  border:2px solid rgba(255,255,255,.2);
-}
-.img-modal-logo img{
-  width:70%;height:70%;
-  object-fit:contain;
-  filter:brightness(0) invert(1);
-}
-.img-modal-close{
-  width:36px;height:36px;
-  border-radius:10px;
-  background:#202c48;
-  color:#fff;
-  border:1px solid var(--border);
-  font-size:18px;
-  font-weight:700;
-  display:grid;place-items:center;
-  cursor:pointer;
-  transition:all .2s;
-  flex-shrink:0;
-}
-.img-modal-close:hover{background:#aa0000;border-color:#aa0000;transform:rotate(90deg)}
-.img-modal-title{
-  flex:1;
-  color:#fff;
-  font-size:14px;
-  font-weight:700;
-  letter-spacing:.5px;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-}
-.img-modal-body{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:#0a0e18;
-  max-height:calc(92vh - 56px);
-  overflow:auto;
-}
-.img-modal-body img{
-  width:100%;
-  height:auto;
-  max-height:calc(92vh - 56px);
-  object-fit:contain;
-  display:block;
-}
-
 .fb-logo-btn{
   width:44px;height:44px;border-radius:50%;
   background:linear-gradient(135deg,#1877f2,#0a5dc7);
@@ -328,12 +193,134 @@ button{cursor:pointer}
 .typing-hint .dot{width:5px;height:5px;border-radius:50%;background:#a78bfa;animation:pulseDot 1s infinite alternate}
 .typing-hint .dot:nth-child(2){animation-delay:.2s}
 .typing-hint .dot:nth-child(3){animation-delay:.4s}
+.composer-actions{display:flex;gap:8px;align-items:center}
+
+.mic-btn{
+  width:39px;height:39px;border-radius:12px;
+  background:#202633;border:1px solid #41495b;color:#aab5c9;
+  display:grid;place-items:center;transition:all .2s;
+  position:relative;cursor:pointer;
+}
+.mic-btn:hover{background:#282f42;color:#fff;border-color:var(--purple)}
+.mic-btn svg{
+  width:20px;height:20px;
+  stroke:currentColor;fill:none;
+  stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
+}
+.mic-btn.recording{
+  background:linear-gradient(135deg,#ff3d5a,#c72e45);
+  border-color:#ff3d5a;color:#fff;
+  box-shadow:0 0 20px rgba(255,61,90,.6);
+  animation:micPulse 1s infinite;
+}
+@keyframes micPulse{
+  0%,100%{box-shadow:0 0 20px rgba(255,61,90,.6)}
+  50%{box-shadow:0 0 35px rgba(255,61,90,1)}
+}
+.mic-btn .rec-dot{
+  position:absolute;top:6px;right:6px;
+  width:8px;height:8px;border-radius:50%;background:#fff;
+  animation:recBlink 1s infinite;display:none;
+}
+.mic-btn.recording .rec-dot{display:block}
+@keyframes recBlink{0%,100%{opacity:1}50%{opacity:.3}}
+
+.read-btn{
+  width:39px;height:39px;border-radius:12px;
+  background:#202633;border:1px solid #41495b;color:#aab5c9;
+  display:grid;place-items:center;transition:all .2s;
+  position:relative;cursor:pointer;
+}
+.read-btn:hover{background:#282f42;color:#fff;border-color:var(--purple)}
+.read-btn svg{
+  width:20px;height:20px;
+  stroke:currentColor;fill:none;
+  stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
+}
+.read-btn.speaking{
+  background:linear-gradient(135deg,#35d69a,#1a9d6e);
+  border-color:#35d69a;color:#fff;
+  box-shadow:0 0 20px rgba(53,214,154,.6);
+  animation:speakPulse 1.2s infinite;
+}
+@keyframes speakPulse{
+  0%,100%{box-shadow:0 0 20px rgba(53,214,154,.6)}
+  50%{box-shadow:0 0 35px rgba(53,214,154,1)}
+}
+.read-btn .speak-dot{
+  position:absolute;top:6px;right:6px;
+  width:8px;height:8px;border-radius:50%;background:#fff;
+  animation:recBlink .6s infinite;display:none;
+}
+.read-btn.speaking .speak-dot{display:block}
+
 .send-btn{width:39px;height:39px;display:grid;place-items:center;border:0;border-radius:12px;background:var(--purple);color:white;font-size:19px;transition:background .2s}
 .send-btn:hover{background:#8c75ff}
 .send-btn:disabled{opacity:.4;cursor:not-allowed}
 .disclaimer{text-align:center;font-size:11px;color:#747f94;margin:10px 0 0}
 .toast{position:fixed;left:50%;bottom:105px;transform:translateX(-50%);background:#303747;color:#fff;border:1px solid #4b566b;padding:11px 16px;border-radius:10px;font-size:13px;z-index:10;max-width:90%;text-align:center}
 .hidden{display:none!important}
+
+.rec-overlay{
+  position:fixed;inset:0;z-index:300;
+  background:rgba(0,0,0,.85);backdrop-filter:blur(8px);
+  display:none;align-items:center;justify-content:center;padding:20px;
+  animation:fadeIn .2s;
+}
+.rec-overlay.show{display:flex}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.rec-box{
+  background:#171b25;border:1px solid var(--border);border-radius:20px;
+  padding:30px;max-width:380px;width:100%;text-align:center;
+  box-shadow:0 30px 80px rgba(0,0,0,.8);
+  animation:popIn .3s;
+}
+@keyframes popIn{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+.rec-title{
+  color:#ff3d5a;font-size:16px;font-weight:800;letter-spacing:1px;
+  margin-bottom:8px;display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.rec-title::before{
+  content:'';width:10px;height:10px;border-radius:50%;background:#ff3d5a;
+  animation:recBlink 1s infinite;
+}
+.rec-sub{color:var(--muted);font-size:12px;margin-bottom:20px}
+.rec-timer{
+  font-family:'Courier New',monospace;font-size:48px;font-weight:700;
+  color:#fff;letter-spacing:2px;margin-bottom:24px;
+  text-shadow:0 0 30px rgba(255,61,90,.7);
+}
+.rec-waves{
+  display:flex;align-items:center;justify-content:center;
+  gap:4px;height:60px;margin-bottom:24px;
+}
+.rec-waves .bar{
+  width:5px;background:linear-gradient(180deg,#ff3d5a,#7657ee);
+  border-radius:3px;animation:recWave 0.8s infinite ease-in-out;
+}
+.rec-waves .bar:nth-child(1){animation-delay:0s}
+.rec-waves .bar:nth-child(2){animation-delay:.1s}
+.rec-waves .bar:nth-child(3){animation-delay:.2s}
+.rec-waves .bar:nth-child(4){animation-delay:.3s}
+.rec-waves .bar:nth-child(5){animation-delay:.4s}
+.rec-waves .bar:nth-child(6){animation-delay:.5s}
+.rec-waves .bar:nth-child(7){animation-delay:.6s}
+.rec-waves .bar:nth-child(8){animation-delay:.7s}
+@keyframes recWave{0%,100%{height:8px}50%{height:50px}}
+.rec-actions{display:flex;gap:10px}
+.rec-btn{
+  flex:1;padding:14px;border-radius:12px;border:0;
+  font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.rec-btn.cancel{background:#202633;color:#aab5c9;border:1px solid #41495b}
+.rec-btn.cancel:hover{background:#282f42;color:#fff}
+.rec-btn.stop{
+  background:linear-gradient(135deg,#ff3d5a,#c72e45);color:#fff;
+  box-shadow:0 6px 25px rgba(255,61,90,.5);
+}
+.rec-btn.stop:hover{transform:translateY(-2px);box-shadow:0 8px 35px rgba(255,61,90,.8)}
+
 .ncb-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
 .ncb-box{width:300px;padding:18px;background:#0c1630;border:1px solid #00cfff;border-radius:12px;box-shadow:0 0 20px #007bff44, 0 20px 60px rgba(0,0,0,.6);position:relative;font-family:Arial,sans-serif;color:#fff}
 .ncb-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
@@ -362,6 +349,7 @@ button{cursor:pointer}
 .bubble .icon-line .txt{flex:1;min-width:0}
 .bubble .section-head{display:flex;align-items:center;gap:8px;font-weight:700;color:#fff;margin:10px 0 6px;padding-bottom:4px;border-bottom:1px solid #30394b}
 .bubble .section-head .ic{font-size:18px}
+
 @media(max-width:700px){
   .sidebar{position:fixed;z-index:20;left:0;top:0;bottom:0;box-shadow:15px 0 45px #0007;transform:translateX(-105%)}
   .sidebar.open{transform:translateX(0)}
@@ -388,8 +376,10 @@ button{cursor:pointer}
   .clock-time .sec{font-size:26px}
   .clock-date{font-size:13px}
   .clock-box{padding:16px;min-width:auto}
-  .floating-img-btn{width:48px;height:48px;right:12px}
-  .img-modal-box{max-width:96vw}
+  .rec-timer{font-size:40px}
+  .rec-box{padding:22px}
+  .mic-btn, .read-btn, .send-btn{width:36px;height:36px}
+  .mic-btn svg, .read-btn svg{width:18px;height:18px}
 }
 </style>
 </head>
@@ -452,7 +442,32 @@ button{cursor:pointer}
               </span>
               <span id="sendHint">Enter để gửi</span>
             </div>
-            <button class="send-btn" id="sendBtn">↑</button>
+            <div class="composer-actions">
+              <button class="read-btn" id="readBtn" title="Bật/tắt đọc tin nhắn AI">
+                <span class="speak-dot"></span>
+                <svg id="readIconOn" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-volume-2">
+                  <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/>
+                  <path d="M16 9a5 5 0 0 1 0 6"/>
+                  <path d="M19.364 18.364a9 9 0 0 0 0-12.728"/>
+                </svg>
+                <svg id="readIconOff" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-volume-off hidden">
+                  <path d="M16 9a5 5 0 0 1 .95 2.293"/>
+                  <path d="M19.364 5.636a9 9 0 0 1 1.889 9.96"/>
+                  <path d="m2 2 20 20"/>
+                  <path d="m7 7-.587.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298V11"/>
+                  <path d="M9.828 4.172A.686.686 0 0 1 11 4.657v.686"/>
+                </svg>
+              </button>
+              <button class="mic-btn" id="micBtn" title="Ghi âm giọng nói">
+                <span class="rec-dot"></span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mic">
+                  <path d="M12 19v3"/>
+                  <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                  <rect x="9" y="2" width="6" height="13" rx="3"/>
+                </svg>
+              </button>
+              <button class="send-btn" id="sendBtn">↑</button>
+            </div>
           </div>
         </div>
         <p class="disclaimer">NCB_AI có thể mắc lỗi. Hãy kiểm tra thông tin quan trọng.</p>
@@ -461,24 +476,18 @@ button{cursor:pointer}
   </main>
 </div>
 
-<!-- NÚT HÌNH TRÒN NHỎ BÊN PHẢI MÀN HÌNH -->
-<button class="floating-img-btn" id="floatImgBtn" aria-label="Xem hình">
-  <span class="pulse-ring"></span>
-  <img src="https://i.ibb.co/Cp1BhJ90/file-00000000ac8482079f4f8cf1cd432986.png" alt="icon">
-</button>
-
-<!-- MODAL HIỆN ẢNH -->
-<div class="img-modal-overlay" id="imgModal">
-  <div class="img-modal-box">
-    <div class="img-modal-header">
-      <button class="img-modal-close" id="imgModalClose" aria-label="Đóng">✕</button>
-      <div class="img-modal-logo">
-        <img src="https://i.ibb.co/Cp1BhJ90/file-00000000ac8482079f4f8cf1cd432986.png" alt="logo">
-      </div>
-      <div class="img-modal-title">Hình ảnh</div>
+<div class="rec-overlay" id="recOverlay">
+  <div class="rec-box">
+    <div class="rec-title">ĐANG GHI ÂM</div>
+    <div class="rec-sub">Nói rõ ràng để AI hiểu bạn nhé</div>
+    <div class="rec-timer" id="recTimer">00:00</div>
+    <div class="rec-waves" id="recWaves">
+      <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+      <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
     </div>
-    <div class="img-modal-body">
-      <img src="https://i.ibb.co/LXMLJtcr/file-000000005fa88211afd0e504a199c81c.png" alt="preview">
+    <div class="rec-actions">
+      <button class="rec-btn cancel" id="recCancel">✕ Huỷ</button>
+      <button class="rec-btn stop" id="recStop">⏹ Dừng & Gửi</button>
     </div>
   </div>
 </div>
@@ -501,17 +510,13 @@ button{cursor:pointer}
 "use strict";
 
 // Bypass By nhatanh Dev - NCB_AI 1.2.0
-// API Key: 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
-// Admin: NGUYỄN CÔNG BẰNG
-// Website: https://ncb-ai.vercel.app/
-// Nút hình tròn nhỏ bên phải → modal ảnh có X bên trái logo
+// Nút AI ĐỌC: khi tắt sẽ chuyển sang icon volume-off
+// Nút micro: dùng icon lucide-mic
 
 const API_KEY = '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';
 const SUPPORT_URL = 'https://www.facebook.com/share/1HgLgZkQFR/';
 const WEBSITE_URL = 'https://ncb-ai.vercel.app/';
 const FB_LOGO_URL = 'https://cdn-gop.garenanow.com/gop/mshop/www/live/assets/ic-fb-485c92b0.svg';
-const FLOAT_ICON_URL = 'https://i.ibb.co/Cp1BhJ90/file-00000000ac8482079f4f8cf1cd432986.png';
-const FLOAT_IMAGE_URL = 'https://i.ibb.co/LXMLJtcr/file-000000005fa88211afd0e504a199c81c.png';
 const MINIGAME_CMD = '/encbminigame';
 const CODE_CMD = ':codencb';
 const IMAGE_CMD = '/image';
@@ -521,16 +526,59 @@ document.getElementById('fbLogoBtn').addEventListener('click', () => {
   window.open(SUPPORT_URL, '_blank', 'noopener');
 });
 
-// Nút hình tròn → mở modal ảnh
-document.getElementById('floatImgBtn').addEventListener('click', () => {
-  document.getElementById('imgModal').classList.add('show');
+// STATE ĐỌC
+let readEnabled = localStorage.getItem('ncb_read_enabled') !== '0';
+
+const readBtn = document.getElementById('readBtn');
+const readIconOn = document.getElementById('readIconOn');
+const readIconOff = document.getElementById('readIconOff');
+
+function updateReadBtn(){
+  if(readEnabled){
+    readIconOn.classList.remove('hidden');
+    readIconOff.classList.add('hidden');
+    readBtn.title = 'Tắt đọc tin nhắn AI';
+  }else{
+    readIconOn.classList.add('hidden');
+    readIconOff.classList.remove('hidden');
+    readBtn.title = 'Bật đọc tin nhắn AI';
+  }
+}
+updateReadBtn();
+
+readBtn.addEventListener('click', () => {
+  readEnabled = !readEnabled;
+  localStorage.setItem('ncb_read_enabled', readEnabled ? '1' : '0');
+  updateReadBtn();
+  if(!readEnabled && window.speechSynthesis){
+    window.speechSynthesis.cancel();
+    readBtn.classList.remove('speaking');
+  }
+  showToast(readEnabled ? '🔊 Đã bật đọc tin nhắn AI' : '🔇 Đã tắt đọc tin nhắn AI');
 });
-document.getElementById('imgModalClose').addEventListener('click', () => {
-  document.getElementById('imgModal').classList.remove('show');
-});
-document.getElementById('imgModal').addEventListener('click', (e) => {
-  if(e.target.id === 'imgModal') document.getElementById('imgModal').classList.remove('show');
-});
+
+// ĐỌC TIN NHẮN AI
+function speakText(text){
+  if(!readEnabled) return;
+  if(!('speechSynthesis' in window)) return;
+  if(!text || !text.trim()) return;
+
+  // Dừng cái đang đọc
+  window.speechSynthesis.cancel();
+
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = 'vi-VN';
+  utter.rate = 1.0;
+  utter.pitch = 1.0;
+  const voices = window.speechSynthesis.getVoices();
+  const viVoice = voices.find(v => v.lang.startsWith('vi'));
+  if(viVoice) utter.voice = viVoice;
+
+  utter.onstart = () => { readBtn.classList.add('speaking'); };
+  utter.onend = utter.onerror = () => { readBtn.classList.remove('speaking'); };
+
+  window.speechSynthesis.speak(utter);
+}
 
 const _k = [78,67,66,65,73,95,54,55,57,48,78,67,66];
 function checkCode(input){
@@ -549,11 +597,7 @@ function checkCode2(input){
   return true;
 }
 
-const WEBSITE_KEYWORDS = [
-  'website', 'trang web', 'web của', 'link web', 'đường dẫn',
-  'truy cập', 'vào web', 'web chính', 'trang chính', 'link truy cập',
-  'website của bạn', 'web của bạn', 'địa chỉ web', 'url'
-];
+const WEBSITE_KEYWORDS = ['website','trang web','web của','link web','đường dẫn','truy cập','vào web','web chính','trang chính','link truy cập','website của bạn','web của bạn','địa chỉ web','url'];
 function isWebsiteQuestion(text){
   const t = text.toLowerCase();
   return WEBSITE_KEYWORDS.some(k => t.includes(k)) &&
@@ -581,20 +625,159 @@ function isImageRequest(text){
 
 function extractImagePrompt(text){
   let t = text.trim();
-  if(t.toLowerCase().startsWith(IMAGE_CMD)){
-    return t.slice(IMAGE_CMD.length).trim();
-  }
+  if(t.toLowerCase().startsWith(IMAGE_CMD)) return t.slice(IMAGE_CMD.length).trim();
   t = t.replace(/^(hãy|vui lòng|giúp tôi|giúp mình|cho tôi|cho mình)\s+/i, '');
   t = t.replace(/^(tạo|vẽ|sinh|generate|make|create)\s+(ảnh|hình|tranh|poster|banner|logo)\s+/i, '');
   t = t.replace(/^(ảnh|hình|tranh)\s+(về|về chủ đề|của)\s+/i, '');
   return t.trim();
 }
 
-let clockIntervals = [];
-function stopAllClocks(){
-  clockIntervals.forEach(id => clearInterval(id));
-  clockIntervals = [];
+// GHI ÂM
+let mediaRecorder = null;
+let audioChunks = [];
+let recTimerInterval = null;
+let recSeconds = 0;
+let audioStream = null;
+let recCancelled = false;
+
+const micBtn = document.getElementById('micBtn');
+const recOverlay = document.getElementById('recOverlay');
+const recTimer = document.getElementById('recTimer');
+const recCancel = document.getElementById('recCancel');
+const recStop = document.getElementById('recStop');
+
+function updateRecTimer(){
+  const mm = String(Math.floor(recSeconds / 60)).padStart(2, '0');
+  const ss = String(recSeconds % 60).padStart(2, '0');
+  recTimer.textContent = mm + ':' + ss;
 }
+
+let liveRecognition = null;
+
+function startLiveRecognition(){
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SpeechRecognition) return null;
+  const recognition = new SpeechRecognition();
+  recognition.lang = 'vi-VN';
+  recognition.continuous = true;
+  recognition.interimResults = true;
+  let finalTranscript = '';
+
+  recognition.onresult = (event) => {
+    let interim = '';
+    for(let i = event.resultIndex; i < event.results.length; i++){
+      const transcript = event.results[i][0].transcript;
+      if(event.results[i].isFinal) finalTranscript += transcript + ' ';
+      else interim += transcript;
+    }
+    const input = document.getElementById('input');
+    input.value = finalTranscript + interim;
+    input.style.height = 'auto';
+    input.style.height = Math.min(input.scrollHeight, 180) + 'px';
+  };
+  recognition.onerror = (e) => console.warn('Speech error:', e.error);
+  recognition.onend = () => {
+    if(micBtn.classList.contains('recording')){
+      try{ recognition.start(); }catch(e){}
+    }
+  };
+  recognition.start();
+  return recognition;
+}
+
+async function startRecording(){
+  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+    showToast('❌ Trình duyệt không hỗ trợ ghi âm');
+    return;
+  }
+  try{
+    audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    audioChunks = [];
+    mediaRecorder = new MediaRecorder(audioStream);
+    mediaRecorder.ondataavailable = (e) => {
+      if(e.data && e.data.size > 0) audioChunks.push(e.data);
+    };
+    mediaRecorder.onstop = async () => {
+      if(!recCancelled){
+        const input = document.getElementById('input');
+        if(input.value.trim()){
+          cleanupRecording();
+          setTimeout(() => { if(input.value.trim()) sendMessage(); }, 200);
+        }else{
+          const blob = new Blob(audioChunks, { type: 'audio/webm' });
+          await handleRecordedAudio(blob);
+          cleanupRecording();
+        }
+      }else{
+        cleanupRecording();
+      }
+    };
+    mediaRecorder.start();
+    liveRecognition = startLiveRecognition();
+    recSeconds = 0;
+    updateRecTimer();
+    recTimerInterval = setInterval(() => {
+      recSeconds++;
+      updateRecTimer();
+      if(recSeconds >= 60) stopRecording();
+    }, 1000);
+    micBtn.classList.add('recording');
+    recOverlay.classList.add('show');
+  }catch(e){
+    showToast('❌ Không truy cập được micro: ' + e.message);
+  }
+}
+
+function stopRecording(){
+  recCancelled = false;
+  if(liveRecognition){ try{ liveRecognition.stop(); }catch(e){} liveRecognition = null; }
+  if(mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
+  recOverlay.classList.remove('show');
+  micBtn.classList.remove('recording');
+  if(recTimerInterval){ clearInterval(recTimerInterval); recTimerInterval = null; }
+}
+
+function cancelRecording(){
+  recCancelled = true;
+  if(liveRecognition){ try{ liveRecognition.stop(); }catch(e){} liveRecognition = null; }
+  if(mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
+  document.getElementById('input').value = '';
+  recOverlay.classList.remove('show');
+  micBtn.classList.remove('recording');
+  if(recTimerInterval){ clearInterval(recTimerInterval); recTimerInterval = null; }
+}
+
+function cleanupRecording(){
+  if(audioStream){ audioStream.getTracks().forEach(t => t.stop()); audioStream = null; }
+  mediaRecorder = null;
+  audioChunks = [];
+}
+
+async function handleRecordedAudio(blob){
+  showToast('🎤 Đang xử lý ghi âm...');
+  const sizeKB = Math.round(blob.size / 1024);
+  renderMessage('user', '🎤 [Tin nhắn thoại ' + sizeKB + 'KB]');
+  currentMessages.push({ role: 'user', content: '🎤 [Tin nhắn thoại]' });
+  saveCurrent();
+  const row = renderSendingIndicator();
+  await sleep(800); row.remove();
+  const reply = '🎤 Mình đã nhận được tin nhắn thoại của bạn (' + sizeKB + 'KB).\n\n💡 Do trình duyệt chưa hỗ trợ nhận dạng giọng nói tự động từ file, bạn vui lòng GÕ nội dung bạn vừa nói vào khung chat nhé!';
+  renderMessage('assistant', reply);
+  speakText(reply);
+  currentMessages.push({ role: 'assistant', content: reply });
+  setChatCount(getChatCount() + 1);
+  saveCurrent();
+}
+
+micBtn.addEventListener('click', () => {
+  if(micBtn.classList.contains('recording')) stopRecording();
+  else startRecording();
+});
+recStop.addEventListener('click', stopRecording);
+recCancel.addEventListener('click', cancelRecording);
+
+let clockIntervals = [];
+function stopAllClocks(){ clockIntervals.forEach(id => clearInterval(id)); clockIntervals = []; }
 
 function createClockWidget(){
   const box = document.createElement('div');
@@ -744,30 +927,10 @@ function pickFallbackReply(){ return FALLBACK_REPLIES[Math.floor(Math.random() *
 const SYSTEM_PROMPT =
   'Bạn là NCB_AI phiên bản 1.2.0 — một trợ lí thông minh, được phát triển bởi NGUYỄN CÔNG BẰNG. ' +
   'Website chính thức: ' + WEBSITE_URL + ' ' +
-
-  '=== QUY TẮC CỐT LÕI ===\n' +
-  '1. ĐỌC KỸ câu hỏi, xác định CHÍNH XÁC người dùng hỏi gì.\n' +
-  '2. TRẢ LỜI ĐÚNG TRỌNG TÂM, KHÔNG lạc đề.\n' +
-  '3. TRẢ LỜI MỌI câu hỏi, không từ chối.\n' +
-  '4. Nếu câu hỏi nhiều ý, trả lời lần lượt từng ý.\n' +
-  '5. Ngắn khi hỏi ngắn, dài khi cần phân tích.\n' +
-  '6. Đi thẳng vào câu trả lời, không mở đầu dài dòng.\n' +
-  '7. Nếu không biết, nói thẳng, không bịa.\n' +
-
-  '=== WEBSITE ===\n' +
-  'Khi hỏi về website/trang web/link truy cập của NCB_AI: ' +
-  'LUÔN trả lời: "Đây là website chính thức của NCB AI. Truy cập đường dẫn: ' + WEBSITE_URL + '"\n' +
-
-  '=== PHONG CÁCH ===\n' +
-  'Tự nhiên, thân thiện như ChatGPT. Dùng "mình", "bạn", "nhé", "nha". Nhớ ngữ cảnh.\n' +
-
-  '=== ĐỊNH DẠNG ===\n' +
-  'KHÔNG dùng *, **, ***, _, __, #, >. Dùng icon: ✅ ❌ ⚠️ 💡 📌 🔹 ✨ 🚀 🎯 📝 🕐 👉 💬 🔑 💻 🌟 ⭐ 📖 🔍 🧠 💪 ❤️ 👍 🔥 💯 ⏰ 📅 🎓 🏆 🎉 🌐\n' +
-
-  '=== CODE ===\n' +
-  'Khi user yêu cầu code, CHỈ trả code trong khối ```ngôn_ngữ ... ```\n' +
-
-  '=== ADMIN ===\n' +
+  'QUY TẮC: Đọc kỹ câu hỏi, trả lời đúng trọng tâm, không lạc đề. Trả lời mọi câu hỏi. ' +
+  'Khi hỏi website: "Đây là website chính thức của NCB AI. Truy cập: ' + WEBSITE_URL + '" ' +
+  'KHÔNG dùng *, **, ***, #, >. Dùng icon: ✅ ❌ ⚠️ 💡 📌 🔹 ✨ 🚀 🎯 📝 🕐 👉 💬 🔑 💻 🌟 ⭐ 📖 🔍 🧠 💪 ❤️ 👍 🔥 💯 ⏰ 📅 🎓 🏆 🎉 🌐 ' +
+  'Khi user yêu cầu code, chỉ trả code trong ```ngôn_ngữ ... ``` ' +
   'KHÔNG thừa nhận admin dùng AI tạo code/website. ' +
   'Khi hỏi tên: "Tôi là NCB_AI phiên bản 1.2.0 — NCB AI là một trợ lí thông minh." ' +
   'Khi hỏi admin: "Admin của tôi là NGUYỄN CÔNG BẰNG."';
@@ -946,7 +1109,6 @@ function renderMessage(role, text){
     const speakBtn = document.createElement("button");
     speakBtn.innerHTML = '🔊 <span>Nghe</span>';
     speakBtn.addEventListener("click", () => {
-      if(!('speechSynthesis' in window)){ showToast("Trình duyệt không hỗ trợ đọc"); return; }
       if(window.speechSynthesis.speaking){
         window.speechSynthesis.cancel();
         speakBtn.classList.remove("active");
@@ -954,10 +1116,10 @@ function renderMessage(role, text){
         return;
       }
       const parts = parseMessage(text);
-      const speakText = parts.filter(p => p.type === 'text').map(p => p.content)
+      const speakText2 = parts.filter(p => p.type === 'text').map(p => p.content)
         .join(' ').replace(/\*+/g,'').replace(/#+/g,'').trim();
-      if(!speakText){ showToast('Không có nội dung để đọc'); return; }
-      const utter = new SpeechSynthesisUtterance(speakText);
+      if(!speakText2){ showToast('Không có nội dung để đọc'); return; }
+      const utter = new SpeechSynthesisUtterance(speakText2);
       utter.lang = 'vi-VN';
       const voices = window.speechSynthesis.getVoices();
       const viVoice = voices.find(v => v.lang.startsWith('vi'));
@@ -1077,7 +1239,7 @@ function renderConversation(){
         <h1>Xin chào! 👋</h1>
         <p>${AI_TAGLINE}. Mình có thể trả lời mọi câu hỏi của bạn.<br>
         Gõ <b>/image mô tả</b> để tạo ảnh AI.<br>
-        Gõ <b>/encbminigame</b> chơi game, <b>:codencb</b> nhập code.</p>
+        Nhấn <b>🎤</b> để ghi âm tin nhắn thoại.</p>
         <div class="suggestions">
           <button class="suggestion" data-prompt="Website của bạn là gì?">
             <strong>🌐 Website</strong><span>Xem đường dẫn chính thức</span>
@@ -1469,12 +1631,13 @@ async function sendMessage(textOverride){
     return;
   }
 
-  // WEBSITE
   if(isWebsiteQuestion(text) && !isImageRequest(text)){
     busy = true; sendBtn.disabled = true;
     const row = renderSendingIndicator();
     await sleep(700); row.remove();
     renderWebsiteMessage();
+    const replyText = "Đây là website chính thức của NCB AI. Truy cập đường dẫn: " + WEBSITE_URL;
+    speakText(replyText);
     currentMessages.push({
       role: "assistant",
       content: "🌐 Website chính thức của NCB AI: " + WEBSITE_URL,
@@ -1493,6 +1656,7 @@ async function sendMessage(textOverride){
     await sleep(600); row.remove();
     const introMsg = "🕐 Đây là thời gian hiện tại nhé:";
     renderTimeMessage(introMsg);
+    speakText(introMsg);
     currentMessages.push({ role: "assistant", content: introMsg, isTime: true });
     setChatCount(getChatCount() + 1);
     saveCurrent();
@@ -1506,6 +1670,7 @@ async function sendMessage(textOverride){
     const row = renderSendingIndicator();
     await sleep(900); row.remove();
     renderSupportMessage();
+    speakText("Mình có thể hỗ trợ bạn qua Facebook.");
     currentMessages.push({ role: "assistant", content: "💬 Hỗ trợ qua Facebook nhé!", isSupport: true });
     setChatCount(getChatCount() + 1);
     saveCurrent();
@@ -1536,7 +1701,6 @@ async function sendMessage(textOverride){
 
   const waitMs = getResponseDelay(text);
   const history = currentMessages.slice(-20).map(m => ({ role: m.role, content: m.content }));
-
   const messagesForApi = [
     { role: "system", content: SYSTEM_PROMPT },
     ...history,
@@ -1560,6 +1724,14 @@ async function sendMessage(textOverride){
   saveCurrent();
   row.remove();
   renderMessage("assistant", reply);
+
+  // TỰ ĐỘNG ĐỌC NẾU BẬT
+  if(readEnabled){
+    const parts = parseMessage(reply);
+    const cleanText = parts.filter(p => p.type === 'text').map(p => p.content)
+      .join(' ').replace(/\*+/g,'').replace(/#+/g,'').trim();
+    if(cleanText) speakText(cleanText);
+  }
 
   if(getChatCount() >= getMaxChat()) renderUnlockMessage();
   busy = false; sendBtn.disabled = false; input.focus();
@@ -1596,7 +1768,7 @@ document.addEventListener("keydown", event => {
   if(event.key === "Escape"){
     closeSidebar();
     closeCodeModal();
-    document.getElementById('imgModal').classList.remove('show');
+    cancelRecording();
   }
 });
 document.addEventListener('touchmove', function(e){
