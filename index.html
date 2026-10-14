@@ -169,17 +169,60 @@ button{cursor:pointer}
 .clock-time .sec{color:var(--green);font-size:32px}
 .clock-date{color:#a78bfa;font-size:14px;font-family:'Courier New',monospace;margin-bottom:10px;letter-spacing:1px}
 .clock-tz{color:var(--muted);font-size:11px;padding:5px 10px;background:#0a0e18;border-radius:6px;display:inline-block;border:1px solid var(--border)}
+
+/* KHỐI CODE */
 .code-block{background:#0a0e16;border:1px solid #30394b;border-radius:10px;margin:10px 0;overflow:hidden}
 .code-header{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:#0d1220;border-bottom:1px solid #30394b;color:#929db2;font-size:11px;font-family:'Courier New',monospace}
 .code-header .lang{color:#a78bfa;font-weight:700;letter-spacing:1px}
-.code-copy{background:#171b25;border:1px solid #30394b;color:#aab5c9;padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer;transition:all .15s}
-.code-copy:hover{border-color:var(--purple);color:#fff}
+.code-copy{
+  background:#171b25;border:1px solid #30394b;color:#aab5c9;
+  padding:5px 12px;border-radius:6px;font-size:11px;cursor:pointer;
+  transition:all .15s;
+  display:flex;align-items:center;gap:5px;
+  font-weight:600;
+}
+.code-copy svg{
+  width:13px;height:13px;
+  stroke:currentColor;fill:none;
+  stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
+}
+.code-copy:hover{border-color:var(--purple);color:#fff;background:#201c30}
 .code-copy.active{border-color:var(--green);color:var(--green)}
 .code-content{padding:14px;overflow-x:auto;color:#e6eaf2;font-family:'Courier New',Consolas,monospace;font-size:13px;line-height:1.6;white-space:pre;tab-size:2}
+
 .msg-actions{display:flex;gap:6px;padding:0 4px;flex-wrap:wrap}
-.msg-actions button{background:#171b25;border:1px solid #30394b;color:#aab5c9;padding:5px 10px;border-radius:8px;font-size:11px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:4px}
+.msg-actions button{
+  background:#171b25;border:1px solid #30394b;color:#aab5c9;
+  padding:5px 10px;border-radius:8px;font-size:11px;
+  cursor:pointer;transition:all .15s;
+  display:flex;align-items:center;gap:4px;
+  font-weight:600;
+}
+.msg-actions button svg{
+  width:13px;height:13px;
+  stroke:currentColor;fill:none;
+  stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
+}
 .msg-actions button:hover{border-color:var(--purple);color:#fff;background:#201c30}
 .msg-actions button.active{border-color:var(--green);color:var(--green)}
+
+/* NÚT ĐỌC TRONG MSG-ACTIONS */
+.msg-actions .read-msg-btn{
+  position:relative;
+}
+.msg-actions .read-msg-btn.speaking{
+  border-color:var(--green);
+  color:var(--green);
+  background:#0f2a22;
+}
+.msg-actions .read-msg-btn.speaking svg{
+  animation:svgPulse 0.8s infinite alternate;
+}
+@keyframes svgPulse{
+  from{transform:scale(1);opacity:1}
+  to{transform:scale(1.15);opacity:.7}
+}
+
 .composer-area{flex-shrink:0;padding:12px 18px 18px;background:linear-gradient(transparent,var(--bg) 15%)}
 .composer-wrap{max-width:780px;margin:auto}
 .composer{border:1px solid #41495b;border-radius:17px;background:#171b25;padding:12px;transition:border-color .2s, box-shadow .2s}
@@ -224,35 +267,6 @@ button{cursor:pointer}
 }
 .mic-btn.recording .rec-dot{display:block}
 @keyframes recBlink{0%,100%{opacity:1}50%{opacity:.3}}
-
-.read-btn{
-  width:39px;height:39px;border-radius:12px;
-  background:#202633;border:1px solid #41495b;color:#aab5c9;
-  display:grid;place-items:center;transition:all .2s;
-  position:relative;cursor:pointer;
-}
-.read-btn:hover{background:#282f42;color:#fff;border-color:var(--purple)}
-.read-btn svg{
-  width:20px;height:20px;
-  stroke:currentColor;fill:none;
-  stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
-}
-.read-btn.speaking{
-  background:linear-gradient(135deg,#35d69a,#1a9d6e);
-  border-color:#35d69a;color:#fff;
-  box-shadow:0 0 20px rgba(53,214,154,.6);
-  animation:speakPulse 1.2s infinite;
-}
-@keyframes speakPulse{
-  0%,100%{box-shadow:0 0 20px rgba(53,214,154,.6)}
-  50%{box-shadow:0 0 35px rgba(53,214,154,1)}
-}
-.read-btn .speak-dot{
-  position:absolute;top:6px;right:6px;
-  width:8px;height:8px;border-radius:50%;background:#fff;
-  animation:recBlink .6s infinite;display:none;
-}
-.read-btn.speaking .speak-dot{display:block}
 
 .send-btn{width:39px;height:39px;display:grid;place-items:center;border:0;border-radius:12px;background:var(--purple);color:white;font-size:19px;transition:background .2s}
 .send-btn:hover{background:#8c75ff}
@@ -378,8 +392,8 @@ button{cursor:pointer}
   .clock-box{padding:16px;min-width:auto}
   .rec-timer{font-size:40px}
   .rec-box{padding:22px}
-  .mic-btn, .read-btn, .send-btn{width:36px;height:36px}
-  .mic-btn svg, .read-btn svg{width:18px;height:18px}
+  .mic-btn, .send-btn{width:36px;height:36px}
+  .mic-btn svg{width:18px;height:18px}
 }
 </style>
 </head>
@@ -443,21 +457,6 @@ button{cursor:pointer}
               <span id="sendHint">Enter để gửi</span>
             </div>
             <div class="composer-actions">
-              <button class="read-btn" id="readBtn" title="Bật/tắt đọc tin nhắn AI">
-                <span class="speak-dot"></span>
-                <svg id="readIconOn" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-volume-2">
-                  <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/>
-                  <path d="M16 9a5 5 0 0 1 0 6"/>
-                  <path d="M19.364 18.364a9 9 0 0 0 0-12.728"/>
-                </svg>
-                <svg id="readIconOff" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-volume-off hidden">
-                  <path d="M16 9a5 5 0 0 1 .95 2.293"/>
-                  <path d="M19.364 5.636a9 9 0 0 1 1.889 9.96"/>
-                  <path d="m2 2 20 20"/>
-                  <path d="m7 7-.587.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298V11"/>
-                  <path d="M9.828 4.172A.686.686 0 0 1 11 4.657v.686"/>
-                </svg>
-              </button>
               <button class="mic-btn" id="micBtn" title="Ghi âm giọng nói">
                 <span class="rec-dot"></span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mic">
@@ -510,8 +509,9 @@ button{cursor:pointer}
 "use strict";
 
 // Bypass By nhatanh Dev - NCB_AI 1.2.0
-// Nút AI ĐỌC: khi tắt sẽ chuyển sang icon volume-off
-// Nút micro: dùng icon lucide-mic
+// API Key: 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
+// Nút "Nghe AI đọc" nằm ngay chỗ tin nhắn AI (trong msg-actions)
+// Icon copy code dùng lucide-scroll
 
 const API_KEY = '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';
 const SUPPORT_URL = 'https://www.facebook.com/share/1HgLgZkQFR/';
@@ -525,60 +525,6 @@ const USER_AVATAR = 'https://i.ibb.co/nsFcBz7H/file-00000000a1e88206aaf40148e9a2
 document.getElementById('fbLogoBtn').addEventListener('click', () => {
   window.open(SUPPORT_URL, '_blank', 'noopener');
 });
-
-// STATE ĐỌC
-let readEnabled = localStorage.getItem('ncb_read_enabled') !== '0';
-
-const readBtn = document.getElementById('readBtn');
-const readIconOn = document.getElementById('readIconOn');
-const readIconOff = document.getElementById('readIconOff');
-
-function updateReadBtn(){
-  if(readEnabled){
-    readIconOn.classList.remove('hidden');
-    readIconOff.classList.add('hidden');
-    readBtn.title = 'Tắt đọc tin nhắn AI';
-  }else{
-    readIconOn.classList.add('hidden');
-    readIconOff.classList.remove('hidden');
-    readBtn.title = 'Bật đọc tin nhắn AI';
-  }
-}
-updateReadBtn();
-
-readBtn.addEventListener('click', () => {
-  readEnabled = !readEnabled;
-  localStorage.setItem('ncb_read_enabled', readEnabled ? '1' : '0');
-  updateReadBtn();
-  if(!readEnabled && window.speechSynthesis){
-    window.speechSynthesis.cancel();
-    readBtn.classList.remove('speaking');
-  }
-  showToast(readEnabled ? '🔊 Đã bật đọc tin nhắn AI' : '🔇 Đã tắt đọc tin nhắn AI');
-});
-
-// ĐỌC TIN NHẮN AI
-function speakText(text){
-  if(!readEnabled) return;
-  if(!('speechSynthesis' in window)) return;
-  if(!text || !text.trim()) return;
-
-  // Dừng cái đang đọc
-  window.speechSynthesis.cancel();
-
-  const utter = new SpeechSynthesisUtterance(text);
-  utter.lang = 'vi-VN';
-  utter.rate = 1.0;
-  utter.pitch = 1.0;
-  const voices = window.speechSynthesis.getVoices();
-  const viVoice = voices.find(v => v.lang.startsWith('vi'));
-  if(viVoice) utter.voice = viVoice;
-
-  utter.onstart = () => { readBtn.classList.add('speaking'); };
-  utter.onend = utter.onerror = () => { readBtn.classList.remove('speaking'); };
-
-  window.speechSynthesis.speak(utter);
-}
 
 const _k = [78,67,66,65,73,95,54,55,57,48,78,67,66];
 function checkCode(input){
@@ -763,7 +709,6 @@ async function handleRecordedAudio(blob){
   await sleep(800); row.remove();
   const reply = '🎤 Mình đã nhận được tin nhắn thoại của bạn (' + sizeKB + 'KB).\n\n💡 Do trình duyệt chưa hỗ trợ nhận dạng giọng nói tự động từ file, bạn vui lòng GÕ nội dung bạn vừa nói vào khung chat nhé!';
   renderMessage('assistant', reply);
-  speakText(reply);
   currentMessages.push({ role: 'assistant', content: reply });
   setChatCount(getChatCount() + 1);
   saveCurrent();
@@ -960,6 +905,7 @@ let activeId = null;
 let conversations = [];
 let currentMessages = [];
 let isUnlocked = localStorage.getItem(UNLOCKED_KEY) === '1';
+let currentSpeakingBtn = null;
 
 function getChatCount(){
   const v = parseInt(localStorage.getItem(STORAGE_KEY) || '0', 10);
@@ -1060,6 +1006,60 @@ function handleUserTyping(){
   composerEl.classList.add('is-typing');
 }
 
+// Hàm đọc text bằng speech synthesis, có nút nhấn để toggle
+function speakFromBtn(text, btn){
+  if(!('speechSynthesis' in window)){
+    showToast("Trình duyệt không hỗ trợ đọc");
+    return;
+  }
+
+  // Nếu đang đọc chính btn này → dừng
+  if(btn.classList.contains('speaking')){
+    window.speechSynthesis.cancel();
+    btn.classList.remove('speaking');
+    currentSpeakingBtn = null;
+    return;
+  }
+
+  // Dừng cái đang đọc (nếu có)
+  if(window.speechSynthesis.speaking){
+    window.speechSynthesis.cancel();
+  }
+  // Reset tất cả btn
+  document.querySelectorAll('.read-msg-btn.speaking').forEach(b => b.classList.remove('speaking'));
+
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = 'vi-VN';
+  utter.rate = 1.0;
+  utter.pitch = 1.0;
+  const voices = window.speechSynthesis.getVoices();
+  const viVoice = voices.find(v => v.lang.startsWith('vi'));
+  if(viVoice) utter.voice = viVoice;
+
+  utter.onstart = () => {
+    btn.classList.add('speaking');
+    currentSpeakingBtn = btn;
+  };
+  utter.onend = () => {
+    btn.classList.remove('speaking');
+    if(currentSpeakingBtn === btn) currentSpeakingBtn = null;
+  };
+  utter.onerror = () => {
+    btn.classList.remove('speaking');
+    if(currentSpeakingBtn === btn) currentSpeakingBtn = null;
+  };
+
+  window.speechSynthesis.speak(utter);
+}
+
+// Icon SVG helpers
+const SVG_COPY = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>';
+const SVG_CHECK = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+const SVG_SCROLL = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 17V5a2 2 0 0 0-2-2H4"/><path d="M8 21h12a2 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v2a1 1 0 0 0 1 1h3"/></svg>';
+const SVG_VOLUME_2 = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/><path d="M16 9a5 5 0 0 1 0 6"/><path d="M19.364 18.364a9 9 0 0 0 0-12.728"/></svg>';
+const SVG_VOLUME_X = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/><path d="M16 9a5 5 0 0 1 .95 2.293"/><path d="M19.364 5.636a9 9 0 0 1 1.889 9.96"/><path d="m2 2 20 20"/></svg>';
+const SVG_VOLUME = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/><path d="M16 9a5 5 0 0 1 0 6"/><path d="M19.364 18.364a9 9 0 0 0 0-12.728"/></svg>';
+
 function renderMessage(role, text){
   const row = document.createElement("div");
   row.className = "message " + (role === "user" ? "user" : "assistant");
@@ -1089,50 +1089,55 @@ function renderMessage(role, text){
     bubble.textContent = text;
   }
   wrap.appendChild(bubble);
+
   if(role === "assistant" && typeof text === "string" && text.trim().length > 0){
     const actions = document.createElement("div");
     actions.className = "msg-actions";
+
+    // Nút COPY tin nhắn AI
     const copyBtn = document.createElement("button");
-    copyBtn.innerHTML = '📋 <span>Copy</span>';
+    copyBtn.innerHTML = SVG_COPY + ' <span>Copy</span>';
     copyBtn.addEventListener("click", () => {
       navigator.clipboard.writeText(text).then(() => {
         copyBtn.classList.add("active");
-        copyBtn.innerHTML = '✅ <span>Đã copy</span>';
+        copyBtn.innerHTML = SVG_CHECK + ' <span>Đã copy</span>';
         showToast("Đã sao chép câu trả lời");
         setTimeout(() => {
           copyBtn.classList.remove("active");
-          copyBtn.innerHTML = '📋 <span>Copy</span>';
+          copyBtn.innerHTML = SVG_COPY + ' <span>Copy</span>';
         }, 1500);
       });
     });
     actions.appendChild(copyBtn);
-    const speakBtn = document.createElement("button");
-    speakBtn.innerHTML = '🔊 <span>Nghe</span>';
-    speakBtn.addEventListener("click", () => {
-      if(window.speechSynthesis.speaking){
-        window.speechSynthesis.cancel();
-        speakBtn.classList.remove("active");
-        speakBtn.innerHTML = '🔊 <span>Nghe</span>';
+
+    // Nút NGHE AI ĐỌC tin nhắn này (nằm ngay chỗ tin nhắn)
+    const readMsgBtn = document.createElement("button");
+    readMsgBtn.className = 'read-msg-btn';
+    readMsgBtn.innerHTML = SVG_VOLUME + ' <span>Nghe</span>';
+    readMsgBtn.addEventListener("click", () => {
+      const parts = parseMessage(text);
+      const cleanText = parts.filter(p => p.type === 'text').map(p => p.content)
+        .join(' ').replace(/\*+/g,'').replace(/#+/g,'').trim();
+      if(!cleanText){
+        showToast('Không có nội dung để đọc');
         return;
       }
-      const parts = parseMessage(text);
-      const speakText2 = parts.filter(p => p.type === 'text').map(p => p.content)
-        .join(' ').replace(/\*+/g,'').replace(/#+/g,'').trim();
-      if(!speakText2){ showToast('Không có nội dung để đọc'); return; }
-      const utter = new SpeechSynthesisUtterance(speakText2);
-      utter.lang = 'vi-VN';
-      const voices = window.speechSynthesis.getVoices();
-      const viVoice = voices.find(v => v.lang.startsWith('vi'));
-      if(viVoice) utter.voice = viVoice;
-      utter.onstart = () => { speakBtn.classList.add("active"); speakBtn.innerHTML = '⏸ <span>Dừng</span>'; };
-      utter.onend = utter.onerror = () => { speakBtn.classList.remove("active"); speakBtn.innerHTML = '🔊 <span>Nghe</span>'; };
-      window.speechSynthesis.speak(utter);
+      speakFromBtn(cleanText, readMsgBtn);
+      // Đổi icon theo trạng thái
+      if(readMsgBtn.classList.contains('speaking')){
+        readMsgBtn.innerHTML = SVG_VOLUME_X + ' <span>Dừng</span>';
+      }else{
+        readMsgBtn.innerHTML = SVG_VOLUME + ' <span>Nghe</span>';
+      }
     });
-    actions.appendChild(speakBtn);
+    actions.appendChild(readMsgBtn);
+
     wrap.appendChild(actions);
   }
+
   if(role === "user"){ row.appendChild(wrap); row.appendChild(avatar); }
   else{ row.appendChild(avatar); row.appendChild(wrap); }
+
   contentEl.appendChild(row);
   scrollBottom();
   return row;
@@ -1239,7 +1244,7 @@ function renderConversation(){
         <h1>Xin chào! 👋</h1>
         <p>${AI_TAGLINE}. Mình có thể trả lời mọi câu hỏi của bạn.<br>
         Gõ <b>/image mô tả</b> để tạo ảnh AI.<br>
-        Nhấn <b>🎤</b> để ghi âm tin nhắn thoại.</p>
+        Nhấn <b>mic</b> để ghi âm tin nhắn thoại.</p>
         <div class="suggestions">
           <button class="suggestion" data-prompt="Website của bạn là gì?">
             <strong>🌐 Website</strong><span>Xem đường dẫn chính thức</span>
@@ -1443,15 +1448,21 @@ function renderCodeBlock(lang, code){
   const langEl = document.createElement('span');
   langEl.className = 'lang'; langEl.textContent = (lang || 'code').toUpperCase();
   const copyBtn = document.createElement('button');
-  copyBtn.className = 'code-copy'; copyBtn.textContent = '📋 Copy code';
+  copyBtn.className = 'code-copy';
+  copyBtn.innerHTML = SVG_SCROLL + ' <span>Copy code</span>';
   copyBtn.addEventListener('click', () => {
     navigator.clipboard.writeText(code).then(() => {
-      copyBtn.classList.add('active'); copyBtn.textContent = '✅ Đã copy';
+      copyBtn.classList.add('active');
+      copyBtn.innerHTML = SVG_CHECK + ' <span>Đã copy</span>';
       showToast('Đã sao chép code');
-      setTimeout(() => { copyBtn.classList.remove('active'); copyBtn.textContent = '📋 Copy code'; }, 1500);
+      setTimeout(() => {
+        copyBtn.classList.remove('active');
+        copyBtn.innerHTML = SVG_SCROLL + ' <span>Copy code</span>';
+      }, 1500);
     });
   });
-  header.appendChild(langEl); header.appendChild(copyBtn);
+  header.appendChild(langEl);
+  header.appendChild(copyBtn);
   const pre = document.createElement('pre');
   pre.className = 'code-content'; pre.textContent = code;
   wrap.appendChild(header); wrap.appendChild(pre);
@@ -1636,8 +1647,6 @@ async function sendMessage(textOverride){
     const row = renderSendingIndicator();
     await sleep(700); row.remove();
     renderWebsiteMessage();
-    const replyText = "Đây là website chính thức của NCB AI. Truy cập đường dẫn: " + WEBSITE_URL;
-    speakText(replyText);
     currentMessages.push({
       role: "assistant",
       content: "🌐 Website chính thức của NCB AI: " + WEBSITE_URL,
@@ -1656,7 +1665,6 @@ async function sendMessage(textOverride){
     await sleep(600); row.remove();
     const introMsg = "🕐 Đây là thời gian hiện tại nhé:";
     renderTimeMessage(introMsg);
-    speakText(introMsg);
     currentMessages.push({ role: "assistant", content: introMsg, isTime: true });
     setChatCount(getChatCount() + 1);
     saveCurrent();
@@ -1670,7 +1678,6 @@ async function sendMessage(textOverride){
     const row = renderSendingIndicator();
     await sleep(900); row.remove();
     renderSupportMessage();
-    speakText("Mình có thể hỗ trợ bạn qua Facebook.");
     currentMessages.push({ role: "assistant", content: "💬 Hỗ trợ qua Facebook nhé!", isSupport: true });
     setChatCount(getChatCount() + 1);
     saveCurrent();
@@ -1725,14 +1732,6 @@ async function sendMessage(textOverride){
   row.remove();
   renderMessage("assistant", reply);
 
-  // TỰ ĐỘNG ĐỌC NẾU BẬT
-  if(readEnabled){
-    const parts = parseMessage(reply);
-    const cleanText = parts.filter(p => p.type === 'text').map(p => p.content)
-      .join(' ').replace(/\*+/g,'').replace(/#+/g,'').trim();
-    if(cleanText) speakText(cleanText);
-  }
-
   if(getChatCount() >= getMaxChat()) renderUnlockMessage();
   busy = false; sendBtn.disabled = false; input.focus();
 }
@@ -1769,6 +1768,8 @@ document.addEventListener("keydown", event => {
     closeSidebar();
     closeCodeModal();
     cancelRecording();
+    if(window.speechSynthesis) window.speechSynthesis.cancel();
+    document.querySelectorAll('.read-msg-btn.speaking').forEach(b => b.classList.remove('speaking'));
   }
 });
 document.addEventListener('touchmove', function(e){
