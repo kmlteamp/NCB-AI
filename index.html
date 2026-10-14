@@ -170,22 +170,15 @@ button{cursor:pointer}
 .clock-date{color:#a78bfa;font-size:14px;font-family:'Courier New',monospace;margin-bottom:10px;letter-spacing:1px}
 .clock-tz{color:var(--muted);font-size:11px;padding:5px 10px;background:#0a0e18;border-radius:6px;display:inline-block;border:1px solid var(--border)}
 
-/* KHỐI CODE */
 .code-block{background:#0a0e16;border:1px solid #30394b;border-radius:10px;margin:10px 0;overflow:hidden}
 .code-header{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:#0d1220;border-bottom:1px solid #30394b;color:#929db2;font-size:11px;font-family:'Courier New',monospace}
 .code-header .lang{color:#a78bfa;font-weight:700;letter-spacing:1px}
 .code-copy{
   background:#171b25;border:1px solid #30394b;color:#aab5c9;
   padding:5px 12px;border-radius:6px;font-size:11px;cursor:pointer;
-  transition:all .15s;
-  display:flex;align-items:center;gap:5px;
-  font-weight:600;
+  transition:all .15s;display:flex;align-items:center;gap:5px;font-weight:600;
 }
-.code-copy svg{
-  width:13px;height:13px;
-  stroke:currentColor;fill:none;
-  stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
-}
+.code-copy svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
 .code-copy:hover{border-color:var(--purple);color:#fff;background:#201c30}
 .code-copy.active{border-color:var(--green);color:var(--green)}
 .code-content{padding:14px;overflow-x:auto;color:#e6eaf2;font-family:'Courier New',Consolas,monospace;font-size:13px;line-height:1.6;white-space:pre;tab-size:2}
@@ -194,34 +187,15 @@ button{cursor:pointer}
 .msg-actions button{
   background:#171b25;border:1px solid #30394b;color:#aab5c9;
   padding:5px 10px;border-radius:8px;font-size:11px;
-  cursor:pointer;transition:all .15s;
-  display:flex;align-items:center;gap:4px;
-  font-weight:600;
+  cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:4px;font-weight:600;
 }
-.msg-actions button svg{
-  width:13px;height:13px;
-  stroke:currentColor;fill:none;
-  stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
-}
+.msg-actions button svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
 .msg-actions button:hover{border-color:var(--purple);color:#fff;background:#201c30}
 .msg-actions button.active{border-color:var(--green);color:var(--green)}
-
-/* NÚT ĐỌC TRONG MSG-ACTIONS */
-.msg-actions .read-msg-btn{
-  position:relative;
-}
-.msg-actions .read-msg-btn.speaking{
-  border-color:var(--green);
-  color:var(--green);
-  background:#0f2a22;
-}
-.msg-actions .read-msg-btn.speaking svg{
-  animation:svgPulse 0.8s infinite alternate;
-}
-@keyframes svgPulse{
-  from{transform:scale(1);opacity:1}
-  to{transform:scale(1.15);opacity:.7}
-}
+.msg-actions .read-msg-btn{position:relative;}
+.msg-actions .read-msg-btn.speaking{border-color:var(--green);color:var(--green);background:#0f2a22;}
+.msg-actions .read-msg-btn.speaking svg{animation:svgPulse 0.8s infinite alternate;}
+@keyframes svgPulse{from{transform:scale(1);opacity:1}to{transform:scale(1.15);opacity:.7}}
 
 .composer-area{flex-shrink:0;padding:12px 18px 18px;background:linear-gradient(transparent,var(--bg) 15%)}
 .composer-wrap{max-width:780px;margin:auto}
@@ -245,21 +219,14 @@ button{cursor:pointer}
   position:relative;cursor:pointer;
 }
 .mic-btn:hover{background:#282f42;color:#fff;border-color:var(--purple)}
-.mic-btn svg{
-  width:20px;height:20px;
-  stroke:currentColor;fill:none;
-  stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
-}
+.mic-btn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
 .mic-btn.recording{
   background:linear-gradient(135deg,#ff3d5a,#c72e45);
   border-color:#ff3d5a;color:#fff;
   box-shadow:0 0 20px rgba(255,61,90,.6);
   animation:micPulse 1s infinite;
 }
-@keyframes micPulse{
-  0%,100%{box-shadow:0 0 20px rgba(255,61,90,.6)}
-  50%{box-shadow:0 0 35px rgba(255,61,90,1)}
-}
+@keyframes micPulse{0%,100%{box-shadow:0 0 20px rgba(255,61,90,.6)}50%{box-shadow:0 0 35px rgba(255,61,90,1)}}
 .mic-btn .rec-dot{
   position:absolute;top:6px;right:6px;
   width:8px;height:8px;border-radius:50%;background:#fff;
@@ -275,65 +242,91 @@ button{cursor:pointer}
 .toast{position:fixed;left:50%;bottom:105px;transform:translateX(-50%);background:#303747;color:#fff;border:1px solid #4b566b;padding:11px 16px;border-radius:10px;font-size:13px;z-index:10;max-width:90%;text-align:center}
 .hidden{display:none!important}
 
-.rec-overlay{
-  position:fixed;inset:0;z-index:300;
-  background:rgba(0,0,0,.85);backdrop-filter:blur(8px);
-  display:none;align-items:center;justify-content:center;padding:20px;
-  animation:fadeIn .2s;
+/* ============ THÔNG BÁO CẬP NHẬT ============ */
+.update-overlay{
+  position:fixed;inset:0;z-index:500;
+  background:rgba(0,0,0,.9);
+  backdrop-filter:blur(10px);
+  display:none;align-items:center;justify-content:center;
+  padding:20px;animation:fadeIn .25s;
 }
-.rec-overlay.show{display:flex}
+.update-overlay.show{display:flex}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-.rec-box{
-  background:#171b25;border:1px solid var(--border);border-radius:20px;
-  padding:30px;max-width:380px;width:100%;text-align:center;
-  box-shadow:0 30px 80px rgba(0,0,0,.8);
-  animation:popIn .3s;
+.update-box{
+  background:linear-gradient(135deg,#171b25,#1a1f2e);
+  border:2px solid var(--purple);
+  border-radius:24px;
+  padding:40px 30px;
+  max-width:420px;width:100%;
+  text-align:center;
+  box-shadow:0 30px 100px rgba(118,87,238,.5),
+             0 0 80px rgba(118,87,238,.3) inset;
+  animation:updatePop .4s;
+  position:relative;overflow:hidden;
 }
-@keyframes popIn{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
-.rec-title{
-  color:#ff3d5a;font-size:16px;font-weight:800;letter-spacing:1px;
-  margin-bottom:8px;display:flex;align-items:center;justify-content:center;gap:8px;
+@keyframes updatePop{from{transform:scale(.8) translateY(30px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
+.update-box::before{
+  content:'';position:absolute;
+  top:-50%;left:-50%;width:200%;height:200%;
+  background:conic-gradient(from 0deg,transparent,#7657ee,transparent,#a78bfa,transparent);
+  animation:rotateGlow 6s linear infinite;
+  opacity:.12;z-index:-1;
 }
-.rec-title::before{
-  content:'';width:10px;height:10px;border-radius:50%;background:#ff3d5a;
-  animation:recBlink 1s infinite;
+@keyframes rotateGlow{to{transform:rotate(360deg)}}
+.update-icon{
+  width:80px;height:80px;
+  margin:0 auto 20px;
+  border-radius:24px;
+  background:linear-gradient(135deg,#8a6cff,#5436c9);
+  display:grid;place-items:center;
+  font-size:42px;
+  box-shadow:0 12px 45px rgba(118,87,238,.7);
+  animation:updateBounce 1.5s ease-in-out infinite;
 }
-.rec-sub{color:var(--muted);font-size:12px;margin-bottom:20px}
-.rec-timer{
-  font-family:'Courier New',monospace;font-size:48px;font-weight:700;
-  color:#fff;letter-spacing:2px;margin-bottom:24px;
-  text-shadow:0 0 30px rgba(255,61,90,.7);
+@keyframes updateBounce{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-10px) rotate(5deg)}}
+.update-title{
+  color:#fff;font-size:22px;font-weight:900;
+  letter-spacing:-.5px;margin-bottom:10px;
+  background:linear-gradient(135deg,#fff,#a78bfa);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
 }
-.rec-waves{
+.update-sub{
+  color:var(--muted);font-size:14px;line-height:1.7;margin-bottom:22px;
+}
+.update-dots{
   display:flex;align-items:center;justify-content:center;
-  gap:4px;height:60px;margin-bottom:24px;
+  gap:6px;margin-bottom:22px;
 }
-.rec-waves .bar{
-  width:5px;background:linear-gradient(180deg,#ff3d5a,#7657ee);
-  border-radius:3px;animation:recWave 0.8s infinite ease-in-out;
+.update-dots span{
+  width:10px;height:10px;border-radius:50%;background:#a78bfa;
+  animation:updateDot 1.2s infinite;
 }
-.rec-waves .bar:nth-child(1){animation-delay:0s}
-.rec-waves .bar:nth-child(2){animation-delay:.1s}
-.rec-waves .bar:nth-child(3){animation-delay:.2s}
-.rec-waves .bar:nth-child(4){animation-delay:.3s}
-.rec-waves .bar:nth-child(5){animation-delay:.4s}
-.rec-waves .bar:nth-child(6){animation-delay:.5s}
-.rec-waves .bar:nth-child(7){animation-delay:.6s}
-.rec-waves .bar:nth-child(8){animation-delay:.7s}
-@keyframes recWave{0%,100%{height:8px}50%{height:50px}}
-.rec-actions{display:flex;gap:10px}
-.rec-btn{
+.update-dots span:nth-child(1){animation-delay:0s}
+.update-dots span:nth-child(2){animation-delay:.2s}
+.update-dots span:nth-child(3){animation-delay:.4s}
+.update-dots span:nth-child(4){animation-delay:.6s}
+.update-dots span:nth-child(5){animation-delay:.8s}
+@keyframes updateDot{
+  0%,100%{transform:scale(1);opacity:.4}
+  50%{transform:scale(1.5);opacity:1;background:#7657ee}
+}
+.update-actions{
+  display:flex;gap:10px;
+}
+.update-btn{
   flex:1;padding:14px;border-radius:12px;border:0;
   font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;
   display:flex;align-items:center;justify-content:center;gap:8px;
 }
-.rec-btn.cancel{background:#202633;color:#aab5c9;border:1px solid #41495b}
-.rec-btn.cancel:hover{background:#282f42;color:#fff}
-.rec-btn.stop{
-  background:linear-gradient(135deg,#ff3d5a,#c72e45);color:#fff;
-  box-shadow:0 6px 25px rgba(255,61,90,.5);
+.update-btn.cancel{
+  background:#202633;color:#aab5c9;border:1px solid #41495b;
 }
-.rec-btn.stop:hover{transform:translateY(-2px);box-shadow:0 8px 35px rgba(255,61,90,.8)}
+.update-btn.cancel:hover{background:#282f42;color:#fff}
+.update-btn.confirm{
+  background:linear-gradient(135deg,#7657ee,#5540b8);color:#fff;
+  box-shadow:0 6px 25px rgba(118,87,238,.5);
+}
+.update-btn.confirm:hover{transform:translateY(-2px);box-shadow:0 8px 35px rgba(118,87,238,.8)}
 
 .ncb-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
 .ncb-box{width:300px;padding:18px;background:#0c1630;border:1px solid #00cfff;border-radius:12px;box-shadow:0 0 20px #007bff44, 0 20px 60px rgba(0,0,0,.6);position:relative;font-family:Arial,sans-serif;color:#fff}
@@ -390,10 +383,12 @@ button{cursor:pointer}
   .clock-time .sec{font-size:26px}
   .clock-date{font-size:13px}
   .clock-box{padding:16px;min-width:auto}
-  .rec-timer{font-size:40px}
-  .rec-box{padding:22px}
   .mic-btn, .send-btn{width:36px;height:36px}
   .mic-btn svg{width:18px;height:18px}
+  .update-box{padding:30px 22px}
+  .update-icon{width:70px;height:70px;font-size:36px}
+  .update-title{font-size:19px}
+  .update-sub{font-size:13px}
 }
 </style>
 </head>
@@ -475,18 +470,20 @@ button{cursor:pointer}
   </main>
 </div>
 
-<div class="rec-overlay" id="recOverlay">
-  <div class="rec-box">
-    <div class="rec-title">ĐANG GHI ÂM</div>
-    <div class="rec-sub">Nói rõ ràng để AI hiểu bạn nhé</div>
-    <div class="rec-timer" id="recTimer">00:00</div>
-    <div class="rec-waves" id="recWaves">
-      <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
-      <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+<!-- MODAL THÔNG BÁO KHI ẤN MIC -->
+<div class="update-overlay" id="updateOverlay">
+  <div class="update-box">
+    <div class="update-icon">🎤</div>
+    <div class="update-title">Đang cập nhật</div>
+    <div class="update-sub">
+      Tính năng ghi âm giọng nói đang được cập nhật.<br>
+      Vui lòng đợi trong giây lát...
     </div>
-    <div class="rec-actions">
-      <button class="rec-btn cancel" id="recCancel">✕ Huỷ</button>
-      <button class="rec-btn stop" id="recStop">⏹ Dừng & Gửi</button>
+    <div class="update-dots">
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <div class="update-actions">
+      <button class="update-btn cancel" id="updateCancel">Đóng</button>
     </div>
   </div>
 </div>
@@ -510,8 +507,8 @@ button{cursor:pointer}
 
 // Bypass By nhatanh Dev - NCB_AI 1.2.0
 // API Key: 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
-// Nút "Nghe AI đọc" nằm ngay chỗ tin nhắn AI (trong msg-actions)
-// Icon copy code dùng lucide-scroll
+// Admin: NGUYỄN CÔNG BẰNG
+// Nút mic hiện thông báo "Đang cập nhật" thay vì ghi âm
 
 const API_KEY = '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';
 const SUPPORT_URL = 'https://www.facebook.com/share/1HgLgZkQFR/';
@@ -524,6 +521,18 @@ const USER_AVATAR = 'https://i.ibb.co/nsFcBz7H/file-00000000a1e88206aaf40148e9a2
 
 document.getElementById('fbLogoBtn').addEventListener('click', () => {
   window.open(SUPPORT_URL, '_blank', 'noopener');
+});
+
+// Nút mic → hiện thông báo "Đang cập nhật"
+const updateOverlay = document.getElementById('updateOverlay');
+document.getElementById('micBtn').addEventListener('click', () => {
+  updateOverlay.classList.add('show');
+});
+document.getElementById('updateCancel').addEventListener('click', () => {
+  updateOverlay.classList.remove('show');
+});
+updateOverlay.addEventListener('click', (e) => {
+  if(e.target === updateOverlay) updateOverlay.classList.remove('show');
 });
 
 const _k = [78,67,66,65,73,95,54,55,57,48,78,67,66];
@@ -577,149 +586,6 @@ function extractImagePrompt(text){
   t = t.replace(/^(ảnh|hình|tranh)\s+(về|về chủ đề|của)\s+/i, '');
   return t.trim();
 }
-
-// GHI ÂM
-let mediaRecorder = null;
-let audioChunks = [];
-let recTimerInterval = null;
-let recSeconds = 0;
-let audioStream = null;
-let recCancelled = false;
-
-const micBtn = document.getElementById('micBtn');
-const recOverlay = document.getElementById('recOverlay');
-const recTimer = document.getElementById('recTimer');
-const recCancel = document.getElementById('recCancel');
-const recStop = document.getElementById('recStop');
-
-function updateRecTimer(){
-  const mm = String(Math.floor(recSeconds / 60)).padStart(2, '0');
-  const ss = String(recSeconds % 60).padStart(2, '0');
-  recTimer.textContent = mm + ':' + ss;
-}
-
-let liveRecognition = null;
-
-function startLiveRecognition(){
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if(!SpeechRecognition) return null;
-  const recognition = new SpeechRecognition();
-  recognition.lang = 'vi-VN';
-  recognition.continuous = true;
-  recognition.interimResults = true;
-  let finalTranscript = '';
-
-  recognition.onresult = (event) => {
-    let interim = '';
-    for(let i = event.resultIndex; i < event.results.length; i++){
-      const transcript = event.results[i][0].transcript;
-      if(event.results[i].isFinal) finalTranscript += transcript + ' ';
-      else interim += transcript;
-    }
-    const input = document.getElementById('input');
-    input.value = finalTranscript + interim;
-    input.style.height = 'auto';
-    input.style.height = Math.min(input.scrollHeight, 180) + 'px';
-  };
-  recognition.onerror = (e) => console.warn('Speech error:', e.error);
-  recognition.onend = () => {
-    if(micBtn.classList.contains('recording')){
-      try{ recognition.start(); }catch(e){}
-    }
-  };
-  recognition.start();
-  return recognition;
-}
-
-async function startRecording(){
-  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
-    showToast('❌ Trình duyệt không hỗ trợ ghi âm');
-    return;
-  }
-  try{
-    audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    audioChunks = [];
-    mediaRecorder = new MediaRecorder(audioStream);
-    mediaRecorder.ondataavailable = (e) => {
-      if(e.data && e.data.size > 0) audioChunks.push(e.data);
-    };
-    mediaRecorder.onstop = async () => {
-      if(!recCancelled){
-        const input = document.getElementById('input');
-        if(input.value.trim()){
-          cleanupRecording();
-          setTimeout(() => { if(input.value.trim()) sendMessage(); }, 200);
-        }else{
-          const blob = new Blob(audioChunks, { type: 'audio/webm' });
-          await handleRecordedAudio(blob);
-          cleanupRecording();
-        }
-      }else{
-        cleanupRecording();
-      }
-    };
-    mediaRecorder.start();
-    liveRecognition = startLiveRecognition();
-    recSeconds = 0;
-    updateRecTimer();
-    recTimerInterval = setInterval(() => {
-      recSeconds++;
-      updateRecTimer();
-      if(recSeconds >= 60) stopRecording();
-    }, 1000);
-    micBtn.classList.add('recording');
-    recOverlay.classList.add('show');
-  }catch(e){
-    showToast('❌ Không truy cập được micro: ' + e.message);
-  }
-}
-
-function stopRecording(){
-  recCancelled = false;
-  if(liveRecognition){ try{ liveRecognition.stop(); }catch(e){} liveRecognition = null; }
-  if(mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
-  recOverlay.classList.remove('show');
-  micBtn.classList.remove('recording');
-  if(recTimerInterval){ clearInterval(recTimerInterval); recTimerInterval = null; }
-}
-
-function cancelRecording(){
-  recCancelled = true;
-  if(liveRecognition){ try{ liveRecognition.stop(); }catch(e){} liveRecognition = null; }
-  if(mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
-  document.getElementById('input').value = '';
-  recOverlay.classList.remove('show');
-  micBtn.classList.remove('recording');
-  if(recTimerInterval){ clearInterval(recTimerInterval); recTimerInterval = null; }
-}
-
-function cleanupRecording(){
-  if(audioStream){ audioStream.getTracks().forEach(t => t.stop()); audioStream = null; }
-  mediaRecorder = null;
-  audioChunks = [];
-}
-
-async function handleRecordedAudio(blob){
-  showToast('🎤 Đang xử lý ghi âm...');
-  const sizeKB = Math.round(blob.size / 1024);
-  renderMessage('user', '🎤 [Tin nhắn thoại ' + sizeKB + 'KB]');
-  currentMessages.push({ role: 'user', content: '🎤 [Tin nhắn thoại]' });
-  saveCurrent();
-  const row = renderSendingIndicator();
-  await sleep(800); row.remove();
-  const reply = '🎤 Mình đã nhận được tin nhắn thoại của bạn (' + sizeKB + 'KB).\n\n💡 Do trình duyệt chưa hỗ trợ nhận dạng giọng nói tự động từ file, bạn vui lòng GÕ nội dung bạn vừa nói vào khung chat nhé!';
-  renderMessage('assistant', reply);
-  currentMessages.push({ role: 'assistant', content: reply });
-  setChatCount(getChatCount() + 1);
-  saveCurrent();
-}
-
-micBtn.addEventListener('click', () => {
-  if(micBtn.classList.contains('recording')) stopRecording();
-  else startRecording();
-});
-recStop.addEventListener('click', stopRecording);
-recCancel.addEventListener('click', cancelRecording);
 
 let clockIntervals = [];
 function stopAllClocks(){ clockIntervals.forEach(id => clearInterval(id)); clockIntervals = []; }
@@ -1006,27 +872,25 @@ function handleUserTyping(){
   composerEl.classList.add('is-typing');
 }
 
-// Hàm đọc text bằng speech synthesis, có nút nhấn để toggle
 function speakFromBtn(text, btn){
   if(!('speechSynthesis' in window)){
     showToast("Trình duyệt không hỗ trợ đọc");
     return;
   }
-
-  // Nếu đang đọc chính btn này → dừng
   if(btn.classList.contains('speaking')){
     window.speechSynthesis.cancel();
     btn.classList.remove('speaking');
+    btn.innerHTML = SVG_VOLUME + ' <span>Nghe</span>';
     currentSpeakingBtn = null;
     return;
   }
-
-  // Dừng cái đang đọc (nếu có)
   if(window.speechSynthesis.speaking){
     window.speechSynthesis.cancel();
   }
-  // Reset tất cả btn
-  document.querySelectorAll('.read-msg-btn.speaking').forEach(b => b.classList.remove('speaking'));
+  document.querySelectorAll('.read-msg-btn.speaking').forEach(b => {
+    b.classList.remove('speaking');
+    b.innerHTML = SVG_VOLUME + ' <span>Nghe</span>';
+  });
 
   const utter = new SpeechSynthesisUtterance(text);
   utter.lang = 'vi-VN';
@@ -1038,27 +902,28 @@ function speakFromBtn(text, btn){
 
   utter.onstart = () => {
     btn.classList.add('speaking');
+    btn.innerHTML = SVG_VOLUME_X + ' <span>Dừng</span>';
     currentSpeakingBtn = btn;
   };
   utter.onend = () => {
     btn.classList.remove('speaking');
+    btn.innerHTML = SVG_VOLUME + ' <span>Nghe</span>';
     if(currentSpeakingBtn === btn) currentSpeakingBtn = null;
   };
   utter.onerror = () => {
     btn.classList.remove('speaking');
+    btn.innerHTML = SVG_VOLUME + ' <span>Nghe</span>';
     if(currentSpeakingBtn === btn) currentSpeakingBtn = null;
   };
 
   window.speechSynthesis.speak(utter);
 }
 
-// Icon SVG helpers
 const SVG_COPY = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>';
 const SVG_CHECK = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
 const SVG_SCROLL = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 17V5a2 2 0 0 0-2-2H4"/><path d="M8 21h12a2 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v2a1 1 0 0 0 1 1h3"/></svg>';
-const SVG_VOLUME_2 = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/><path d="M16 9a5 5 0 0 1 0 6"/><path d="M19.364 18.364a9 9 0 0 0 0-12.728"/></svg>';
-const SVG_VOLUME_X = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/><path d="M16 9a5 5 0 0 1 .95 2.293"/><path d="M19.364 5.636a9 9 0 0 1 1.889 9.96"/><path d="m2 2 20 20"/></svg>';
 const SVG_VOLUME = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/><path d="M16 9a5 5 0 0 1 0 6"/><path d="M19.364 18.364a9 9 0 0 0 0-12.728"/></svg>';
+const SVG_VOLUME_X = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/><path d="M16 9a5 5 0 0 1 .95 2.293"/><path d="M19.364 5.636a9 9 0 0 1 1.889 9.96"/><path d="m2 2 20 20"/></svg>';
 
 function renderMessage(role, text){
   const row = document.createElement("div");
@@ -1094,7 +959,6 @@ function renderMessage(role, text){
     const actions = document.createElement("div");
     actions.className = "msg-actions";
 
-    // Nút COPY tin nhắn AI
     const copyBtn = document.createElement("button");
     copyBtn.innerHTML = SVG_COPY + ' <span>Copy</span>';
     copyBtn.addEventListener("click", () => {
@@ -1110,7 +974,6 @@ function renderMessage(role, text){
     });
     actions.appendChild(copyBtn);
 
-    // Nút NGHE AI ĐỌC tin nhắn này (nằm ngay chỗ tin nhắn)
     const readMsgBtn = document.createElement("button");
     readMsgBtn.className = 'read-msg-btn';
     readMsgBtn.innerHTML = SVG_VOLUME + ' <span>Nghe</span>';
@@ -1123,12 +986,6 @@ function renderMessage(role, text){
         return;
       }
       speakFromBtn(cleanText, readMsgBtn);
-      // Đổi icon theo trạng thái
-      if(readMsgBtn.classList.contains('speaking')){
-        readMsgBtn.innerHTML = SVG_VOLUME_X + ' <span>Dừng</span>';
-      }else{
-        readMsgBtn.innerHTML = SVG_VOLUME + ' <span>Nghe</span>';
-      }
     });
     actions.appendChild(readMsgBtn);
 
@@ -1244,7 +1101,7 @@ function renderConversation(){
         <h1>Xin chào! 👋</h1>
         <p>${AI_TAGLINE}. Mình có thể trả lời mọi câu hỏi của bạn.<br>
         Gõ <b>/image mô tả</b> để tạo ảnh AI.<br>
-        Nhấn <b>mic</b> để ghi âm tin nhắn thoại.</p>
+        Gõ <b>/encbminigame</b> chơi game, <b>:codencb</b> nhập code.</p>
         <div class="suggestions">
           <button class="suggestion" data-prompt="Website của bạn là gì?">
             <strong>🌐 Website</strong><span>Xem đường dẫn chính thức</span>
@@ -1767,9 +1624,12 @@ document.addEventListener("keydown", event => {
   if(event.key === "Escape"){
     closeSidebar();
     closeCodeModal();
-    cancelRecording();
+    updateOverlay.classList.remove('show');
     if(window.speechSynthesis) window.speechSynthesis.cancel();
-    document.querySelectorAll('.read-msg-btn.speaking').forEach(b => b.classList.remove('speaking'));
+    document.querySelectorAll('.read-msg-btn.speaking').forEach(b => {
+      b.classList.remove('speaking');
+      b.innerHTML = SVG_VOLUME + ' <span>Nghe</span>';
+    });
   }
 });
 document.addEventListener('touchmove', function(e){
