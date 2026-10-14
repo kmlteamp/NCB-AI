@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="theme-color" content="#10131a">
 <title>NCB_AI 1.2.0</title>
+<meta name="google-signin-client_id" content="1082713864192-8h72lbtqkca2in2h1s7qbn5i0tbcdatk.apps.googleusercontent.com">
+<script src="https://apis.google.com/js/platform.js" async defer></script>
 <style>
 :root{
   --bg:#10131a;--panel:#171b25;--panel2:#202633;--border:#303746;
@@ -21,104 +23,67 @@ body{
 button,textarea,input{font:inherit}
 button{cursor:pointer}
 
-/* ============ ĐĂNG NHẬP SCREEN ============ */
+/* ĐĂNG NHẬP */
 .login-screen{
   position:fixed;inset:0;z-index:1000;
   background:linear-gradient(135deg,#0a0a1a 0%,#10131a 50%,#0d1420 100%);
   display:flex;align-items:center;justify-content:center;
-  padding:20px;
-  transition:opacity .4s, transform .4s;
+  padding:20px;transition:opacity .4s, transform .4s;
 }
-.login-screen.hide{
-  opacity:0;pointer-events:none;
-  transform:scale(1.05);
-}
+.login-screen.hide{opacity:0;pointer-events:none;transform:scale(1.05)}
 .login-box{
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:24px;
-  padding:40px 28px;
-  max-width:400px;width:100%;
-  text-align:center;
-  box-shadow:0 30px 90px rgba(118,87,238,.25);
-  position:relative;overflow:hidden;
+  background:var(--panel);border:1px solid var(--border);border-radius:24px;
+  padding:40px 28px;max-width:400px;width:100%;text-align:center;
+  box-shadow:0 30px 90px rgba(118,87,238,.25);position:relative;overflow:hidden;
 }
 .login-box::before{
-  content:'';position:absolute;
-  top:-50%;left:-50%;width:200%;height:200%;
+  content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;
   background:conic-gradient(from 0deg,transparent,#7657ee,transparent,#a78bfa,transparent);
-  animation:rotateGlow 8s linear infinite;
-  opacity:.08;z-index:0;
+  animation:rotateGlow 8s linear infinite;opacity:.08;z-index:0;
 }
 @keyframes rotateGlow{to{transform:rotate(360deg)}}
 .login-content{position:relative;z-index:1}
 .login-logo{
-  width:80px;height:80px;
-  margin:0 auto 20px;
-  border-radius:24px;
+  width:80px;height:80px;margin:0 auto 20px;border-radius:24px;
   background:linear-gradient(135deg,#8a6cff,#5436c9);
-  display:grid;place-items:center;
-  font-size:40px;
+  display:grid;place-items:center;font-size:40px;
   box-shadow:0 12px 45px rgba(118,87,238,.6);
-  animation:logoFloat 3s ease-in-out infinite;
-  overflow:hidden;
+  animation:logoFloat 3s ease-in-out infinite;overflow:hidden;
 }
 .login-logo img{width:100%;height:100%;object-fit:cover;display:block;}
-@keyframes logoFloat{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-8px)}
-}
+@keyframes logoFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 .login-title{
-  font-size:26px;font-weight:900;
-  letter-spacing:-0.5px;
-  margin-bottom:8px;
+  font-size:26px;font-weight:900;letter-spacing:-0.5px;margin-bottom:8px;
   background:linear-gradient(135deg,#fff,#a78bfa);
-  -webkit-background-clip:text;background-clip:text;
-  color:transparent;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
 }
-.login-sub{
-  color:var(--muted);
-  font-size:14px;
-  line-height:1.7;
-  margin-bottom:28px;
+.login-sub{color:var(--muted);font-size:14px;line-height:1.7;margin-bottom:28px;}
+.g-signin-wrapper{
+  display:flex;justify-content:center;align-items:center;
+  min-height:50px;width:100%;margin-bottom:8px;
 }
-.google-login {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  width: 100%;
-  padding: 13px;
-  background: #fff;
-  color: #202124;
-  border: 1px solid #dadce0;
-  border-radius: 12px;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  transition:all .2s;
+.g-signin2{width:100% !important;display:flex;justify-content:center;}
+.g-signin2 > div{
+  width:100% !important;height:48px !important;
+  background:#fff !important;color:#202124 !important;
+  border:1px solid #dadce0 !important;border-radius:12px !important;
+  padding:13px !important;font-family:Inter,system-ui,-apple-system,sans-serif !important;
+  transition:all .2s;display:flex !important;align-items:center !important;
+  justify-content:center !important;
 }
-.google-login img {
-  width: 21px;
-  height: 21px;
-}
-.google-login:hover {
-  background: #f5f5f5;
-  transform:translateY(-2px);
+.g-signin2 > div:hover{
+  background:#f5f5f5 !important;transform:translateY(-2px);
   box-shadow:0 6px 20px rgba(255,255,255,.15);
 }
-.google-login:active{transform:translateY(0)}
-.login-footer{
-  margin-top:22px;
-  padding-top:18px;
-  border-top:1px solid var(--border);
-  color:var(--muted);
-  font-size:11px;
-  line-height:1.7;
+.g-signin2 > div span{
+  font-size:15px !important;font-weight:600 !important;color:#202124 !important;
 }
-.login-footer strong{color:var(--gold, #ffd166)}
+.login-footer{
+  margin-top:22px;padding-top:18px;border-top:1px solid var(--border);
+  color:var(--muted);font-size:11px;line-height:1.7;
+}
+.login-footer strong{color:#ffd166}
 
-/* ============ APP CHÍNH ============ */
 .app{height:100%;display:flex}
 .sidebar{
   width:260px;flex-shrink:0;background:#131722;border-right:1px solid var(--border);
@@ -127,36 +92,26 @@ button{cursor:pointer}
 .brand{display:flex;align-items:center;gap:10px;font-weight:750;font-size:17px}
 .logo{width:38px;height:38px;display:grid;place-items:center;background:var(--purple);border-radius:12px;overflow:hidden}
 .logo img{width:100%;height:100%;object-fit:cover;display:block}
-
-/* USER CARD */
 .user-card{
   display:flex;align-items:center;gap:10px;
-  padding:10px;background:#0d1017;
-  border:1px solid var(--border);border-radius:12px;
+  padding:10px;background:#0d1017;border:1px solid var(--border);border-radius:12px;
 }
 .user-avatar{
   width:38px;height:38px;border-radius:50%;
   background:linear-gradient(135deg,#8a6cff,#5436c9);
-  display:grid;place-items:center;
-  color:#fff;font-weight:700;font-size:16px;
-  overflow:hidden;flex-shrink:0;
-  border:2px solid rgba(255,255,255,.1);
+  display:grid;place-items:center;color:#fff;font-weight:700;font-size:16px;
+  overflow:hidden;flex-shrink:0;border:2px solid rgba(255,255,255,.1);
 }
 .user-avatar img{width:100%;height:100%;object-fit:cover}
 .user-info{min-width:0;flex:1}
-.user-name{
-  color:var(--text);font-size:13px;font-weight:700;
-  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
-}
+.user-name{color:var(--text);font-size:13px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .user-email{color:var(--muted);font-size:10px;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .logout-btn{
-  background:transparent;border:1px solid #3a2a3a;
-  color:#ff8888;padding:6px 10px;border-radius:8px;
-  font-size:11px;cursor:pointer;transition:all .15s;
-  font-weight:700;
+  background:transparent;border:1px solid #3a2a3a;color:#ff8888;
+  padding:6px 10px;border-radius:8px;font-size:11px;cursor:pointer;
+  transition:all .15s;font-weight:700;
 }
 .logout-btn:hover{background:#aa0000;color:#fff;border-color:#aa0000}
-
 .new-chat{width:100%;border:1px solid #51447f;border-radius:10px;background:#28213f;color:#e4dcff;padding:12px;text-align:left}
 .section-label{color:var(--muted);font-size:12px;margin:8px 0}
 .history-list{display:flex;flex-direction:column;gap:5px;overflow:auto;flex:1}
@@ -204,8 +159,7 @@ button{cursor:pointer}
   background:linear-gradient(135deg,#1877f2,#0a5dc7);
   display:grid;place-items:center;cursor:pointer;
   box-shadow:0 4px 15px rgba(24,119,242,.4);
-  transition:all .25s ease;
-  border:2px solid rgba(255,255,255,.15);
+  transition:all .25s ease;border:2px solid rgba(255,255,255,.15);
   margin-left:8px;flex-shrink:0;position:relative;
 }
 .fb-logo-btn:hover{transform:scale(1.08) rotate(5deg);box-shadow:0 6px 25px rgba(24,119,242,.7)}
@@ -421,6 +375,53 @@ button{cursor:pointer}
 .bubble .icon-line .txt{flex:1;min-width:0}
 .bubble .section-head{display:flex;align-items:center;gap:8px;font-weight:700;color:#fff;margin:10px 0 6px;padding-bottom:4px;border-bottom:1px solid #30394b}
 .bubble .section-head .ic{font-size:18px}
+
+/* ============ MODAL HẾT LƯỢT ============ */
+.out-modal-overlay{
+  position:fixed;inset:0;z-index:600;
+  background:rgba(0,0,0,.9);backdrop-filter:blur(10px);
+  display:none;align-items:center;justify-content:center;
+  padding:20px;animation:fadeIn .25s;
+}
+.out-modal-overlay.show{display:flex}
+.out-modal{
+  background:linear-gradient(135deg,#1a1224,#171b25);
+  border:2px solid var(--red);border-radius:24px;
+  padding:36px 28px;max-width:420px;width:100%;text-align:center;
+  box-shadow:0 30px 100px rgba(255,61,90,.4);
+  animation:updatePop .4s;position:relative;overflow:hidden;
+}
+.out-modal-icon{
+  width:80px;height:80px;margin:0 auto 18px;border-radius:24px;
+  background:linear-gradient(135deg,#ff3d5a,#c72e45);
+  display:grid;place-items:center;font-size:42px;
+  box-shadow:0 12px 45px rgba(255,61,90,.6);
+  animation:updateBounce 1.5s ease-in-out infinite;
+}
+.out-modal-title{
+  color:#ff3d5a;font-size:22px;font-weight:900;letter-spacing:-.5px;margin-bottom:10px;
+}
+.out-modal-sub{
+  color:var(--muted);font-size:14px;line-height:1.7;margin-bottom:20px;
+}
+.out-modal-actions{
+  display:flex;gap:10px;flex-direction:column;
+}
+.out-modal-btn{
+  padding:14px;border-radius:12px;border:0;
+  font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.out-modal-btn.primary{
+  background:linear-gradient(135deg,#7657ee,#5540b8);color:#fff;
+  box-shadow:0 6px 25px rgba(118,87,238,.4);
+}
+.out-modal-btn.primary:hover{transform:translateY(-2px);box-shadow:0 8px 35px rgba(118,87,238,.7)}
+.out-modal-btn.secondary{
+  background:#202633;color:#aab5c9;border:1px solid #41495b;
+}
+.out-modal-btn.secondary:hover{background:#282f42;color:#fff}
+
 @media(max-width:700px){
   .sidebar{position:fixed;z-index:20;left:0;top:0;bottom:0;box-shadow:15px 0 45px #0007;transform:translateX(-105%)}
   .sidebar.open{transform:translateX(0)}
@@ -453,15 +454,15 @@ button{cursor:pointer}
   .update-icon{width:70px;height:70px;font-size:36px}
   .update-title{font-size:19px}
   .update-sub{font-size:13px}
-  .login-box{padding:30px 22px}
-  .login-logo{width:64px;height:64px;font-size:32px}
-  .login-title{font-size:22px}
+  .out-modal{padding:26px 20px}
+  .out-modal-icon{width:64px;height:64px;font-size:34px}
+  .out-modal-title{font-size:19px}
 }
 </style>
 </head>
 <body>
 
-<!-- ============ MÀN HÌNH ĐĂNG NHẬP ============ -->
+<!-- ĐĂNG NHẬP -->
 <div class="login-screen" id="loginScreen">
   <div class="login-box">
     <div class="login-content">
@@ -470,18 +471,13 @@ button{cursor:pointer}
       </div>
       <div class="login-title">NCB_AI 1.2.0</div>
       <div class="login-sub">
-        Đăng nhập để bắt đầu trò chuyện với<br>
-        trợ lí AI thông minh của NGUYỄN CÔNG BẰNG
+        Đăng nhập bằng Google để bắt đầu trò chuyện.<br>
+        Mỗi tài khoản được <b style="color:#ffd166">50.000 lượt chat</b><br>
+        (1 lần chat = 10 lượt)
       </div>
-
-      <button id="googleLogin" class="google-login">
-        <img
-          src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
-          alt="Google"
-        />
-        Đăng nhập bằng Google
-      </button>
-
+      <div class="g-signin-wrapper">
+        <div class="g-signin2" data-onsuccess="onSignIn" data-theme="light"></div>
+      </div>
       <div class="login-footer">
         NCB_AI 1.2.0 · Bypass By nhatanh Dev<br>
         Admin: <strong>NGUYỄN CÔNG BẰNG</strong>
@@ -490,7 +486,7 @@ button{cursor:pointer}
   </div>
 </div>
 
-<!-- ============ APP CHÍNH ============ -->
+<!-- APP CHÍNH -->
 <div class="app hidden" id="appMain">
 
   <aside class="sidebar" id="sidebar">
@@ -499,8 +495,6 @@ button{cursor:pointer}
       <div class="logo"><img src="https://i.ibb.co/9kBTwhfq/file-000000007ae482099bddf96408f8a67f.png" alt="NCB_AI"></div>
       <span>NCB_AI 1.2.0</span>
     </div>
-
-    <!-- USER CARD -->
     <div class="user-card">
       <div class="user-avatar" id="userAvatar">?</div>
       <div class="user-info">
@@ -509,7 +503,6 @@ button{cursor:pointer}
       </div>
       <button class="logout-btn" id="logoutBtn">Thoát</button>
     </div>
-
     <button class="new-chat" id="newChat">＋ &nbsp; Cuộc trò chuyện mới</button>
     <div>
       <div class="section-label">GẦN ĐÂY</div>
@@ -519,9 +512,8 @@ button{cursor:pointer}
       <div>✦ NCB_AI</div>
       <div class="version">Phiên bản 1.2.0</div>
       <div>NCB AI là một trợ lí thông minh</div>
-      <div id="modelLabel">Model: Auto fallback</div>
+      <div class="counter" id="counterLabel2">Lượt chat: 0 / 50000</div>
       <div class="admin">Admin: NGUYỄN CÔNG BẰNG</div>
-      <div class="counter" id="counterLabel">Lượt chat: 0 / 50000</div>
     </div>
   </aside>
 
@@ -578,7 +570,7 @@ button{cursor:pointer}
   </main>
 </div>
 
-<!-- MODAL CẬP NHẬT MIC -->
+<!-- MODAL MIC CẬP NHẬT -->
 <div class="update-overlay" id="updateOverlay">
   <div class="update-box">
     <div class="update-icon">🎤</div>
@@ -592,6 +584,22 @@ button{cursor:pointer}
     </div>
     <div class="update-actions">
       <button class="update-btn cancel" id="updateCancel">Đóng</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL HẾT LƯỢT -->
+<div class="out-modal-overlay" id="outModalOverlay">
+  <div class="out-modal">
+    <div class="out-modal-icon">⚠️</div>
+    <div class="out-modal-title">HẾT LƯỢT CHAT</div>
+    <div class="out-modal-sub">
+      Bạn đã sử dụng hết 50.000 lượt chat của tài khoản này.<br><br>
+      Nhập code để được cộng thêm lượt chat.
+    </div>
+    <div class="out-modal-actions">
+      <button class="out-modal-btn primary" id="outEnterCode">🔑 NHẬP CODE</button>
+      <button class="out-modal-btn secondary" id="outClose">Đóng</button>
     </div>
   </div>
 </div>
@@ -616,7 +624,7 @@ button{cursor:pointer}
 // Bypass By nhatanh Dev - NCB_AI 1.2.0
 // API Key: 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
 // Admin: NGUYỄN CÔNG BẰNG
-// Đăng nhập Google + Chat + Code
+// Hệ thống: Mỗi tài khoản Google có 50.000 lượt, 1 lần chat = 10 lượt
 
 const API_KEY = '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';
 const SUPPORT_URL = 'https://www.facebook.com/share/1HgLgZkQFR/';
@@ -627,138 +635,47 @@ const CODE_CMD = ':codencb';
 const IMAGE_CMD = '/image';
 const USER_AVATAR_DEFAULT = 'https://i.ibb.co/nsFcBz7H/file-00000000a1e88206aaf40148e9a29512.png';
 
-// ============ GOOGLE LOGIN ============
-// Sử dụng Google Identity Services (GIS)
-const GOOGLE_CLIENT_ID = '1082713864192-8h72lbtqkca2in2h1s7qbn5i0tbcdatk.apps.googleusercontent.com';
-// Nếu muốn dùng client_id riêng, tạo tại: https://console.cloud.google.com/apis/credentials
+// ==== CẤU HÌNH LƯỢT CHAT ====
+const MAX_TURNS_PER_ACCOUNT = 50000;  // 50.000 lượt cho mỗi tài khoản
+const TURNS_PER_CHAT = 10;            // 1 lần chat = 10 lượt
 
 let currentUser = null;
+let currentUserSub = null;            // Google ID của user hiện tại
 
-// Load Google Identity Services
-function loadGoogleSDK(){
-  return new Promise((resolve) => {
-    if(window.google && window.google.accounts){
-      resolve();
-      return;
-    }
-    const script = document.createElement('script');
-    script.src = 'https://accounts.google.com/gsi/client';
-    script.async = true;
-    script.defer = true;
-    script.onload = resolve;
-    document.head.appendChild(script);
-  });
-}
+// ============ GOOGLE SIGN-IN ============
+function onSignIn(googleUser){
+  const profile = googleUser.getBasicProfile();
+  const id = profile.getId();
+  const name = profile.getName();
+  const imageUrl = profile.getImageUrl();
+  const email = profile.getEmail();
 
-// Decode JWT từ Google
-function parseJwt(token){
-  try{
-    const base64Url = token.split('.')[1];
-    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => {
-      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
-    return JSON.parse(jsonPayload);
-  }catch(e){
-    return null;
-  }
-}
+  console.log('ID:', id);
+  console.log('Name:', name);
+  console.log('Image URL:', imageUrl);
+  console.log('Email:', email);
 
-// Khởi tạo nút đăng nhập Google
-async function initGoogleLogin(){
-  await loadGoogleSDK();
-
-  if(!window.google || !window.google.accounts){
-    showToast('⚠️ Không tải được Google SDK');
-    return;
-  }
-
-  try{
-    google.accounts.id.initialize({
-      client_id: GOOGLE_CLIENT_ID,
-      callback: handleGoogleCallback,
-      auto_select: false,
-      cancel_on_tap_outside: true
-    });
-  }catch(e){
-    console.warn('Google Init error:', e);
-  }
-
-  // Xử lý nút đăng nhập tùy chỉnh
-  document.getElementById('googleLogin').addEventListener('click', () => {
-    try{
-      google.accounts.id.prompt((notification) => {
-        if(notification.isNotDisplayed() || notification.isSkippedMoment()){
-          // Fallback: dùng OAuth popup
-          fallbackGoogleLogin();
-        }
-      });
-    }catch(e){
-      fallbackGoogleLogin();
-    }
-  });
-
-  // Kiểm tra đã đăng nhập trước đó
-  const savedUser = localStorage.getItem('ncb_user');
-  if(savedUser){
-    try{
-      currentUser = JSON.parse(savedUser);
-      showApp();
-    }catch(e){}
-  }
-}
-
-// Fallback đăng nhập giả lập (nếu Google popup bị chặn)
-function fallbackGoogleLogin(){
-  // Tạo user giả lập để demo
-  const demoUser = {
-    name: 'Người dùng Google',
-    email: 'user@gmail.com',
-    picture: '',
-    sub: 'demo_' + Date.now()
+  currentUserSub = id;
+  currentUser = {
+    id: id,
+    name: name || 'User',
+    email: email || '',
+    picture: imageUrl || '',
+    sub: id
   };
-  currentUser = demoUser;
-  localStorage.setItem('ncb_user', JSON.stringify(demoUser));
+
+  // Lưu session (không lưu token, chỉ lưu profile để load nhanh)
+  localStorage.setItem('ncb_user', JSON.stringify(currentUser));
+
   showApp();
-  showToast('✅ Đăng nhập thành công!');
 }
 
-// Callback khi Google trả về
-function handleGoogleCallback(response){
-  try{
-    const payload = parseJwt(response.credential);
-    if(!payload){
-      showToast('❌ Không đọc được thông tin Google');
-      return;
-    }
-
-    currentUser = {
-      name: payload.name || 'User',
-      email: payload.email || '',
-      picture: payload.picture || '',
-      sub: payload.sub || '',
-      given_name: payload.given_name || '',
-      family_name: payload.family_name || ''
-    };
-
-    localStorage.setItem('ncb_user', JSON.stringify(currentUser));
-    showApp();
-    showToast('✅ Xin chào ' + currentUser.name + '!');
-  }catch(e){
-    console.error(e);
-    showToast('❌ Lỗi đăng nhập');
-  }
-}
-
-// Hiện app chính
 function showApp(){
   const loginScreen = document.getElementById('loginScreen');
   const appMain = document.getElementById('appMain');
-
   loginScreen.classList.add('hide');
   appMain.classList.remove('hidden');
 
-  // Cập nhật user info
   if(currentUser){
     document.getElementById('userName').textContent = currentUser.name || 'User';
     document.getElementById('userEmail').textContent = currentUser.email || '';
@@ -771,38 +688,199 @@ function showApp(){
     }
   }
 
-  // Focus ô nhập
+  // Khởi tạo session cho user này
+  initUserSession();
+
   setTimeout(() => {
-    const input = document.getElementById('input');
-    if(input) input.focus();
+    const inp = document.getElementById('input');
+    if(inp) inp.focus();
   }, 300);
 
-  // Kiểm tra kết nối API
   checkConnection();
+  updateCounter();
 }
 
 // Đăng xuất
-function logout(){
+function signOut(){
   if(!confirm('Đăng xuất khỏi tài khoản?')) return;
 
+  const auth2 = gapi.auth2 && gapi.auth2.getAuthInstance && gapi.auth2.getAuthInstance();
+  if(auth2){
+    auth2.signOut().then(function(){
+      console.log('User signed out.');
+    });
+  }
+
+  // Xóa session
   currentUser = null;
+  currentUserSub = null;
   localStorage.removeItem('ncb_user');
 
+  // Về màn hình đăng nhập
   document.getElementById('appMain').classList.add('hidden');
   document.getElementById('loginScreen').classList.remove('hide');
 
-  // Xoá chat hiện tại nếu cần
-  // Giữ lại lịch sử vì lưu localStorage chung
+  // Reset chat hiện tại
+  currentMessages = [];
+  conversations = [];
+  activeId = null;
+  renderConversation();
+  renderHistory();
 }
 
-// ============ APP LOGIC ============
+// Đăng xuất admin (dùng nút Thoát trong sidebar)
+function adminLogout(){
+  signOut();
+}
+
+document.getElementById('logoutBtn').addEventListener('click', adminLogout);
+
+// ============ LƯỢT CHAT THEO TÀI KHOẢN ============
+// Cấu trúc: localStorage['ncb_turns_{sub}'] = { used: number, bonus: number }
+// - used: số lượt đã dùng
+// - bonus: số lượt được cộng thêm từ code
+
+function getTurnKey(sub){
+  return 'ncb_turns_' + (sub || 'guest');
+}
+
+function getTurnData(sub){
+  const key = getTurnKey(sub);
+  try{
+    const raw = localStorage.getItem(key);
+    if(!raw) return { used: 0, bonus: 0 };
+    const data = JSON.parse(raw);
+    return {
+      used: parseInt(data.used, 10) || 0,
+      bonus: parseInt(data.bonus, 10) || 0
+    };
+  }catch(e){
+    return { used: 0, bonus: 0 };
+  }
+}
+
+function setTurnData(sub, data){
+  const key = getTurnKey(sub);
+  localStorage.setItem(key, JSON.stringify({
+    used: parseInt(data.used, 10) || 0,
+    bonus: parseInt(data.bonus, 10) || 0
+  }));
+}
+
+// Khởi tạo session cho user hiện tại
+function initUserSession(){
+  if(!currentUserSub) return;
+  const data = getTurnData(currentUserSub);
+  // Kiểm tra nếu chưa có data thì khởi tạo
+  if(!localStorage.getItem(getTurnKey(currentUserSub))){
+    setTurnData(currentUserSub, { used: 0, bonus: 0 });
+  }
+  updateCounter();
+}
+
+// Lấy tổng lượt tối đa (50.000 + bonus)
+function getMaxTurns(){
+  if(!currentUserSub) return MAX_TURNS_PER_ACCOUNT;
+  const data = getTurnData(currentUserSub);
+  return MAX_TURNS_PER_ACCOUNT + data.bonus;
+}
+
+// Lấy số lượt còn lại
+function getTurnsLeft(){
+  if(!currentUserSub) return MAX_TURNS_PER_ACCOUNT;
+  const data = getTurnData(currentUserSub);
+  const max = MAX_TURNS_PER_ACCOUNT + data.bonus;
+  return Math.max(0, max - data.used);
+}
+
+// Trừ lượt khi chat thành công
+function consumeTurns(){
+  if(!currentUserSub) return false;
+  const data = getTurnData(currentUserSub);
+  const max = MAX_TURNS_PER_ACCOUNT + data.bonus;
+  if(data.used + TURNS_PER_CHAT > max){
+    return false; // Không đủ lượt
+  }
+  data.used += TURNS_PER_CHAT;
+  setTurnData(currentUserSub, data);
+  return true;
+}
+
+// Cộng lượt (từ code)
+function addBonusTurns(amount){
+  if(!currentUserSub) return;
+  const data = getTurnData(currentUserSub);
+  data.bonus += amount;
+  setTurnData(currentUserSub, data);
+  updateCounter();
+}
+
+// Cập nhật counter hiển thị
+function updateCounter(){
+  if(!currentUserSub){
+    if(counterLabel) counterLabel.textContent = 'Chưa đăng nhập';
+    const c2 = document.getElementById('counterLabel2');
+    if(c2) c2.textContent = 'Chưa đăng nhập';
+    return;
+  }
+  const data = getTurnData(currentUserSub);
+  const max = MAX_TURNS_PER_ACCOUNT + data.bonus;
+  const used = data.used;
+  const left = Math.max(0, max - used);
+
+  const text = 'Lượt chat: ' + left.toLocaleString('vi-VN') + ' / ' + max.toLocaleString('vi-VN');
+
+  if(counterLabel) counterLabel.textContent = text;
+  const c2 = document.getElementById('counterLabel2');
+  if(c2) c2.textContent = text;
+
+  let color = '#35d69a';
+  if(left <= 0) color = '#ff626e';
+  else if(left <= max * 0.1) color = '#ffd166';
+
+  if(counterLabel) counterLabel.style.color = color;
+  if(c2) c2.style.color = color;
+}
+
+// ============ MODAL HẾT LƯỢT ============
+const outModalOverlay = document.getElementById('outModalOverlay');
+document.getElementById('outClose').addEventListener('click', () => {
+  outModalOverlay.classList.remove('show');
+});
+document.getElementById('outEnterCode').addEventListener('click', () => {
+  outModalOverlay.classList.remove('show');
+  openCodeModal();
+});
+outModalOverlay.addEventListener('click', (e) => {
+  if(e.target === outModalOverlay) outModalOverlay.classList.remove('show');
+});
+
+// ============ KHỞI TẠO KHI LOAD ============
+// Kiểm tra đã đăng nhập trước đó
+function tryRestoreSession(){
+  const savedUser = localStorage.getItem('ncb_user');
+  if(savedUser){
+    try{
+      currentUser = JSON.parse(savedUser);
+      currentUserSub = currentUser.sub || currentUser.id;
+      showApp();
+    }catch(e){
+      localStorage.removeItem('ncb_user');
+    }
+  }
+}
+
+// Đợi Google SDK load xong mới thử restore
+window.addEventListener('load', () => {
+  // Delay nhỏ để platform.js sẵn sàng
+  setTimeout(tryRestoreSession, 500);
+});
+
+// ============ CÁC HÀM KHÁC (giữ nguyên) ============
 document.getElementById('fbLogoBtn').addEventListener('click', () => {
   window.open(SUPPORT_URL, '_blank', 'noopener');
 });
 
-document.getElementById('logoutBtn').addEventListener('click', logout);
-
-// Nút mic → modal cập nhật
 const updateOverlay = document.getElementById('updateOverlay');
 document.getElementById('micBtn').addEventListener('click', () => {
   updateOverlay.classList.add('show');
@@ -814,7 +892,6 @@ updateOverlay.addEventListener('click', (e) => {
   if(e.target === updateOverlay) updateOverlay.classList.remove('show');
 });
 
-// Các hàm hỗ trợ
 const _k = [78,67,66,65,73,95,54,55,57,48,78,67,66];
 function checkCode(input){
   if(input.length !== _k.length) return false;
@@ -930,10 +1007,7 @@ const ADMIN_NAME = 'NGUYỄN CÔNG BẰNG';
 const AI_NAME = 'NCB_AI';
 const AI_VERSION = '1.2.0';
 const AI_TAGLINE = 'NCB AI là một trợ lí thông minh';
-const MAX_CHAT = 50000;
-const STORAGE_KEY = 'ncbai_chat_count';
 const HISTORY_KEY = 'ncbai_history';
-const UNLOCKED_KEY = 'ncbai_unlocked';
 
 function getResponseDelay(userText){
   const len = userText.length;
@@ -1046,26 +1120,7 @@ let busy = false;
 let activeId = null;
 let conversations = [];
 let currentMessages = [];
-let isUnlocked = localStorage.getItem(UNLOCKED_KEY) === '1';
 let currentSpeakingBtn = null;
-
-function getChatCount(){
-  const v = parseInt(localStorage.getItem(STORAGE_KEY) || '0', 10);
-  return isNaN(v) ? 0 : v;
-}
-function setChatCount(n){
-  localStorage.setItem(STORAGE_KEY, String(n));
-  updateCounter();
-}
-function updateCounter(){
-  const c = getChatCount();
-  const maxText = isUnlocked ? '1,050,000' : MAX_CHAT.toLocaleString('vi-VN');
-  counterLabel.textContent = 'Lượt chat: ' + c.toLocaleString('vi-VN') + ' / ' + maxText;
-  if(!isUnlocked && c >= MAX_CHAT) counterLabel.style.color = '#ff626e';
-  else if(!isUnlocked && c >= MAX_CHAT * 0.9) counterLabel.style.color = '#ffd166';
-  else counterLabel.style.color = '#35d69a';
-}
-function getMaxChat(){ return isUnlocked ? MAX_CHAT + 1000000 : MAX_CHAT; }
 
 function openCodeModal(){
   codeOverlay.classList.remove('hidden');
@@ -1083,8 +1138,7 @@ function submitCode(){
     return;
   }
   if(checkCode(val)){
-    isUnlocked = true;
-    localStorage.setItem(UNLOCKED_KEY, '1');
+    addBonusTurns(1000000);
     codeError.textContent = '✅ Mở khóa thành công! +1.000.000 lượt chat';
     codeError.style.color = '#35d69a';
     updateCounter();
@@ -1149,10 +1203,7 @@ function handleUserTyping(){
 }
 
 function speakFromBtn(text, btn){
-  if(!('speechSynthesis' in window)){
-    showToast("Trình duyệt không hỗ trợ đọc");
-    return;
-  }
+  if(!('speechSynthesis' in window)){ showToast("Trình duyệt không hỗ trợ đọc"); return; }
   if(btn.classList.contains('speaking')){
     window.speechSynthesis.cancel();
     btn.classList.remove('speaking');
@@ -1160,18 +1211,14 @@ function speakFromBtn(text, btn){
     currentSpeakingBtn = null;
     return;
   }
-  if(window.speechSynthesis.speaking){
-    window.speechSynthesis.cancel();
-  }
+  if(window.speechSynthesis.speaking){ window.speechSynthesis.cancel(); }
   document.querySelectorAll('.read-msg-btn.speaking').forEach(b => {
     b.classList.remove('speaking');
     b.innerHTML = SVG_VOLUME + ' <span>Nghe</span>';
   });
 
   const utter = new SpeechSynthesisUtterance(text);
-  utter.lang = 'vi-VN';
-  utter.rate = 1.0;
-  utter.pitch = 1.0;
+  utter.lang = 'vi-VN'; utter.rate = 1.0; utter.pitch = 1.0;
   const voices = window.speechSynthesis.getVoices();
   const viVoice = voices.find(v => v.lang.startsWith('vi'));
   if(viVoice) utter.voice = viVoice;
@@ -1191,7 +1238,6 @@ function speakFromBtn(text, btn){
     btn.innerHTML = SVG_VOLUME + ' <span>Nghe</span>';
     if(currentSpeakingBtn === btn) currentSpeakingBtn = null;
   };
-
   window.speechSynthesis.speak(utter);
 }
 
@@ -1258,10 +1304,7 @@ function renderMessage(role, text){
       const parts = parseMessage(text);
       const cleanText = parts.filter(p => p.type === 'text').map(p => p.content)
         .join(' ').replace(/\*+/g,'').replace(/#+/g,'').trim();
-      if(!cleanText){
-        showToast('Không có nội dung để đọc');
-        return;
-      }
+      if(!cleanText){ showToast('Không có nội dung để đọc'); return; }
       speakFromBtn(cleanText, readMsgBtn);
     });
     actions.appendChild(readMsgBtn);
@@ -1350,21 +1393,7 @@ function renderWebsiteMessage(){
 }
 
 function renderUnlockMessage(){
-  const row = document.createElement("div");
-  row.className = "message assistant";
-  row.innerHTML = `
-    <div class="avatar"><img src="${LOGO_URL}" alt="${AI_NAME}"></div>
-    <div class="bubble-wrap"><div class="bubble">
-      ⚠️ Bạn đã hết lượt chat miễn phí.<br><br>
-      🔑 Vui lòng nhập code ở dưới đây 👇
-      <div style="margin-top:14px;">
-        <button id="unlockBtn" style="background:var(--purple);color:#fff;border:0;padding:12px 20px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;">🔑 NHẬP CODE</button>
-      </div>
-    </div></div>`;
-  contentEl.appendChild(row);
-  scrollBottom();
-  const unlockBtn = row.querySelector('#unlockBtn');
-  if(unlockBtn) unlockBtn.addEventListener('click', openCodeModal);
+  outModalOverlay.classList.add('show');
 }
 
 function renderConversation(){
@@ -1378,7 +1407,8 @@ function renderConversation(){
         <h1>Xin chào! 👋</h1>
         <p>${AI_TAGLINE}. Mình có thể trả lời mọi câu hỏi của bạn.<br>
         Gõ <b>/image mô tả</b> để tạo ảnh AI.<br>
-        Gõ <b>/encbminigame</b> chơi game, <b>:codencb</b> nhập code.</p>
+        Gõ <b>/encbminigame</b> chơi game, <b>:codencb</b> nhập code.<br>
+        <b style="color:#ffd166">1 lần chat = 10 lượt / 50.000 lượt</b></p>
         <div class="suggestions">
           <button class="suggestion" data-prompt="Website của bạn là gì?">
             <strong>🌐 Website</strong><span>Xem đường dẫn chính thức</span>
@@ -1595,8 +1625,7 @@ function renderCodeBlock(lang, code){
       }, 1500);
     });
   });
-  header.appendChild(langEl);
-  header.appendChild(copyBtn);
+  header.appendChild(langEl); header.appendChild(copyBtn);
   const pre = document.createElement('pre');
   pre.className = 'code-content'; pre.textContent = code;
   wrap.appendChild(header); wrap.appendChild(pre);
@@ -1726,11 +1755,14 @@ async function handleImageGeneration(prompt){
 
 async function sendMessage(textOverride){
   if(busy) return;
-  if(getChatCount() >= getMaxChat()){
+
+  // Kiểm tra lượt
+  if(getTurnsLeft() < TURNS_PER_CHAT){
     renderUnlockMessage();
     showToast("Đã hết lượt chat. Nhập code để tiếp tục.");
     return;
   }
+
   const text = (textOverride ?? input.value).trim();
   if(!text) return;
 
@@ -1756,7 +1788,9 @@ async function sendMessage(textOverride){
     const row = renderSendingIndicator();
     await sleep(700); row.remove();
     renderMiniGame();
-    setChatCount(getChatCount() + 1);
+    // Trừ lượt
+    consumeTurns();
+    updateCounter();
     saveCurrent();
     setStatus("Đã kết nối");
     busy = false; sendBtn.disabled = false; input.focus();
@@ -1769,7 +1803,8 @@ async function sendMessage(textOverride){
     await sleep(500); row.remove();
     openCodeModal();
     currentMessages.push({ role: "assistant", content: "🔑 Đã mở khung nhập code.", isCodePrompt: true });
-    setChatCount(getChatCount() + 1);
+    consumeTurns();
+    updateCounter();
     saveCurrent();
     setStatus("Đã kết nối");
     busy = false; sendBtn.disabled = false; input.focus();
@@ -1786,7 +1821,8 @@ async function sendMessage(textOverride){
       content: "🌐 Website chính thức của NCB AI: " + WEBSITE_URL,
       isWebsite: true
     });
-    setChatCount(getChatCount() + 1);
+    consumeTurns();
+    updateCounter();
     saveCurrent();
     setStatus("Đã kết nối");
     busy = false; sendBtn.disabled = false; input.focus();
@@ -1800,7 +1836,8 @@ async function sendMessage(textOverride){
     const introMsg = "🕐 Đây là thời gian hiện tại nhé:";
     renderTimeMessage(introMsg);
     currentMessages.push({ role: "assistant", content: introMsg, isTime: true });
-    setChatCount(getChatCount() + 1);
+    consumeTurns();
+    updateCounter();
     saveCurrent();
     setStatus("Đã kết nối");
     busy = false; sendBtn.disabled = false; input.focus();
@@ -1813,7 +1850,8 @@ async function sendMessage(textOverride){
     await sleep(900); row.remove();
     renderSupportMessage();
     currentMessages.push({ role: "assistant", content: "💬 Hỗ trợ qua Facebook nhé!", isSupport: true });
-    setChatCount(getChatCount() + 1);
+    consumeTurns();
+    updateCounter();
     saveCurrent();
     setStatus("Đã kết nối");
     busy = false; sendBtn.disabled = false; input.focus();
@@ -1824,13 +1862,15 @@ async function sendMessage(textOverride){
     const prompt = extractImagePrompt(text);
     if(!prompt){
       renderMessage("assistant", "🎨 Bạn muốn tạo ảnh gì? Gõ /image + mô tả (ví dụ: /image con mèo dễ thương).");
-      setChatCount(getChatCount() + 1);
+      consumeTurns();
+      updateCounter();
       saveCurrent();
       return;
     }
     busy = true; sendBtn.disabled = true;
     await handleImageGeneration(prompt);
-    setChatCount(getChatCount() + 1);
+    consumeTurns();
+    updateCounter();
     saveCurrent();
     setStatus("Đã kết nối");
     busy = false; sendBtn.disabled = false; input.focus();
@@ -1860,13 +1900,20 @@ async function sendMessage(textOverride){
     showToast(result.fatal ? "❌ API key sai hoặc hết hạn." : "⏳ Tất cả model đều quá tải. Thử lại sau.");
   }
 
-  setChatCount(getChatCount() + 1);
+  // Trừ lượt sau khi chat thành công
+  consumeTurns();
+  updateCounter();
+
   currentMessages.push({ role: "assistant", content: reply });
   saveCurrent();
   row.remove();
   renderMessage("assistant", reply);
 
-  if(getChatCount() >= getMaxChat()) renderUnlockMessage();
+  // Nếu hết lượt thì hiện modal
+  if(getTurnsLeft() < TURNS_PER_CHAT){
+    renderUnlockMessage();
+  }
+
   busy = false; sendBtn.disabled = false; input.focus();
 }
 
@@ -1902,6 +1949,7 @@ document.addEventListener("keydown", event => {
     closeSidebar();
     closeCodeModal();
     updateOverlay.classList.remove('show');
+    outModalOverlay.classList.remove('show');
     if(window.speechSynthesis) window.speechSynthesis.cancel();
     document.querySelectorAll('.read-msg-btn.speaking').forEach(b => {
       b.classList.remove('speaking');
@@ -1934,12 +1982,9 @@ if('speechSynthesis' in window){
   window.speechSynthesis.getVoices();
 }
 
-updateCounter();
 renderHistory();
 renderConversation();
-
-// Khởi tạo đăng nhập Google
-initGoogleLogin();
+updateCounter();
 </script>
 </body>
 </html>
