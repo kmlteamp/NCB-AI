@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="theme-color" content="#10131a">
-<title>NCB_AI 1.3.0</title>
+<title>NCB_AI 1.4.0</title>
 <style>
 :root{--bg:#10131a;--panel:#171b25;--panel2:#202633;--border:#303746;--text:#f1f4fa;--muted:#929db2;--purple:#7657ee;--purple2:#5540b8;--green:#35d69a;--red:#ff3d5a}
 *{box-sizing:border-box}
@@ -137,26 +137,36 @@ button{cursor:pointer}button,textarea,input{font:inherit}
 .typing-hint .dot{width:5px;height:5px;border-radius:50%;background:#a78bfa;animation:pulseDot 1s infinite alternate}
 .typing-hint .dot:nth-child(2){animation-delay:.2s}.typing-hint .dot:nth-child(3){animation-delay:.4s}
 .composer-actions{display:flex;gap:8px;align-items:center}
-.mic-btn{width:39px;height:39px;border-radius:12px;background:#202633;border:1px solid #41495b;color:#aab5c9;display:grid;place-items:center;cursor:pointer}
+.mic-btn{width:39px;height:39px;border-radius:12px;background:#202633;border:1px solid #41495b;color:#aab5c9;display:grid;place-items:center;cursor:pointer;transition:all .2s;position:relative}
 .mic-btn:hover{background:#282f42;color:#fff;border-color:var(--purple)}
 .mic-btn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.mic-btn.recording{background:#ff4a6a !important;color:#fff !important;border-color:#ff4a6a !important;animation:pulseDot 1s infinite}
 .send-btn{width:39px;height:39px;display:grid;place-items:center;border:0;border-radius:12px;background:var(--purple);color:white;font-size:19px}
 .send-btn:hover{background:#8c75ff}
 .disclaimer{text-align:center;font-size:11px;color:#747f94;margin:10px 0 0}
 .toast{position:fixed;left:50%;bottom:105px;transform:translateX(-50%);background:#303747;color:#fff;border:1px solid #4b566b;padding:11px 16px;border-radius:10px;font-size:13px;z-index:10;max-width:90%;text-align:center;white-space:pre-line}
 .hidden{display:none!important}
-.update-overlay{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.9);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;padding:20px}
-.update-overlay.show{display:flex}
-.update-box{background:linear-gradient(135deg,#171b25,#1a1f2e);border:2px solid var(--purple);border-radius:24px;padding:40px 30px;max-width:420px;width:100%;text-align:center;box-shadow:0 30px 100px rgba(118,87,238,.5);animation:updatePop .4s}
-@keyframes updatePop{from{transform:scale(.8) translateY(30px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
-.update-icon{width:80px;height:80px;margin:0 auto 20px;border-radius:24px;background:linear-gradient(135deg,#8a6cff,#5436c9);display:grid;place-items:center;font-size:42px;box-shadow:0 12px 45px rgba(118,87,238,.7);animation:updateBounce 1.5s ease-in-out infinite}
-@keyframes updateBounce{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-10px) rotate(5deg)}}
-.update-title{color:#fff;font-size:22px;font-weight:900;margin-bottom:10px;background:linear-gradient(135deg,#fff,#a78bfa);-webkit-background-clip:text;background-clip:text;color:transparent}
-.update-sub{color:var(--muted);font-size:14px;line-height:1.7;margin-bottom:22px}
-.update-btn{padding:14px 30px;border-radius:12px;border:0;font-size:14px;font-weight:700;cursor:pointer;background:#202633;color:#aab5c9;border:1px solid #41495b}
-.update-btn:hover{background:#282f42;color:#fff}
+.voice-overlay{position:fixed;inset:0;z-index:600;background:rgba(0,0,0,.9);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;padding:20px}
+.voice-overlay.show{display:flex}
+.voice-box{background:linear-gradient(135deg,#171b25,#1a1f2e);border:2px solid var(--purple);border-radius:24px;padding:36px 28px;max-width:400px;width:100%;text-align:center;box-shadow:0 30px 100px rgba(118,87,238,.5)}
+.voice-mic{width:110px;height:110px;margin:0 auto 22px;border-radius:50%;background:linear-gradient(135deg,#8a6cff,#5436c9);display:grid;place-items:center;font-size:50px;box-shadow:0 0 0 0 rgba(118,87,238,.7);animation:voicePulse 1.5s infinite;position:relative}
+@keyframes voicePulse{0%{box-shadow:0 0 0 0 rgba(118,87,238,.7)}70%{box-shadow:0 0 0 30px rgba(118,87,238,0)}100%{box-shadow:0 0 0 0 rgba(118,87,238,0)}}
+.voice-mic.recording{background:linear-gradient(135deg,#ff4a6a,#aa0000);animation:voiceRecordPulse 1s infinite}
+@keyframes voiceRecordPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+.voice-title{color:#fff;font-size:20px;font-weight:800;margin-bottom:10px}
+.voice-sub{color:var(--muted);font-size:13px;line-height:1.7;margin-bottom:16px;min-height:44px}
+.voice-transcript{background:#0a0e18;border:1px solid var(--border);border-radius:10px;padding:12px;color:#e6eaf2;font-size:14px;line-height:1.6;min-height:50px;margin-bottom:16px;text-align:left;max-height:140px;overflow-y:auto;font-style:italic}
+.voice-transcript:empty::before{content:'🎤 Nhấn nút bên dưới và bắt đầu nói...';color:#5a6478}
+.voice-actions{display:flex;gap:10px}
+.voice-btn{flex:1;padding:13px;border-radius:12px;border:0;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s}
+.voice-btn.cancel{background:#202633;color:#aab5c9;border:1px solid #41495b}
+.voice-btn.cancel:hover{background:#282f42;color:#fff}
+.voice-btn.start{background:linear-gradient(135deg,#7657ee,#5540b8);color:#fff}
+.voice-btn.start:hover{filter:brightness(1.15)}
+.voice-btn.send{background:linear-gradient(135deg,#35d69a,#0f9d68);color:#fff}
+.voice-btn.send:hover{filter:brightness(1.15)}
 .ncb-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
-.ncb-box{width:340px;padding:22px;background:#0c1630;border:1px solid #00cfff;border-radius:14px;box-shadow:0 0 20px #007bff44,0 20px 60px rgba(0,0,0,.6);position:relative;color:#fff}
+.ncb-box{width:340px;padding:22px;background:#0c1630;border:1px solid #00cfff;border-radius:14px;box-shadow:0 0 20px #007bff44,0 20px 60px rgba(0,0,0,.6);color:#fff}
 .ncb-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
 .ncb-top b{color:#40deff;font-size:16px;letter-spacing:.5px}
 .ncb-close{border:0;background:#202c48;color:#fff;width:27px;height:27px;border-radius:6px;font-size:17px;cursor:pointer;display:grid;place-items:center}
@@ -196,8 +206,8 @@ button{cursor:pointer}button,textarea,input{font:inherit}
   <div class="login-box">
     <div class="login-content">
       <div class="login-logo"><img src="https://i.ibb.co/9kBTwhfq/file-000000007ae482099bddf96408f8a67f.png" alt="NCB_AI"></div>
-      <div class="login-title">NCB_AI 1.3.0</div>
-      <div class="login-sub">Đăng nhập để bắt đầu trò chuyện.<br>Mỗi thiết bị được <b style="color:#ffd166">50.000 lượt chat / ngày</b><br>(Tự động cộng lại lúc 00:00 giờ VN)</div>
+      <div class="login-title">NCB_AI 1.4.0</div>
+      <div class="login-sub">Đăng nhập để bắt đầu trò chuyện.<br>Mỗi thiết bị được <b style="color:#ffd166">50.000 lượt chat / ngày</b><br>🎤 Đã hỗ trợ ghi âm giọng nói</div>
       <button class="ncb-login-btn" id="ncbLoginBtn">
         <svg viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
         <span class="loading"></span>
@@ -207,7 +217,7 @@ button{cursor:pointer}button,textarea,input{font:inherit}
         <div class="saved-label">Tài khoản đã lưu trên thiết bị</div>
         <div class="saved-id" id="savedId">NCB_0</div>
       </div>
-      <div class="login-footer">NCB_AI 1.3.0<br>Admin: <strong>NGUYỄN CÔNG BẰNG</strong></div>
+      <div class="login-footer">NCB_AI 1.4.0<br>Admin: <strong>NGUYỄN CÔNG BẰNG</strong></div>
     </div>
   </div>
 </div>
@@ -217,7 +227,7 @@ button{cursor:pointer}button,textarea,input{font:inherit}
     <button class="sidebar-close" id="sidebarClose">✕</button>
     <div class="brand">
       <div class="logo"><img src="https://i.ibb.co/9kBTwhfq/file-000000007ae482099bddf96408f8a67f.png" alt="NCB_AI"></div>
-      <span>NCB_AI 1.3.0</span>
+      <span>NCB_AI 1.4.0</span>
     </div>
     <div class="user-card">
       <div class="user-avatar" id="userAvatar">?</div>
@@ -234,7 +244,7 @@ button{cursor:pointer}button,textarea,input{font:inherit}
     </div>
     <div class="sidebar-bottom">
       <div>✦ NCB_AI</div>
-      <div class="version">Phiên bản 1.3.0</div>
+      <div class="version">Phiên bản 1.4.0</div>
       <div>NCB AI là một trợ lí thông minh</div>
       <div class="counter" id="counterLabel2">Lượt chat: 0 / 50000</div>
       <div class="reset-timer" id="resetTimer">Reset sau: --:--:--</div>
@@ -246,7 +256,7 @@ button{cursor:pointer}button,textarea,input{font:inherit}
     <header class="topbar">
       <button class="icon-btn" id="menuBtn">☰</button>
       <div>
-        <div class="top-title">NCB_AI 1.3.0</div>
+        <div class="top-title">NCB_AI 1.4.0</div>
         <div class="top-subtitle">NCB AI là một trợ lí thông minh</div>
       </div>
       <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Đang kết nối</span></div>
@@ -254,7 +264,7 @@ button{cursor:pointer}button,textarea,input{font:inherit}
         <span class="pulse"></span>
         <img src="https://cdn-gop.garenanow.com/gop/mshop/www/live/assets/ic-fb-485c92b0.svg" alt="Facebook">
       </button>
-      <div class="version-badge">Phiên bản 1.3.0</div>
+      <div class="version-badge">Phiên bản 1.4.0</div>
     </header>
 
     <section class="messages" id="messages"><div class="content" id="content"></div></section>
@@ -262,15 +272,15 @@ button{cursor:pointer}button,textarea,input{font:inherit}
     <section class="composer-area">
       <div class="composer-wrap">
         <div class="composer" id="composer">
-          <textarea id="input" rows="1" maxlength="12000" placeholder="Nhập tin nhắn..." aria-label="Tin nhắn"></textarea>
+          <textarea id="input" rows="1" maxlength="12000" placeholder="Nhập tin nhắn hoặc bấm micro để nói..." aria-label="Tin nhắn"></textarea>
           <div class="composer-bottom">
             <div class="composer-info">
-              <span>✦</span><span>NCB_AI 1.3.0</span><span>·</span>
+              <span>✦</span><span>NCB_AI 1.4.0</span><span>·</span>
               <span class="typing-hint" id="typingHint"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span>Đang nhập...</span></span>
               <span id="sendHint">Enter để gửi</span>
             </div>
             <div class="composer-actions">
-              <button class="mic-btn" id="micBtn" title="Ghi âm">
+              <button class="mic-btn" id="micBtn" title="Ghi âm giọng nói">
                 <svg viewBox="0 0 24 24"><path d="M12 19v3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><rect x="9" y="2" width="6" height="13" rx="3"/></svg>
               </button>
               <button class="send-btn" id="sendBtn">↑</button>
@@ -281,15 +291,6 @@ button{cursor:pointer}button,textarea,input{font:inherit}
       </div>
     </section>
   </main>
-</div>
-
-<div class="update-overlay" id="updateOverlay">
-  <div class="update-box">
-    <div class="update-icon">🎤</div>
-    <div class="update-title">Đang cập nhật</div>
-    <div class="update-sub">Tính năng ghi âm giọng nói đang được cập nhật.<br>Vui lòng đợi trong giây lát...</div>
-    <button class="update-btn" id="updateCancel">Đóng</button>
-  </div>
 </div>
 
 <div class="toast hidden" id="toast"></div>
@@ -305,7 +306,7 @@ button{cursor:pointer}button,textarea,input{font:inherit}
 
 <script>
 "use strict";
-const API_KEY='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';
+const API_KEY='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';
 const SUPPORT_URL='https://www.facebook.com/share/1HgLgZkQFR/';
 const WEBSITE_URL='https://ncb-ai.vercel.app/';
 const IMAGE_CMD='/image';
@@ -317,7 +318,7 @@ const ACTIVE_SESSION_KEY='ncb_active_session';
 const HISTORY_KEY='ncbai_history';
 const LOGO_URL='https://i.ibb.co/9kBTwhfq/file-000000007ae482099bddf96408f8a67f.png';
 const ADMIN_NAME='NGUYỄN CÔNG BẰNG';
-const AI_VERSION='1.3.0';
+const AI_VERSION='1.4.0';
 const AI_TAGLINE='NCB AI là một trợ lí thông minh';
 const API_URL='https://api.groq.com/openai/v1/chat/completions';
 const MODELS_URL='https://api.groq.com/openai/v1/models';
@@ -462,10 +463,6 @@ function startResetTimer(){
 }
 
 document.getElementById('fbLogoBtn').addEventListener('click',()=>window.open(SUPPORT_URL,'_blank','noopener'));
-const updateOverlay=document.getElementById('updateOverlay');
-document.getElementById('micBtn').addEventListener('click',()=>updateOverlay.classList.add('show'));
-document.getElementById('updateCancel').addEventListener('click',()=>updateOverlay.classList.remove('show'));
-updateOverlay.addEventListener('click',e=>{if(e.target===updateOverlay)updateOverlay.classList.remove('show')});
 
 const _k=[78,67,66,65,73,95,54,55,57,48,78,67,66];
 function checkCode(i){if(i.length!==_k.length)return false;for(let x=0;x<_k.length;x++)if(i.charCodeAt(x)!==_k[x])return false;return true}
@@ -523,7 +520,7 @@ const MODEL_FALLBACK_CHAIN=[
   {model:'qwen/qwen3-32b'}
 ];
 
-const SYSTEM_PROMPT='Bạn là NCB_AI phiên bản 1.3.0 — một trợ lí thông minh, được phát triển bởi NGUYỄN CÔNG BẰNG. Website chính thức: '+WEBSITE_URL+' QUY TẮC: Đọc kỹ câu hỏi, trả lời đúng trọng tâm, không lạc đề. KHÔNG dùng *, **, ***, #, >. Dùng icon: ✅ ❌ ⚠️ 💡 📌 🔹 ✨ 🚀 🎯 📝 🕐 👉 💬 🔑 💻 🌟 ⭐ 📖 🔍 🧠 💪 ❤️ 👍 🔥 💯';
+const SYSTEM_PROMPT='Bạn là NCB_AI phiên bản 1.4.0 — một trợ lí thông minh, được phát triển bởi NGUYỄN CÔNG BẰNG. Website chính thức: '+WEBSITE_URL+' QUY TẮC: Đọc kỹ câu hỏi, trả lời đúng trọng tâm, không lạc đề. KHÔNG dùng *, **, ***, #, >. Dùng icon: ✅ ❌ ⚠️ 💡 📌 🔹 ✨ 🚀 🎯 📝 🕐 👉 💬 🔑 💻 🌟 ⭐ 📖 🔍 🧠 💪 ❤️ 👍 🔥 💯';
 
 const FALLBACK_REPLIES=[
   "⏳ Hệ thống AI đang quá tải tạm thời.\n\n🔹 Bạn chờ khoảng 30 giây rồi gửi lại câu hỏi nhé.",
@@ -707,6 +704,130 @@ async function sendMessage(){
   if(!reply)reply=pickFallbackReply();
   await sleep(getResponseDelay(text));
   isSending=false;addMessage({role:'assistant',content:reply,ts:Date.now()});
+}
+
+// ====== GHI ÂM GIỌNG NÓI (Web Speech API) ======
+const voiceOverlay = document.createElement('div');
+voiceOverlay.className = 'voice-overlay';
+voiceOverlay.id = 'voiceOverlay';
+voiceOverlay.innerHTML = `
+  <div class="voice-box">
+    <div class="voice-mic" id="voiceMicIcon">🎤</div>
+    <div class="voice-title" id="voiceTitle">Ghi âm giọng nói</div>
+    <div class="voice-sub" id="voiceSub">Nhấn nút bên dưới và nói. AI sẽ nghe và trả lời bạn.</div>
+    <div class="voice-transcript" id="voiceTranscript"></div>
+    <div class="voice-actions">
+      <button class="voice-btn cancel" id="voiceClose">Đóng</button>
+      <button class="voice-btn start" id="voiceStart">🎤 Bắt đầu nói</button>
+      <button class="voice-btn send" id="voiceSend" style="display:none">➤ Gửi cho AI</button>
+    </div>
+  </div>`;
+document.body.appendChild(voiceOverlay);
+
+let recognition = null;
+let isRecording = false;
+let voiceTranscriptText = '';
+
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+const micBtnEl = document.getElementById('micBtn');
+
+if(!SR){
+  micBtnEl.addEventListener('click', () => {
+    showToast('⚠️ Trình duyệt không hỗ trợ ghi âm.\nVui lòng dùng Chrome hoặc Edge!');
+  });
+}else{
+  recognition = new SR();
+  recognition.lang = 'vi-VN';
+  recognition.continuous = true;
+  recognition.interimResults = true;
+  recognition.maxAlternatives = 1;
+
+  recognition.onstart = () => {
+    isRecording = true;
+    voiceTranscriptText = '';
+    document.getElementById('voiceMicIcon').textContent = '⏹';
+    document.getElementById('voiceMicIcon').classList.add('recording');
+    document.getElementById('voiceTitle').textContent = '🔴 Đang nghe...';
+    document.getElementById('voiceSub').textContent = 'Hãy nói rõ ràng. Nhấn "Dừng" khi xong.';
+    document.getElementById('voiceStart').textContent = '⏹ Dừng lại';
+    document.getElementById('voiceStart').classList.add('cancel');
+    document.getElementById('voiceStart').classList.remove('start');
+    document.getElementById('voiceTranscript').textContent = '';
+    document.getElementById('voiceSend').style.display = 'none';
+    micBtnEl.classList.add('recording');
+  };
+
+  recognition.onresult = (e) => {
+    let interim = '', final = '';
+    for(let i = e.resultIndex; i < e.results.length; i++){
+      const t = e.results[i][0].transcript;
+      if(e.results[i].isFinal) final += t + ' ';
+      else interim += t;
+    }
+    if(final) voiceTranscriptText += final;
+    document.getElementById('voiceTranscript').textContent = (voiceTranscriptText + interim).trim();
+    if((voiceTranscriptText + interim).trim().length > 0){
+      document.getElementById('voiceSend').style.display = 'block';
+    }
+  };
+
+  recognition.onerror = (e) => {
+    console.error('Speech error:', e.error);
+    let msg = 'Lỗi: ' + e.error;
+    if(e.error === 'not-allowed') msg = '❌ Bạn cần cho phép micro trong trình duyệt!';
+    else if(e.error === 'no-speech') msg = '⚠️ Không nghe thấy gì, thử lại nhé.';
+    else if(e.error === 'network') msg = '⚠️ Lỗi mạng, kiểm tra kết nối.';
+    document.getElementById('voiceSub').textContent = msg;
+  };
+
+  recognition.onend = () => {
+    isRecording = false;
+    document.getElementById('voiceMicIcon').textContent = '🎤';
+    document.getElementById('voiceMicIcon').classList.remove('recording');
+    document.getElementById('voiceTitle').textContent = 'Đã dừng ghi âm';
+    document.getElementById('voiceSub').textContent = voiceTranscriptText.trim() ? 'Bạn có thể sửa hoặc gửi cho AI.' : 'Không nhận diện được giọng nói.';
+    document.getElementById('voiceStart').textContent = '🎤 Nói lại';
+    document.getElementById('voiceStart').classList.add('start');
+    document.getElementById('voiceStart').classList.remove('cancel');
+    micBtnEl.classList.remove('recording');
+    if(voiceTranscriptText.trim()){
+      document.getElementById('voiceSend').style.display = 'block';
+    }
+  };
+
+  micBtnEl.addEventListener('click', () => {
+    voiceOverlay.classList.add('show');
+    document.getElementById('voiceSend').style.display = 'none';
+    document.getElementById('voiceTranscript').textContent = '';
+    voiceTranscriptText = '';
+  });
+
+  document.getElementById('voiceStart').addEventListener('click', () => {
+    if(isRecording){ recognition.stop(); }
+    else{ voiceTranscriptText = ''; try{ recognition.start(); }catch(err){ console.error(err); } }
+  });
+
+  document.getElementById('voiceClose').addEventListener('click', () => {
+    if(isRecording) recognition.stop();
+    voiceOverlay.classList.remove('show');
+  });
+
+  voiceOverlay.addEventListener('click', (e) => {
+    if(e.target === voiceOverlay){
+      if(isRecording) recognition.stop();
+      voiceOverlay.classList.remove('show');
+    }
+  });
+
+  document.getElementById('voiceSend').addEventListener('click', () => {
+    const txt = voiceTranscriptText.trim();
+    if(!txt) return;
+    voiceOverlay.classList.remove('show');
+    const inp = document.getElementById('input');
+    inp.value = txt;
+    autoResize();
+    setTimeout(() => sendMessage(), 200);
+  });
 }
 
 window.addEventListener('DOMContentLoaded',()=>{
