@@ -4,274 +4,114 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="theme-color" content="#10131a">
-<title>NCB_AI 1.2.0</title>
+<title>NCB_AI 1.3.0</title>
 <style>
-:root{
-  --bg:#10131a;--panel:#171b25;--panel2:#202633;--border:#303746;
-  --text:#f1f4fa;--muted:#929db2;--purple:#7657ee;--purple2:#5540b8;--green:#35d69a;
-  --red:#ff3d5a;
-}
+:root{--bg:#10131a;--panel:#171b25;--panel2:#202633;--border:#303746;--text:#f1f4fa;--muted:#929db2;--purple:#7657ee;--purple2:#5540b8;--green:#35d69a;--red:#ff3d5a}
 *{box-sizing:border-box}
-html,body{overscroll-behavior:none;-webkit-overflow-scrolling:touch}
-body{
-  margin:0;font-family:Inter,system-ui,-apple-system,sans-serif;
-  background:var(--bg);color:var(--text);height:100dvh;overflow:hidden;
-  position:fixed;width:100%;touch-action:manipulation;
-}
-button,textarea,input{font:inherit}
-button{cursor:pointer}
-
-/* ĐĂNG NHẬP */
-.login-screen{
-  position:fixed;inset:0;z-index:1000;
-  background:linear-gradient(135deg,#0a0a1a 0%,#10131a 50%,#0d1420 100%);
-  display:flex;align-items:center;justify-content:center;
-  padding:20px;transition:opacity .4s, transform .4s;
-}
+html,body{overscroll-behavior:none}
+body{margin:0;font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--text);height:100dvh;overflow:hidden;position:fixed;width:100%}
+button{cursor:pointer}button,textarea,input{font:inherit}
+.login-screen{position:fixed;inset:0;z-index:1000;background:linear-gradient(135deg,#0a0a1a,#10131a,#0d1420);display:flex;align-items:center;justify-content:center;padding:20px;transition:.4s}
 .login-screen.hide{opacity:0;pointer-events:none;transform:scale(1.05)}
-.login-box{
-  background:var(--panel);border:1px solid var(--border);border-radius:24px;
-  padding:40px 28px;max-width:400px;width:100%;text-align:center;
-  box-shadow:0 30px 90px rgba(118,87,238,.25);position:relative;overflow:hidden;
-}
-.login-box::before{
-  content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;
-  background:conic-gradient(from 0deg,transparent,#7657ee,transparent,#a78bfa,transparent);
-  animation:rotateGlow 8s linear infinite;opacity:.08;z-index:0;
-}
+.login-box{background:var(--panel);border:1px solid var(--border);border-radius:24px;padding:40px 28px;max-width:400px;width:100%;text-align:center;box-shadow:0 30px 90px rgba(118,87,238,.25);position:relative;overflow:hidden}
+.login-box::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:conic-gradient(from 0deg,transparent,#7657ee,transparent,#a78bfa,transparent);animation:rotateGlow 8s linear infinite;opacity:.08;z-index:0}
 @keyframes rotateGlow{to{transform:rotate(360deg)}}
 .login-content{position:relative;z-index:1}
-.login-logo{
-  width:80px;height:80px;margin:0 auto 20px;border-radius:24px;
-  background:linear-gradient(135deg,#8a6cff,#5436c9);
-  display:grid;place-items:center;font-size:40px;
-  box-shadow:0 12px 45px rgba(118,87,238,.6);
-  animation:logoFloat 3s ease-in-out infinite;overflow:hidden;
-}
-.login-logo img{width:100%;height:100%;object-fit:cover;display:block;}
+.login-logo{width:80px;height:80px;margin:0 auto 20px;border-radius:24px;background:linear-gradient(135deg,#8a6cff,#5436c9);display:grid;place-items:center;box-shadow:0 12px 45px rgba(118,87,238,.6);overflow:hidden;animation:logoFloat 3s ease-in-out infinite}
+.login-logo img{width:100%;height:100%;object-fit:cover;display:block}
 @keyframes logoFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-.login-title{
-  font-size:26px;font-weight:900;letter-spacing:-0.5px;margin-bottom:8px;
-  background:linear-gradient(135deg,#fff,#a78bfa);
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-}
-.login-sub{color:var(--muted);font-size:14px;line-height:1.7;margin-bottom:28px;}
-
-/* NCB LOGIN BUTTON */
-.ncb-login-btn{
-  width:100%;
-  height:52px;
-  background:linear-gradient(135deg,#7657ee,#5540b8);
-  color:#fff;
-  border:0;
-  border-radius:12px;
-  font-size:16px;
-  font-weight:800;
-  cursor:pointer;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-  transition:all .2s;
-  box-shadow:0 6px 25px rgba(118,87,238,.5);
-  font-family:Inter,system-ui,-apple-system,sans-serif;
-  letter-spacing:1px;
-}
-.ncb-login-btn:hover{
-  transform:translateY(-2px);
-  box-shadow:0 8px 35px rgba(118,87,238,.8);
-}
-.ncb-login-btn:active{transform:translateY(0)}
-.ncb-login-btn svg{
-  width:24px;height:24px;
-  fill:none;
-  stroke:#fff;
-  stroke-width:2;
-  stroke-linecap:round;
-  stroke-linejoin:round;
-  flex-shrink:0;
-}
-.ncb-login-btn .loading{
-  display:none;
-  width:20px;height:20px;
-  border:2.5px solid rgba(255,255,255,.4);
-  border-top-color:#fff;
-  border-radius:50%;
-  animation:spin 1s linear infinite;
-}
+.login-title{font-size:26px;font-weight:900;margin-bottom:8px;background:linear-gradient(135deg,#fff,#a78bfa);-webkit-background-clip:text;background-clip:text;color:transparent}
+.login-sub{color:var(--muted);font-size:14px;line-height:1.7;margin-bottom:28px}
+.ncb-login-btn{width:100%;height:52px;background:linear-gradient(135deg,#7657ee,#5540b8);color:#fff;border:0;border-radius:12px;font-size:16px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:10px;transition:all .2s;box-shadow:0 6px 25px rgba(118,87,238,.5);letter-spacing:1px}
+.ncb-login-btn:hover{transform:translateY(-2px);box-shadow:0 8px 35px rgba(118,87,238,.8)}
+.ncb-login-btn svg{width:24px;height:24px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ncb-login-btn .loading{display:none;width:20px;height:20px;border:2.5px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin 1s linear infinite}
 .ncb-login-btn.loading .loading{display:block}
 .ncb-login-btn.loading svg{display:none}
-.ncb-login-btn.loading span:not(.loading){display:none}
 @keyframes spin{to{transform:rotate(360deg)}}
-
-.login-footer{
-  margin-top:22px;padding-top:18px;border-top:1px solid var(--border);
-  color:var(--muted);font-size:11px;line-height:1.7;
-}
+.saved-info{margin-top:16px;padding:12px;background:#0d1017;border:1px solid var(--border);border-radius:12px;text-align:center}
+.saved-label{color:var(--muted);font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
+.saved-id{color:var(--green);font-size:14px;font-weight:800;font-family:'Courier New',monospace;word-break:break-all}
+.login-footer{margin-top:22px;padding-top:18px;border-top:1px solid var(--border);color:var(--muted);font-size:11px;line-height:1.7}
 .login-footer strong{color:#ffd166}
-
-/* APP */
 .app{height:100%;display:flex}
-.sidebar{
-  width:260px;flex-shrink:0;background:#131722;border-right:1px solid var(--border);
-  padding:16px;display:flex;flex-direction:column;gap:16px;transition:transform .2s;position:relative;
-}
+.sidebar{width:260px;flex-shrink:0;background:#131722;border-right:1px solid var(--border);padding:16px;display:flex;flex-direction:column;gap:16px;transition:transform .2s;position:relative}
 .brand{display:flex;align-items:center;gap:10px;font-weight:750;font-size:17px}
 .logo{width:38px;height:38px;display:grid;place-items:center;background:var(--purple);border-radius:12px;overflow:hidden}
 .logo img{width:100%;height:100%;object-fit:cover;display:block}
-.user-card{
-  display:flex;align-items:center;gap:10px;
-  padding:10px;background:#0d1017;border:1px solid var(--border);border-radius:12px;
-}
-.user-avatar{
-  width:38px;height:38px;border-radius:50%;
-  background:linear-gradient(135deg,#8a6cff,#5436c9);
-  display:grid;place-items:center;color:#fff;font-weight:700;font-size:13px;
-  overflow:hidden;flex-shrink:0;border:2px solid rgba(255,255,255,.1);
-  font-family:'Courier New',monospace;
-}
-.user-avatar img{width:100%;height:100%;object-fit:cover}
+.user-card{display:flex;align-items:center;gap:10px;padding:10px;background:#0d1017;border:1px solid var(--border);border-radius:12px}
+.user-avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#8a6cff,#5436c9);display:grid;place-items:center;color:#fff;font-weight:700;font-size:12px;overflow:hidden;flex-shrink:0;border:2px solid rgba(255,255,255,.1);font-family:'Courier New',monospace}
 .user-info{min-width:0;flex:1}
-.user-name{color:var(--text);font-size:11px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:'Courier New',monospace;}
-.user-email{color:var(--muted);font-size:9px;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.logout-btn{
-  background:transparent;border:1px solid #3a2a3a;color:#ff8888;
-  padding:6px 10px;border-radius:8px;font-size:11px;cursor:pointer;
-  transition:all .15s;font-weight:700;
-}
+.user-name{color:var(--text);font-size:11px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:'Courier New',monospace}
+.user-email{color:var(--muted);font-size:9px;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.logout-btn{background:transparent;border:1px solid #3a2a3a;color:#ff8888;padding:6px 10px;border-radius:8px;font-size:11px;cursor:pointer;transition:all .15s;font-weight:700}
 .logout-btn:hover{background:#aa0000;color:#fff;border-color:#aa0000}
-.new-chat{width:100%;border:1px solid #51447f;border-radius:10px;background:#28213f;color:#e4dcff;padding:12px;text-align:left}
+.new-chat{width:100%;border:1px solid #51447f;border-radius:10px;background:#28213f;color:#e4dcff;padding:12px;text-align:left;cursor:pointer}
 .section-label{color:var(--muted);font-size:12px;margin:8px 0}
 .history-list{display:flex;flex-direction:column;gap:5px;overflow:auto;flex:1}
-.history-item{
-  padding:10px;border-radius:8px;color:#c8d0df;font-size:13px;
-  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer;
-  display:flex;align-items:center;justify-content:space-between;gap:6px;
-}
+.history-item{padding:10px;border-radius:8px;color:#c8d0df;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:6px}
 .history-item:hover,.history-item.active{background:#27243d}
 .history-item .title{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.history-item .del-x{
-  flex-shrink:0;width:18px;height:18px;display:grid;place-items:center;
-  border-radius:50%;background:#3a2a3a;color:#ff8888;font-size:11px;font-weight:700;
-  line-height:1;cursor:pointer;opacity:.6;transition:all .2s;
-}
+.history-item .del-x{flex-shrink:0;width:18px;height:18px;display:grid;place-items:center;border-radius:50%;background:#3a2a3a;color:#ff8888;font-size:11px;font-weight:700;line-height:1;cursor:pointer;opacity:.6;transition:all .2s}
 .history-item .del-x:hover{background:#aa0000;color:#fff;opacity:1}
-.sidebar-bottom{
-  margin-top:auto;border-top:1px solid var(--border);padding-top:14px;
-  color:var(--muted);font-size:12px;line-height:1.8;
-}
+.sidebar-bottom{margin-top:auto;border-top:1px solid var(--border);padding-top:14px;color:var(--muted);font-size:12px;line-height:1.8}
 .sidebar-bottom .admin{color:#ffd166;font-weight:700}
 .sidebar-bottom .version{color:#a78bfa;font-weight:700}
 .sidebar-bottom .counter{color:#35d69a;font-weight:700}
-.sidebar-close{
-  display:none;position:absolute;top:10px;right:10px;width:30px;height:30px;
-  border:1px solid var(--border);background:#1a1f2b;color:#fff;border-radius:8px;
-  font-size:16px;font-weight:700;place-items:center;cursor:pointer;z-index:5;
-}
+.sidebar-bottom .reset-timer{color:#ffd166;font-weight:700;font-family:'Courier New',monospace}
+.sidebar-close{display:none;position:absolute;top:10px;right:10px;width:30px;height:30px;border:1px solid var(--border);background:#1a1f2b;color:#fff;border-radius:8px;font-size:16px;font-weight:700;place-items:center;cursor:pointer;z-index:5}
 .main{flex:1;min-width:0;display:flex;flex-direction:column;height:100%}
-.topbar{
-  height:68px;flex-shrink:0;padding:0 22px;display:flex;align-items:center;gap:13px;
-  border-bottom:1px solid var(--border);background:rgba(23,27,37,.95);
-}
-.icon-btn{
-  width:38px;height:38px;border:1px solid var(--border);background:transparent;
-  color:var(--text);border-radius:10px;display:grid;place-items:center;
-}
+.topbar{height:68px;flex-shrink:0;padding:0 22px;display:flex;align-items:center;gap:13px;border-bottom:1px solid var(--border);background:rgba(23,27,37,.95)}
+.icon-btn{width:38px;height:38px;border:1px solid var(--border);background:transparent;color:var(--text);border-radius:10px;display:grid;place-items:center}
 .top-title{font-weight:700;font-size:15px}
 .top-subtitle{font-size:12px;color:var(--muted);margin-top:3px}
 .status{margin-left:auto;display:flex;align-items:center;gap:7px;color:#aab5c9;font-size:12px}
 .status-dot{width:7px;height:7px;background:var(--green);border-radius:50%}
 .status.error .status-dot{background:#ff626e}
-.fb-logo-btn{
-  width:44px;height:44px;border-radius:50%;
-  background:linear-gradient(135deg,#1877f2,#0a5dc7);
-  display:grid;place-items:center;cursor:pointer;
-  box-shadow:0 4px 15px rgba(24,119,242,.4);
-  transition:all .25s ease;border:2px solid rgba(255,255,255,.15);
-  margin-left:8px;flex-shrink:0;position:relative;
-}
+.fb-logo-btn{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#1877f2,#0a5dc7);display:grid;place-items:center;cursor:pointer;box-shadow:0 4px 15px rgba(24,119,242,.4);transition:all .25s ease;border:2px solid rgba(255,255,255,.15);margin-left:8px;flex-shrink:0;position:relative}
 .fb-logo-btn:hover{transform:scale(1.08) rotate(5deg);box-shadow:0 6px 25px rgba(24,119,242,.7)}
-.fb-logo-btn:active{transform:scale(.95)}
 .fb-logo-btn img{width:24px;height:24px;filter:brightness(0) invert(1);display:block}
-.fb-logo-btn::after{
-  content:'HỖ TRỢ';position:absolute;bottom:-6px;left:50%;transform:translateX(-50%);
-  font-size:8px;font-weight:800;color:#1877f2;background:#fff;
-  padding:2px 6px;border-radius:10px;white-space:nowrap;letter-spacing:.5px;
-  box-shadow:0 2px 6px rgba(0,0,0,.3);
-}
-.fb-logo-btn .pulse{
-  position:absolute;inset:-4px;border-radius:50%;
-  border:2px solid #1877f2;animation:fbPulse 2s infinite;pointer-events:none;
-}
+.fb-logo-btn::after{content:'HỖ TRỢ';position:absolute;bottom:-6px;left:50%;transform:translateX(-50%);font-size:8px;font-weight:800;color:#1877f2;background:#fff;padding:2px 6px;border-radius:10px;white-space:nowrap;letter-spacing:.5px;box-shadow:0 2px 6px rgba(0,0,0,.3)}
+.fb-logo-btn .pulse{position:absolute;inset:-4px;border-radius:50%;border:2px solid #1877f2;animation:fbPulse 2s infinite;pointer-events:none}
 @keyframes fbPulse{0%{transform:scale(1);opacity:.8}100%{transform:scale(1.3);opacity:0}}
-.version-badge{
-  display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:20px;
-  background:linear-gradient(135deg,rgba(118,87,238,.25),rgba(85,64,184,.25));
-  border:1px solid rgba(118,87,238,.4);color:#a78bfa;
-  font-size:11px;font-weight:800;letter-spacing:.5px;
-  margin-left:4px;flex-shrink:0;text-transform:uppercase;
-}
-.version-badge::before{
-  content:'';width:6px;height:6px;border-radius:50%;background:#a78bfa;
-  box-shadow:0 0 8px #a78bfa;animation:pulseDot 1.5s infinite;
-}
+.version-badge{display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:20px;background:linear-gradient(135deg,rgba(118,87,238,.25),rgba(85,64,184,.25));border:1px solid rgba(118,87,238,.4);color:#a78bfa;font-size:11px;font-weight:800;letter-spacing:.5px;margin-left:4px;flex-shrink:0;text-transform:uppercase}
+.version-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:#a78bfa;box-shadow:0 0 8px #a78bfa;animation:pulseDot 1.5s infinite}
 @keyframes pulseDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.3)}}
-.messages{flex:1;overflow-y:auto;padding:28px 18px;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y}
+.messages{flex:1;overflow-y:auto;padding:28px 18px;-webkit-overflow-scrolling:touch}
 .content{max-width:780px;width:100%;margin:0 auto}
 .welcome{min-height:350px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px 0}
-.welcome-logo{
-  width:66px;height:66px;border-radius:22px;display:grid;place-items:center;
-  background:linear-gradient(135deg,#8a6cff,#5436c9);box-shadow:0 10px 45px #7657ee30;
-  margin-bottom:20px;overflow:hidden;
-}
+.welcome-logo{width:66px;height:66px;border-radius:22px;display:grid;place-items:center;background:linear-gradient(135deg,#8a6cff,#5436c9);box-shadow:0 10px 45px #7657ee30;margin-bottom:20px;overflow:hidden}
 .welcome-logo img{width:100%;height:100%;object-fit:cover;display:block}
 .welcome h1{font-size:clamp(25px,4vw,34px);margin:0 0 12px;letter-spacing:-1px}
 .welcome .ver{color:#a78bfa;font-size:13px;font-weight:700;margin-bottom:6px;letter-spacing:2px}
 .welcome p{color:var(--muted);line-height:1.7;max-width:440px;font-size:14px;margin:0}
 .suggestions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;width:100%;margin-top:30px}
-.suggestion{
-  text-align:left;background:#171b25;border:1px solid var(--border);color:#d7ddec;
-  border-radius:13px;padding:15px;transition:border-color .2s,background .2s;
-}
+.suggestion{text-align:left;background:#171b25;border:1px solid var(--border);color:#d7ddec;border-radius:13px;padding:15px;transition:border-color .2s,background .2s;cursor:pointer}
 .suggestion:hover{border-color:#7860ce;background:#201c30}
 .suggestion strong{display:block;font-size:13px;margin-bottom:6px}
 .suggestion span{display:block;color:var(--muted);font-size:12px;line-height:1.5}
 .message{display:flex;align-items:flex-start;gap:11px;margin:0 0 25px}
 .message.user{justify-content:flex-end}
-.avatar{
-  flex-shrink:0;width:31px;height:31px;display:grid;place-items:center;
-  border-radius:10px;background:var(--purple);font-size:16px;overflow:hidden;
-}
+.avatar{flex-shrink:0;width:31px;height:31px;display:grid;place-items:center;border-radius:10px;background:var(--purple);font-size:16px;overflow:hidden}
 .avatar img{width:100%;height:100%;object-fit:cover;display:block;border-radius:10px}
 .message.user .avatar{background:#394355}
-.bubble-wrap{min-width:0;max-width:calc(100% - 45px);display:flex;flex-direction:column;gap:6px;}
-.message.user .bubble-wrap{align-items:flex-end;}
-.bubble{
-  min-width:0;padding:12px 15px;border-radius:14px;
-  background:var(--panel2);color:#e6eaf2;font-size:14px;line-height:1.8;
-  white-space:pre-wrap;overflow-wrap:anywhere;
-}
+.bubble-wrap{min-width:0;max-width:calc(100% - 45px);display:flex;flex-direction:column;gap:6px}
+.message.user .bubble-wrap{align-items:flex-end}
+.bubble{min-width:0;padding:12px 15px;border-radius:14px;background:var(--panel2);color:#e6eaf2;font-size:14px;line-height:1.8;white-space:pre-wrap;overflow-wrap:anywhere}
 .message.user .bubble{background:var(--purple2);color:white;border-top-right-radius:5px}
 .message.assistant .bubble{border:1px solid #30394b;border-top-left-radius:5px}
 .wave-anim{display:flex;align-items:flex-end;gap:4px;height:22px;padding:2px 0}
 .wave-anim span{display:inline-block;width:5px;height:5px;border-radius:3px;background:#9c8bfa;animation:waveBounce 1.1s ease-in-out infinite}
-.wave-anim span:nth-child(1){animation-delay:0s}
-.wave-anim span:nth-child(2){animation-delay:.12s}
-.wave-anim span:nth-child(3){animation-delay:.24s}
-.wave-anim span:nth-child(4){animation-delay:.36s}
-.wave-anim span:nth-child(5){animation-delay:.48s}
+.wave-anim span:nth-child(2){animation-delay:.12s}.wave-anim span:nth-child(3){animation-delay:.24s}.wave-anim span:nth-child(4){animation-delay:.36s}.wave-anim span:nth-child(5){animation-delay:.48s}
 @keyframes waveBounce{0%,100%{height:5px;background:#9c8bfa;opacity:.6}50%{height:20px;background:#a78bfa;opacity:1}}
 .image-gen-box{background:linear-gradient(135deg,#0d1220,#131a2e);border:1px solid var(--purple);border-radius:16px;padding:14px;margin-top:6px;box-shadow:0 8px 30px rgba(118,87,238,.2);max-width:100%}
 .image-prompt-label{color:var(--muted);font-size:11px;font-weight:700;letter-spacing:1.5px;margin-bottom:8px}
 .image-prompt-text{color:#e6eaf2;font-size:13px;line-height:1.6;padding:10px 12px;background:#0a0e18;border-radius:8px;margin-bottom:12px;border:1px solid var(--border);font-family:'Courier New',monospace}
-.image-loading{padding:30px;text-align:center;color:var(--muted);font-size:13px}
-.image-loading .spinner{width:40px;height:40px;margin:0 auto 12px;border:3px solid var(--border);border-top-color:var(--purple);border-radius:50%;animation:spin 1s linear infinite}
-.image-result{width:100%;border-radius:12px;overflow:hidden;background:#0a0e18;border:1px solid var(--border);position:relative}
+.image-result{width:100%;border-radius:12px;overflow:hidden;background:#0a0e18;border:1px solid var(--border)}
 .image-result img{width:100%;height:auto;display:block;border-radius:12px}
 .image-actions{display:flex;gap:6px;margin-top:10px}
-.image-actions button{flex:1;padding:9px;border:1px solid #30394b;background:#171b25;color:#aab5c9;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s}
+.image-actions button{flex:1;padding:9px;border:1px solid #30394b;background:#171b25;color:#aab5c9;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer}
 .image-actions button:hover{border-color:var(--purple);color:#fff}
-.image-actions .save-btn:hover{border-color:var(--green);color:var(--green)}
 .clock-box{background:linear-gradient(135deg,#0d1220,#131a2e);border:1px solid var(--purple);border-radius:16px;padding:20px;margin-top:6px;box-shadow:0 8px 30px rgba(118,87,238,.2);min-width:260px}
 .clock-label{color:var(--muted);font-size:11px;font-weight:700;letter-spacing:2px;margin-bottom:12px;display:flex;align-items:center;gap:6px}
 .clock-label::before{content:'';width:8px;height:8px;background:var(--green);border-radius:50%;animation:pulseDot 2s infinite}
@@ -279,34 +119,14 @@ button{cursor:pointer}
 .clock-time .sec{color:var(--green);font-size:32px}
 .clock-date{color:#a78bfa;font-size:14px;font-family:'Courier New',monospace;margin-bottom:10px;letter-spacing:1px}
 .clock-tz{color:var(--muted);font-size:11px;padding:5px 10px;background:#0a0e18;border-radius:6px;display:inline-block;border:1px solid var(--border)}
-.code-block{background:#0a0e16;border:1px solid #30394b;border-radius:10px;margin:10px 0;overflow:hidden}
-.code-header{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:#0d1220;border-bottom:1px solid #30394b;color:#929db2;font-size:11px;font-family:'Courier New',monospace}
-.code-header .lang{color:#a78bfa;font-weight:700;letter-spacing:1px}
-.code-copy{
-  background:#171b25;border:1px solid #30394b;color:#aab5c9;
-  padding:5px 12px;border-radius:6px;font-size:11px;cursor:pointer;
-  transition:all .15s;display:flex;align-items:center;gap:5px;font-weight:600;
-}
-.code-copy svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
-.code-copy:hover{border-color:var(--purple);color:#fff;background:#201c30}
-.code-copy.active{border-color:var(--green);color:var(--green)}
-.code-content{padding:14px;overflow-x:auto;color:#e6eaf2;font-family:'Courier New',Consolas,monospace;font-size:13px;line-height:1.6;white-space:pre;tab-size:2}
 .msg-actions{display:flex;gap:6px;padding:0 4px;flex-wrap:wrap}
-.msg-actions button{
-  background:#171b25;border:1px solid #30394b;color:#aab5c9;
-  padding:5px 10px;border-radius:8px;font-size:11px;
-  cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:4px;font-weight:600;
-}
-.msg-actions button svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.msg-actions button{background:#171b25;border:1px solid #30394b;color:#aab5c9;padding:5px 10px;border-radius:8px;font-size:11px;cursor:pointer;display:flex;align-items:center;gap:4px;font-weight:600}
+.msg-actions button svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .msg-actions button:hover{border-color:var(--purple);color:#fff;background:#201c30}
 .msg-actions button.active{border-color:var(--green);color:var(--green)}
-.msg-actions .read-msg-btn{position:relative;}
-.msg-actions .read-msg-btn.speaking{border-color:var(--green);color:var(--green);background:#0f2a22;}
-.msg-actions .read-msg-btn.speaking svg{animation:svgPulse 0.8s infinite alternate;}
-@keyframes svgPulse{from{transform:scale(1);opacity:1}to{transform:scale(1.15);opacity:.7}}
 .composer-area{flex-shrink:0;padding:12px 18px 18px;background:linear-gradient(transparent,var(--bg) 15%)}
 .composer-wrap{max-width:780px;margin:auto}
-.composer{border:1px solid #41495b;border-radius:17px;background:#171b25;padding:12px;transition:border-color .2s, box-shadow .2s}
+.composer{border:1px solid #41495b;border-radius:17px;background:#171b25;padding:12px;transition:.2s}
 .composer.is-typing{border-color:#7657ee;box-shadow:0 0 0 3px rgba(118,87,238,.15)}
 #input{display:block;width:100%;min-height:42px;max-height:180px;resize:none;border:0;outline:0;background:transparent;color:var(--text);font-size:14px;line-height:1.6}
 #input::placeholder{color:#7f8ba0}
@@ -315,69 +135,30 @@ button{cursor:pointer}
 .typing-hint{color:#a78bfa;font-size:11px;font-style:italic;display:none;align-items:center;gap:5px}
 .typing-hint.show{display:flex}
 .typing-hint .dot{width:5px;height:5px;border-radius:50%;background:#a78bfa;animation:pulseDot 1s infinite alternate}
-.typing-hint .dot:nth-child(2){animation-delay:.2s}
-.typing-hint .dot:nth-child(3){animation-delay:.4s}
+.typing-hint .dot:nth-child(2){animation-delay:.2s}.typing-hint .dot:nth-child(3){animation-delay:.4s}
 .composer-actions{display:flex;gap:8px;align-items:center}
-.mic-btn{
-  width:39px;height:39px;border-radius:12px;
-  background:#202633;border:1px solid #41495b;color:#aab5c9;
-  display:grid;place-items:center;transition:all .2s;
-  position:relative;cursor:pointer;
-}
+.mic-btn{width:39px;height:39px;border-radius:12px;background:#202633;border:1px solid #41495b;color:#aab5c9;display:grid;place-items:center;cursor:pointer}
 .mic-btn:hover{background:#282f42;color:#fff;border-color:var(--purple)}
-.mic-btn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
-.send-btn{width:39px;height:39px;display:grid;place-items:center;border:0;border-radius:12px;background:var(--purple);color:white;font-size:19px;transition:background .2s}
+.mic-btn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.send-btn{width:39px;height:39px;display:grid;place-items:center;border:0;border-radius:12px;background:var(--purple);color:white;font-size:19px}
 .send-btn:hover{background:#8c75ff}
-.send-btn:disabled{opacity:.4;cursor:not-allowed}
 .disclaimer{text-align:center;font-size:11px;color:#747f94;margin:10px 0 0}
-.toast{position:fixed;left:50%;bottom:105px;transform:translateX(-50%);background:#303747;color:#fff;border:1px solid #4b566b;padding:11px 16px;border-radius:10px;font-size:13px;z-index:10;max-width:90%;text-align:center}
+.toast{position:fixed;left:50%;bottom:105px;transform:translateX(-50%);background:#303747;color:#fff;border:1px solid #4b566b;padding:11px 16px;border-radius:10px;font-size:13px;z-index:10;max-width:90%;text-align:center;white-space:pre-line}
 .hidden{display:none!important}
-.update-overlay{
-  position:fixed;inset:0;z-index:500;
-  background:rgba(0,0,0,.9);backdrop-filter:blur(10px);
-  display:none;align-items:center;justify-content:center;
-  padding:20px;animation:fadeIn .25s;
-}
+.update-overlay{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.9);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;padding:20px}
 .update-overlay.show{display:flex}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-.update-box{
-  background:linear-gradient(135deg,#171b25,#1a1f2e);
-  border:2px solid var(--purple);border-radius:24px;
-  padding:40px 30px;max-width:420px;width:100%;text-align:center;
-  box-shadow:0 30px 100px rgba(118,87,238,.5), 0 0 80px rgba(118,87,238,.3) inset;
-  animation:updatePop .4s;position:relative;overflow:hidden;
-}
+.update-box{background:linear-gradient(135deg,#171b25,#1a1f2e);border:2px solid var(--purple);border-radius:24px;padding:40px 30px;max-width:420px;width:100%;text-align:center;box-shadow:0 30px 100px rgba(118,87,238,.5);animation:updatePop .4s}
 @keyframes updatePop{from{transform:scale(.8) translateY(30px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
-.update-icon{
-  width:80px;height:80px;margin:0 auto 20px;border-radius:24px;
-  background:linear-gradient(135deg,#8a6cff,#5436c9);
-  display:grid;place-items:center;font-size:42px;
-  box-shadow:0 12px 45px rgba(118,87,238,.7);
-  animation:updateBounce 1.5s ease-in-out infinite;
-}
+.update-icon{width:80px;height:80px;margin:0 auto 20px;border-radius:24px;background:linear-gradient(135deg,#8a6cff,#5436c9);display:grid;place-items:center;font-size:42px;box-shadow:0 12px 45px rgba(118,87,238,.7);animation:updateBounce 1.5s ease-in-out infinite}
 @keyframes updateBounce{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-10px) rotate(5deg)}}
-.update-title{
-  color:#fff;font-size:22px;font-weight:900;letter-spacing:-.5px;margin-bottom:10px;
-  background:linear-gradient(135deg,#fff,#a78bfa);
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-}
+.update-title{color:#fff;font-size:22px;font-weight:900;margin-bottom:10px;background:linear-gradient(135deg,#fff,#a78bfa);-webkit-background-clip:text;background-clip:text;color:transparent}
 .update-sub{color:var(--muted);font-size:14px;line-height:1.7;margin-bottom:22px}
-.update-dots{display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:22px}
-.update-dots span{width:10px;height:10px;border-radius:50%;background:#a78bfa;animation:updateDot 1.2s infinite}
-.update-dots span:nth-child(1){animation-delay:0s}
-.update-dots span:nth-child(2){animation-delay:.2s}
-.update-dots span:nth-child(3){animation-delay:.4s}
-.update-dots span:nth-child(4){animation-delay:.6s}
-.update-dots span:nth-child(5){animation-delay:.8s}
-@keyframes updateDot{0%,100%{transform:scale(1);opacity:.4}50%{transform:scale(1.5);opacity:1;background:#7657ee}}
-.update-actions{display:flex;gap:10px}
-.update-btn{flex:1;padding:14px;border-radius:12px;border:0;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
-.update-btn.cancel{background:#202633;color:#aab5c9;border:1px solid #41495b}
-.update-btn.cancel:hover{background:#282f42;color:#fff}
+.update-btn{padding:14px 30px;border-radius:12px;border:0;font-size:14px;font-weight:700;cursor:pointer;background:#202633;color:#aab5c9;border:1px solid #41495b}
+.update-btn:hover{background:#282f42;color:#fff}
 .ncb-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
-.ncb-box{width:340px;padding:22px;background:#0c1630;border:1px solid #00cfff;border-radius:14px;box-shadow:0 0 20px #007bff44, 0 20px 60px rgba(0,0,0,.6);position:relative;font-family:Arial,sans-serif;color:#fff}
+.ncb-box{width:340px;padding:22px;background:#0c1630;border:1px solid #00cfff;border-radius:14px;box-shadow:0 0 20px #007bff44,0 20px 60px rgba(0,0,0,.6);position:relative;color:#fff}
 .ncb-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
-.ncb-top b{color:#40deff;font-size:16px;letter-spacing:0.5px}
+.ncb-top b{color:#40deff;font-size:16px;letter-spacing:.5px}
 .ncb-close{border:0;background:#202c48;color:#fff;width:27px;height:27px;border-radius:6px;font-size:17px;cursor:pointer;display:grid;place-items:center}
 .ncb-close:hover{background:#aa0000}
 .ncb-input{width:100%;padding:14px;border-radius:8px;border:1px solid #22568a;background:#070f22;color:#fff;outline:none;font-family:'Courier New',monospace;letter-spacing:3px;text-align:center;font-size:15px;font-weight:700}
@@ -385,101 +166,58 @@ button{cursor:pointer}
 .ncb-submit{width:100%;padding:13px;margin-top:14px;border:0;border-radius:8px;color:white;background:linear-gradient(90deg,#008cff,#653cff);font-weight:bold;cursor:pointer;font-size:14px;letter-spacing:1px}
 .ncb-submit:hover{filter:brightness(1.15)}
 .ncb-msg{font-size:12px;color:#76ddff;margin-top:12px;min-height:18px;text-align:center;font-weight:600}
-.quiz-card{background:#0d1017;border:1px solid #30394b;border-radius:14px;padding:18px;margin-top:6px}
-.quiz-header{color:#a78bfa;font-size:12px;font-weight:700;letter-spacing:2px;margin-bottom:10px}
-.quiz-question{color:#f1f4fa;font-size:16px;font-weight:700;margin-bottom:16px;line-height:1.6}
-.quiz-options{display:flex;flex-direction:column;gap:8px}
-.quiz-btn{text-align:left;background:#171b25;border:1px solid #41495b;color:#e6eaf2;padding:12px 14px;border-radius:10px;font-size:14px;cursor:pointer;transition:all .15s}
-.quiz-btn:hover{border-color:var(--purple);background:#201c30}
-.quiz-btn:disabled{cursor:default;opacity:.7}
-.quiz-btn.correct{border-color:#35d69a;background:#0f2a22;color:#35d69a}
-.quiz-btn.wrong{border-color:#ff626e;background:#2a0f12;color:#ff626e}
-.quiz-footer{margin-top:14px;display:flex;justify-content:space-between;align-items:center;color:#929db2;font-size:12px}
-.quiz-next{background:var(--purple);color:#fff;border:0;padding:8px 16px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer}
-.quiz-next:hover{background:#8c75ff}
 .bubble .icon-line{display:flex;align-items:flex-start;gap:8px;margin:4px 0;line-height:1.7}
 .bubble .icon-line .ic{flex-shrink:0;font-size:15px;line-height:1.5}
 .bubble .icon-line .txt{flex:1;min-width:0}
 .bubble .section-head{display:flex;align-items:center;gap:8px;font-weight:700;color:#fff;margin:10px 0 6px;padding-bottom:4px;border-bottom:1px solid #30394b}
 .bubble .section-head .ic{font-size:18px}
 @media(max-width:700px){
-  .sidebar{position:fixed;z-index:20;left:0;top:0;bottom:0;box-shadow:15px 0 45px #0007;transform:translateX(-105%)}
-  .sidebar.open{transform:translateX(0)}
-  .sidebar-close{display:grid}
-  .topbar{height:60px;padding:0 13px;gap:8px}
-  .top-title{font-size:13px}
-  .top-subtitle{font-size:10px}
-  .status{font-size:10px}
-  .fb-logo-btn{width:38px;height:38px}
-  .fb-logo-btn img{width:20px;height:20px}
-  .fb-logo-btn::after{font-size:7px;padding:1px 4px;bottom:-5px}
-  .version-badge{padding:4px 8px;font-size:9px}
-  .messages{padding:20px 13px}
-  .composer-area{padding:10px 12px 13px}
-  .welcome{min-height:320px}
-  .welcome h1{font-size:27px}
-  .suggestions{grid-template-columns:1fr;margin-top:23px}
-  .suggestion{padding:12px}
-  .bubble{font-size:13px;padding:10px 12px}
-  .quiz-question{font-size:15px}
-  .quiz-btn{font-size:13px;padding:10px 12px}
-  .code-content{font-size:12px;padding:12px}
-  .clock-time{font-size:34px}
-  .clock-time .sec{font-size:26px}
-  .clock-date{font-size:13px}
-  .clock-box{padding:16px;min-width:auto}
-  .mic-btn, .send-btn{width:36px;height:36px}
-  .mic-btn svg{width:18px;height:18px}
-  .update-box{padding:30px 22px}
-  .update-icon{width:70px;height:70px;font-size:36px}
-  .update-title{font-size:19px}
-  .update-sub{font-size:13px}
-  .login-box{padding:30px 22px}
-  .login-logo{width:64px;height:64px;font-size:32px}
-  .login-title{font-size:22px}
+.sidebar{position:fixed;z-index:20;left:0;top:0;bottom:0;box-shadow:15px 0 45px #0007;transform:translateX(-105%)}
+.sidebar.open{transform:translateX(0)}
+.sidebar-close{display:grid}
+.topbar{height:60px;padding:0 13px;gap:8px}
+.top-title{font-size:13px}.top-subtitle{font-size:10px}.status{font-size:10px}
+.fb-logo-btn{width:38px;height:38px}.fb-logo-btn img{width:20px;height:20px}
+.fb-logo-btn::after{font-size:7px;padding:1px 4px;bottom:-5px}
+.version-badge{padding:4px 8px;font-size:9px}
+.messages{padding:20px 13px}.composer-area{padding:10px 12px 13px}
+.welcome{min-height:320px}.welcome h1{font-size:27px}
+.suggestions{grid-template-columns:1fr;margin-top:23px}
+.bubble{font-size:13px;padding:10px 12px}
+.clock-time{font-size:34px}.clock-time .sec{font-size:26px}.clock-box{padding:16px;min-width:auto}
+.mic-btn,.send-btn{width:36px;height:36px}.mic-btn svg{width:18px;height:18px}
+.login-box{padding:30px 22px}.login-logo{width:64px;height:64px}.login-title{font-size:22px}
 }
 </style>
 </head>
 <body>
 
-<!-- ĐĂNG NHẬP -->
 <div class="login-screen" id="loginScreen">
   <div class="login-box">
     <div class="login-content">
-      <div class="login-logo">
-        <img src="https://i.ibb.co/9kBTwhfq/file-000000007ae482099bddf96408f8a67f.png" alt="NCB_AI">
-      </div>
-      <div class="login-title">NCB_AI 1.2.0</div>
-      <div class="login-sub">
-        Đăng nhập để bắt đầu trò chuyện.<br>
-        Mỗi thiết bị được <b style="color:#ffd166">50.000 lượt chat</b><br>
-        (1 lần chat = 10 lượt)
-      </div>
+      <div class="login-logo"><img src="https://i.ibb.co/9kBTwhfq/file-000000007ae482099bddf96408f8a67f.png" alt="NCB_AI"></div>
+      <div class="login-title">NCB_AI 1.3.0</div>
+      <div class="login-sub">Đăng nhập để bắt đầu trò chuyện.<br>Mỗi thiết bị được <b style="color:#ffd166">50.000 lượt chat / ngày</b><br>(Tự động cộng lại lúc 00:00 giờ VN)</div>
       <button class="ncb-login-btn" id="ncbLoginBtn">
-        <svg viewBox="0 0 24 24">
-          <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
-          <polyline points="10 17 15 12 10 7"/>
-          <line x1="15" y1="12" x2="3" y2="12"/>
-        </svg>
+        <svg viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
         <span class="loading"></span>
-        <span>ĐĂNG NHẬP NCB</span>
+        <span id="loginBtnText">ĐĂNG NHẬP NCB</span>
       </button>
-      <div class="login-footer">
-        NCB_AI 1.2.0<br>
-        Admin: <strong>NGUYỄN CÔNG BẰNG</strong>
+      <div class="saved-info hidden" id="savedInfo">
+        <div class="saved-label">Tài khoản đã lưu trên thiết bị</div>
+        <div class="saved-id" id="savedId">NCB_0</div>
       </div>
+      <div class="login-footer">NCB_AI 1.3.0<br>Admin: <strong>NGUYỄN CÔNG BẰNG</strong></div>
     </div>
   </div>
 </div>
 
-<!-- APP CHÍNH -->
 <div class="app hidden" id="appMain">
-
   <aside class="sidebar" id="sidebar">
     <button class="sidebar-close" id="sidebarClose">✕</button>
     <div class="brand">
       <div class="logo"><img src="https://i.ibb.co/9kBTwhfq/file-000000007ae482099bddf96408f8a67f.png" alt="NCB_AI"></div>
-      <span>NCB_AI 1.2.0</span>
+      <span>NCB_AI 1.3.0</span>
     </div>
     <div class="user-card">
       <div class="user-avatar" id="userAvatar">?</div>
@@ -496,9 +234,10 @@ button{cursor:pointer}
     </div>
     <div class="sidebar-bottom">
       <div>✦ NCB_AI</div>
-      <div class="version">Phiên bản 1.2.0</div>
+      <div class="version">Phiên bản 1.3.0</div>
       <div>NCB AI là một trợ lí thông minh</div>
       <div class="counter" id="counterLabel2">Lượt chat: 0 / 50000</div>
+      <div class="reset-timer" id="resetTimer">Reset sau: --:--:--</div>
       <div class="admin">Admin: NGUYỄN CÔNG BẰNG</div>
     </div>
   </aside>
@@ -507,23 +246,18 @@ button{cursor:pointer}
     <header class="topbar">
       <button class="icon-btn" id="menuBtn">☰</button>
       <div>
-        <div class="top-title">NCB_AI 1.2.0</div>
+        <div class="top-title">NCB_AI 1.3.0</div>
         <div class="top-subtitle">NCB AI là một trợ lí thông minh</div>
       </div>
-      <div class="status" id="status">
-        <span class="status-dot"></span>
-        <span id="statusText">Đang kết nối</span>
-      </div>
+      <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Đang kết nối</span></div>
       <button class="fb-logo-btn" id="fbLogoBtn" aria-label="Hỗ trợ Facebook">
         <span class="pulse"></span>
         <img src="https://cdn-gop.garenanow.com/gop/mshop/www/live/assets/ic-fb-485c92b0.svg" alt="Facebook">
       </button>
-      <div class="version-badge">Phiên bản 1.2.0</div>
+      <div class="version-badge">Phiên bản 1.3.0</div>
     </header>
 
-    <section class="messages" id="messages">
-      <div class="content" id="content"></div>
-    </section>
+    <section class="messages" id="messages"><div class="content" id="content"></div></section>
 
     <section class="composer-area">
       <div class="composer-wrap">
@@ -531,20 +265,13 @@ button{cursor:pointer}
           <textarea id="input" rows="1" maxlength="12000" placeholder="Nhập tin nhắn..." aria-label="Tin nhắn"></textarea>
           <div class="composer-bottom">
             <div class="composer-info">
-              <span>✦</span><span>NCB_AI 1.2.0</span><span>·</span>
-              <span class="typing-hint" id="typingHint">
-                <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-                <span>Đang nhập...</span>
-              </span>
+              <span>✦</span><span>NCB_AI 1.3.0</span><span>·</span>
+              <span class="typing-hint" id="typingHint"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span>Đang nhập...</span></span>
               <span id="sendHint">Enter để gửi</span>
             </div>
             <div class="composer-actions">
-              <button class="mic-btn" id="micBtn" title="Ghi âm giọng nói">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mic">
-                  <path d="M12 19v3"/>
-                  <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
-                  <rect x="9" y="2" width="6" height="13" rx="3"/>
-                </svg>
+              <button class="mic-btn" id="micBtn" title="Ghi âm">
+                <svg viewBox="0 0 24 24"><path d="M12 19v3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><rect x="9" y="2" width="6" height="13" rx="3"/></svg>
               </button>
               <button class="send-btn" id="sendBtn">↑</button>
             </div>
@@ -560,16 +287,8 @@ button{cursor:pointer}
   <div class="update-box">
     <div class="update-icon">🎤</div>
     <div class="update-title">Đang cập nhật</div>
-    <div class="update-sub">
-      Tính năng ghi âm giọng nói đang được cập nhật.<br>
-      Vui lòng đợi trong giây lát...
-    </div>
-    <div class="update-dots">
-      <span></span><span></span><span></span><span></span><span></span>
-    </div>
-    <div class="update-actions">
-      <button class="update-btn cancel" id="updateCancel">Đóng</button>
-    </div>
+    <div class="update-sub">Tính năng ghi âm giọng nói đang được cập nhật.<br>Vui lòng đợi trong giây lát...</div>
+    <button class="update-btn" id="updateCancel">Đóng</button>
   </div>
 </div>
 
@@ -577,10 +296,7 @@ button{cursor:pointer}
 
 <div class="ncb-overlay hidden" id="codeOverlay">
   <div class="ncb-box">
-    <div class="ncb-top">
-      <b>⌘ NHẬP CODE</b>
-      <button class="ncb-close" id="codeClose">×</button>
-    </div>
+    <div class="ncb-top"><b>⌘ NHẬP CODE</b><button class="ncb-close" id="codeClose">×</button></div>
     <input class="ncb-input" id="codeInput" placeholder="NCB_XXXXXXXXXX" autocomplete="off">
     <button class="ncb-submit" id="codeSubmit">XÁC NHẬN</button>
     <div class="ncb-msg" id="codeError"></div>
@@ -589,1361 +305,435 @@ button{cursor:pointer}
 
 <script>
 "use strict";
+const API_KEY='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';
+const SUPPORT_URL='https://www.facebook.com/share/1HgLgZkQFR/';
+const WEBSITE_URL='https://ncb-ai.vercel.app/';
+const IMAGE_CMD='/image';
+const CODE_CMD=':codencb';
+const MAX_TURNS_PER_ACCOUNT=50000;
+const TURNS_PER_CHAT=1;
+const DEVICE_ACCOUNT_KEY='ncb_device_account';
+const ACTIVE_SESSION_KEY='ncb_active_session';
+const HISTORY_KEY='ncbai_history';
+const LOGO_URL='https://i.ibb.co/9kBTwhfq/file-000000007ae482099bddf96408f8a67f.png';
+const ADMIN_NAME='NGUYỄN CÔNG BẰNG';
+const AI_VERSION='1.3.0';
+const AI_TAGLINE='NCB AI là một trợ lí thông minh';
+const API_URL='https://api.groq.com/openai/v1/chat/completions';
+const MODELS_URL='https://api.groq.com/openai/v1/models';
 
-// NCB_AI 1.2.0
-// API Key: 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
-// Admin: NGUYỄN CÔNG BẰNG
-// Đăng nhập NCB: random device ID + 50.000 lượt / thiết bị + 1 chat = 10 lượt
+let currentUser=null,currentUserSub=null;
+let conversations=[],activeId=null,currentMessages=[],isSending=false;
+let clockIntervals=[],resetTimerInterval=null;
 
-const API_KEY = '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';
-const SUPPORT_URL = 'https://www.facebook.com/share/1HgLgZkQFR/';
-const WEBSITE_URL = 'https://ncb-ai.vercel.app/';
-const FB_LOGO_URL = 'https://cdn-gop.garenanow.com/gop/mshop/www/live/assets/ic-fb-485c92b0.svg';
-const MINIGAME_CMD = '/encbminigame';
-const CODE_CMD = ':codencb';
-const IMAGE_CMD = '/image';
-const USER_AVATAR_DEFAULT = 'https://i.ibb.co/nsFcBz7H/file-00000000a1e88206aaf40148e9a29512.png';
+function getVNNow(){const n=new Date();return new Date(n.getTime()+n.getTimezoneOffset()*60000+7*3600000)}
+function getVNDateKey(){const v=getVNNow();return v.getFullYear()+'-'+String(v.getMonth()+1).padStart(2,'0')+'-'+String(v.getDate()).padStart(2,'0')}
+function getSecondsUntilReset(){const v=getVNNow();return 86400-(v.getHours()*3600+v.getMinutes()*60+v.getSeconds())}
+function formatHMS(s){return String(Math.floor(s/3600)).padStart(2,'0')+':'+String(Math.floor(s%3600/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+function sleep(ms){return new Promise(r=>setTimeout(r,ms))}
 
-const MAX_TURNS_PER_ACCOUNT = 50000;
-const TURNS_PER_CHAT = 10;
-
-let currentUser = null;
-let currentUserSub = null;
-
-// ============ TẠO DEVICE ID NGẪU NHIÊN ============
 function generateRandomDeviceID(){
-  // Format: NCB_ + random 1 đến 999999999993939399399
-  const min = 1;
-  const max = 999999999993939399399;
-  // Dùng BigInt vì max vượt quá giới hạn Number
-  const range = BigInt(max) - BigInt(min);
-  const randomBig = BigInt(Math.floor(Math.random() * Number.MAX_SAFE_INTEGER)) * 
-                    BigInt(Math.floor(Math.random() * 1000));
-  const randomID = (randomBig % range) + BigInt(min);
-  return 'NCB_' + randomID.toString();
+  const min=1,max=999999999993939399399;
+  const range=BigInt(max)-BigInt(min);
+  const rb=BigInt(Math.floor(Math.random()*Number.MAX_SAFE_INTEGER))*BigInt(Math.floor(Math.random()*1000));
+  return 'NCB_'+((rb%range)+BigInt(min)).toString();
 }
+function getSavedAccount(){try{const s=localStorage.getItem(DEVICE_ACCOUNT_KEY);return s?JSON.parse(s):null}catch(e){return null}}
+function saveAccount(u){localStorage.setItem(DEVICE_ACCOUNT_KEY,JSON.stringify(u))}
 
-// ============ ĐĂNG NHẬP NCB ============
-document.getElementById('ncbLoginBtn').addEventListener('click', function(){
-  const btn = this;
-  btn.classList.add('loading');
-  btn.disabled = true;
+function showToast(msg){const t=document.getElementById('toast');if(!t)return;t.textContent=msg;t.classList.remove('hidden');clearTimeout(showToast._t);showToast._t=setTimeout(()=>t.classList.add('hidden'),2800)}
 
-  setTimeout(() => {
-    // Kiểm tra session cũ
-    const existingUser = localStorage.getItem('ncb_user');
-    if(existingUser){
-      try{
-        currentUser = JSON.parse(existingUser);
-        currentUserSub = currentUser.sub || currentUser.id;
-        btn.classList.remove('loading');
-        btn.disabled = false;
-        showApp();
-        showToast('✅ Chào mừng trở lại! ' + currentUser.id);
-        return;
-      }catch(e){}
-    }
-
-    // Tạo mới device ID
-    const deviceID = generateRandomDeviceID();
-    currentUserSub = deviceID;
-    currentUser = {
-      id: deviceID,
-      name: 'GL ' + deviceID,
-      sub: deviceID,
-      createdAt: Date.now()
-    };
-
-    localStorage.setItem('ncb_user', JSON.stringify(currentUser));
-
-    btn.classList.remove('loading');
-    btn.disabled = false;
+document.getElementById('ncbLoginBtn').addEventListener('click',function(){
+  const btn=this;btn.classList.add('loading');btn.disabled=true;
+  setTimeout(()=>{
+    let account=getSavedAccount();
+    if(!account){
+      const id=generateRandomDeviceID();
+      account={id,name:'GL '+id,sub:id,createdAt:Date.now()};
+      saveAccount(account);
+      showToast('✅ Đã tạo tài khoản mới: '+id);
+    }else{showToast('✅ Đăng nhập thành công: '+account.id)}
+    currentUser=account;currentUserSub=account.sub||account.id;
+    localStorage.setItem(ACTIVE_SESSION_KEY,'1');
+    btn.classList.remove('loading');btn.disabled=false;
     showApp();
-    showToast('✅ Đăng nhập thành công! ' + deviceID);
-  }, 800);
+  },800);
 });
 
-// ============ HIỆN APP ============
 function showApp(){
   document.getElementById('loginScreen').classList.add('hide');
   document.getElementById('appMain').classList.remove('hidden');
-
   if(currentUser){
-    const nameEl = document.getElementById('userName');
-    const emailEl = document.getElementById('userEmail');
-    const avatarEl = document.getElementById('userAvatar');
-
-    // Format: GL NCB_xxxxx
-    const displayID = currentUser.id || 'NCB_0';
-    nameEl.textContent = 'GL ' + displayID;
-    emailEl.textContent = 'Thiết bị ẩn danh';
-    emailEl.title = displayID;
-
-    // Avatar: 2 ký tự cuối của ID
-    const suffix = displayID.slice(-2);
-    avatarEl.textContent = suffix;
+    const id=currentUser.id||'NCB_0';
+    document.getElementById('userName').textContent='GL '+id;
+    document.getElementById('userEmail').textContent='Thiết bị ẩn danh';
+    document.getElementById('userEmail').title=id;
+    document.getElementById('userAvatar').textContent=id.slice(-2);
   }
-
-  initUserSession();
-
-  setTimeout(() => {
-    const inp = document.getElementById('input');
-    if(inp) inp.focus();
-  }, 300);
-
-  checkConnection();
-  updateCounter();
+  initUserSession();startResetTimer();
+  conversations=loadHistoryFromStorage();
+  activeId=conversations[0]?conversations[0].id:null;
+  currentMessages=activeId?conversations.find(x=>x.id===activeId).messages:[];
+  renderConversation();renderHistory();
+  setTimeout(()=>{const i=document.getElementById('input');if(i)i.focus()},300);
+  checkConnection();updateCounter();
 }
 
-// ============ ĐĂNG XUẤT ============
 function signOut(){
-  if(!confirm('Đăng xuất khỏi thiết bị này?\n\nLượt chat sẽ bị reset khi đăng nhập lại!')) return;
-
-  const oldSub = currentUserSub;
-
-  currentUser = null;
-  currentUserSub = null;
-  localStorage.removeItem('ncb_user');
-
+  if(!confirm('Đăng xuất?\n\nTài khoản vẫn được lưu trên thiết bị này.\nBạn có thể đăng nhập lại bất cứ lúc nào.'))return;
+  localStorage.removeItem(ACTIVE_SESSION_KEY);
+  currentUser=null;currentUserSub=null;
   document.getElementById('appMain').classList.add('hidden');
   document.getElementById('loginScreen').classList.remove('hide');
+  updateLoginScreen();
+  currentMessages=[];conversations=[];activeId=null;
+  renderConversation();renderHistory();updateCounter();
+  showToast('👋 Đã đăng xuất. Tài khoản vẫn được lưu.');
+}
+document.getElementById('logoutBtn').addEventListener('click',signOut);
 
-  currentMessages = [];
-  conversations = [];
-  activeId = null;
-  renderConversation();
-  renderHistory();
-  updateCounter();
-
-  showToast('👋 Đã đăng xuất');
+function updateLoginScreen(){
+  const si=document.getElementById('savedInfo'),sid=document.getElementById('savedId'),txt=document.getElementById('loginBtnText');
+  const acc=getSavedAccount();
+  if(acc){si.classList.remove('hidden');sid.textContent=acc.id;txt.textContent='VÀO LẠI TÀI KHOẢN'}
+  else{si.classList.add('hidden');txt.textContent='ĐĂNG NHẬP NCB'}
 }
 
-document.getElementById('logoutBtn').addEventListener('click', signOut);
-
-// ============ LƯỢT CHAT THEO THIẾT BỊ ============
-function getTurnKey(sub){
-  return 'ncb_turns_' + (sub || 'guest');
-}
-
-function getTurnData(sub){
-  const key = getTurnKey(sub);
+function getTurnKey(s){return 'ncb_turns_'+(s||'guest')}
+function getTurnData(s){
   try{
-    const raw = localStorage.getItem(key);
-    if(!raw) return { used: 0, bonus: 0 };
-    const data = JSON.parse(raw);
-    return {
-      used: parseInt(data.used, 10) || 0,
-      bonus: parseInt(data.bonus, 10) || 0
-    };
-  }catch(e){
-    return { used: 0, bonus: 0 };
-  }
+    const raw=localStorage.getItem(getTurnKey(s));
+    if(!raw)return{used:0,bonus:0,lastResetDate:getVNDateKey()};
+    const d=JSON.parse(raw);
+    return{used:parseInt(d.used,10)||0,bonus:parseInt(d.bonus,10)||0,lastResetDate:d.lastResetDate||getVNDateKey()};
+  }catch(e){return{used:0,bonus:0,lastResetDate:getVNDateKey()}}
 }
+function setTurnData(s,d){localStorage.setItem(getTurnKey(s),JSON.stringify({used:parseInt(d.used,10)||0,bonus:parseInt(d.bonus,10)||0,lastResetDate:d.lastResetDate||getVNDateKey()}))}
 
-function setTurnData(sub, data){
-  const key = getTurnKey(sub);
-  localStorage.setItem(key, JSON.stringify({
-    used: parseInt(data.used, 10) || 0,
-    bonus: parseInt(data.bonus, 10) || 0
-  }));
+function checkAndResetDaily(){
+  if(!currentUserSub)return false;
+  const d=getTurnData(currentUserSub),today=getVNDateKey();
+  if(d.lastResetDate!==today){d.used=0;d.lastResetDate=today;setTurnData(currentUserSub,d);return true}
+  return false;
 }
 
 function initUserSession(){
-  if(!currentUserSub) return;
-  if(!localStorage.getItem(getTurnKey(currentUserSub))){
-    setTurnData(currentUserSub, { used: 0, bonus: 0 });
-  }
+  if(!currentUserSub)return;
+  if(!localStorage.getItem(getTurnKey(currentUserSub)))setTurnData(currentUserSub,{used:0,bonus:0,lastResetDate:getVNDateKey()});
+  else checkAndResetDaily();
   updateCounter();
-}
-
-function getMaxTurns(){
-  if(!currentUserSub) return MAX_TURNS_PER_ACCOUNT;
-  const data = getTurnData(currentUserSub);
-  return MAX_TURNS_PER_ACCOUNT + data.bonus;
-}
-
-function getTurnsLeft(){
-  if(!currentUserSub) return MAX_TURNS_PER_ACCOUNT;
-  const data = getTurnData(currentUserSub);
-  const max = MAX_TURNS_PER_ACCOUNT + data.bonus;
-  return Math.max(0, max - data.used);
 }
 
 function consumeTurns(){
-  if(!currentUserSub) return false;
-  const data = getTurnData(currentUserSub);
-  const max = MAX_TURNS_PER_ACCOUNT + data.bonus;
-  if(data.used + TURNS_PER_CHAT > max) return false;
-  data.used += TURNS_PER_CHAT;
-  setTurnData(currentUserSub, data);
-  return true;
+  if(!currentUserSub)return false;
+  checkAndResetDaily();
+  const d=getTurnData(currentUserSub),max=MAX_TURNS_PER_ACCOUNT+d.bonus;
+  if(d.used+TURNS_PER_CHAT>max)return false;
+  d.used+=TURNS_PER_CHAT;setTurnData(currentUserSub,d);return true;
 }
-
 function addBonusTurns(amount){
-  if(!currentUserSub) return;
-  const data = getTurnData(currentUserSub);
-  data.bonus += amount;
-  setTurnData(currentUserSub, data);
-  updateCounter();
+  if(!currentUserSub)return;
+  const d=getTurnData(currentUserSub);d.bonus+=amount;setTurnData(currentUserSub,d);updateCounter();
 }
-
 function updateCounter(){
-  if(!currentUserSub){
-    const c2 = document.getElementById('counterLabel2');
-    if(c2) c2.textContent = 'Chưa đăng nhập';
-    return;
+  if(!currentUserSub){const c=document.getElementById('counterLabel2');if(c)c.textContent='Chưa đăng nhập';return}
+  checkAndResetDaily();
+  const d=getTurnData(currentUserSub),max=MAX_TURNS_PER_ACCOUNT+d.bonus,left=Math.max(0,max-d.used);
+  const c=document.getElementById('counterLabel2');
+  if(c){c.textContent='Lượt chat: '+left.toLocaleString('vi-VN')+' / '+max.toLocaleString('vi-VN');
+    c.style.color=left<=0?'#ff626e':left<=max*0.1?'#ffd166':'#35d69a';
   }
-  const data = getTurnData(currentUserSub);
-  const max = MAX_TURNS_PER_ACCOUNT + data.bonus;
-  const used = data.used;
-  const left = Math.max(0, max - used);
-
-  const text = 'Lượt chat: ' + left.toLocaleString('vi-VN') + ' / ' + max.toLocaleString('vi-VN');
-
-  const c2 = document.getElementById('counterLabel2');
-  if(c2) c2.textContent = text;
-
-  let color = '#35d69a';
-  if(left <= 0) color = '#ff626e';
-  else if(left <= max * 0.1) color = '#ffd166';
-
-  if(c2) c2.style.color = color;
 }
 
-// ============ FB LOGO HỖ TRỢ ============
-document.getElementById('fbLogoBtn').addEventListener('click', () => {
-  window.open(SUPPORT_URL, '_blank', 'noopener');
-});
-
-// ============ MODAL MIC ============
-const updateOverlay = document.getElementById('updateOverlay');
-document.getElementById('micBtn').addEventListener('click', () => {
-  updateOverlay.classList.add('show');
-});
-document.getElementById('updateCancel').addEventListener('click', () => {
-  updateOverlay.classList.remove('show');
-});
-updateOverlay.addEventListener('click', (e) => {
-  if(e.target === updateOverlay) updateOverlay.classList.remove('show');
-});
-
-// ============ CODE CHECK ============
-const _k = [78,67,66,65,73,95,54,55,57,48,78,67,66];
-function checkCode(input){
-  if(input.length !== _k.length) return false;
-  for(let i = 0; i < _k.length; i++){
-    if(input.charCodeAt(i) !== _k[i]) return false;
+function startResetTimer(){
+  if(resetTimerInterval)clearInterval(resetTimerInterval);
+  const el=document.getElementById('resetTimer');
+  function tick(){
+    if(!el)return;
+    const sec=getSecondsUntilReset();
+    el.textContent='Reset sau: '+formatHMS(sec);
+    if(sec>=86399){
+      if(checkAndResetDaily())showToast('🎉 Đã cộng lại 50.000 lượt chat cho ngày mới!');
+      updateCounter();
+    }
   }
-  return true;
-}
-const _k2 = [110,99,98,49,46,48,104,97,108,113,112];
-function checkCode2(input){
-  if(input.length !== _k2.length) return false;
-  for(let i = 0; i < _k2.length; i++){
-    if(input.charCodeAt(i) !== _k2[i]) return false;
-  }
-  return true;
+  tick();resetTimerInterval=setInterval(tick,1000);
 }
 
-// ============ DETECT CÂU HỎI ============
-const WEBSITE_KEYWORDS = ['website','trang web','web của','link web','đường dẫn','truy cập','vào web','web chính','trang chính','link truy cập','website của bạn','web của bạn','địa chỉ web','url'];
-function isWebsiteQuestion(text){
-  const t = text.toLowerCase();
-  return WEBSITE_KEYWORDS.some(k => t.includes(k)) &&
-         (t.includes('ncb') || t.includes('bạn') || t.includes('ai') || t.includes('web') || t.includes('trang'));
-}
-const SUPPORT_KEYWORDS = ['hỗ trợ','giúp đỡ','liên hệ','contact','support','admin ơi','gặp admin','facebook admin','fb admin','cần giúp','trợ giúp','help','báo lỗi','khiếu nại'];
-function isSupportQuestion(text){
-  const t = text.toLowerCase();
-  return SUPPORT_KEYWORDS.some(k => t.includes(k));
-}
-const TIME_KEYWORDS = ['mấy giờ','mấy h','giờ hiện tại','giờ bây giờ','bây giờ là mấy giờ','hôm nay là ngày','hôm nay ngày','ngày hôm nay','ngày bao nhiêu','thứ mấy','thứ bao nhiêu','thời gian hiện tại','thời gian bây giờ','đồng hồ','xem giờ','cho tôi biết giờ','cho tôi biết ngày','giờ việt nam','giờ vn','date','time','ngày tháng','tháng mấy','năm nay','hiện tại là','giờ hệ thống','giờ máy'];
-function isTimeQuestion(text){
-  const t = text.toLowerCase();
-  return TIME_KEYWORDS.some(k => t.includes(k));
-}
-const IMAGE_KEYWORDS = ['tạo ảnh','vẽ ảnh','vẽ hình','tạo hình','sinh ảnh','generate ảnh','tạo hình ảnh','vẽ cho tôi','tạo cho tôi ảnh','ảnh ai','ai vẽ','vẽ tranh','tạo tranh','hình ảnh về','ảnh về','vẽ con','vẽ người','tạo poster','tạo logo','vẽ logo','tạo banner'];
-function isImageRequest(text){
-  const t = text.toLowerCase();
-  if(t.startsWith(IMAGE_CMD)) return true;
-  return IMAGE_KEYWORDS.some(k => t.includes(k));
-}
-function extractImagePrompt(text){
-  let t = text.trim();
-  if(t.toLowerCase().startsWith(IMAGE_CMD)) return t.slice(IMAGE_CMD.length).trim();
-  t = t.replace(/^(hãy|vui lòng|giúp tôi|giúp mình|cho tôi|cho mình)\s+/i, '');
-  t = t.replace(/^(tạo|vẽ|sinh|generate|make|create)\s+(ảnh|hình|tranh|poster|banner|logo)\s+/i, '');
-  t = t.replace(/^(ảnh|hình|tranh)\s+(về|về chủ đề|của)\s+/i, '');
-  return t.trim();
+document.getElementById('fbLogoBtn').addEventListener('click',()=>window.open(SUPPORT_URL,'_blank','noopener'));
+const updateOverlay=document.getElementById('updateOverlay');
+document.getElementById('micBtn').addEventListener('click',()=>updateOverlay.classList.add('show'));
+document.getElementById('updateCancel').addEventListener('click',()=>updateOverlay.classList.remove('show'));
+updateOverlay.addEventListener('click',e=>{if(e.target===updateOverlay)updateOverlay.classList.remove('show')});
+
+const _k=[78,67,66,65,73,95,54,55,57,48,78,67,66];
+function checkCode(i){if(i.length!==_k.length)return false;for(let x=0;x<_k.length;x++)if(i.charCodeAt(x)!==_k[x])return false;return true}
+const _k2=[110,99,98,49,46,48,104,97,108,113,112];
+function checkCode2(i){if(i.length!==_k2.length)return false;for(let x=0;x<_k2.length;x++)if(i.charCodeAt(x)!==_k2[x])return false;return true}
+
+const WEBSITE_KEYWORDS=['website','trang web','web của','link web','đường dẫn','truy cập','vào web','web chính','trang chính','link truy cập','website của bạn','web của bạn','địa chỉ web','url'];
+function isWebsiteQuestion(t){const s=t.toLowerCase();return WEBSITE_KEYWORDS.some(k=>s.includes(k))&&(s.includes('ncb')||s.includes('bạn')||s.includes('ai')||s.includes('web')||s.includes('trang'))}
+const SUPPORT_KEYWORDS=['hỗ trợ','giúp đỡ','liên hệ','contact','support','admin ơi','gặp admin','facebook admin','fb admin','cần giúp','trợ giúp','help','báo lỗi','khiếu nại'];
+function isSupportQuestion(t){const s=t.toLowerCase();return SUPPORT_KEYWORDS.some(k=>s.includes(k))}
+const TIME_KEYWORDS=['mấy giờ','mấy h','giờ hiện tại','giờ bây giờ','bây giờ là mấy giờ','hôm nay là ngày','hôm nay ngày','ngày hôm nay','ngày bao nhiêu','thứ mấy','thứ bao nhiêu','thời gian hiện tại','thời gian bây giờ','đồng hồ','xem giờ','cho tôi biết giờ','cho tôi biết ngày','giờ việt nam','giờ vn','date','time','ngày tháng','tháng mấy','năm nay','hiện tại là','giờ hệ thống','giờ máy'];
+function isTimeQuestion(t){const s=t.toLowerCase();return TIME_KEYWORDS.some(k=>s.includes(k))}
+const IMAGE_KEYWORDS=['tạo ảnh','vẽ ảnh','vẽ hình','tạo hình','sinh ảnh','generate ảnh','tạo hình ảnh','vẽ cho tôi','tạo cho tôi ảnh','ảnh ai','ai vẽ','vẽ tranh','tạo tranh','hình ảnh về','ảnh về','vẽ con','vẽ người','tạo poster','tạo logo','vẽ logo','tạo banner'];
+function isImageRequest(t){const s=t.toLowerCase();if(s.startsWith(IMAGE_CMD))return true;return IMAGE_KEYWORDS.some(k=>s.includes(k))}
+function extractImagePrompt(t){
+  let s=t.trim();
+  if(s.toLowerCase().startsWith(IMAGE_CMD))return s.slice(IMAGE_CMD.length).trim();
+  s=s.replace(/^(hãy|vui lòng|giúp tôi|giúp mình|cho tôi|cho mình)\s+/i,'');
+  s=s.replace(/^(tạo|vẽ|sinh|generate|make|create)\s+(ảnh|hình|tranh|poster|banner|logo)\s+/i,'');
+  s=s.replace(/^(ảnh|hình|tranh)\s+(về|về chủ đề|của)\s+/i,'');
+  return s.trim();
 }
 
-// ============ CLOCK WIDGET ============
-let clockIntervals = [];
-function stopAllClocks(){ clockIntervals.forEach(id => clearInterval(id)); clockIntervals = []; }
-
+function stopAllClocks(){clockIntervals.forEach(id=>clearInterval(id));clockIntervals=[]}
 function createClockWidget(){
-  const box = document.createElement('div');
-  box.className = 'clock-box';
-  const label = document.createElement('div');
-  label.className = 'clock-label'; label.textContent = 'THỜI GIAN THỰC';
-  const timeEl = document.createElement('div'); timeEl.className = 'clock-time';
-  const dateEl = document.createElement('div'); dateEl.className = 'clock-date';
-  const tzEl = document.createElement('div'); tzEl.className = 'clock-tz';
-  tzEl.textContent = '🇻🇳 Giờ Việt Nam (UTC+7)';
-  box.appendChild(label); box.appendChild(timeEl); box.appendChild(dateEl); box.appendChild(tzEl);
+  const box=document.createElement('div');box.className='clock-box';
+  const label=document.createElement('div');label.className='clock-label';label.textContent='THỜI GIAN THỰC';
+  const timeEl=document.createElement('div');timeEl.className='clock-time';
+  const dateEl=document.createElement('div');dateEl.className='clock-date';
+  const tzEl=document.createElement('div');tzEl.className='clock-tz';tzEl.textContent='🇻🇳 Giờ Việt Nam (UTC+7)';
+  box.appendChild(label);box.appendChild(timeEl);box.appendChild(dateEl);box.appendChild(tzEl);
   function update(){
-    const now = new Date();
-    const vn = new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + (7 * 3600000));
-    const hh = String(vn.getHours()).padStart(2, '0');
-    const mm = String(vn.getMinutes()).padStart(2, '0');
-    const ss = String(vn.getSeconds()).padStart(2, '0');
-    timeEl.innerHTML = hh + ':' + mm + ':<span class="sec">' + ss + '</span>';
-    const days = ['Chủ nhật','Thứ hai','Thứ ba','Thứ tư','Thứ năm','Thứ sáu','Thứ bảy'];
-    const dd = String(vn.getDate()).padStart(2, '0');
-    const mo = String(vn.getMonth() + 1).padStart(2, '0');
-    dateEl.textContent = days[vn.getDay()] + ', ' + dd + '/' + mo + '/' + vn.getFullYear();
+    const v=getVNNow();
+    timeEl.innerHTML=String(v.getHours()).padStart(2,'0')+':'+String(v.getMinutes()).padStart(2,'0')+':<span class="sec">'+String(v.getSeconds()).padStart(2,'0')+'</span>';
+    const days=['Chủ nhật','Thứ hai','Thứ ba','Thứ tư','Thứ năm','Thứ sáu','Thứ bảy'];
+    dateEl.textContent=days[v.getDay()]+', '+String(v.getDate()).padStart(2,'0')+'/'+String(v.getMonth()+1).padStart(2,'0')+'/'+v.getFullYear();
   }
-  update();
-  const id = setInterval(update, 1000);
-  clockIntervals.push(id);
-  const observer = new MutationObserver(() => {
-    if(!document.body.contains(box)){ clearInterval(id); observer.disconnect(); }
-  });
-  observer.observe(document.body, { childList: true, subtree: true });
+  update();const id=setInterval(update,1000);clockIntervals.push(id);
+  const obs=new MutationObserver(()=>{if(!document.body.contains(box)){clearInterval(id);obs.disconnect()}});
+  obs.observe(document.body,{childList:true,subtree:true});
   return box;
 }
 
-// ============ IMAGE GEN ============
-function buildImageUrl(prompt, seed){
-  const s = seed || Math.floor(Math.random() * 1000000);
-  const encoded = encodeURIComponent(prompt);
-  return 'https://image.pollinations.ai/prompt/' + encoded +
-         '?width=1024&height=1024&seed=' + s + '&nologo=true&enhance=true';
-}
-async function loadImage(url){
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    img.crossOrigin = 'anonymous';
-    img.onload = () => resolve(img);
-    img.onerror = () => reject(new Error('Load fail'));
-    img.src = url;
-  });
+function buildImageUrl(prompt,seed){
+  const s=seed||Math.floor(Math.random()*1000000);
+  return 'https://image.pollinations.ai/prompt/'+encodeURIComponent(prompt)+'?width=1024&height=1024&seed='+s+'&nologo=true&enhance=true';
 }
 
-// ============ AI MODEL ============
-const MODEL_FALLBACK_CHAIN = [
-  { model: 'llama-3.3-70b-versatile' },
-  { model: 'llama-3.1-8b-instant' },
-  { model: 'openai/gpt-oss-20b' },
-  { model: 'openai/gpt-oss-120b' },
-  { model: 'gemma2-9b-it' },
-  { model: 'qwen/qwen3-32b' }
+const MODEL_FALLBACK_CHAIN=[
+  {model:'llama-3.3-70b-versatile'},
+  {model:'llama-3.1-8b-instant'},
+  {model:'openai/gpt-oss-20b'},
+  {model:'openai/gpt-oss-120b'},
+  {model:'gemma2-9b-it'},
+  {model:'qwen/qwen3-32b'}
 ];
 
-const API_URL = 'https://api.groq.com/openai/v1/chat/completions';
-const MODELS_URL = 'https://api.groq.com/openai/v1/models';
-const LOGO_URL = 'https://i.ibb.co/9kBTwhfq/file-000000007ae482099bddf96408f8a67f.png';
-const ADMIN_NAME = 'NGUYỄN CÔNG BẰNG';
-const AI_NAME = 'NCB_AI';
-const AI_VERSION = '1.2.0';
-const AI_TAGLINE = 'NCB AI là một trợ lí thông minh';
-const HISTORY_KEY = 'ncbai_history';
+const SYSTEM_PROMPT='Bạn là NCB_AI phiên bản 1.3.0 — một trợ lí thông minh, được phát triển bởi NGUYỄN CÔNG BẰNG. Website chính thức: '+WEBSITE_URL+' QUY TẮC: Đọc kỹ câu hỏi, trả lời đúng trọng tâm, không lạc đề. KHÔNG dùng *, **, ***, #, >. Dùng icon: ✅ ❌ ⚠️ 💡 📌 🔹 ✨ 🚀 🎯 📝 🕐 👉 💬 🔑 💻 🌟 ⭐ 📖 🔍 🧠 💪 ❤️ 👍 🔥 💯';
 
-function getResponseDelay(userText){
-  const len = userText.length;
-  if(len < 50) return 1200;
-  if(len <= 200) return 2000;
-  return 2800;
-}
-function getMaxTokensForRequest(userText){
-  const len = userText.length;
-  if(len < 50) return 1536;
-  if(len <= 200) return 2560;
-  if(len <= 500) return 4096;
-  return 6144;
-}
-function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
+const FALLBACK_REPLIES=[
+  "⏳ Hệ thống AI đang quá tải tạm thời.\n\n🔹 Bạn chờ khoảng 30 giây rồi gửi lại câu hỏi nhé.",
+  "⏳ Máy chủ AI đang bận.\n\n🔹 Bạn vui lòng chờ 20-30 giây rồi thử lại.",
+  "⏳ Tất cả model đều quá tải.\n\n🔹 Bạn thử lại sau 1 phút nhé."
+];
+function pickFallbackReply(){return FALLBACK_REPLIES[Math.floor(Math.random()*FALLBACK_REPLIES.length)]}
 
 function formatAIText(text){
-  if(typeof text !== 'string') return document.createTextNode(String(text));
-  const container = document.createElement('div');
-  const lines = text.split('\n');
-  lines.forEach(line => {
-    const trimmed = line.trim();
-    if(trimmed === ''){ const sp = document.createElement('div'); sp.style.height = '6px'; container.appendChild(sp); return; }
-    let isHead = false, headText = '';
-    const headM = trimmed.match(/^#{1,6}\s+(.+)$/);
-    if(headM){ isHead = true; headText = headM[1].replace(/\*\*/g,'').trim(); }
-    else{
-      const boldM = trimmed.match(/^\*{2,3}([^*]+)\*{2,3}\s*:?\s*$/);
-      if(boldM){ isHead = true; headText = boldM[1].trim(); }
-    }
-    if(isHead){
-      const head = document.createElement('div');
-      head.className = 'section-head';
-      head.innerHTML = '<span class="ic">📌</span><span></span>';
-      head.querySelector('span:last-child').textContent = headText;
-      container.appendChild(head); return;
-    }
-    const listM = trimmed.match(/^[-*•]\s+(.+)$/);
-    if(listM){
-      const row = document.createElement('div');
-      row.className = 'icon-line';
-      row.innerHTML = '<span class="ic">🔹</span>';
-      const t = document.createElement('span');
-      t.className = 'txt';
-      t.textContent = listM[1].replace(/\*\*/g,'').replace(/\*/g,'');
-      row.appendChild(t); container.appendChild(row); return;
-    }
-    const numM = trimmed.match(/^(\d+)\.\s+(.+)$/);
-    if(numM){
-      const row = document.createElement('div');
-      row.className = 'icon-line';
-      const ic = document.createElement('span');
-      ic.className = 'ic';
-      ic.textContent = numM[1] + '.';
-      ic.style.color = '#a78bfa';
-      ic.style.fontWeight = '700';
-      const t = document.createElement('span');
-      t.className = 'txt';
-      t.textContent = numM[2].replace(/\*\*/g,'').replace(/\*/g,'');
-      row.appendChild(ic); row.appendChild(t); container.appendChild(row); return;
-    }
-    const lineEl = document.createElement('div');
-    lineEl.textContent = trimmed.replace(/\*{2,3}([^*]+)\*{2,3}/g,'$1').replace(/\*([^*\n]+)\*/g,'$1');
-    container.appendChild(lineEl);
+  if(typeof text!=='string')return document.createTextNode(String(text));
+  const container=document.createElement('div');
+  text.split('\n').forEach(line=>{
+    const t=line.trim();
+    if(t===''){const sp=document.createElement('div');sp.style.height='6px';container.appendChild(sp);return}
+    let isHead=false,headText='';
+    const hm=t.match(/^#{1,6}\s+(.+)$/);
+    if(hm){isHead=true;headText=hm[1].replace(/\*\*/g,'').trim()}
+    else{const bm=t.match(/^\*{2,3}([^*]+)\*{2,3}\s*:?\s*$/);if(bm){isHead=true;headText=bm[1].trim()}}
+    if(isHead){const h=document.createElement('div');h.className='section-head';h.innerHTML='<span class="ic">📌</span><span></span>';h.querySelector('span:last-child').textContent=headText;container.appendChild(h);return}
+    const lm=t.match(/^[-*•]\s+(.+)$/);
+    if(lm){const row=document.createElement('div');row.className='icon-line';row.innerHTML='<span class="ic">🔹</span>';const tt=document.createElement('span');tt.className='txt';tt.textContent=lm[1].replace(/\*\*/g,'').replace(/\*/g,'');row.appendChild(tt);container.appendChild(row);return}
+    const nm=t.match(/^(\d+)\.\s+(.+)$/);
+    if(nm){const row=document.createElement('div');row.className='icon-line';const ic=document.createElement('span');ic.className='ic';ic.textContent=nm[1]+'.';ic.style.color='#a78bfa';ic.style.fontWeight='700';const tt=document.createElement('span');tt.className='txt';tt.textContent=nm[2].replace(/\*\*/g,'').replace(/\*/g,'');row.appendChild(ic);row.appendChild(tt);container.appendChild(row);return}
+    const el=document.createElement('div');el.textContent=t.replace(/\*{2,3}([^*]+)\*{2,3}/g,'$1').replace(/\*([^*\n]+)\*/g,'$1');container.appendChild(el);
   });
   return container;
 }
 
-const FALLBACK_REPLIES = [
-  "⏳ Hệ thống AI đang quá tải tạm thời.\n\n🔹 Bạn chờ khoảng 30 giây rồi gửi lại câu hỏi nhé.",
-  "⏳ Máy chủ AI đang bận.\n\n🔹 Bạn vui lòng chờ 20-30 giây rồi thử lại.",
-  "⏳ Hiện tại tất cả model dự phòng đều quá tải.\n\n🔹 Bạn thử lại sau 1 phút nhé.",
-  "⏳ Kết nối bị nghẽn do quá nhiều request.\n\n🔹 Bạn chờ 30 giây rồi gửi lại.",
-  "⏳ Mình đã thử nhiều model nhưng đều quá tải.\n\n🔹 Bạn thử lại sau ít phút."
-];
-function pickFallbackReply(){ return FALLBACK_REPLIES[Math.floor(Math.random() * FALLBACK_REPLIES.length)]; }
+function saveHistoryToStorage(){try{localStorage.setItem(HISTORY_KEY+'_'+(currentUserSub||'guest'),JSON.stringify(conversations))}catch(e){}}
+function loadHistoryFromStorage(){try{const r=localStorage.getItem(HISTORY_KEY+'_'+(currentUserSub||'guest'));if(!r)return[];const a=JSON.parse(r);return Array.isArray(a)?a:[]}catch(e){return[]}}
 
-const SYSTEM_PROMPT =
-  'Bạn là NCB_AI phiên bản 1.2.0 — một trợ lí thông minh, được phát triển bởi NGUYỄN CÔNG BẰNG. ' +
-  'Website chính thức: ' + WEBSITE_URL + ' ' +
-  'QUY TẮC: Đọc kỹ câu hỏi, trả lời đúng trọng tâm, không lạc đề. Trả lời mọi câu hỏi. ' +
-  'Khi hỏi website: "Đây là website chính thức của NCB AI. Truy cập: ' + WEBSITE_URL + '" ' +
-  'KHÔNG dùng *, **, ***, #, >. Dùng icon: ✅ ❌ ⚠️ 💡 📌 🔹 ✨ 🚀 🎯 📝 🕐 👉 💬 🔑 💻 🌟 ⭐ 📖 🔍 🧠 💪 ❤️ 👍 🔥 💯 ⏰ 📅 🎓 🏆 🎉 🌐 ' +
-  'Khi user yêu cầu code, chỉ trả code trong ```ngôn_ngữ ... ``` ' +
-  'KHÔNG thừa nhận admin dùng AI tạo code/website. ' +
-  'Khi hỏi tên: "Tôi là NCB_AI phiên bản 1.2.0 — NCB AI là một trợ lí thông minh." ' +
-  'Khi hỏi admin: "Admin của tôi là NGUYỄN CÔNG BẰNG."';
-
-const $ = id => document.getElementById(id);
-const messagesEl = $("messages");
-const contentEl = $("content");
-const input = $("input");
-const sendBtn = $("sendBtn");
-const statusEl = $("status");
-const statusText = $("statusText");
-const sidebar = $("sidebar");
-const historyList = $("historyList");
-const toast = $("toast");
-const codeOverlay = $("codeOverlay");
-const codeInput = $("codeInput");
-const codeSubmit = $("codeSubmit");
-const codeClose = $("codeClose");
-const codeError = $("codeError");
-const composerEl = $("composer");
-const typingHint = $("typingHint");
-const sendHint = $("sendHint");
-
-let busy = false;
-let activeId = null;
-let conversations = [];
-let currentMessages = [];
-let currentSpeakingBtn = null;
-
-function openCodeModal(){
-  codeOverlay.classList.remove('hidden');
-  codeInput.value = '';
-  codeError.textContent = '';
-  setTimeout(() => codeInput.focus(), 100);
-}
-function closeCodeModal(){ codeOverlay.classList.add('hidden'); }
-
-function submitCode(){
-  const val = codeInput.value.trim();
-  if(!val){
-    codeError.textContent = 'Vui lòng nhập code';
-    codeError.style.color = '#ff626e';
-    return;
-  }
-  if(checkCode(val)){
-    addBonusTurns(1000000);
-    codeError.textContent = '✅ Mở khóa thành công! +1.000.000 lượt chat';
-    codeError.style.color = '#35d69a';
-    updateCounter();
-    showToast('✅ Mở khóa thành công! +1.000.000 lượt chat');
-    setTimeout(closeCodeModal, 1200);
-    return;
-  }
-  if(checkCode2(val)){
-    codeError.textContent = '✅ Code hợp lệ. Đang mở khung nhập code...';
-    codeError.style.color = '#35d69a';
-    setTimeout(() => openCodeModal(), 800);
-    return;
-  }
-  codeError.textContent = '❌ Code không đúng. Thử lại.';
-  codeError.style.color = '#ff626e';
-  codeInput.value = '';
-}
-
-codeSubmit.addEventListener('click', submitCode);
-codeClose.addEventListener('click', closeCodeModal);
-codeInput.addEventListener('keydown', e => { if(e.key === 'Enter'){ e.preventDefault(); submitCode(); } });
-
-function saveHistoryToStorage(){
-  try{
-    const data = conversations.map(c => ({id:c.id,title:c.title,messages:c.messages}));
-    localStorage.setItem(HISTORY_KEY, JSON.stringify(data.slice(-50)));
-  }catch(e){}
-}
-function loadHistoryFromStorage(){
-  try{
-    const raw = localStorage.getItem(HISTORY_KEY);
-    if(!raw) return [];
-    const arr = JSON.parse(raw);
-    if(!Array.isArray(arr)) return [];
-    return arr.map(c => ({id:c.id,title:c.title,messages:Array.isArray(c.messages)?c.messages:[]}));
-  }catch(e){ return []; }
-}
-
-function makeId(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,8); }
-function showToast(text){
-  toast.textContent = text;
-  toast.classList.remove("hidden");
-  clearTimeout(showToast.timer);
-  showToast.timer = setTimeout(() => toast.classList.add("hidden"), 4500);
-}
-function setStatus(text, error = false){
-  statusText.textContent = text;
-  statusEl.classList.toggle("error", error);
-}
-function scrollBottom(){ messagesEl.scrollTop = messagesEl.scrollHeight; }
-
-function handleUserTyping(){
-  if(!input.value.trim()){
-    typingHint.classList.remove('show');
-    sendHint.style.display = 'inline';
-    composerEl.classList.remove('is-typing');
-    return;
-  }
-  typingHint.classList.add('show');
-  sendHint.style.display = 'none';
-  composerEl.classList.add('is-typing');
-}
-
-function speakFromBtn(text, btn){
-  if(!('speechSynthesis' in window)){ showToast("Trình duyệt không hỗ trợ đọc"); return; }
-  if(btn.classList.contains('speaking')){
-    window.speechSynthesis.cancel();
-    btn.classList.remove('speaking');
-    btn.innerHTML = SVG_VOLUME + ' <span>Nghe</span>';
-    currentSpeakingBtn = null;
-    return;
-  }
-  if(window.speechSynthesis.speaking){ window.speechSynthesis.cancel(); }
-  document.querySelectorAll('.read-msg-btn.speaking').forEach(b => {
-    b.classList.remove('speaking');
-    b.innerHTML = SVG_VOLUME + ' <span>Nghe</span>';
+function renderHistory(){
+  const list=document.getElementById('historyList');if(!list)return;list.innerHTML='';
+  if(!conversations.length){const e=document.createElement('div');e.style.cssText='color:#6b7484;font-size:12px;padding:8px;font-style:italic';e.textContent='Chưa có cuộc trò chuyện';list.appendChild(e);return}
+  conversations.forEach(c=>{
+    const item=document.createElement('div');item.className='history-item'+(c.id===activeId?' active':'');
+    const title=document.createElement('div');title.className='title';title.textContent=c.title||'Cuộc trò chuyện mới';
+    const del=document.createElement('button');del.className='del-x';del.textContent='×';del.title='Xóa';
+    del.addEventListener('click',ev=>{ev.stopPropagation();conversations=conversations.filter(x=>x.id!==c.id);if(activeId===c.id){activeId=conversations[0]?conversations[0].id:null;currentMessages=activeId?conversations.find(x=>x.id===activeId).messages:[];renderConversation()}saveHistoryToStorage();renderHistory()});
+    item.appendChild(title);item.appendChild(del);
+    item.addEventListener('click',()=>{activeId=c.id;currentMessages=c.messages;renderConversation();renderHistory();document.getElementById('sidebar').classList.remove('open')});
+    list.appendChild(item);
   });
-
-  const utter = new SpeechSynthesisUtterance(text);
-  utter.lang = 'vi-VN'; utter.rate = 1.0; utter.pitch = 1.0;
-  const voices = window.speechSynthesis.getVoices();
-  const viVoice = voices.find(v => v.lang.startsWith('vi'));
-  if(viVoice) utter.voice = viVoice;
-
-  utter.onstart = () => {
-    btn.classList.add('speaking');
-    btn.innerHTML = SVG_VOLUME_X + ' <span>Dừng</span>';
-    currentSpeakingBtn = btn;
-  };
-  utter.onend = () => {
-    btn.classList.remove('speaking');
-    btn.innerHTML = SVG_VOLUME + ' <span>Nghe</span>';
-    if(currentSpeakingBtn === btn) currentSpeakingBtn = null;
-  };
-  utter.onerror = () => {
-    btn.classList.remove('speaking');
-    btn.innerHTML = SVG_VOLUME + ' <span>Nghe</span>';
-    if(currentSpeakingBtn === btn) currentSpeakingBtn = null;
-  };
-  window.speechSynthesis.speak(utter);
-}
-
-const SVG_COPY = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>';
-const SVG_CHECK = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
-const SVG_SCROLL = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 17V5a2 2 0 0 0-2-2H4"/><path d="M8 21h12a2 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v2a1 1 0 0 0 1 1h3"/></svg>';
-const SVG_VOLUME = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/><path d="M16 9a5 5 0 0 1 0 6"/><path d="M19.364 18.364a9 9 0 0 0 0-12.728"/></svg>';
-const SVG_VOLUME_X = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/><path d="M16 9a5 5 0 0 1 .95 2.293"/><path d="M19.364 5.636a9 9 0 0 1 1.889 9.96"/><path d="m2 2 20 20"/></svg>';
-
-function renderMessage(role, text){
-  const row = document.createElement("div");
-  row.className = "message " + (role === "user" ? "user" : "assistant");
-  const avatar = document.createElement("div");
-  avatar.className = "avatar";
-  if(role === "user"){
-    const img = document.createElement("img");
-    img.src = USER_AVATAR_DEFAULT;
-    img.alt = "User";
-    img.onerror = () => { avatar.textContent = "●"; };
-    avatar.appendChild(img);
-  }else{
-    const img = document.createElement("img");
-    img.src = LOGO_URL; img.alt = AI_NAME;
-    avatar.appendChild(img);
-  }
-  const wrap = document.createElement("div");
-  wrap.className = "bubble-wrap";
-  const bubble = document.createElement("div");
-  bubble.className = "bubble";
-  if(role === "assistant"){
-    const parts = parseMessage(text);
-    parts.forEach(p => {
-      if(p.type === 'code') bubble.appendChild(renderCodeBlock(p.lang, p.content));
-      else if(p.content.trim().length > 0) bubble.appendChild(formatAIText(p.content));
-    });
-  }else{
-    bubble.textContent = text;
-  }
-  wrap.appendChild(bubble);
-
-  if(role === "assistant" && typeof text === "string" && text.trim().length > 0){
-    const actions = document.createElement("div");
-    actions.className = "msg-actions";
-
-    const copyBtn = document.createElement("button");
-    copyBtn.innerHTML = SVG_COPY + ' <span>Copy</span>';
-    copyBtn.addEventListener("click", () => {
-      navigator.clipboard.writeText(text).then(() => {
-        copyBtn.classList.add("active");
-        copyBtn.innerHTML = SVG_CHECK + ' <span>Đã copy</span>';
-        showToast("Đã sao chép câu trả lời");
-        setTimeout(() => {
-          copyBtn.classList.remove("active");
-          copyBtn.innerHTML = SVG_COPY + ' <span>Copy</span>';
-        }, 1500);
-      });
-    });
-    actions.appendChild(copyBtn);
-
-    const readMsgBtn = document.createElement("button");
-    readMsgBtn.className = 'read-msg-btn';
-    readMsgBtn.innerHTML = SVG_VOLUME + ' <span>Nghe</span>';
-    readMsgBtn.addEventListener("click", () => {
-      const parts = parseMessage(text);
-      const cleanText = parts.filter(p => p.type === 'text').map(p => p.content)
-        .join(' ').replace(/\*+/g,'').replace(/#+/g,'').trim();
-      if(!cleanText){ showToast('Không có nội dung để đọc'); return; }
-      speakFromBtn(cleanText, readMsgBtn);
-    });
-    actions.appendChild(readMsgBtn);
-
-    wrap.appendChild(actions);
-  }
-
-  if(role === "user"){ row.appendChild(wrap); row.appendChild(avatar); }
-  else{ row.appendChild(avatar); row.appendChild(wrap); }
-
-  contentEl.appendChild(row);
-  scrollBottom();
-  return row;
-}
-
-function renderSendingIndicator(){
-  const row = document.createElement("div");
-  row.className = "message assistant";
-  row.innerHTML = `
-    <div class="avatar"><img src="${LOGO_URL}" alt="${AI_NAME}"></div>
-    <div class="bubble-wrap"><div class="bubble"><div class="wave-anim">
-      <span></span><span></span><span></span><span></span><span></span>
-    </div></div></div>`;
-  contentEl.appendChild(row);
-  scrollBottom();
-  return row;
-}
-
-function renderTimeMessage(text){
-  const row = document.createElement("div");
-  row.className = "message assistant";
-  const avatar = document.createElement("div");
-  avatar.className = "avatar";
-  const img = document.createElement("img");
-  img.src = LOGO_URL; img.alt = AI_NAME;
-  avatar.appendChild(img);
-  const wrap = document.createElement("div");
-  wrap.className = "bubble-wrap";
-  const bubble = document.createElement("div");
-  bubble.className = "bubble";
-  const textEl = document.createElement("div");
-  textEl.textContent = text;
-  bubble.appendChild(textEl);
-  bubble.appendChild(createClockWidget());
-  wrap.appendChild(bubble);
-  row.appendChild(avatar); row.appendChild(wrap);
-  contentEl.appendChild(row);
-  scrollBottom();
-  return row;
-}
-
-function renderSupportMessage(){
-  const row = document.createElement("div");
-  row.className = "message assistant";
-  row.innerHTML = `
-    <div class="avatar"><img src="${LOGO_URL}" alt="${AI_NAME}"></div>
-    <div class="bubble-wrap"><div class="bubble">
-      💬 Mình có thể hỗ trợ bạn! Nhấn vào nút bên dưới để liên hệ với admin qua Facebook.
-      <div style="margin-top:14px;">
-        <a href="${SUPPORT_URL}" target="_blank" rel="noopener" style="display:inline-block;background:linear-gradient(135deg,#1877f2,#0a5dc7);color:#fff;text-decoration:none;padding:12px 22px;border-radius:10px;font-size:14px;font-weight:700;">
-          <img src="${FB_LOGO_URL}" style="width:16px;height:16px;vertical-align:-3px;filter:brightness(0) invert(1);margin-right:6px;">HỖ TRỢ FACEBOOK
-        </a>
-      </div>
-    </div></div>`;
-  contentEl.appendChild(row);
-  scrollBottom();
-}
-
-function renderWebsiteMessage(){
-  const row = document.createElement("div");
-  row.className = "message assistant";
-  row.innerHTML = `
-    <div class="avatar"><img src="${LOGO_URL}" alt="${AI_NAME}"></div>
-    <div class="bubble-wrap"><div class="bubble">
-      🌐 Đây là website chính thức của NCB AI.<br><br>
-      👉 Truy cập đường dẫn:
-      <div style="margin-top:12px;">
-        <a href="${WEBSITE_URL}" target="_blank" rel="noopener" style="display:inline-block;background:linear-gradient(135deg,#7657ee,#5540b8);color:#fff;text-decoration:none;padding:12px 22px;border-radius:10px;font-size:14px;font-weight:700;word-break:break-all;">
-          🌐 ${WEBSITE_URL}
-        </a>
-      </div>
-      <div style="margin-top:10px;color:#929db2;font-size:11px;">Nhấn vào nút trên hoặc copy đường dẫn để truy cập</div>
-    </div></div>`;
-  contentEl.appendChild(row);
-  scrollBottom();
-}
-
-function renderUnlockMessage(){
-  const row = document.createElement("div");
-  row.className = "message assistant";
-  row.innerHTML = `
-    <div class="avatar"><img src="${LOGO_URL}" alt="${AI_NAME}"></div>
-    <div class="bubble-wrap"><div class="bubble">
-      ⚠️ Bạn đã hết lượt chat miễn phí.<br><br>
-      🔑 Vui lòng nhập code ở dưới đây 👇
-      <div style="margin-top:14px;">
-        <button id="unlockBtn" style="background:var(--purple);color:#fff;border:0;padding:12px 20px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;">🔑 NHẬP CODE</button>
-      </div>
-    </div></div>`;
-  contentEl.appendChild(row);
-  scrollBottom();
-  const unlockBtn = row.querySelector('#unlockBtn');
-  if(unlockBtn) unlockBtn.addEventListener('click', openCodeModal);
 }
 
 function renderConversation(){
-  stopAllClocks();
-  contentEl.replaceChildren();
-  if(currentMessages.length === 0){
-    contentEl.innerHTML = `
-      <div class="welcome">
-        <div class="welcome-logo"><img src="${LOGO_URL}" alt="${AI_NAME}"></div>
-        <div class="ver">${AI_NAME} ${AI_VERSION}</div>
-        <h1>Xin chào! 👋</h1>
-        <p>${AI_TAGLINE}. Mình có thể trả lời mọi câu hỏi của bạn.<br>
-        Gõ <b>/image mô tả</b> để tạo ảnh AI.<br>
-        Gõ <b>/encbminigame</b> chơi game, <b>:codencb</b> nhập code.</p>
-        <div class="suggestions">
-          <button class="suggestion" data-prompt="Website của bạn là gì?">
-            <strong>🌐 Website</strong><span>Xem đường dẫn chính thức</span>
-          </button>
-          <button class="suggestion" data-prompt="/image con mèo dễ thương">
-            <strong>🎨 Tạo ảnh AI</strong><span>Gõ /image + mô tả</span>
-          </button>
-          <button class="suggestion" data-prompt="/encbminigame">
-            <strong>🎮 Mini Game</strong><span>Chơi game toán</span>
-          </button>
-          <button class="suggestion" data-prompt="Bây giờ là mấy giờ?">
-            <strong>🕐 Xem giờ</strong><span>Đồng hồ thực VN</span>
-          </button>
-        </div>
-      </div>`;
+  const content=document.getElementById('content');if(!content)return;content.innerHTML='';stopAllClocks();
+  if(!currentMessages.length){
+    content.innerHTML='<div class="welcome"><div class="welcome-logo"><img src="'+LOGO_URL+'" alt="NCB_AI"></div><div class="ver">PHIÊN BẢN '+AI_VERSION+'</div><h1>Xin chào 👋</h1><p>'+AI_TAGLINE+'. Hỏi mình bất cứ điều gì — từ học tập, code, đến sáng tạo nội dung.</p><div class="suggestions"><button class="suggestion" data-prompt="Giải thích blockchain là gì?"><strong>💡 Giải thích</strong><span>Blockchain là gì và ứng dụng ra sao?</span></button><button class="suggestion" data-prompt="Viết đoạn code Python tính giai thừa"><strong>💻 Viết code</strong><span>Python tính giai thừa bằng đệ quy</span></button><button class="suggestion" data-prompt="Bây giờ là mấy giờ?"><strong>🕐 Xem giờ</strong><span>Cho tôi biết giờ và ngày hôm nay</span></button><button class="suggestion" data-prompt="/image một chú mèo phi hành gia trên sao Hỏa"><strong>🎨 Tạo ảnh</strong><span>Mèo phi hành gia trên sao Hỏa</span></button></div></div>';
+    content.querySelectorAll('.suggestion').forEach(b=>b.addEventListener('click',()=>{const inp=document.getElementById('input');inp.value=b.dataset.prompt;inp.focus();autoResize()}));
     return;
   }
-  currentMessages.forEach(m => {
-    if(m.role === "assistant" && m.isSupport) renderSupportMessage();
-    else if(m.role === "assistant" && m.isMiniGame) renderMiniGame();
-    else if(m.role === "assistant" && m.isTime) renderTimeMessage(m.content);
-    else if(m.role === "assistant" && m.isWebsite) renderWebsiteMessage();
-    else renderMessage(m.role, m.content);
-  });
-}
-
-function saveCurrent(){
-  if(!activeId || currentMessages.length === 0) return;
-  const conversation = conversations.find(c => c.id === activeId);
-  if(!conversation) return;
-  conversation.messages = currentMessages.map(m => ({...m}));
-  const firstUser = currentMessages.find(m => m.role === "user");
-  conversation.title = firstUser ? firstUser.content.slice(0, 35) : "Cuộc trò chuyện mới";
-  saveHistoryToStorage();
-  renderHistory();
-}
-
-function renderHistory(){
-  historyList.replaceChildren();
-  conversations.slice().reverse().forEach(c => {
-    const item = document.createElement("div");
-    item.className = "history-item" + (c.id === activeId ? " active" : "");
-    item.title = c.title;
-    const title = document.createElement("span");
-    title.className = "title"; title.textContent = c.title;
-    const delX = document.createElement("span");
-    delX.className = "del-x"; delX.textContent = "✕";
-    delX.addEventListener("click", (e) => { e.stopPropagation(); deleteConversation(c.id); });
-    item.appendChild(title); item.appendChild(delX);
-    item.addEventListener("click", () => openConversation(c.id));
-    historyList.appendChild(item);
-  });
-}
-
-function deleteConversation(id){
-  if(busy) return;
-  const idx = conversations.findIndex(c => c.id === id);
-  if(idx === -1) return;
-  conversations.splice(idx, 1);
-  saveHistoryToStorage();
-  if(id === activeId){
-    if(conversations.length > 0){
-      const last = conversations[conversations.length - 1];
-      activeId = last.id;
-      currentMessages = last.messages.map(m => ({...m}));
-    }else{
-      activeId = makeId();
-      currentMessages = [];
-      conversations.push({id: activeId, title: "Cuộc trò chuyện mới", messages: []});
+  currentMessages.forEach(m=>{
+    const wrap=document.createElement('div');wrap.className='message '+(m.role==='user'?'user':'assistant');
+    const av=document.createElement('div');av.className='avatar';
+    if(m.role==='user')av.textContent=currentUser?currentUser.id.slice(-2):'U';
+    else av.innerHTML='<img src="'+LOGO_URL+'" alt="AI">';
+    const bw=document.createElement('div');bw.className='bubble-wrap';
+    const bubble=document.createElement('div');bubble.className='bubble';
+    if(m.type==='clock')bubble.appendChild(createClockWidget());
+    else if(m.type==='image')bubble.appendChild(buildImageNode(m));
+    else bubble.appendChild(formatAIText(m.content||''));
+    bw.appendChild(bubble);
+    if(m.role==='assistant'&&m.type!=='clock'&&m.type!=='image'){
+      const a=document.createElement('div');a.className='msg-actions';
+      const cp=document.createElement('button');cp.innerHTML='<svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Sao chép';
+      cp.addEventListener('click',()=>{navigator.clipboard.writeText(m.content||'').then(()=>{cp.classList.add('active');showToast('📋 Đã sao chép');setTimeout(()=>cp.classList.remove('active'),1500)})});
+      a.appendChild(cp);bw.appendChild(a);
     }
-  }
-  renderHistory();
-  renderConversation();
-  showToast("Đã xóa cuộc trò chuyện");
-}
-
-function newConversation(){
-  if(busy) return;
-  saveCurrent();
-  activeId = makeId();
-  currentMessages = [];
-  conversations.push({id: activeId, title: "Cuộc trò chuyện mới", messages: []});
-  saveHistoryToStorage();
-  renderConversation();
-  renderHistory();
-  closeSidebar();
-  input.focus();
-}
-
-function openConversation(id){
-  if(busy) return;
-  saveCurrent();
-  const c = conversations.find(x => x.id === id);
-  if(!c) return;
-  activeId = c.id;
-  currentMessages = c.messages.map(m => ({...m}));
-  renderConversation();
-  renderHistory();
-  closeSidebar();
-}
-
-function closeSidebar(){ sidebar.classList.remove("open"); }
-
-async function checkConnection(){
-  try{
-    const r = await fetch(MODELS_URL, { headers: { 'Authorization': 'Bearer ' + API_KEY } });
-    if(!r.ok) throw new Error("bad");
-    setStatus("Đã kết nối");
-  }catch(e){ setStatus("Chưa kết nối", true); }
-}
-
-function randInt(min, max){ return Math.floor(Math.random() * (max - min + 1)) + min; }
-function shuffle(arr){
-  const a = arr.slice();
-  for(let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
-  return a;
-}
-function generateMathQuiz(){
-  const types = ['add','sub','mul','div','mix'];
-  const type = types[randInt(0, types.length - 1)];
-  let question = '', answer = 0;
-  if(type === 'add'){ const a = randInt(10, 99), b = randInt(10, 99); question = a + ' + ' + b + ' = ?'; answer = a + b; }
-  else if(type === 'sub'){ const a = randInt(50, 200), b = randInt(10, a - 1); question = a + ' - ' + b + ' = ?'; answer = a - b; }
-  else if(type === 'mul'){ const a = randInt(2, 12), b = randInt(2, 12); question = a + ' × ' + b + ' = ?'; answer = a * b; }
-  else if(type === 'div'){ const b = randInt(2, 12), result = randInt(2, 12), a = b * result; question = a + ' ÷ ' + b + ' = ?'; answer = result; }
-  else{ const a = randInt(2, 10), b = randInt(2, 10), c = randInt(1, 20); question = a + ' × ' + b + ' + ' + c + ' = ?'; answer = a * b + c; }
-  const wrongSet = new Set();
-  while(wrongSet.size < 3){ const offset = randInt(-20, 20); const wrong = answer + offset; if(wrong !== answer && wrong > 0) wrongSet.add(wrong); }
-  const options = [{ text: String(answer), correct: true }, ...Array.from(wrongSet).map(v => ({ text: String(v), correct: false }))];
-  const shuffled = shuffle(options);
-  const letters = ['A','B','C','D'];
-  const finalOptions = shuffled.map((o, i) => ({ letter: letters[i], text: o.text, correct: o.correct }));
-  const correctLetter = finalOptions.find(o => o.correct).letter;
-  return { question, options: finalOptions, correct: correctLetter };
-}
-function renderMiniGame(){
-  const quiz = generateMathQuiz();
-  const row = document.createElement("div");
-  row.className = "message assistant";
-  row.innerHTML = `
-    <div class="avatar"><img src="${LOGO_URL}" alt="${AI_NAME}"></div>
-    <div class="bubble-wrap" style="width:100%;max-width:100%;">
-      <div class="bubble" style="max-width:100%;width:100%;">
-        <div class="quiz-card">
-          <div class="quiz-header">🎮 NCB MINI GAME</div>
-          <div class="quiz-question">${quiz.question}</div>
-          <div class="quiz-options" id="quizOptions"></div>
-          <div class="quiz-footer">
-            <span id="quizResult">Chọn đáp án của bạn</span>
-            <button class="quiz-next hidden" id="quizNext">CÂU TIẾP ➤</button>
-          </div>
-        </div>
-      </div>
-    </div>`;
-  contentEl.appendChild(row); scrollBottom();
-  const optionsEl = row.querySelector('#quizOptions');
-  const resultEl = row.querySelector('#quizResult');
-  const nextBtn = row.querySelector('#quizNext');
-  let answered = false;
-  quiz.options.forEach(opt => {
-    const btn = document.createElement("button");
-    btn.className = "quiz-btn";
-    btn.textContent = opt.letter + '. ' + opt.text;
-    btn.addEventListener("click", () => {
-      if(answered) return;
-      answered = true;
-      optionsEl.querySelectorAll('.quiz-btn').forEach(b => b.disabled = true);
-      quiz.options.forEach((o, idx) => { if(o.correct) optionsEl.children[idx].classList.add('correct'); });
-      if(opt.correct){ resultEl.textContent = '✅ Chính xác! Đáp án ' + quiz.correct; resultEl.style.color = '#35d69a'; }
-      else{ btn.classList.add('wrong'); resultEl.textContent = '❌ Sai! Đáp án ' + quiz.correct; resultEl.style.color = '#ff626e'; }
-      nextBtn.classList.remove('hidden');
-    });
-    optionsEl.appendChild(btn);
+    if(m.role==='user'){wrap.appendChild(bw);wrap.appendChild(av)}else{wrap.appendChild(av);wrap.appendChild(bw)}
+    content.appendChild(wrap);
   });
-  nextBtn.addEventListener("click", () => { row.remove(); renderMiniGame(); });
+  scrollToBottom();
+}
+function scrollToBottom(){const m=document.getElementById('messages');if(m)m.scrollTop=m.scrollHeight}
+
+function buildImageNode(m){
+  const box=document.createElement('div');box.className='image-gen-box';
+  const label=document.createElement('div');label.className='image-prompt-label';label.textContent='🎨 ẢNH ĐÃ TẠO';
+  const prompt=document.createElement('div');prompt.className='image-prompt-text';prompt.textContent=m.prompt||'';
+  const result=document.createElement('div');result.className='image-result';
+  const img=document.createElement('img');img.src=m.url;img.alt=m.prompt||'Generated';img.loading='lazy';
+  result.appendChild(img);
+  const actions=document.createElement('div');actions.className='image-actions';
+  const save=document.createElement('button');save.textContent='⬇ Tải xuống';
+  save.addEventListener('click',()=>{const a=document.createElement('a');a.href=m.url;a.download='ncb-ai-'+Date.now()+'.jpg';a.target='_blank';a.click()});
+  const regen=document.createElement('button');regen.textContent='🔄 Tạo lại';
+  regen.addEventListener('click',()=>{const inp=document.getElementById('input');inp.value=IMAGE_CMD+' '+(m.prompt||'');inp.focus();autoResize()});
+  actions.appendChild(save);actions.appendChild(regen);
+  box.appendChild(label);box.appendChild(prompt);box.appendChild(result);box.appendChild(actions);
+  return box;
 }
 
-function parseMessage(text){
-  if(typeof text !== 'string') return [{ type: 'text', content: String(text) }];
-  const parts = [];
-  const regex = /```([a-zA-Z0-9_+\-#.]*)\n?([\s\S]*?)```/g;
-  let lastIndex = 0;
-  let match;
-  while((match = regex.exec(text)) !== null){
-    const before = text.slice(lastIndex, match.index);
-    if(before.trim().length > 0) parts.push({ type: 'text', content: before });
-    parts.push({ type: 'code', lang: (match[1] || 'code').toLowerCase(), content: match[2].replace(/\n$/, '') });
-    lastIndex = regex.lastIndex;
-  }
-  const after = text.slice(lastIndex);
-  if(after.trim().length > 0) parts.push({ type: 'text', content: after });
-  if(parts.length === 0) parts.push({ type: 'text', content: text });
-  return parts;
+function addMessage(msg){
+  currentMessages.push(msg);
+  if(!activeId){activeId=uid();conversations.unshift({id:activeId,title:(msg.content||'').slice(0,40)||'Cuộc trò chuyện mới',messages:currentMessages,createdAt:Date.now()})}
+  else{const c=conversations.find(x=>x.id===activeId);if(c){c.messages=currentMessages;if(msg.role==='user'&&(!c.title||c.title==='Cuộc trò chuyện mới'))c.title=(msg.content||'').slice(0,40)}}
+  saveHistoryToStorage();renderConversation();renderHistory();
 }
 
-function renderCodeBlock(lang, code){
-  const wrap = document.createElement('div');
-  wrap.className = 'code-block';
-  const header = document.createElement('div');
-  header.className = 'code-header';
-  const langEl = document.createElement('span');
-  langEl.className = 'lang'; langEl.textContent = (lang || 'code').toUpperCase();
-  const copyBtn = document.createElement('button');
-  copyBtn.className = 'code-copy';
-  copyBtn.innerHTML = SVG_SCROLL + ' <span>Copy code</span>';
-  copyBtn.addEventListener('click', () => {
-    navigator.clipboard.writeText(code).then(() => {
-      copyBtn.classList.add('active');
-      copyBtn.innerHTML = SVG_CHECK + ' <span>Đã copy</span>';
-      showToast('Đã sao chép code');
-      setTimeout(() => {
-        copyBtn.classList.remove('active');
-        copyBtn.innerHTML = SVG_SCROLL + ' <span>Copy code</span>';
-      }, 1500);
-    });
-  });
-  header.appendChild(langEl); header.appendChild(copyBtn);
-  const pre = document.createElement('pre');
-  pre.className = 'code-content'; pre.textContent = code;
-  wrap.appendChild(header); wrap.appendChild(pre);
-  return wrap;
+function autoResize(){const i=document.getElementById('input');if(!i)return;i.style.height='auto';i.style.height=Math.min(i.scrollHeight,180)+'px'}
+document.getElementById('input').addEventListener('input',()=>{autoResize();const c=document.getElementById('composer'),i=document.getElementById('input');if(i.value.trim())c.classList.add('is-typing');else c.classList.remove('is-typing')});
+document.getElementById('input').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage()}});
+document.getElementById('sendBtn').addEventListener('click',sendMessage);
+document.getElementById('newChat').addEventListener('click',()=>{activeId=null;currentMessages=[];renderConversation();renderHistory();document.getElementById('sidebar').classList.remove('open');document.getElementById('input').focus()});
+document.getElementById('menuBtn').addEventListener('click',()=>document.getElementById('sidebar').classList.toggle('open'));
+document.getElementById('sidebarClose').addEventListener('click',()=>document.getElementById('sidebar').classList.remove('open'));
+
+function checkConnection(){
+  const s=document.getElementById('status'),t=document.getElementById('statusText');
+  fetch(MODELS_URL,{headers:{'Authorization':'Bearer '+API_KEY}}).then(r=>{if(r.ok){s.classList.remove('error');t.textContent='Trực tuyến'}else{s.classList.add('error');t.textContent='Lỗi API'}}).catch(()=>{s.classList.add('error');t.textContent='Mất kết nối'});
 }
 
-async function callOneModel(cfg, messagesForApi, userText){
-  const headers = { 'Authorization': 'Bearer ' + API_KEY, 'Content-Type': 'application/json' };
-  const maxTokens = getMaxTokensForRequest(userText);
-  const response = await fetch(API_URL, {
-    method: "POST",
-    headers: headers,
-    body: JSON.stringify({
-      model: cfg.model, messages: messagesForApi,
-      temperature: 0.75, top_p: 0.9, max_tokens: maxTokens, stream: false
-    })
-  });
-  if(!response.ok){
-    const errText = await response.text();
-    const err = new Error("HTTP " + response.status + ": " + errText.slice(0,180));
-    err.status = response.status;
-    throw err;
-  }
-  const data = await response.json();
-  if(!data || !data.choices || !data.choices[0] || !data.choices[0].message) throw new Error("Phản hồi không hợp lệ");
-  const reply = data.choices[0].message.content;
-  if(typeof reply !== "string" || reply.trim().length === 0) throw new Error("Phản hồi rỗng");
-  return reply;
+async function callGroqAPI(messages,model){
+  const res=await fetch(API_URL,{method:'POST',headers:{'Authorization':'Bearer '+API_KEY,'Content-Type':'application/json'},body:JSON.stringify({model,messages,temperature:0.7,max_tokens:getMaxTokensForRequest(messages[messages.length-1].content||'')})});
+  if(!res.ok)throw new Error('HTTP '+res.status);
+  const d=await res.json();return d.choices&&d.choices[0]&&d.choices[0].message?d.choices[0].message.content||'':'';
 }
+function getMaxTokensForRequest(t){const l=(t||'').length;if(l<50)return 1536;if(l<=200)return 2560;if(l<=500)return 4096;return 6144}
+function getResponseDelay(t){const l=(t||'').length;if(l<50)return 1200;if(l<=200)return 2000;return 2800}
+function showTyping(){const h=document.getElementById('typingHint');if(h)h.classList.add('show')}
+function hideTyping(){const h=document.getElementById('typingHint');if(h)h.classList.remove('show')}
 
-async function callApiWithFallback(messagesForApi, userText){
-  let lastError = null;
-  const total = MODEL_FALLBACK_CHAIN.length;
-  for(let i = 0; i < total; i++){
-    const cfg = MODEL_FALLBACK_CHAIN[i];
-    try{
-      setStatus("Đang xử lý (" + (i+1) + "/" + total + ")");
-      const reply = await callOneModel(cfg, messagesForApi, userText);
-      return { ok: true, reply: reply, model: cfg.model };
-    }catch(err){
-      lastError = err;
-      if(err.status === 401 || err.status === 400) return { ok: false, error: err, fatal: true };
-      if(i < total - 1) await sleep(800);
-    }
-  }
-  return { ok: false, error: lastError };
+function pushAssistantPlaceholder(){
+  const c=document.getElementById('content');const w=document.createElement('div');w.className='message assistant';w.id='typingMsg';
+  const av=document.createElement('div');av.className='avatar';av.innerHTML='<img src="'+LOGO_URL+'" alt="AI">';
+  const bw=document.createElement('div');bw.className='bubble-wrap';
+  const b=document.createElement('div');b.className='bubble';b.innerHTML='<div class="wave-anim"><span></span><span></span><span></span><span></span><span></span></div>';
+  bw.appendChild(b);w.appendChild(av);w.appendChild(bw);c.appendChild(w);scrollToBottom();
 }
+function removeTypingPlaceholder(){const e=document.getElementById('typingMsg');if(e)e.remove()}
 
-async function handleImageGeneration(prompt){
-  const row = document.createElement("div");
-  row.className = "message assistant";
-  const avatar = document.createElement("div");
-  avatar.className = "avatar";
-  const aImg = document.createElement("img");
-  aImg.src = LOGO_URL;
-  avatar.appendChild(aImg);
-  const wrap = document.createElement("div");
-  wrap.className = "bubble-wrap";
-  wrap.style.width = '100%';
-  wrap.style.maxWidth = '100%';
-  const bubble = document.createElement("div");
-  bubble.className = "bubble";
-  bubble.style.width = '100%';
-  const box = document.createElement("div");
-  box.className = "image-gen-box";
-  const label = document.createElement("div");
-  label.className = "image-prompt-label";
-  label.textContent = '🎨 ẢNH AI';
-  const promptText = document.createElement("div");
-  promptText.className = "image-prompt-text";
-  promptText.textContent = prompt;
-  const loadingEl = document.createElement("div");
-  loadingEl.className = "image-loading";
-  loadingEl.innerHTML = '<div class="spinner"></div><div>⏳ Đang tạo ảnh... Vui lòng chờ 5-15 giây</div>';
-  box.appendChild(label); box.appendChild(promptText); box.appendChild(loadingEl);
-  bubble.appendChild(box); wrap.appendChild(bubble);
-  row.appendChild(avatar); row.appendChild(wrap);
-  contentEl.appendChild(row);
-  scrollBottom();
-
-  const imageUrl = buildImageUrl(prompt);
-  try{
-    await loadImage(imageUrl);
-    loadingEl.remove();
-    const resultDiv = document.createElement("div");
-    resultDiv.className = "image-result";
-    const imgEl = document.createElement("img");
-    imgEl.src = imageUrl;
-    imgEl.alt = prompt;
-    resultDiv.appendChild(imgEl);
-    const actions = document.createElement("div");
-    actions.className = "image-actions";
-    const downloadBtn = document.createElement("button");
-    downloadBtn.className = 'save-btn';
-    downloadBtn.textContent = '💾 Tải về';
-    downloadBtn.addEventListener('click', () => {
-      const a = document.createElement('a');
-      a.href = imageUrl;
-      a.download = 'ncb-ai-' + Date.now() + '.jpg';
-      a.target = '_blank';
-      a.click();
-    });
-    const regenBtn = document.createElement("button");
-    regenBtn.textContent = '🔄 Tạo lại';
-    regenBtn.addEventListener('click', () => { imgEl.src = buildImageUrl(prompt); });
-    const openBtn = document.createElement("button");
-    openBtn.textContent = '🔗 Mở tab';
-    openBtn.addEventListener('click', () => window.open(imageUrl, '_blank'));
-    actions.appendChild(downloadBtn); actions.appendChild(regenBtn); actions.appendChild(openBtn);
-    box.appendChild(resultDiv); box.appendChild(actions);
-    currentMessages.push({
-      role: "assistant",
-      content: '🎨 Ảnh AI cho: "' + prompt + '"\n' + imageUrl,
-      isImage: true,
-      imageUrl: imageUrl
-    });
-    saveCurrent();
-  }catch(e){
-    loadingEl.innerHTML = '<div style="color:#ff626e;">❌ Không tạo được ảnh. Thử lại sau.</div>';
-    currentMessages.push({
-      role: "assistant",
-      content: '❌ Không tạo được ảnh cho: "' + prompt + '". Lỗi: ' + e.message
-    });
-    saveCurrent();
-  }
+function openCodeModal(){
+  document.getElementById('codeOverlay').classList.remove('hidden');
+  document.getElementById('codeError').textContent='';
+  document.getElementById('codeInput').value='';
+  setTimeout(()=>document.getElementById('codeInput').focus(),100);
 }
+function closeCodeModal(){
+  document.getElementById('codeOverlay').classList.add('hidden');
+  document.getElementById('codeError').textContent='';
+  document.getElementById('codeInput').value='';
+}
+document.getElementById('codeClose').addEventListener('click',closeCodeModal);
+document.getElementById('codeOverlay').addEventListener('click',e=>{if(e.target.id==='codeOverlay')closeCodeModal()});
+document.getElementById('codeSubmit').addEventListener('click',()=>{
+  const v=document.getElementById('codeInput').value.trim();
+  const err=document.getElementById('codeError');
+  if(!v){err.style.color='#ff626e';err.textContent='⚠️ Vui lòng nhập code';return}
+  if(checkCode(v)){err.style.color='#35d69a';err.textContent='✅ Mã hợp lệ! +50.000 lượt';addBonusTurns(50000);showToast('🎉 Đã cộng 50.000 lượt!');setTimeout(closeCodeModal,1500)}
+  else if(checkCode2(v)){err.style.color='#35d69a';err.textContent='✅ Mã VIP hợp lệ! +100.000 lượt';addBonusTurns(100000);showToast('🎉 Đã cộng 100.000 lượt!');setTimeout(closeCodeModal,1500)}
+  else{err.style.color='#ff626e';err.textContent='❌ Mã không hợp lệ'}
+});
+document.getElementById('codeInput').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('codeSubmit').click()});
 
-async function sendMessage(textOverride){
-  if(busy) return;
-  if(getTurnsLeft() < TURNS_PER_CHAT){
-    renderUnlockMessage();
-    showToast("Đã hết lượt chat. Nhập code để tiếp tục.");
-    return;
+async function sendMessage(){
+  if(isSending)return;
+  const inp=document.getElementById('input');
+  const text=inp.value.trim();
+  if(!text)return;
+  if(!consumeTurns()){
+    showToast('⚠️ Bạn đã hết lượt chat hôm nay!\nNhập code để cộng thêm, hoặc chờ 00:00 mai reset 50.000 lượt.');
+    openCodeModal();return;
   }
-  const text = (textOverride ?? input.value).trim();
-  if(!text) return;
-
-  if(!activeId){
-    activeId = makeId();
-    conversations.push({id: activeId, title: "Cuộc trò chuyện mới", messages: []});
-  }
-  currentMessages.push({ role: "user", content: text });
-  if(currentMessages.length === 1){
-    const c = conversations.find(x => x.id === activeId);
-    if(c) c.title = text.slice(0,35);
-  }
-  input.value = "";
-  input.style.height = "42px";
-  typingHint.classList.remove('show');
-  sendHint.style.display = 'inline';
-  composerEl.classList.remove('is-typing');
-  renderConversation();
-  renderHistory();
-
-  if(text.toLowerCase() === MINIGAME_CMD){
-    busy = true; sendBtn.disabled = true;
-    const row = renderSendingIndicator();
-    await sleep(700); row.remove();
-    renderMiniGame();
-    consumeTurns();
-    updateCounter();
-    saveCurrent();
-    setStatus("Đã kết nối");
-    busy = false; sendBtn.disabled = false; input.focus();
-    return;
-  }
-
-  if(text.toLowerCase() === CODE_CMD){
-    busy = true; sendBtn.disabled = true;
-    const row = renderSendingIndicator();
-    await sleep(500); row.remove();
-    openCodeModal();
-    currentMessages.push({ role: "assistant", content: "🔑 Đã mở khung nhập code.", isCodePrompt: true });
-    consumeTurns();
-    updateCounter();
-    saveCurrent();
-    setStatus("Đã kết nối");
-    busy = false; sendBtn.disabled = false; input.focus();
-    return;
-  }
-
-  if(isWebsiteQuestion(text) && !isImageRequest(text)){
-    busy = true; sendBtn.disabled = true;
-    const row = renderSendingIndicator();
-    await sleep(700); row.remove();
-    renderWebsiteMessage();
-    currentMessages.push({
-      role: "assistant",
-      content: "🌐 Website chính thức của NCB AI: " + WEBSITE_URL,
-      isWebsite: true
-    });
-    consumeTurns();
-    updateCounter();
-    saveCurrent();
-    setStatus("Đã kết nối");
-    busy = false; sendBtn.disabled = false; input.focus();
-    return;
-  }
-
-  if(isTimeQuestion(text) && !isImageRequest(text)){
-    busy = true; sendBtn.disabled = true;
-    const row = renderSendingIndicator();
-    await sleep(600); row.remove();
-    const introMsg = "🕐 Đây là thời gian hiện tại nhé:";
-    renderTimeMessage(introMsg);
-    currentMessages.push({ role: "assistant", content: introMsg, isTime: true });
-    consumeTurns();
-    updateCounter();
-    saveCurrent();
-    setStatus("Đã kết nối");
-    busy = false; sendBtn.disabled = false; input.focus();
-    return;
-  }
-
-  if(isSupportQuestion(text)){
-    busy = true; sendBtn.disabled = true;
-    const row = renderSendingIndicator();
-    await sleep(900); row.remove();
-    renderSupportMessage();
-    currentMessages.push({ role: "assistant", content: "💬 Hỗ trợ qua Facebook nhé!", isSupport: true });
-    consumeTurns();
-    updateCounter();
-    saveCurrent();
-    setStatus("Đã kết nối");
-    busy = false; sendBtn.disabled = false; input.focus();
-    return;
-  }
-
-  if(isImageRequest(text)){
-    const prompt = extractImagePrompt(text);
-    if(!prompt){
-      renderMessage("assistant", "🎨 Bạn muốn tạo ảnh gì? Gõ /image + mô tả (ví dụ: /image con mèo dễ thương).");
-      consumeTurns();
-      updateCounter();
-      saveCurrent();
-      return;
-    }
-    busy = true; sendBtn.disabled = true;
-    await handleImageGeneration(prompt);
-    consumeTurns();
-    updateCounter();
-    saveCurrent();
-    setStatus("Đã kết nối");
-    busy = false; sendBtn.disabled = false; input.focus();
-    return;
-  }
-
-  busy = true; sendBtn.disabled = true;
-  const row = renderSendingIndicator();
-
-  const waitMs = getResponseDelay(text);
-  const history = currentMessages.slice(-20).map(m => ({ role: m.role, content: m.content }));
-  const messagesForApi = [
-    { role: "system", content: SYSTEM_PROMPT },
-    ...history,
-    { role: "system", content: "Nhắc lại: Trả lời ĐÚNG TRỌNG TÂM câu hỏi sau đây, không lạc đề. Câu hỏi: " + text }
-  ];
-
-  const apiPromise = callApiWithFallback(messagesForApi, text);
-  const delayPromise = sleep(waitMs);
-  const [result] = await Promise.all([apiPromise, delayPromise]);
-
-  let reply;
-  if(result.ok){ reply = result.reply; setStatus("Đã kết nối"); }
-  else{
-    reply = pickFallbackReply();
-    setStatus("Lỗi kết nối", true);
-    showToast(result.fatal ? "❌ API key sai hoặc hết hạn." : "⏳ Tất cả model đều quá tải. Thử lại sau.");
-  }
-
-  consumeTurns();
   updateCounter();
-
-  currentMessages.push({ role: "assistant", content: reply });
-  saveCurrent();
-  row.remove();
-  renderMessage("assistant", reply);
-
-  if(getTurnsLeft() < TURNS_PER_CHAT){
-    renderUnlockMessage();
+  inp.value='';autoResize();document.getElementById('composer').classList.remove('is-typing');
+  addMessage({role:'user',content:text,ts:Date.now()});
+  if(text.toLowerCase()===CODE_CMD){openCodeModal();return}
+  if(isTimeQuestion(text)){pushAssistantPlaceholder();await sleep(600);removeTypingPlaceholder();addMessage({role:'assistant',type:'clock',ts:Date.now()});return}
+  if(isImageRequest(text)){const prompt=extractImagePrompt(text);pushAssistantPlaceholder();await sleep(400);removeTypingPlaceholder();const url=buildImageUrl(prompt);addMessage({role:'assistant',type:'image',prompt,url,ts:Date.now()});return}
+  if(isWebsiteQuestion(text)){addMessage({role:'assistant',content:'Đây là website chính thức của NCB AI:\n\n🔹 '+WEBSITE_URL+'\n\nBạn truy cập để dùng phiên bản mới nhất nhé!',ts:Date.now()});return}
+  if(isSupportQuestion(text)){addMessage({role:'assistant',content:'Bạn cần hỗ trợ? Liên hệ admin qua Facebook:\n\n🔹 '+SUPPORT_URL+'\n\nAdmin: '+ADMIN_NAME+' sẽ phản hồi sớm nhất có thể.',ts:Date.now()});return}
+  isSending=true;showTyping();pushAssistantPlaceholder();
+  const history=currentMessages.filter(m=>m.role==='user'||(m.role==='assistant'&&m.content)).slice(-10).map(m=>({role:m.role,content:m.content}));
+  const apiMessages=[{role:'system',content:SYSTEM_PROMPT}].concat(history);
+  let reply='';
+  for(const item of MODEL_FALLBACK_CHAIN){
+    try{reply=await callGroqAPI(apiMessages,item.model);if(reply)break}catch(err){console.warn('Model fail:',item.model,err.message)}
   }
-
-  busy = false; sendBtn.disabled = false; input.focus();
+  removeTypingPlaceholder();hideTyping();
+  if(!reply)reply=pickFallbackReply();
+  await sleep(getResponseDelay(text));
+  isSending=false;addMessage({role:'assistant',content:reply,ts:Date.now()});
 }
 
-sendBtn.addEventListener("click", () => sendMessage());
-input.addEventListener("keydown", event => {
-  if(event.key === "Enter" && !event.shiftKey && !event.isComposing){
-    event.preventDefault();
-    sendMessage();
+window.addEventListener('DOMContentLoaded',()=>{
+  const hasSession=localStorage.getItem(ACTIVE_SESSION_KEY);
+  const account=getSavedAccount();
+  if(hasSession&&account){
+    currentUser=account;currentUserSub=account.sub||account.id;
+    document.getElementById('loginScreen').classList.add('hide');
+    document.getElementById('appMain').classList.remove('hidden');
+    const id=account.id||'NCB_0';
+    document.getElementById('userName').textContent='GL '+id;
+    document.getElementById('userEmail').textContent='Thiết bị ẩn danh';
+    document.getElementById('userEmail').title=id;
+    document.getElementById('userAvatar').textContent=id.slice(-2);
+    initUserSession();startResetTimer();
+    conversations=loadHistoryFromStorage();
+    activeId=conversations[0]?conversations[0].id:null;
+    currentMessages=activeId?conversations.find(x=>x.id===activeId).messages:[];
+    renderConversation();renderHistory();checkConnection();updateCounter();
+  }else{
+    updateLoginScreen();
   }
+  document.addEventListener('click',e=>{
+    const s=document.getElementById('sidebar'),m=document.getElementById('menuBtn');
+    if(window.innerWidth<=700&&s.classList.contains('open')){if(!s.contains(e.target)&&!m.contains(e.target))s.classList.remove('open')}
+  });
 });
-input.addEventListener("input", () => {
-  input.style.height = "auto";
-  input.style.height = Math.min(input.scrollHeight, 180) + "px";
-  handleUserTyping();
-});
-input.addEventListener("blur", () => {
-  typingHint.classList.remove('show');
-  sendHint.style.display = 'inline';
-  composerEl.classList.remove('is-typing');
-});
-
-$("newChat").addEventListener("click", newConversation);
-$("menuBtn").addEventListener("click", () => sidebar.classList.toggle("open"));
-$("sidebarClose").addEventListener("click", closeSidebar);
-
-$("messages").addEventListener("click", event => {
-  const button = event.target.closest("[data-prompt]");
-  if(button) sendMessage(button.dataset.prompt);
-});
-
-document.addEventListener("keydown", event => {
-  if(event.key === "Escape"){
-    closeSidebar();
-    closeCodeModal();
-    updateOverlay.classList.remove('show');
-    if(window.speechSynthesis) window.speechSynthesis.cancel();
-    document.querySelectorAll('.read-msg-btn.speaking').forEach(b => {
-      b.classList.remove('speaking');
-      b.innerHTML = SVG_VOLUME + ' <span>Nghe</span>';
-    });
-  }
-});
-document.addEventListener('touchmove', function(e){
-  if(e.target.closest('#messages')) return;
-  e.preventDefault();
-}, { passive: false });
-window.addEventListener('scroll', function(){
-  if(window.scrollY !== 0) window.scrollTo(0, 0);
-}, { passive: true });
-
-// Khởi tạo lịch sử
-const saved = loadHistoryFromStorage();
-if(saved.length > 0){
-  conversations = saved;
-  const last = conversations[conversations.length - 1];
-  activeId = last.id;
-  currentMessages = last.messages.map(m => ({...m}));
-}else{
-  activeId = makeId();
-  conversations.push({id: activeId, title: "Cuộc trò chuyện mới", messages: []});
-}
-
-if('speechSynthesis' in window){
-  window.speechSynthesis.onvoiceschanged = () => {};
-  window.speechSynthesis.getVoices();
-}
-
-// Tự động đăng nhập nếu đã có session
-(function autoLogin(){
-  const savedUser = localStorage.getItem('ncb_user');
-  if(savedUser){
-    try{
-      currentUser = JSON.parse(savedUser);
-      currentUserSub = currentUser.sub || currentUser.id;
-      showApp();
-    }catch(e){
-      localStorage.removeItem('ncb_user');
-    }
-  }
-})();
-
-renderHistory();
-renderConversation();
-updateCounter();
 </script>
 </body>
 </html>
