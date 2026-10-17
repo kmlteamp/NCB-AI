@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="theme-color" content="#10131a">
-<title>NCB_AI 1.4.0</title>
+<title>NCB_AI 1.5.0</title>
 <style>
 :root{--bg:#10131a;--panel:#171b25;--panel2:#202633;--border:#303746;--text:#f1f4fa;--muted:#929db2;--purple:#7657ee;--purple2:#5540b8;--green:#35d69a;--red:#ff3d5a}
 *{box-sizing:border-box}
@@ -124,6 +124,8 @@ button{cursor:pointer}button,textarea,input{font:inherit}
 .msg-actions button svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .msg-actions button:hover{border-color:var(--purple);color:#fff;background:#201c30}
 .msg-actions button.active{border-color:var(--green);color:var(--green)}
+.msg-actions button.speak-btn.active{border-color:#ff4a6a;color:#ff4a6a;background:#2a0f12;animation:speakPulse 1s infinite}
+@keyframes speakPulse{0%,100%{opacity:1}50%{opacity:.6}}
 .composer-area{flex-shrink:0;padding:12px 18px 18px;background:linear-gradient(transparent,var(--bg) 15%)}
 .composer-wrap{max-width:780px;margin:auto}
 .composer{border:1px solid #41495b;border-radius:17px;background:#171b25;padding:12px;transition:.2s}
@@ -137,10 +139,12 @@ button{cursor:pointer}button,textarea,input{font:inherit}
 .typing-hint .dot{width:5px;height:5px;border-radius:50%;background:#a78bfa;animation:pulseDot 1s infinite alternate}
 .typing-hint .dot:nth-child(2){animation-delay:.2s}.typing-hint .dot:nth-child(3){animation-delay:.4s}
 .composer-actions{display:flex;gap:8px;align-items:center}
-.mic-btn{width:39px;height:39px;border-radius:12px;background:#202633;border:1px solid #41495b;color:#aab5c9;display:grid;place-items:center;cursor:pointer;transition:all .2s;position:relative}
-.mic-btn:hover{background:#282f42;color:#fff;border-color:var(--purple)}
-.mic-btn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.mic-btn,.tts-btn{width:39px;height:39px;border-radius:12px;background:#202633;border:1px solid #41495b;color:#aab5c9;display:grid;place-items:center;cursor:pointer;transition:all .2s;position:relative}
+.mic-btn:hover,.tts-btn:hover{background:#282f42;color:#fff;border-color:var(--purple)}
+.mic-btn svg,.tts-btn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .mic-btn.recording{background:#ff4a6a !important;color:#fff !important;border-color:#ff4a6a !important;animation:pulseDot 1s infinite}
+.tts-btn.tts-on{color:#35d69a !important;border-color:#35d69a !important;background:#0f2a22 !important}
+.tts-btn.tts-off{color:#6b7484 !important}
 .send-btn{width:39px;height:39px;display:grid;place-items:center;border:0;border-radius:12px;background:var(--purple);color:white;font-size:19px}
 .send-btn:hover{background:#8c75ff}
 .disclaimer{text-align:center;font-size:11px;color:#747f94;margin:10px 0 0}
@@ -195,7 +199,7 @@ button{cursor:pointer}button,textarea,input{font:inherit}
 .suggestions{grid-template-columns:1fr;margin-top:23px}
 .bubble{font-size:13px;padding:10px 12px}
 .clock-time{font-size:34px}.clock-time .sec{font-size:26px}.clock-box{padding:16px;min-width:auto}
-.mic-btn,.send-btn{width:36px;height:36px}.mic-btn svg{width:18px;height:18px}
+.mic-btn,.send-btn,.tts-btn{width:36px;height:36px}.mic-btn svg,.tts-btn svg{width:18px;height:18px}
 .login-box{padding:30px 22px}.login-logo{width:64px;height:64px}.login-title{font-size:22px}
 }
 </style>
@@ -206,8 +210,8 @@ button{cursor:pointer}button,textarea,input{font:inherit}
   <div class="login-box">
     <div class="login-content">
       <div class="login-logo"><img src="https://i.ibb.co/9kBTwhfq/file-000000007ae482099bddf96408f8a67f.png" alt="NCB_AI"></div>
-      <div class="login-title">NCB_AI 1.4.0</div>
-      <div class="login-sub">Đăng nhập để bắt đầu trò chuyện.<br>Mỗi thiết bị được <b style="color:#ffd166">50.000 lượt chat / ngày</b><br>🎤 Đã hỗ trợ ghi âm giọng nói</div>
+      <div class="login-title">NCB_AI 1.5.0</div>
+      <div class="login-sub">Đăng nhập để bắt đầu trò chuyện.<br>Mỗi thiết bị được <b style="color:#ffd166">50.000 lượt chat / ngày</b><br>🎤 Ghi âm · 🔊 AI đọc trả lời</div>
       <button class="ncb-login-btn" id="ncbLoginBtn">
         <svg viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
         <span class="loading"></span>
@@ -217,7 +221,7 @@ button{cursor:pointer}button,textarea,input{font:inherit}
         <div class="saved-label">Tài khoản đã lưu trên thiết bị</div>
         <div class="saved-id" id="savedId">NCB_0</div>
       </div>
-      <div class="login-footer">NCB_AI 1.4.0<br>Admin: <strong>NGUYỄN CÔNG BẰNG</strong></div>
+      <div class="login-footer">NCB_AI 1.5.0<br>Admin: <strong>NGUYỄN CÔNG BẰNG</strong></div>
     </div>
   </div>
 </div>
@@ -227,7 +231,7 @@ button{cursor:pointer}button,textarea,input{font:inherit}
     <button class="sidebar-close" id="sidebarClose">✕</button>
     <div class="brand">
       <div class="logo"><img src="https://i.ibb.co/9kBTwhfq/file-000000007ae482099bddf96408f8a67f.png" alt="NCB_AI"></div>
-      <span>NCB_AI 1.4.0</span>
+      <span>NCB_AI 1.5.0</span>
     </div>
     <div class="user-card">
       <div class="user-avatar" id="userAvatar">?</div>
@@ -244,7 +248,7 @@ button{cursor:pointer}button,textarea,input{font:inherit}
     </div>
     <div class="sidebar-bottom">
       <div>✦ NCB_AI</div>
-      <div class="version">Phiên bản 1.4.0</div>
+      <div class="version">Phiên bản 1.5.0</div>
       <div>NCB AI là một trợ lí thông minh</div>
       <div class="counter" id="counterLabel2">Lượt chat: 0 / 50000</div>
       <div class="reset-timer" id="resetTimer">Reset sau: --:--:--</div>
@@ -256,7 +260,7 @@ button{cursor:pointer}button,textarea,input{font:inherit}
     <header class="topbar">
       <button class="icon-btn" id="menuBtn">☰</button>
       <div>
-        <div class="top-title">NCB_AI 1.4.0</div>
+        <div class="top-title">NCB_AI 1.5.0</div>
         <div class="top-subtitle">NCB AI là một trợ lí thông minh</div>
       </div>
       <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Đang kết nối</span></div>
@@ -264,7 +268,7 @@ button{cursor:pointer}button,textarea,input{font:inherit}
         <span class="pulse"></span>
         <img src="https://cdn-gop.garenanow.com/gop/mshop/www/live/assets/ic-fb-485c92b0.svg" alt="Facebook">
       </button>
-      <div class="version-badge">Phiên bản 1.4.0</div>
+      <div class="version-badge">Phiên bản 1.5.0</div>
     </header>
 
     <section class="messages" id="messages"><div class="content" id="content"></div></section>
@@ -275,11 +279,14 @@ button{cursor:pointer}button,textarea,input{font:inherit}
           <textarea id="input" rows="1" maxlength="12000" placeholder="Nhập tin nhắn hoặc bấm micro để nói..." aria-label="Tin nhắn"></textarea>
           <div class="composer-bottom">
             <div class="composer-info">
-              <span>✦</span><span>NCB_AI 1.4.0</span><span>·</span>
+              <span>✦</span><span>NCB_AI 1.5.0</span><span>·</span>
               <span class="typing-hint" id="typingHint"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span>Đang nhập...</span></span>
               <span id="sendHint">Enter để gửi</span>
             </div>
             <div class="composer-actions">
+              <button class="tts-btn tts-on" id="ttsToggle" title="Bật/tắt AI tự đọc">
+                <svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+              </button>
               <button class="mic-btn" id="micBtn" title="Ghi âm giọng nói">
                 <svg viewBox="0 0 24 24"><path d="M12 19v3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><rect x="9" y="2" width="6" height="13" rx="3"/></svg>
               </button>
@@ -318,7 +325,7 @@ const ACTIVE_SESSION_KEY='ncb_active_session';
 const HISTORY_KEY='ncbai_history';
 const LOGO_URL='https://i.ibb.co/9kBTwhfq/file-000000007ae482099bddf96408f8a67f.png';
 const ADMIN_NAME='NGUYỄN CÔNG BẰNG';
-const AI_VERSION='1.4.0';
+const AI_VERSION='1.5.0';
 const AI_TAGLINE='NCB AI là một trợ lí thông minh';
 const API_URL='https://api.groq.com/openai/v1/chat/completions';
 const MODELS_URL='https://api.groq.com/openai/v1/models';
@@ -327,6 +334,42 @@ let currentUser=null,currentUserSub=null;
 let conversations=[],activeId=null,currentMessages=[],isSending=false;
 let clockIntervals=[],resetTimerInterval=null;
 
+// ====== TTS (AI ĐỌC) ======
+const speechSynth = window.speechSynthesis;
+let vietnameseVoice = null;
+let autoSpeakEnabled = true;
+
+function loadVietnameseVoice(){
+  if(!speechSynth) return;
+  const voices = speechSynth.getVoices();
+  vietnameseVoice = voices.find(v => v.lang === 'vi-VN') || voices.find(v => v.lang && v.lang.startsWith('vi')) || voices.find(v => v.name && v.name.toLowerCase().includes('vietnam')) || null;
+}
+if(speechSynth){ loadVietnameseVoice(); speechSynth.onvoiceschanged = loadVietnameseVoice; }
+
+function cleanTextForSpeech(text){
+  if(!text) return '';
+  return text.replace(/https?:\/\/\S+/g,' liên kết ').replace(/[*#>`_~]/g,'').replace(/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\u{FE00}-\u{FE0F}]/gu,'').replace(/\s+/g,' ').trim();
+}
+
+function speakText(text, btnEl){
+  if(!speechSynth){ showToast('⚠️ Trình duyệt không hỗ trợ đọc'); return; }
+  speechSynth.cancel();
+  const clean = cleanTextForSpeech(text);
+  if(!clean) return;
+  const u = new SpeechSynthesisUtterance(clean);
+  u.lang = 'vi-VN'; u.rate = 1.0; u.pitch = 1.0; u.volume = 1.0;
+  if(vietnameseVoice) u.voice = vietnameseVoice;
+  u.onstart = () => { if(btnEl){ btnEl.classList.add('active'); btnEl.textContent='⏹ Dừng'; } };
+  u.onend = () => { if(btnEl){ btnEl.classList.remove('active'); btnEl.textContent='🔊 Đọc'; } };
+  u.onerror = () => { if(btnEl){ btnEl.classList.remove('active'); btnEl.textContent='🔊 Đọc'; } };
+  speechSynth.speak(u);
+}
+function stopSpeaking(){
+  if(speechSynth) speechSynth.cancel();
+  document.querySelectorAll('.speak-btn.active').forEach(b => { b.classList.remove('active'); b.textContent='🔊 Đọc'; });
+}
+
+// ====== NGÀY GIỜ VN ======
 function getVNNow(){const n=new Date();return new Date(n.getTime()+n.getTimezoneOffset()*60000+7*3600000)}
 function getVNDateKey(){const v=getVNNow();return v.getFullYear()+'-'+String(v.getMonth()+1).padStart(2,'0')+'-'+String(v.getDate()).padStart(2,'0')}
 function getSecondsUntilReset(){const v=getVNNow();return 86400-(v.getHours()*3600+v.getMinutes()*60+v.getSeconds())}
@@ -383,6 +426,7 @@ function showApp(){
 
 function signOut(){
   if(!confirm('Đăng xuất?\n\nTài khoản vẫn được lưu trên thiết bị này.\nBạn có thể đăng nhập lại bất cứ lúc nào.'))return;
+  stopSpeaking();
   localStorage.removeItem(ACTIVE_SESSION_KEY);
   currentUser=null;currentUserSub=null;
   document.getElementById('appMain').classList.add('hidden');
@@ -464,6 +508,21 @@ function startResetTimer(){
 
 document.getElementById('fbLogoBtn').addEventListener('click',()=>window.open(SUPPORT_URL,'_blank','noopener'));
 
+// NÚT BẬT/TẮT TTS
+const ttsToggle=document.getElementById('ttsToggle');
+function updateTtsBtn(){
+  ttsToggle.classList.toggle('tts-on',autoSpeakEnabled);
+  ttsToggle.classList.toggle('tts-off',!autoSpeakEnabled);
+  ttsToggle.title = autoSpeakEnabled ? 'Tự đọc: BẬT (bấm để tắt)' : 'Tự đọc: TẮT (bấm để bật)';
+}
+updateTtsBtn();
+ttsToggle.addEventListener('click',()=>{
+  autoSpeakEnabled=!autoSpeakEnabled;
+  updateTtsBtn();
+  if(!autoSpeakEnabled) stopSpeaking();
+  showToast(autoSpeakEnabled?'🔊 AI tự đọc: BẬT':'🔇 AI tự đọc: TẮT');
+});
+
 const _k=[78,67,66,65,73,95,54,55,57,48,78,67,66];
 function checkCode(i){if(i.length!==_k.length)return false;for(let x=0;x<_k.length;x++)if(i.charCodeAt(x)!==_k[x])return false;return true}
 const _k2=[110,99,98,49,46,48,104,97,108,113,112];
@@ -520,7 +579,7 @@ const MODEL_FALLBACK_CHAIN=[
   {model:'qwen/qwen3-32b'}
 ];
 
-const SYSTEM_PROMPT='Bạn là NCB_AI phiên bản 1.4.0 — một trợ lí thông minh, được phát triển bởi NGUYỄN CÔNG BẰNG. Website chính thức: '+WEBSITE_URL+' QUY TẮC: Đọc kỹ câu hỏi, trả lời đúng trọng tâm, không lạc đề. KHÔNG dùng *, **, ***, #, >. Dùng icon: ✅ ❌ ⚠️ 💡 📌 🔹 ✨ 🚀 🎯 📝 🕐 👉 💬 🔑 💻 🌟 ⭐ 📖 🔍 🧠 💪 ❤️ 👍 🔥 💯';
+const SYSTEM_PROMPT='Bạn là NCB_AI phiên bản 1.5.0 — một trợ lí thông minh, được phát triển bởi NGUYỄN CÔNG BẰNG. Website chính thức: '+WEBSITE_URL+' QUY TẮC: Đọc kỹ câu hỏi, trả lời đúng trọng tâm, không lạc đề. KHÔNG dùng *, **, ***, #, >. Dùng icon: ✅ ❌ ⚠️ 💡 📌 🔹 ✨ 🚀 🎯 📝 🕐 👉 💬 🔑 💻 🌟 ⭐ 📖 🔍 🧠 💪 ❤️ 👍 🔥 💯';
 
 const FALLBACK_REPLIES=[
   "⏳ Hệ thống AI đang quá tải tạm thời.\n\n🔹 Bạn chờ khoảng 30 giây rồi gửi lại câu hỏi nhé.",
@@ -588,7 +647,14 @@ function renderConversation(){
       const a=document.createElement('div');a.className='msg-actions';
       const cp=document.createElement('button');cp.innerHTML='<svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Sao chép';
       cp.addEventListener('click',()=>{navigator.clipboard.writeText(m.content||'').then(()=>{cp.classList.add('active');showToast('📋 Đã sao chép');setTimeout(()=>cp.classList.remove('active'),1500)})});
-      a.appendChild(cp);bw.appendChild(a);
+      a.appendChild(cp);
+      const sp=document.createElement('button');sp.className='speak-btn';sp.textContent='🔊 Đọc';
+      sp.addEventListener('click',()=>{
+        if(sp.classList.contains('active')){ stopSpeaking(); }
+        else{ speakText(m.content||'', sp); }
+      });
+      a.appendChild(sp);
+      bw.appendChild(a);
     }
     if(m.role==='user'){wrap.appendChild(bw);wrap.appendChild(av)}else{wrap.appendChild(av);wrap.appendChild(bw)}
     content.appendChild(wrap);
@@ -625,7 +691,7 @@ function autoResize(){const i=document.getElementById('input');if(!i)return;i.st
 document.getElementById('input').addEventListener('input',()=>{autoResize();const c=document.getElementById('composer'),i=document.getElementById('input');if(i.value.trim())c.classList.add('is-typing');else c.classList.remove('is-typing')});
 document.getElementById('input').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage()}});
 document.getElementById('sendBtn').addEventListener('click',sendMessage);
-document.getElementById('newChat').addEventListener('click',()=>{activeId=null;currentMessages=[];renderConversation();renderHistory();document.getElementById('sidebar').classList.remove('open');document.getElementById('input').focus()});
+document.getElementById('newChat').addEventListener('click',()=>{stopSpeaking();activeId=null;currentMessages=[];renderConversation();renderHistory();document.getElementById('sidebar').classList.remove('open');document.getElementById('input').focus()});
 document.getElementById('menuBtn').addEventListener('click',()=>document.getElementById('sidebar').classList.toggle('open'));
 document.getElementById('sidebarClose').addEventListener('click',()=>document.getElementById('sidebar').classList.remove('open'));
 
@@ -676,7 +742,8 @@ document.getElementById('codeSubmit').addEventListener('click',()=>{
 });
 document.getElementById('codeInput').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('codeSubmit').click()});
 
-async function sendMessage(){
+async function sendMessage(opts){
+  opts = opts || {};
   if(isSending)return;
   const inp=document.getElementById('input');
   const text=inp.value.trim();
@@ -689,10 +756,29 @@ async function sendMessage(){
   inp.value='';autoResize();document.getElementById('composer').classList.remove('is-typing');
   addMessage({role:'user',content:text,ts:Date.now()});
   if(text.toLowerCase()===CODE_CMD){openCodeModal();return}
-  if(isTimeQuestion(text)){pushAssistantPlaceholder();await sleep(600);removeTypingPlaceholder();addMessage({role:'assistant',type:'clock',ts:Date.now()});return}
-  if(isImageRequest(text)){const prompt=extractImagePrompt(text);pushAssistantPlaceholder();await sleep(400);removeTypingPlaceholder();const url=buildImageUrl(prompt);addMessage({role:'assistant',type:'image',prompt,url,ts:Date.now()});return}
-  if(isWebsiteQuestion(text)){addMessage({role:'assistant',content:'Đây là website chính thức của NCB AI:\n\n🔹 '+WEBSITE_URL+'\n\nBạn truy cập để dùng phiên bản mới nhất nhé!',ts:Date.now()});return}
-  if(isSupportQuestion(text)){addMessage({role:'assistant',content:'Bạn cần hỗ trợ? Liên hệ admin qua Facebook:\n\n🔹 '+SUPPORT_URL+'\n\nAdmin: '+ADMIN_NAME+' sẽ phản hồi sớm nhất có thể.',ts:Date.now()});return}
+  if(isTimeQuestion(text)){
+    pushAssistantPlaceholder();await sleep(600);removeTypingPlaceholder();
+    addMessage({role:'assistant',type:'clock',ts:Date.now()});
+    if(autoSpeakEnabled || opts.fromVoice){ /* clock không đọc */ }
+    return;
+  }
+  if(isImageRequest(text)){
+    const prompt=extractImagePrompt(text);pushAssistantPlaceholder();await sleep(400);removeTypingPlaceholder();
+    const url=buildImageUrl(prompt);addMessage({role:'assistant',type:'image',prompt,url,ts:Date.now()});
+    return;
+  }
+  if(isWebsiteQuestion(text)){
+    const reply='Đây là website chính thức của NCB AI:\n\n🔹 '+WEBSITE_URL+'\n\nBạn truy cập để dùng phiên bản mới nhất nhé!';
+    addMessage({role:'assistant',content:reply,ts:Date.now()});
+    if(autoSpeakEnabled || opts.fromVoice) setTimeout(()=>speakText(reply), 300);
+    return;
+  }
+  if(isSupportQuestion(text)){
+    const reply='Bạn cần hỗ trợ? Liên hệ admin qua Facebook:\n\n🔹 '+SUPPORT_URL+'\n\nAdmin: '+ADMIN_NAME+' sẽ phản hồi sớm nhất có thể.';
+    addMessage({role:'assistant',content:reply,ts:Date.now()});
+    if(autoSpeakEnabled || opts.fromVoice) setTimeout(()=>speakText(reply), 300);
+    return;
+  }
   isSending=true;showTyping();pushAssistantPlaceholder();
   const history=currentMessages.filter(m=>m.role==='user'||(m.role==='assistant'&&m.content)).slice(-10).map(m=>({role:m.role,content:m.content}));
   const apiMessages=[{role:'system',content:SYSTEM_PROMPT}].concat(history);
@@ -704,9 +790,13 @@ async function sendMessage(){
   if(!reply)reply=pickFallbackReply();
   await sleep(getResponseDelay(text));
   isSending=false;addMessage({role:'assistant',content:reply,ts:Date.now()});
+  // ✅ AI TỰ ĐỌC CÂU TRẢ LỜI
+  if(autoSpeakEnabled || opts.fromVoice){
+    setTimeout(()=>speakText(reply), 200);
+  }
 }
 
-// ====== GHI ÂM GIỌNG NÓI (Web Speech API) ======
+// ====== GHI ÂM ======
 const voiceOverlay = document.createElement('div');
 voiceOverlay.className = 'voice-overlay';
 voiceOverlay.id = 'voiceOverlay';
@@ -714,7 +804,7 @@ voiceOverlay.innerHTML = `
   <div class="voice-box">
     <div class="voice-mic" id="voiceMicIcon">🎤</div>
     <div class="voice-title" id="voiceTitle">Ghi âm giọng nói</div>
-    <div class="voice-sub" id="voiceSub">Nhấn nút bên dưới và nói. AI sẽ nghe và trả lời bạn.</div>
+    <div class="voice-sub" id="voiceSub">Nhấn nút bên dưới và nói. AI sẽ nghe, trả lời và đọc to cho bạn.</div>
     <div class="voice-transcript" id="voiceTranscript"></div>
     <div class="voice-actions">
       <button class="voice-btn cancel" id="voiceClose">Đóng</button>
@@ -745,6 +835,7 @@ if(!SR){
   recognition.onstart = () => {
     isRecording = true;
     voiceTranscriptText = '';
+    stopSpeaking();
     document.getElementById('voiceMicIcon').textContent = '⏹';
     document.getElementById('voiceMicIcon').classList.add('recording');
     document.getElementById('voiceTitle').textContent = '🔴 Đang nghe...';
@@ -819,14 +910,16 @@ if(!SR){
     }
   });
 
+  // ✅ GỬI CHO AI: đưa text vào input và gọi sendMessage → AI trả lời → AI ĐỌC
   document.getElementById('voiceSend').addEventListener('click', () => {
     const txt = voiceTranscriptText.trim();
     if(!txt) return;
+    if(isRecording){ try{ recognition.stop(); }catch(e){} }
     voiceOverlay.classList.remove('show');
     const inp = document.getElementById('input');
     inp.value = txt;
     autoResize();
-    setTimeout(() => sendMessage(), 200);
+    setTimeout(() => sendMessage({fromVoice:true}), 250);
   });
 }
 
@@ -854,6 +947,8 @@ window.addEventListener('DOMContentLoaded',()=>{
     const s=document.getElementById('sidebar'),m=document.getElementById('menuBtn');
     if(window.innerWidth<=700&&s.classList.contains('open')){if(!s.contains(e.target)&&!m.contains(e.target))s.classList.remove('open')}
   });
+  // Dừng đọc khi rời trang
+  window.addEventListener('beforeunload',()=>{ if(speechSynth) speechSynth.cancel(); });
 });
 </script>
 </body>
