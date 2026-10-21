@@ -5,8 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="theme-color" content="#10131a">
 <title>NCB_AI 1.5.0</title>
+<!-- THÊM FONT ICON MATERIAL -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=mood" />
 <style>
-:root{--bg:#10131a;--panel:#171b25;--panel2:#202633;--border:#303746;--text:#f1f4fa;--muted:#929db2;--purple:#7657ee;--purple2:#5540b8;--green:#35d69a;--red:#ff3d5a}
+:root{--bg:#10131a;--panel:#171b25;--panel2:#202633;--border:#303746;--text:#f1f4fa;--muted:#929db2;--purple:#7657ee;--purple2:#5540b8;--green:#35d69a;--red:#ff3d5a;--yellow:#ffd166}
 *{box-sizing:border-box}
 html,body{overscroll-behavior:none}
 body{margin:0;font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--text);height:100dvh;overflow:hidden;position:fixed;width:100%}
@@ -30,7 +32,6 @@ button{cursor:pointer}button,textarea,input{font:inherit}
 .ncb-login-btn.loading svg{display:none}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* CSS CHO KHUNG NHẬP ID CŨ */
 .old-id-box { margin-top: 16px; display: flex; gap: 8px; }
 .old-id-input { flex: 1; height: 44px; background: #0d1017; border: 1px solid var(--border); border-radius: 10px; padding: 0 15px; color: var(--text); outline: none; font-size: 13px; transition: border-color 0.2s; }
 .old-id-input:focus { border-color: var(--purple); }
@@ -51,7 +52,6 @@ button{cursor:pointer}button,textarea,input{font:inherit}
 .user-card{display:flex;align-items:center;gap:10px;padding:10px;background:#0d1017;border:1px solid var(--border);border-radius:12px}
 .user-avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#8a6cff,#5436c9);display:grid;place-items:center;color:#fff;font-weight:700;font-size:12px;overflow:hidden;flex-shrink:0;border:2px solid rgba(255,255,255,.1);font-family:'Courier New',monospace}
 .user-info{min-width:0;flex:1}
-/* CSS CHO PHÉP CLICK VÀO TÊN ĐỂ COPY */
 .user-name{color:var(--text);font-size:11px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:'Courier New',monospace;cursor:pointer;transition:color 0.2s;}
 .user-name:hover { color: var(--green); }
 .user-email{color:var(--muted);font-size:9px;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -89,11 +89,6 @@ button{cursor:pointer}button,textarea,input{font:inherit}
 .version-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:#a78bfa;box-shadow:0 0 8px #a78bfa;animation:pulseDot 1.5s infinite}
 @keyframes pulseDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.3)}}
 
-.tts-toggle-btn{width:38px;height:38px;border-radius:10px;background:#202633;border:1px solid #41495b;color:#aab5c9;display:grid;place-items:center;cursor:pointer;transition:all .2s;flex-shrink:0;font-size:18px;line-height:1}
-.tts-toggle-btn:hover{background:#282f42;color:#fff;border-color:var(--purple)}
-.tts-toggle-btn.tts-on{color:#35d69a !important;border-color:#35d69a !important;background:#0f2a22 !important}
-.tts-toggle-btn.tts-off{color:#6b7484 !important;opacity:.6}
-
 .messages{flex:1;overflow-y:auto;padding:28px 18px;-webkit-overflow-scrolling:touch}
 .content{max-width:780px;width:100%;margin:0 auto}
 .welcome{min-height:350px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px 0}
@@ -128,7 +123,7 @@ button{cursor:pointer}button,textarea,input{font:inherit}
 .msg-actions button.speak-btn.active{border-color:#ff4a6a;color:#ff4a6a;background:#2a0f12;animation:speakPulse 1s infinite}
 @keyframes speakPulse{0%,100%{opacity:1}50%{opacity:.6}}
 .composer-area{flex-shrink:0;padding:12px 18px 18px;background:linear-gradient(transparent,var(--bg) 15%)}
-.composer-wrap{max-width:780px;margin:auto}
+.composer-wrap{max-width:780px;margin:auto;position:relative;}
 .composer{border:1px solid #41495b;border-radius:17px;background:#171b25;padding:12px;transition:.2s}
 .composer.is-typing{border-color:#7657ee;box-shadow:0 0 0 3px rgba(118,87,238,.15)}
 #input{display:block;width:100%;min-height:42px;max-height:180px;resize:none;border:0;outline:0;background:transparent;color:var(--text);font-size:14px;line-height:1.6}
@@ -140,6 +135,17 @@ button{cursor:pointer}button,textarea,input{font:inherit}
 .typing-hint .dot{width:5px;height:5px;border-radius:50%;background:#a78bfa;animation:pulseDot 1s infinite alternate}
 .typing-hint .dot:nth-child(2){animation-delay:.2s}.typing-hint .dot:nth-child(3){animation-delay:.4s}
 .composer-actions{display:flex;gap:8px;align-items:center}
+
+/* NÚT EMOJI VÀ BẢNG CHỌN */
+.emoji-btn{width:39px;height:39px;border-radius:12px;background:#202633;border:1px solid #41495b;color:#aab5c9;display:grid;place-items:center;cursor:pointer;transition:all .2s;}
+.emoji-btn:hover{background:#282f42;color:#fff;border-color:var(--purple)}
+.material-symbols-outlined { font-size: 20px; font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+
+.emoji-picker{position:absolute;bottom:75px;right:0;background:#171b25;border:1px solid var(--purple);border-radius:12px;padding:10px;box-shadow:0 10px 30px rgba(0,0,0,0.5);display:grid;grid-template-columns:repeat(5,1fr);gap:8px;z-index:100;opacity:0;pointer-events:none;transform:translateY(10px);transition:all 0.2s ease;}
+.emoji-picker.show{opacity:1;pointer-events:auto;transform:translateY(0);}
+.emoji-item{font-size:22px;cursor:pointer;text-align:center;transition:transform 0.2s;border-radius:8px;padding:4px;}
+.emoji-item:hover{transform:scale(1.3);background:#282f42;}
+
 .mic-btn{width:39px;height:39px;border-radius:12px;background:#202633;border:1px solid #41495b;color:#aab5c9;display:grid;place-items:center;cursor:pointer;transition:all .2s;position:relative}
 .mic-btn:hover{background:#282f42;color:#fff;border-color:var(--purple)}
 .mic-btn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
@@ -184,6 +190,21 @@ button{cursor:pointer}button,textarea,input{font:inherit}
 .bubble .icon-line .txt{flex:1;min-width:0}
 .bubble .section-head{display:flex;align-items:center;gap:8px;font-weight:700;color:#fff;margin:10px 0 6px;padding-bottom:4px;border-bottom:1px solid #30394b}
 .bubble .section-head .ic{font-size:18px}
+
+/* CSS CHO KHUNG THÔNG BÁO */
+.notice-modal { position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; padding: 20px; }
+.notice-modal.show { display: flex; }
+.notice-box { background: linear-gradient(135deg, #171b25, #1a1f2e); border: 2px solid var(--purple); border-radius: 24px; padding: 24px; max-width: 500px; width: 100%; text-align: center; box-shadow: 0 30px 100px rgba(118,87,238,.5); position: relative; }
+.notice-title { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 16px; line-height: 1.4; text-transform: uppercase; }
+.notice-img { width: 100%; border-radius: 12px; overflow: hidden; margin-bottom: 20px; border: 1px solid var(--border); }
+.notice-img img { width: 100%; height: auto; display: block; }
+.notice-timer-box { background: #0a0e18; border: 1px solid var(--border); padding: 15px; border-radius: 12px; margin-bottom: 20px; }
+.notice-timer-label { font-size: 12px; color: var(--muted); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
+.notice-timer-val { font-size: 32px; font-weight: 900; font-family: 'Courier New', monospace; transition: color 0.3s; }
+.notice-btn { width: 100%; padding: 15px; border: none; border-radius: 12px; font-size: 16px; font-weight: 800; color: white; cursor: pointer; transition: all 0.2s; display: none; }
+.notice-btn:hover { transform: translateY(-2px); }
+.notice-btn.update { background: linear-gradient(135deg, #35d69a, #0f9d68); box-shadow: 0 6px 20px rgba(53, 214, 154, 0.4); }
+
 @media(max-width:700px){
 .sidebar{position:fixed;z-index:20;left:0;top:0;bottom:0;box-shadow:15px 0 45px #0007;transform:translateX(-105%)}
 .sidebar.open{transform:translateX(0)}
@@ -193,13 +214,14 @@ button{cursor:pointer}button,textarea,input{font:inherit}
 .fb-logo-btn{width:38px;height:38px}.fb-logo-btn img{width:20px;height:20px}
 .fb-logo-btn::after{font-size:7px;padding:1px 4px;bottom:-5px}
 .version-badge{padding:4px 8px;font-size:9px}
-.tts-toggle-btn{width:34px;height:34px;font-size:16px}
 .messages{padding:20px 13px}.composer-area{padding:10px 12px 13px}
 .welcome{min-height:320px}.welcome h1{font-size:27px}
 .suggestions{grid-template-columns:1fr;margin-top:23px}
 .bubble{font-size:13px;padding:10px 12px}
-.mic-btn,.send-btn{width:36px;height:36px}.mic-btn svg{width:18px;height:18px}
+.mic-btn,.send-btn,.emoji-btn{width:36px;height:36px}.mic-btn svg{width:18px;height:18px}
 .login-box{padding:30px 22px}.login-logo{width:64px;height:64px}.login-title{font-size:22px}
+.notice-timer-val{font-size:26px;}
+.emoji-picker { bottom: 65px; grid-template-columns:repeat(4,1fr); }
 }
 </style>
 </head>
@@ -218,7 +240,6 @@ button{cursor:pointer}button,textarea,input{font:inherit}
         <span id="loginBtnText">ĐĂNG NHẬP NCB</span>
       </button>
 
-      <!-- KHUNG ĐĂNG NHẬP BẰNG ID CŨ -->
       <div class="old-id-box">
         <input type="text" class="old-id-input" id="oldIdInput" placeholder="Nhập ID cũ (VD: NCB_...)" autocomplete="off">
         <button class="old-id-btn" id="oldIdBtn">Vào</button>
@@ -272,7 +293,6 @@ button{cursor:pointer}button,textarea,input{font:inherit}
         <div class="top-subtitle">NCB AI là một trợ lí thông minh</div>
       </div>
       <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Đang kết nối</span></div>
-      <button class="tts-toggle-btn tts-on" id="ttsToggle" title="Bật/tắt AI tự đọc">🔊</button>
       
       <button class="fb-logo-btn" id="fbLogoBtn" aria-label="Hỗ trợ Facebook">
         <span class="pulse"></span>
@@ -294,17 +314,58 @@ button{cursor:pointer}button,textarea,input{font:inherit}
               <span id="sendHint">Enter để gửi</span>
             </div>
             <div class="composer-actions">
+              <!-- NÚT EMOJI -->
+              <button class="emoji-btn" id="emojiBtn" title="Chèn cảm xúc">
+                <span class="material-symbols-outlined">mood</span>
+              </button>
+              
               <button class="mic-btn" id="micBtn" title="Ghi âm giọng nói">
                 <svg viewBox="0 0 24 24"><path d="M12 19v3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><rect x="9" y="2" width="6" height="13" rx="3"/></svg>
               </button>
               <button class="send-btn" id="sendBtn">↑</button>
             </div>
           </div>
+          
+          <!-- BẢNG CHỌN EMOJI -->
+          <div class="emoji-picker" id="emojiPicker">
+            <span class="emoji-item">🤣</span>
+            <span class="emoji-item">🤑</span>
+            <span class="emoji-item">🤩</span>
+            <span class="emoji-item">🥰</span>
+            <span class="emoji-item">🙃</span>
+            <span class="emoji-item">🤗</span>
+            <span class="emoji-item">🤨</span>
+            <span class="emoji-item">🫠</span>
+            <span class="emoji-item">😍</span>
+            <span class="emoji-item">🤢</span>
+            <span class="emoji-item">🤮</span>
+            <span class="emoji-item">😡</span>
+            <span class="emoji-item">🤬</span>
+            <span class="emoji-item">🥺</span>
+            <span class="emoji-item">😨</span>
+            <span class="emoji-item">🥱</span>
+            <span class="emoji-item">😮</span>
+          </div>
         </div>
         <p class="disclaimer">NCB_AI có thể mắc lỗi. Hãy kiểm tra thông tin quan trọng.</p>
       </div>
     </section>
   </main>
+</div>
+
+<!-- KHUNG THÔNG BÁO -->
+<div class="notice-modal" id="noticeModal">
+  <div class="notice-box">
+    <div class="notice-title">NCB AI XIN THÔNG BÁO<br>HIỆN TẠI WEBSITE ĐANG NÂNG CẤP AI VÀ CÁC TÍNH NĂNG KHÁC</div>
+    <div class="notice-img">
+      <img src="https://i.ibb.co/j99RZz90/file-00000000025c820990acd1eedddea843.png" alt="Thông báo">
+    </div>
+    <div class="notice-timer-box">
+      <div class="notice-timer-label">Thời gian hoàn thành dự kiến</div>
+      <div class="notice-timer-val" id="noticeTimer">--:--:--</div>
+    </div>
+    <button class="notice-btn update" id="noticeUpdateBtn">UPDATE</button>
+  </div>
 </div>
 
 <div class="toast hidden" id="toast"></div>
@@ -320,7 +381,6 @@ button{cursor:pointer}button,textarea,input{font:inherit}
 
 <script>
 "use strict";
-// ⚠️ LINK SERVER CLOUDFLARE CỦA BẠN
 const NCB_SERVER_URL = 'https://ncb-ai-sever.dovanphuoc124.workers.dev'; 
 
 const SUPPORT_URL='https://www.facebook.com/share/1HgLgZkQFR/';
@@ -342,11 +402,56 @@ const MODELS_URL='https://api.groq.com/openai/v1/models';
 let currentUser=null,currentUserSub=null;
 let conversations=[],activeId=null,currentMessages=[],isSending=false;
 let clockIntervals=[],resetTimerInterval=null;
+let noticeInterval=null;
+
+// ====== BẢNG CHỌN EMOJI ======
+const emojiBtn = document.getElementById('emojiBtn');
+const emojiPicker = document.getElementById('emojiPicker');
+const inputArea = document.getElementById('input');
+
+emojiBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    emojiPicker.classList.toggle('show');
+});
+
+document.addEventListener('click', (e) => {
+    if (!emojiPicker.contains(e.target) && e.target !== emojiBtn && !emojiBtn.contains(e.target)) {
+        emojiPicker.classList.remove('show');
+    }
+});
+
+document.querySelectorAll('.emoji-item').forEach(item => {
+    item.addEventListener('click', () => {
+        inputArea.value += item.textContent;
+        inputArea.focus();
+        autoResize();
+        emojiPicker.classList.remove('show');
+    });
+});
+
+// ====== HÀM KIỂM TRA XEM CÓ PHẢI CODE KHÔNG ======
+function isCodeResponse(text) {
+    if (!text) return false;
+    if (text.includes('```')) return true;
+    const codeKeywords = ['function ', 'const ', 'let ', 'var ', 'class ', 'import ', 'export ', 'def ', 'public static void', '#include', 'console.log', 'print(', 'println', 'SELECT ', 'INSERT INTO', 'UPDATE ', 'DELETE FROM', '<?php', '<script', '=>', '==', '!=', '{', '}', ';'];
+    let matchCount = 0;
+    for (const kw of codeKeywords) {
+        if (text.includes(kw)) matchCount++;
+    }
+    if (matchCount >= 3) return true; 
+    const lines = text.split('\n');
+    let codeLines = 0;
+    for (const line of lines) {
+        const t = line.trim();
+        if (t.endsWith(';') || t.endsWith('{') || t.endsWith('}')) codeLines++;
+    }
+    if (codeLines >= 3) return true;
+    return false;
+}
 
 // ====== TTS (AI ĐỌC) ======
 const speechSynth = window.speechSynthesis;
 let vietnameseVoice = null;
-let autoSpeakEnabled = true;
 
 function loadVietnameseVoice(){
   if(!speechSynth) return;
@@ -391,7 +496,55 @@ function saveAccount(u){localStorage.setItem(DEVICE_ACCOUNT_KEY,JSON.stringify(u
 
 function showToast(msg){const t=document.getElementById('toast');if(!t)return;t.textContent=msg;t.classList.remove('hidden');clearTimeout(showToast._t);showToast._t=setTimeout(()=>t.classList.add('hidden'),2800)}
 
-// HÀM ĐĂNG NHẬP TỰ ĐỘNG (TẠO MỚI HOẶC DÙNG LẠI ID ĐÃ LƯU)
+// ====== XỬ LÝ KHUNG THÔNG BÁO ======
+function initNotice() {
+    const isHidden = localStorage.getItem('ncb_notice_hidden');
+    if (isHidden === 'true') return; 
+
+    let endTime = localStorage.getItem('ncb_notice_endtime');
+    if (!endTime) {
+        endTime = Date.now() + 24 * 3600 * 1000;
+        localStorage.setItem('ncb_notice_endtime', endTime);
+    }
+    
+    const modal = document.getElementById('noticeModal');
+    const timerVal = document.getElementById('noticeTimer');
+    const updateBtn = document.getElementById('noticeUpdateBtn');
+    
+    modal.classList.add('show');
+
+    if (noticeInterval) clearInterval(noticeInterval);
+    noticeInterval = setInterval(() => {
+        const now = Date.now();
+        const diff = endTime - now;
+
+        if (diff <= 0) {
+            clearInterval(noticeInterval);
+            timerVal.textContent = "00:00:00";
+            timerVal.style.display = 'none';
+            updateBtn.style.display = 'block';
+        } else {
+            const sec = Math.floor(diff / 1000);
+            timerVal.textContent = formatHMS(sec);
+            
+            if (sec <= 5 * 3600) {
+                timerVal.style.color = 'var(--red)'; 
+            } else if (sec <= 10 * 3600) {
+                timerVal.style.color = 'var(--yellow)'; 
+            } else {
+                timerVal.style.color = '#fff'; 
+            }
+        }
+    }, 1000);
+
+    updateBtn.addEventListener('click', () => {
+        localStorage.setItem('ncb_notice_hidden', 'true');
+        modal.classList.remove('show');
+        if (noticeInterval) clearInterval(noticeInterval);
+    });
+}
+
+// ĐĂNG NHẬP
 document.getElementById('ncbLoginBtn').addEventListener('click', async function(){
   const btn = this;
   btn.classList.add('loading');
@@ -406,7 +559,7 @@ document.getElementById('ncbLoginBtn').addEventListener('click', async function(
       if (data.ok && data.exists) {
         showToast('✅ Đăng nhập: ' + account.id);
       } else {
-        showToast('⚠️ ID cũ không tồn tại trên server, đang tạo ID mới...');
+        showToast('⚠️ ID cũ không tồn tại, tạo ID mới...');
         account = null;
       }
     }
@@ -435,16 +588,16 @@ document.getElementById('ncbLoginBtn').addEventListener('click', async function(
   }
 });
 
-// HÀM ĐĂNG NHẬP BẰNG ID CŨ ĐÃ NHẬP
 document.getElementById('oldIdBtn').addEventListener('click', async function() {
     const inputVal = document.getElementById('oldIdInput').value.trim();
     const errEl = document.getElementById('loginError');
     if (!inputVal || !inputVal.startsWith('NCB_')) {
+        errEl.style.color = '#ffd166';
         errEl.textContent = '⚠️ Vui lòng nhập đúng định dạng ID (NCB_...)';
         return;
     }
     errEl.style.color = '#ffd166';
-    errEl.textContent = '⏳ Đang kiểm tra ID trên server...';
+    errEl.textContent = '⏳ Đang kiểm tra ID...';
     
     try {
         const res = await fetch(NCB_SERVER_URL + '/verify?id=' + encodeURIComponent(inputVal));
@@ -486,9 +639,10 @@ function showApp(){
   renderConversation();renderHistory();
   setTimeout(()=>{const i=document.getElementById('input');if(i)i.focus()},300);
   checkConnection();updateCounter();
+  
+  initNotice();
 }
 
-// NÚT ĐĂNG XUẤT
 function signOut(){
   if(!confirm('Đăng xuất?\n\nTài khoản vẫn được lưu trên thiết bị này.'))return;
   stopSpeaking();
@@ -503,7 +657,6 @@ function signOut(){
 }
 document.getElementById('logoutBtn').addEventListener('click',signOut);
 
-// CLICK VÀO ID ĐỂ COPY
 document.getElementById('userName').addEventListener('click', () => {
     const idText = document.getElementById('userName').textContent.replace('GL ', '').trim();
     if (idText && idText !== 'NCB_...') {
@@ -527,7 +680,6 @@ function updateLoginScreen(){
   if(acc){si.classList.remove('hidden');sid.textContent=acc.id;txt.textContent='VÀO LẠI TÀI KHOẢN'}
   else{si.classList.add('hidden');txt.textContent='ĐĂNG NHẬP NCB'}
   
-  // Xóa lỗi và ô nhập khi quay lại màn hình đăng nhập
   document.getElementById('loginError').textContent = '';
   document.getElementById('oldIdInput').value = '';
 }
@@ -596,22 +748,6 @@ function startResetTimer(){
 
 document.getElementById('fbLogoBtn').addEventListener('click',()=>window.open(SUPPORT_URL,'_blank','noopener'));
 
-// ===== NÚT BẬT/TẮT TTS (TOP BAR) =====
-const ttsToggle=document.getElementById('ttsToggle');
-function updateTtsBtn(){
-  ttsToggle.classList.toggle('tts-on',autoSpeakEnabled);
-  ttsToggle.classList.toggle('tts-off',!autoSpeakEnabled);
-  ttsToggle.textContent = autoSpeakEnabled ? '🔊' : '🔇';
-  ttsToggle.title = autoSpeakEnabled ? 'Tự đọc: BẬT (bấm để tắt)' : 'Tự đọc: TẮT (bấm để bật)';
-}
-updateTtsBtn();
-ttsToggle.addEventListener('click',()=>{
-  autoSpeakEnabled=!autoSpeakEnabled;
-  updateTtsBtn();
-  if(!autoSpeakEnabled) stopSpeaking();
-  showToast(autoSpeakEnabled?'🔊 AI tự đọc: BẬT':'🔇 AI tự đọc: TẮT');
-});
-
 // ===== MÃ CODE & TIỆN ÍCH =====
 const _k=[78,67,66,65,73,95,54,55,57,48,78,67,66];
 function checkCode(i){if(i.length!==_k.length)return false;for(let x=0;x<_k.length;x++)if(i.charCodeAt(x)!==_k[x])return false;return true}
@@ -669,7 +805,8 @@ const MODEL_FALLBACK_CHAIN=[
   {model:'qwen/qwen3-32b'}
 ];
 
-const SYSTEM_PROMPT='Bạn là NCB_AI phiên bản 1.5.0 — một trợ lí thông minh, được phát triển bởi NGUYỄN CÔNG BẰNG. Website chính thức: '+WEBSITE_URL+' QUY TẮC: Đọc kỹ câu hỏi, trả lời đúng trọng tâm, không lạc đề. KHÔNG dùng *, **, ***, #, >. Dùng icon: ✅ ❌ ⚠️ 💡 📌 🔹 ✨ 🚀 🎯 📝 🕐 👉 💬 🔑 💻 🌟 ⭐ 📖 🔍 🧠 💪 ❤️ 👍 🔥 💯';
+// CẬP NHẬT SYSTEM PROMPT THÊM ICON CẢM XÚC
+const SYSTEM_PROMPT='Bạn là NCB_AI phiên bản 1.5.0 — một trợ lí thông minh, được phát triển bởi NGUYỄN CÔNG BẰNG. Website chính thức: '+WEBSITE_URL+' QUY TẮC: Đọc kỹ câu hỏi, trả lời đúng trọng tâm, không lạc đề. KHÔNG dùng *, **, ***, #, >. Hãy sử dụng linh hoạt các icon cảm xúc (🤣, 🤑, 🤩, 🥰, 🙃, 🤗, 🤨, 🫠, 😍, 🤢, 🤮, 😡, 🤬, 🥺, 😨, 🥱, 😮) vào trong câu trả lời để tăng tính biểu cảm và tự nhiên.';
 
 const FALLBACK_REPLIES=[
   "⏳ Hệ thống AI đang quá tải tạm thời.\n\n🔹 Bạn chờ khoảng 30 giây rồi gửi lại câu hỏi nhé.",
@@ -733,17 +870,22 @@ function renderConversation(){
     else if(m.type==='image')bubble.appendChild(buildImageNode(m));
     else bubble.appendChild(formatAIText(m.content||''));
     bw.appendChild(bubble);
+    
     if(m.role==='assistant'&&m.type!=='clock'&&m.type!=='image'){
       const a=document.createElement('div');a.className='msg-actions';
       const cp=document.createElement('button');cp.innerHTML='<svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Sao chép';
       cp.addEventListener('click',()=>{navigator.clipboard.writeText(m.content||'').then(()=>{cp.classList.add('active');showToast('📋 Đã sao chép');setTimeout(()=>cp.classList.remove('active'),1500)})});
       a.appendChild(cp);
-      const sp=document.createElement('button');sp.className='speak-btn';sp.textContent='🔊 Đọc';
-      sp.addEventListener('click',()=>{
-        if(sp.classList.contains('active')){ stopSpeaking(); }
-        else{ speakText(m.content||'', sp); }
-      });
-      a.appendChild(sp);
+      
+      if (!isCodeResponse(m.content)) {
+          const sp=document.createElement('button');sp.className='speak-btn';sp.textContent='🔊 Đọc';
+          sp.addEventListener('click',()=>{
+            if(sp.classList.contains('active')){ stopSpeaking(); }
+            else{ speakText(m.content||'', sp); }
+          });
+          a.appendChild(sp);
+      }
+      
       bw.appendChild(a);
     }
     if(m.role==='user'){wrap.appendChild(bw);wrap.appendChild(av)}else{wrap.appendChild(av);wrap.appendChild(bw)}
@@ -857,15 +999,13 @@ async function sendMessage(opts){
     return;
   }
   if(isWebsiteQuestion(text)){
-    const reply='Đây là website chính thức của NCB AI:\n\n🔹 '+WEBSITE_URL+'\n\nBạn truy cập để dùng phiên bản mới nhất nhé!';
+    const reply='Đây là website chính thức của NCB AI:\n\n🔹 '+WEBSITE_URL+'\n\nBạn truy cập để dùng phiên bản mới nhất nhé! 🤩';
     addMessage({role:'assistant',content:reply,ts:Date.now()});
-    if(autoSpeakEnabled || opts.fromVoice) setTimeout(()=>speakText(reply), 300);
     return;
   }
   if(isSupportQuestion(text)){
-    const reply='Bạn cần hỗ trợ? Liên hệ admin qua Facebook:\n\n🔹 '+SUPPORT_URL+'\n\nAdmin: '+ADMIN_NAME+' sẽ phản hồi sớm nhất có thể.';
+    const reply='Bạn cần hỗ trợ? Liên hệ admin qua Facebook:\n\n🔹 '+SUPPORT_URL+'\n\nAdmin: '+ADMIN_NAME+' sẽ phản hồi sớm nhất có thể. 🥰';
     addMessage({role:'assistant',content:reply,ts:Date.now()});
-    if(autoSpeakEnabled || opts.fromVoice) setTimeout(()=>speakText(reply), 300);
     return;
   }
   isSending=true;showTyping();pushAssistantPlaceholder();
@@ -879,9 +1019,6 @@ async function sendMessage(opts){
   if(!reply)reply=pickFallbackReply();
   await sleep(getResponseDelay(text));
   isSending=false;addMessage({role:'assistant',content:reply,ts:Date.now()});
-  if(autoSpeakEnabled || opts.fromVoice){
-    setTimeout(()=>speakText(reply), 200);
-  }
 }
 
 // ====== GHI ÂM (NÚT Ở KHUNG CHAT) ======
@@ -1027,6 +1164,8 @@ window.addEventListener('DOMContentLoaded',()=>{
     activeId=conversations[0]?conversations[0].id:null;
     currentMessages=activeId?conversations.find(x=>x.id===activeId).messages:[];
     renderConversation();renderHistory();checkConnection();updateCounter();
+    
+    initNotice();
   }else{
     updateLoginScreen();
   }
