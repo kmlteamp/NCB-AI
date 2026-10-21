@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="theme-color" content="#10131a">
 <title>NCB_AI 1.5.0</title>
-<!-- THÊM FONT ICON MATERIAL -->
+<!-- FONT ICON MATERIAL -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=mood" />
 <style>
 :root{--bg:#10131a;--panel:#171b25;--panel2:#202633;--border:#303746;--text:#f1f4fa;--muted:#929db2;--purple:#7657ee;--purple2:#5540b8;--green:#35d69a;--red:#ff3d5a;--yellow:#ffd166}
@@ -191,20 +191,6 @@ button{cursor:pointer}button,textarea,input{font:inherit}
 .bubble .section-head{display:flex;align-items:center;gap:8px;font-weight:700;color:#fff;margin:10px 0 6px;padding-bottom:4px;border-bottom:1px solid #30394b}
 .bubble .section-head .ic{font-size:18px}
 
-/* CSS CHO KHUNG THÔNG BÁO */
-.notice-modal { position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; padding: 20px; }
-.notice-modal.show { display: flex; }
-.notice-box { background: linear-gradient(135deg, #171b25, #1a1f2e); border: 2px solid var(--purple); border-radius: 24px; padding: 24px; max-width: 500px; width: 100%; text-align: center; box-shadow: 0 30px 100px rgba(118,87,238,.5); position: relative; }
-.notice-title { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 16px; line-height: 1.4; text-transform: uppercase; }
-.notice-img { width: 100%; border-radius: 12px; overflow: hidden; margin-bottom: 20px; border: 1px solid var(--border); }
-.notice-img img { width: 100%; height: auto; display: block; }
-.notice-timer-box { background: #0a0e18; border: 1px solid var(--border); padding: 15px; border-radius: 12px; margin-bottom: 20px; }
-.notice-timer-label { font-size: 12px; color: var(--muted); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
-.notice-timer-val { font-size: 32px; font-weight: 900; font-family: 'Courier New', monospace; transition: color 0.3s; }
-.notice-btn { width: 100%; padding: 15px; border: none; border-radius: 12px; font-size: 16px; font-weight: 800; color: white; cursor: pointer; transition: all 0.2s; display: none; }
-.notice-btn:hover { transform: translateY(-2px); }
-.notice-btn.update { background: linear-gradient(135deg, #35d69a, #0f9d68); box-shadow: 0 6px 20px rgba(53, 214, 154, 0.4); }
-
 @media(max-width:700px){
 .sidebar{position:fixed;z-index:20;left:0;top:0;bottom:0;box-shadow:15px 0 45px #0007;transform:translateX(-105%)}
 .sidebar.open{transform:translateX(0)}
@@ -220,7 +206,6 @@ button{cursor:pointer}button,textarea,input{font:inherit}
 .bubble{font-size:13px;padding:10px 12px}
 .mic-btn,.send-btn,.emoji-btn{width:36px;height:36px}.mic-btn svg{width:18px;height:18px}
 .login-box{padding:30px 22px}.login-logo{width:64px;height:64px}.login-title{font-size:22px}
-.notice-timer-val{font-size:26px;}
 .emoji-picker { bottom: 65px; grid-template-columns:repeat(4,1fr); }
 }
 </style>
@@ -314,7 +299,6 @@ button{cursor:pointer}button,textarea,input{font:inherit}
               <span id="sendHint">Enter để gửi</span>
             </div>
             <div class="composer-actions">
-              <!-- NÚT EMOJI -->
               <button class="emoji-btn" id="emojiBtn" title="Chèn cảm xúc">
                 <span class="material-symbols-outlined">mood</span>
               </button>
@@ -326,7 +310,6 @@ button{cursor:pointer}button,textarea,input{font:inherit}
             </div>
           </div>
           
-          <!-- BẢNG CHỌN EMOJI -->
           <div class="emoji-picker" id="emojiPicker">
             <span class="emoji-item">🤣</span>
             <span class="emoji-item">🤑</span>
@@ -351,21 +334,6 @@ button{cursor:pointer}button,textarea,input{font:inherit}
       </div>
     </section>
   </main>
-</div>
-
-<!-- KHUNG THÔNG BÁO -->
-<div class="notice-modal" id="noticeModal">
-  <div class="notice-box">
-    <div class="notice-title">NCB AI XIN THÔNG BÁO<br>HIỆN TẠI WEBSITE ĐANG NÂNG CẤP AI VÀ CÁC TÍNH NĂNG KHÁC</div>
-    <div class="notice-img">
-      <img src="https://i.ibb.co/j99RZz90/file-00000000025c820990acd1eedddea843.png" alt="Thông báo">
-    </div>
-    <div class="notice-timer-box">
-      <div class="notice-timer-label">Thời gian hoàn thành dự kiến</div>
-      <div class="notice-timer-val" id="noticeTimer">--:--:--</div>
-    </div>
-    <button class="notice-btn update" id="noticeUpdateBtn">UPDATE</button>
-  </div>
 </div>
 
 <div class="toast hidden" id="toast"></div>
@@ -402,7 +370,6 @@ const MODELS_URL='https://api.groq.com/openai/v1/models';
 let currentUser=null,currentUserSub=null;
 let conversations=[],activeId=null,currentMessages=[],isSending=false;
 let clockIntervals=[],resetTimerInterval=null;
-let noticeInterval=null;
 
 // ====== BẢNG CHỌN EMOJI ======
 const emojiBtn = document.getElementById('emojiBtn');
@@ -495,54 +462,6 @@ function getSavedAccount(){try{const s=localStorage.getItem(DEVICE_ACCOUNT_KEY);
 function saveAccount(u){localStorage.setItem(DEVICE_ACCOUNT_KEY,JSON.stringify(u))}
 
 function showToast(msg){const t=document.getElementById('toast');if(!t)return;t.textContent=msg;t.classList.remove('hidden');clearTimeout(showToast._t);showToast._t=setTimeout(()=>t.classList.add('hidden'),2800)}
-
-// ====== XỬ LÝ KHUNG THÔNG BÁO ======
-function initNotice() {
-    const isHidden = localStorage.getItem('ncb_notice_hidden');
-    if (isHidden === 'true') return; 
-
-    let endTime = localStorage.getItem('ncb_notice_endtime');
-    if (!endTime) {
-        endTime = Date.now() + 24 * 3600 * 1000;
-        localStorage.setItem('ncb_notice_endtime', endTime);
-    }
-    
-    const modal = document.getElementById('noticeModal');
-    const timerVal = document.getElementById('noticeTimer');
-    const updateBtn = document.getElementById('noticeUpdateBtn');
-    
-    modal.classList.add('show');
-
-    if (noticeInterval) clearInterval(noticeInterval);
-    noticeInterval = setInterval(() => {
-        const now = Date.now();
-        const diff = endTime - now;
-
-        if (diff <= 0) {
-            clearInterval(noticeInterval);
-            timerVal.textContent = "00:00:00";
-            timerVal.style.display = 'none';
-            updateBtn.style.display = 'block';
-        } else {
-            const sec = Math.floor(diff / 1000);
-            timerVal.textContent = formatHMS(sec);
-            
-            if (sec <= 5 * 3600) {
-                timerVal.style.color = 'var(--red)'; 
-            } else if (sec <= 10 * 3600) {
-                timerVal.style.color = 'var(--yellow)'; 
-            } else {
-                timerVal.style.color = '#fff'; 
-            }
-        }
-    }, 1000);
-
-    updateBtn.addEventListener('click', () => {
-        localStorage.setItem('ncb_notice_hidden', 'true');
-        modal.classList.remove('show');
-        if (noticeInterval) clearInterval(noticeInterval);
-    });
-}
 
 // ĐĂNG NHẬP
 document.getElementById('ncbLoginBtn').addEventListener('click', async function(){
@@ -639,8 +558,6 @@ function showApp(){
   renderConversation();renderHistory();
   setTimeout(()=>{const i=document.getElementById('input');if(i)i.focus()},300);
   checkConnection();updateCounter();
-  
-  initNotice();
 }
 
 function signOut(){
@@ -805,7 +722,6 @@ const MODEL_FALLBACK_CHAIN=[
   {model:'qwen/qwen3-32b'}
 ];
 
-// CẬP NHẬT SYSTEM PROMPT THÊM ICON CẢM XÚC
 const SYSTEM_PROMPT='Bạn là NCB_AI phiên bản 1.5.0 — một trợ lí thông minh, được phát triển bởi NGUYỄN CÔNG BẰNG. Website chính thức: '+WEBSITE_URL+' QUY TẮC: Đọc kỹ câu hỏi, trả lời đúng trọng tâm, không lạc đề. KHÔNG dùng *, **, ***, #, >. Hãy sử dụng linh hoạt các icon cảm xúc (🤣, 🤑, 🤩, 🥰, 🙃, 🤗, 🤨, 🫠, 😍, 🤢, 🤮, 😡, 🤬, 🥺, 😨, 🥱, 😮) vào trong câu trả lời để tăng tính biểu cảm và tự nhiên.';
 
 const FALLBACK_REPLIES=[
@@ -1164,8 +1080,6 @@ window.addEventListener('DOMContentLoaded',()=>{
     activeId=conversations[0]?conversations[0].id:null;
     currentMessages=activeId?conversations.find(x=>x.id===activeId).messages:[];
     renderConversation();renderHistory();checkConnection();updateCounter();
-    
-    initNotice();
   }else{
     updateLoginScreen();
   }
