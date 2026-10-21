@@ -77,6 +77,12 @@ button{cursor:pointer}button,textarea,input{font:inherit}
 .version-badge{display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:20px;background:linear-gradient(135deg,rgba(118,87,238,.25),rgba(85,64,184,.25));border:1px solid rgba(118,87,238,.4);color:#a78bfa;font-size:11px;font-weight:800;letter-spacing:.5px;margin-left:4px;flex-shrink:0;text-transform:uppercase}
 .version-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:#a78bfa;box-shadow:0 0 8px #a78bfa;animation:pulseDot 1.5s infinite}
 @keyframes pulseDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.3)}}
+/* ===== NÚT TTS Ở TOPBAR (khu chat AI) ===== */
+.tts-toggle-btn{width:38px;height:38px;border-radius:10px;background:#202633;border:1px solid #41495b;color:#aab5c9;display:grid;place-items:center;cursor:pointer;transition:all .2s;flex-shrink:0}
+.tts-toggle-btn:hover{background:#282f42;color:#fff;border-color:var(--purple)}
+.tts-toggle-btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.tts-toggle-btn.tts-on{color:#35d69a !important;border-color:#35d69a !important;background:#0f2a22 !important}
+.tts-toggle-btn.tts-off{color:#6b7484 !important}
 .messages{flex:1;overflow-y:auto;padding:28px 18px;-webkit-overflow-scrolling:touch}
 .content{max-width:780px;width:100%;margin:0 auto}
 .welcome{min-height:350px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px 0}
@@ -139,12 +145,11 @@ button{cursor:pointer}button,textarea,input{font:inherit}
 .typing-hint .dot{width:5px;height:5px;border-radius:50%;background:#a78bfa;animation:pulseDot 1s infinite alternate}
 .typing-hint .dot:nth-child(2){animation-delay:.2s}.typing-hint .dot:nth-child(3){animation-delay:.4s}
 .composer-actions{display:flex;gap:8px;align-items:center}
-.mic-btn,.tts-btn{width:39px;height:39px;border-radius:12px;background:#202633;border:1px solid #41495b;color:#aab5c9;display:grid;place-items:center;cursor:pointer;transition:all .2s;position:relative}
-.mic-btn:hover,.tts-btn:hover{background:#282f42;color:#fff;border-color:var(--purple)}
-.mic-btn svg,.tts-btn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+/* ===== NÚT MIC Ở KHUNG CHAT ===== */
+.mic-btn{width:39px;height:39px;border-radius:12px;background:#202633;border:1px solid #41495b;color:#aab5c9;display:grid;place-items:center;cursor:pointer;transition:all .2s;position:relative}
+.mic-btn:hover{background:#282f42;color:#fff;border-color:var(--purple)}
+.mic-btn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .mic-btn.recording{background:#ff4a6a !important;color:#fff !important;border-color:#ff4a6a !important;animation:pulseDot 1s infinite}
-.tts-btn.tts-on{color:#35d69a !important;border-color:#35d69a !important;background:#0f2a22 !important}
-.tts-btn.tts-off{color:#6b7484 !important}
 .send-btn{width:39px;height:39px;display:grid;place-items:center;border:0;border-radius:12px;background:var(--purple);color:white;font-size:19px}
 .send-btn:hover{background:#8c75ff}
 .disclaimer{text-align:center;font-size:11px;color:#747f94;margin:10px 0 0}
@@ -194,12 +199,13 @@ button{cursor:pointer}button,textarea,input{font:inherit}
 .fb-logo-btn{width:38px;height:38px}.fb-logo-btn img{width:20px;height:20px}
 .fb-logo-btn::after{font-size:7px;padding:1px 4px;bottom:-5px}
 .version-badge{padding:4px 8px;font-size:9px}
+.tts-toggle-btn{width:34px;height:34px}.tts-toggle-btn svg{width:16px;height:16px}
 .messages{padding:20px 13px}.composer-area{padding:10px 12px 13px}
 .welcome{min-height:320px}.welcome h1{font-size:27px}
 .suggestions{grid-template-columns:1fr;margin-top:23px}
 .bubble{font-size:13px;padding:10px 12px}
 .clock-time{font-size:34px}.clock-time .sec{font-size:26px}.clock-box{padding:16px;min-width:auto}
-.mic-btn,.send-btn,.tts-btn{width:36px;height:36px}.mic-btn svg,.tts-btn svg{width:18px;height:18px}
+.mic-btn,.send-btn{width:36px;height:36px}.mic-btn svg{width:18px;height:18px}
 .login-box{padding:30px 22px}.login-logo{width:64px;height:64px}.login-title{font-size:22px}
 }
 </style>
@@ -264,6 +270,10 @@ button{cursor:pointer}button,textarea,input{font:inherit}
         <div class="top-subtitle">NCB AI là một trợ lí thông minh</div>
       </div>
       <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Đang kết nối</span></div>
+      <!-- NÚT NGHE (TTS) ĐÃ CHUYỂN LÊN ĐÂY -->
+      <button class="tts-toggle-btn tts-on" id="ttsToggle" title="Bật/tắt AI tự đọc">
+        <svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+      </button>
       <button class="fb-logo-btn" id="fbLogoBtn" aria-label="Hỗ trợ Facebook">
         <span class="pulse"></span>
         <img src="https://cdn-gop.garenanow.com/gop/mshop/www/live/assets/ic-fb-485c92b0.svg" alt="Facebook">
@@ -284,9 +294,7 @@ button{cursor:pointer}button,textarea,input{font:inherit}
               <span id="sendHint">Enter để gửi</span>
             </div>
             <div class="composer-actions">
-              <button class="tts-btn tts-on" id="ttsToggle" title="Bật/tắt AI tự đọc">
-                <svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
-              </button>
+              <!-- NÚT GHI ÂM GIỮ NGUYÊN Ở KHUNG CHAT -->
               <button class="mic-btn" id="micBtn" title="Ghi âm giọng nói">
                 <svg viewBox="0 0 24 24"><path d="M12 19v3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><rect x="9" y="2" width="6" height="13" rx="3"/></svg>
               </button>
@@ -313,7 +321,7 @@ button{cursor:pointer}button,textarea,input{font:inherit}
 
 <script>
 "use strict";
-const API_KEY='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';
+const API_KEY='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';
 const SUPPORT_URL='https://www.facebook.com/share/1HgLgZkQFR/';
 const WEBSITE_URL='https://ncb-ai.vercel.app/';
 const IMAGE_CMD='/image';
@@ -508,7 +516,7 @@ function startResetTimer(){
 
 document.getElementById('fbLogoBtn').addEventListener('click',()=>window.open(SUPPORT_URL,'_blank','noopener'));
 
-// NÚT BẬT/TẮT TTS
+// ===== NÚT BẬT/TẮT TTS (đã chuyển lên topbar) =====
 const ttsToggle=document.getElementById('ttsToggle');
 function updateTtsBtn(){
   ttsToggle.classList.toggle('tts-on',autoSpeakEnabled);
@@ -759,7 +767,6 @@ async function sendMessage(opts){
   if(isTimeQuestion(text)){
     pushAssistantPlaceholder();await sleep(600);removeTypingPlaceholder();
     addMessage({role:'assistant',type:'clock',ts:Date.now()});
-    if(autoSpeakEnabled || opts.fromVoice){ /* clock không đọc */ }
     return;
   }
   if(isImageRequest(text)){
@@ -790,13 +797,12 @@ async function sendMessage(opts){
   if(!reply)reply=pickFallbackReply();
   await sleep(getResponseDelay(text));
   isSending=false;addMessage({role:'assistant',content:reply,ts:Date.now()});
-  // ✅ AI TỰ ĐỌC CÂU TRẢ LỜI
   if(autoSpeakEnabled || opts.fromVoice){
     setTimeout(()=>speakText(reply), 200);
   }
 }
 
-// ====== GHI ÂM ======
+// ====== GHI ÂM (nút ở khung chat) ======
 const voiceOverlay = document.createElement('div');
 voiceOverlay.className = 'voice-overlay';
 voiceOverlay.id = 'voiceOverlay';
@@ -910,7 +916,6 @@ if(!SR){
     }
   });
 
-  // ✅ GỬI CHO AI: đưa text vào input và gọi sendMessage → AI trả lời → AI ĐỌC
   document.getElementById('voiceSend').addEventListener('click', () => {
     const txt = voiceTranscriptText.trim();
     if(!txt) return;
@@ -947,7 +952,6 @@ window.addEventListener('DOMContentLoaded',()=>{
     const s=document.getElementById('sidebar'),m=document.getElementById('menuBtn');
     if(window.innerWidth<=700&&s.classList.contains('open')){if(!s.contains(e.target)&&!m.contains(e.target))s.classList.remove('open')}
   });
-  // Dừng đọc khi rời trang
   window.addEventListener('beforeunload',()=>{ if(speechSynth) speechSynth.cancel(); });
 });
 </script>
