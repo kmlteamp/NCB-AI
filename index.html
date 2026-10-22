@@ -32,6 +32,8 @@ button{cursor:pointer}button,textarea,input{font:inherit}
 .ncb-login-btn.loading svg{display:none}
 @keyframes spin{to{transform:rotate(360deg)}}
 
+.login-error { color: var(--red); font-size: 12px; font-weight: 600; min-height: 18px; margin-top: 15px; }
+
 .saved-info{margin-top:16px;padding:12px;background:#0d1017;border:1px solid var(--border);border-radius:12px;text-align:center}
 .saved-label{color:var(--muted);font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
 .saved-id{color:var(--green);font-size:14px;font-weight:800;font-family:'Courier New',monospace;word-break:break-all}
@@ -184,20 +186,6 @@ button{cursor:pointer}button,textarea,input{font:inherit}
 .bubble .section-head{display:flex;align-items:center;gap:8px;font-weight:700;color:#fff;margin:10px 0 6px;padding-bottom:4px;border-bottom:1px solid #30394b}
 .bubble .section-head .ic{font-size:18px}
 
-/* CSS CHO KHUNG THÔNG BÁO */
-.notice-modal { position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; padding: 20px; }
-.notice-modal.show { display: flex; }
-.notice-box { background: linear-gradient(135deg, #171b25, #1a1f2e); border: 2px solid var(--purple); border-radius: 24px; padding: 24px; max-width: 500px; width: 100%; text-align: center; box-shadow: 0 30px 100px rgba(118,87,238,.5); position: relative; }
-.notice-title { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 16px; line-height: 1.4; text-transform: uppercase; }
-.notice-img { width: 100%; border-radius: 12px; overflow: hidden; margin-bottom: 20px; border: 1px solid var(--border); }
-.notice-img img { width: 100%; height: auto; display: block; }
-.notice-timer-box { background: #0a0e18; border: 1px solid var(--border); padding: 15px; border-radius: 12px; margin-bottom: 20px; }
-.notice-timer-label { font-size: 12px; color: var(--muted); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
-.notice-timer-val { font-size: 32px; font-weight: 900; font-family: 'Courier New', monospace; transition: color 0.3s; }
-.notice-btn { width: 100%; padding: 15px; border: none; border-radius: 12px; font-size: 16px; font-weight: 800; color: white; cursor: pointer; transition: all 0.2s; display: none; }
-.notice-btn:hover { transform: translateY(-2px); }
-.notice-btn.update { background: linear-gradient(135deg, #35d69a, #0f9d68); box-shadow: 0 6px 20px rgba(53, 214, 154, 0.4); }
-
 @media(max-width:700px){
 .sidebar{position:fixed;z-index:20;left:0;top:0;bottom:0;box-shadow:15px 0 45px #0007;transform:translateX(-105%)}
 .sidebar.open{transform:translateX(0)}
@@ -213,27 +201,11 @@ button{cursor:pointer}button,textarea,input{font:inherit}
 .bubble{font-size:13px;padding:10px 12px}
 .mic-btn,.send-btn,.emoji-btn{width:36px;height:36px}.mic-btn svg{width:18px;height:18px}
 .login-box{padding:30px 22px}.login-logo{width:64px;height:64px}.login-title{font-size:22px}
-.notice-timer-val{font-size:26px;}
 .emoji-picker { bottom: 65px; grid-template-columns:repeat(4,1fr); }
 }
 </style>
 </head>
 <body>
-
-<!-- KHUNG THÔNG BÁO -->
-<div class="notice-modal" id="noticeModal">
-  <div class="notice-box">
-    <div class="notice-title">NCB AI XIN THÔNG BÁO<br>HIỆN TẠI WEBSITE ĐANG NÂNG CẤP AI VÀ CÁC TÍNH NĂNG KHÁC</div>
-    <div class="notice-img">
-      <img src="https://i.ibb.co/j99RZz90/file-00000000025c820990acd1eedddea843.png" alt="Thông báo">
-    </div>
-    <div class="notice-timer-box">
-      <div class="notice-timer-label">Thời gian hoàn thành dự kiến</div>
-      <div class="notice-timer-val" id="noticeTimer">--:--:--</div>
-    </div>
-    <button class="notice-btn update" id="noticeUpdateBtn">UPDATE</button>
-  </div>
-</div>
 
 <div class="login-screen" id="loginScreen">
   <div class="login-box">
@@ -388,9 +360,8 @@ const AI_TAGLINE='NCB AI là một trợ lí thông minh';
 let currentUser=null,currentUserSub=null;
 let conversations=[],activeId=null,currentMessages=[],isSending=false;
 let clockIntervals=[],resetTimerInterval=null;
-let noticeInterval=null;
 
-// ====== HÀM TẠO ID NGẪU NHIÊN (BỎ SERVER) ======
+// ====== HÀM TẠO ID NGẪU NHIÊN ======
 function generateRandomDeviceID(){
   const min=1,max=999999999993939399399;
   const range=BigInt(max)-BigInt(min);
@@ -490,55 +461,7 @@ function saveAccount(u){localStorage.setItem(DEVICE_ACCOUNT_KEY,JSON.stringify(u
 
 function showToast(msg){const t=document.getElementById('toast');if(!t)return;t.textContent=msg;t.classList.remove('hidden');clearTimeout(showToast._t);showToast._t=setTimeout(()=>t.classList.add('hidden'),2800)}
 
-// ====== XỬ LÝ KHUNG THÔNG BÁO ======
-function initNotice() {
-    const isHidden = localStorage.getItem('ncb_notice_hidden');
-    if (isHidden === 'true') return; 
-
-    let endTime = localStorage.getItem('ncb_notice_endtime');
-    if (!endTime) {
-        endTime = Date.now() + 24 * 3600 * 1000;
-        localStorage.setItem('ncb_notice_endtime', endTime);
-    }
-    
-    const modal = document.getElementById('noticeModal');
-    const timerVal = document.getElementById('noticeTimer');
-    const updateBtn = document.getElementById('noticeUpdateBtn');
-    
-    modal.classList.add('show');
-
-    if (noticeInterval) clearInterval(noticeInterval);
-    noticeInterval = setInterval(() => {
-        const now = Date.now();
-        const diff = endTime - now;
-
-        if (diff <= 0) {
-            clearInterval(noticeInterval);
-            timerVal.textContent = "00:00:00";
-            timerVal.style.display = 'none';
-            updateBtn.style.display = 'block';
-        } else {
-            const sec = Math.floor(diff / 1000);
-            timerVal.textContent = formatHMS(sec);
-            
-            if (sec <= 5 * 3600) {
-                timerVal.style.color = 'var(--red)'; 
-            } else if (sec <= 10 * 3600) {
-                timerVal.style.color = 'var(--yellow)'; 
-            } else {
-                timerVal.style.color = '#fff'; 
-            }
-        }
-    }, 1000);
-
-    updateBtn.addEventListener('click', () => {
-        localStorage.setItem('ncb_notice_hidden', 'true');
-        modal.classList.remove('show');
-        if (noticeInterval) clearInterval(noticeInterval);
-    });
-}
-
-// ĐĂNG NHẬP (BỎ SERVER, TẠO NGẪU NHIÊN)
+// ĐĂNG NHẬP (TẠO NGẪU NHIÊN)
 document.getElementById('ncbLoginBtn').addEventListener('click', function(){
   const btn = this;
   btn.classList.add('loading');
@@ -1092,10 +1015,6 @@ if(!SR){
 }
 
 window.addEventListener('DOMContentLoaded',()=>{
-  // 1. Luôn hiển thị khung thông báo khi mới load trang (dù đang ở login hay app)
-  initNotice();
-
-  // 2. Kiểm tra trạng thái đăng nhập
   const hasSession=localStorage.getItem(ACTIVE_SESSION_KEY);
   const account=getSavedAccount();
   if(hasSession&&account){
