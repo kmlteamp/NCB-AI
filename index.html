@@ -32,13 +32,6 @@ button{cursor:pointer}button,textarea,input{font:inherit}
 .ncb-login-btn.loading svg{display:none}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-.old-id-box { margin-top: 16px; display: flex; gap: 8px; }
-.old-id-input { flex: 1; height: 44px; background: #0d1017; border: 1px solid var(--border); border-radius: 10px; padding: 0 15px; color: var(--text); outline: none; font-size: 13px; transition: border-color 0.2s; }
-.old-id-input:focus { border-color: var(--purple); }
-.old-id-btn { height: 44px; padding: 0 16px; background: var(--purple2); color: white; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
-.old-id-btn:hover { background: var(--purple); }
-.login-error { color: var(--red); font-size: 12px; font-weight: 600; min-height: 18px; margin-top: 10px; }
-
 .saved-info{margin-top:16px;padding:12px;background:#0d1017;border:1px solid var(--border);border-radius:12px;text-align:center}
 .saved-label{color:var(--muted);font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
 .saved-id{color:var(--green);font-size:14px;font-weight:800;font-family:'Courier New',monospace;word-break:break-all}
@@ -191,6 +184,20 @@ button{cursor:pointer}button,textarea,input{font:inherit}
 .bubble .section-head{display:flex;align-items:center;gap:8px;font-weight:700;color:#fff;margin:10px 0 6px;padding-bottom:4px;border-bottom:1px solid #30394b}
 .bubble .section-head .ic{font-size:18px}
 
+/* CSS CHO KHUNG THÔNG BÁO */
+.notice-modal { position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; padding: 20px; }
+.notice-modal.show { display: flex; }
+.notice-box { background: linear-gradient(135deg, #171b25, #1a1f2e); border: 2px solid var(--purple); border-radius: 24px; padding: 24px; max-width: 500px; width: 100%; text-align: center; box-shadow: 0 30px 100px rgba(118,87,238,.5); position: relative; }
+.notice-title { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 16px; line-height: 1.4; text-transform: uppercase; }
+.notice-img { width: 100%; border-radius: 12px; overflow: hidden; margin-bottom: 20px; border: 1px solid var(--border); }
+.notice-img img { width: 100%; height: auto; display: block; }
+.notice-timer-box { background: #0a0e18; border: 1px solid var(--border); padding: 15px; border-radius: 12px; margin-bottom: 20px; }
+.notice-timer-label { font-size: 12px; color: var(--muted); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
+.notice-timer-val { font-size: 32px; font-weight: 900; font-family: 'Courier New', monospace; transition: color 0.3s; }
+.notice-btn { width: 100%; padding: 15px; border: none; border-radius: 12px; font-size: 16px; font-weight: 800; color: white; cursor: pointer; transition: all 0.2s; display: none; }
+.notice-btn:hover { transform: translateY(-2px); }
+.notice-btn.update { background: linear-gradient(135deg, #35d69a, #0f9d68); box-shadow: 0 6px 20px rgba(53, 214, 154, 0.4); }
+
 @media(max-width:700px){
 .sidebar{position:fixed;z-index:20;left:0;top:0;bottom:0;box-shadow:15px 0 45px #0007;transform:translateX(-105%)}
 .sidebar.open{transform:translateX(0)}
@@ -206,11 +213,27 @@ button{cursor:pointer}button,textarea,input{font:inherit}
 .bubble{font-size:13px;padding:10px 12px}
 .mic-btn,.send-btn,.emoji-btn{width:36px;height:36px}.mic-btn svg{width:18px;height:18px}
 .login-box{padding:30px 22px}.login-logo{width:64px;height:64px}.login-title{font-size:22px}
+.notice-timer-val{font-size:26px;}
 .emoji-picker { bottom: 65px; grid-template-columns:repeat(4,1fr); }
 }
 </style>
 </head>
 <body>
+
+<!-- KHUNG THÔNG BÁO -->
+<div class="notice-modal" id="noticeModal">
+  <div class="notice-box">
+    <div class="notice-title">NCB AI XIN THÔNG BÁO<br>HIỆN TẠI WEBSITE ĐANG NÂNG CẤP AI VÀ CÁC TÍNH NĂNG KHÁC</div>
+    <div class="notice-img">
+      <img src="https://i.ibb.co/j99RZz90/file-00000000025c820990acd1eedddea843.png" alt="Thông báo">
+    </div>
+    <div class="notice-timer-box">
+      <div class="notice-timer-label">Thời gian hoàn thành dự kiến</div>
+      <div class="notice-timer-val" id="noticeTimer">--:--:--</div>
+    </div>
+    <button class="notice-btn update" id="noticeUpdateBtn">UPDATE</button>
+  </div>
+</div>
 
 <div class="login-screen" id="loginScreen">
   <div class="login-box">
@@ -224,12 +247,6 @@ button{cursor:pointer}button,textarea,input{font:inherit}
         <span class="loading"></span>
         <span id="loginBtnText">ĐĂNG NHẬP NCB</span>
       </button>
-
-      <div class="old-id-box">
-        <input type="text" class="old-id-input" id="oldIdInput" placeholder="Nhập ID cũ (VD: NCB_...)" autocomplete="off">
-        <button class="old-id-btn" id="oldIdBtn">Vào</button>
-      </div>
-      <div class="login-error" id="loginError"></div>
 
       <div class="saved-info hidden" id="savedInfo">
         <div class="saved-label">Tài khoản đã lưu trên thiết bị</div>
@@ -349,7 +366,10 @@ button{cursor:pointer}button,textarea,input{font:inherit}
 
 <script>
 "use strict";
-const NCB_SERVER_URL = 'https://ncb-ai-sever.dovanphuoc124.workers.dev'; 
+// ĐÃ BỎ SERVER, DÙNG LẠI API KEY TRỰC TIẾP
+const API_KEY='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';
+const API_URL='https://api.groq.com/openai/v1/chat/completions';
+const MODELS_URL='https://api.groq.com/openai/v1/models';
 
 const SUPPORT_URL='https://www.facebook.com/share/1HgLgZkQFR/';
 const WEBSITE_URL='https://ncb-ai.vercel.app/';
@@ -364,12 +384,19 @@ const LOGO_URL='https://i.ibb.co/9kBTwhfq/file-000000007ae482099bddf96408f8a67f.
 const ADMIN_NAME='NGUYỄN CÔNG BẰNG';
 const AI_VERSION='1.5.0';
 const AI_TAGLINE='NCB AI là một trợ lí thông minh';
-const API_URL = NCB_SERVER_URL + '/chat'; 
-const MODELS_URL='https://api.groq.com/openai/v1/models';
 
 let currentUser=null,currentUserSub=null;
 let conversations=[],activeId=null,currentMessages=[],isSending=false;
 let clockIntervals=[],resetTimerInterval=null;
+let noticeInterval=null;
+
+// ====== HÀM TẠO ID NGẪU NHIÊN (BỎ SERVER) ======
+function generateRandomDeviceID(){
+  const min=1,max=999999999993939399399;
+  const range=BigInt(max)-BigInt(min);
+  const rb=BigInt(Math.floor(Math.random()*Number.MAX_SAFE_INTEGER))*BigInt(Math.floor(Math.random()*1000));
+  return 'NCB_'+((rb%range)+BigInt(min)).toString();
+}
 
 // ====== BẢNG CHỌN EMOJI ======
 const emojiBtn = document.getElementById('emojiBtn');
@@ -396,7 +423,7 @@ document.querySelectorAll('.emoji-item').forEach(item => {
     });
 });
 
-// ====== HÀM KIỂM TRA XEM CÓ PHẢI CODE KHÔNG ======
+// ====== HÀM KIỂM TRA CODE ======
 function isCodeResponse(text) {
     if (!text) return false;
     if (text.includes('```')) return true;
@@ -463,82 +490,79 @@ function saveAccount(u){localStorage.setItem(DEVICE_ACCOUNT_KEY,JSON.stringify(u
 
 function showToast(msg){const t=document.getElementById('toast');if(!t)return;t.textContent=msg;t.classList.remove('hidden');clearTimeout(showToast._t);showToast._t=setTimeout(()=>t.classList.add('hidden'),2800)}
 
-// ĐĂNG NHẬP
-document.getElementById('ncbLoginBtn').addEventListener('click', async function(){
+// ====== XỬ LÝ KHUNG THÔNG BÁO ======
+function initNotice() {
+    const isHidden = localStorage.getItem('ncb_notice_hidden');
+    if (isHidden === 'true') return; 
+
+    let endTime = localStorage.getItem('ncb_notice_endtime');
+    if (!endTime) {
+        endTime = Date.now() + 24 * 3600 * 1000;
+        localStorage.setItem('ncb_notice_endtime', endTime);
+    }
+    
+    const modal = document.getElementById('noticeModal');
+    const timerVal = document.getElementById('noticeTimer');
+    const updateBtn = document.getElementById('noticeUpdateBtn');
+    
+    modal.classList.add('show');
+
+    if (noticeInterval) clearInterval(noticeInterval);
+    noticeInterval = setInterval(() => {
+        const now = Date.now();
+        const diff = endTime - now;
+
+        if (diff <= 0) {
+            clearInterval(noticeInterval);
+            timerVal.textContent = "00:00:00";
+            timerVal.style.display = 'none';
+            updateBtn.style.display = 'block';
+        } else {
+            const sec = Math.floor(diff / 1000);
+            timerVal.textContent = formatHMS(sec);
+            
+            if (sec <= 5 * 3600) {
+                timerVal.style.color = 'var(--red)'; 
+            } else if (sec <= 10 * 3600) {
+                timerVal.style.color = 'var(--yellow)'; 
+            } else {
+                timerVal.style.color = '#fff'; 
+            }
+        }
+    }, 1000);
+
+    updateBtn.addEventListener('click', () => {
+        localStorage.setItem('ncb_notice_hidden', 'true');
+        modal.classList.remove('show');
+        if (noticeInterval) clearInterval(noticeInterval);
+    });
+}
+
+// ĐĂNG NHẬP (BỎ SERVER, TẠO NGẪU NHIÊN)
+document.getElementById('ncbLoginBtn').addEventListener('click', function(){
   const btn = this;
   btn.classList.add('loading');
   btn.disabled = true;
-  document.getElementById('loginError').textContent = '';
-  let account = getSavedAccount();
-
-  try {
-    if (account) {
-      const res = await fetch(NCB_SERVER_URL + '/verify?id=' + account.id);
-      const data = await res.json();
-      if (data.ok && data.exists) {
-        showToast('✅ Đăng nhập: ' + account.id);
-      } else {
-        showToast('⚠️ ID cũ không tồn tại, tạo ID mới...');
-        account = null;
-      }
-    }
-
+  
+  setTimeout(() => {
+    let account = getSavedAccount();
     if (!account) {
-      const res = await fetch(NCB_SERVER_URL + '/register', { method: 'POST' });
-      const data = await res.json();
-      if (!data.ok) {
-        if (data.error === 'rate_limit') throw new Error('Bạn đã tạo quá nhiều ID. Thử lại sau 1 giờ.');
-        throw new Error('Server từ chối');
-      }
-      account = { id: data.id, name: 'GL ' + data.id, sub: data.id, createdAt: Date.now() };
+      const id = generateRandomDeviceID();
+      account = { id, name: 'GL ' + id, sub: id, createdAt: Date.now() };
       saveAccount(account);
-      showToast('✅ Tạo tài khoản Server: ' + account.id);
+      showToast('✅ Đã tạo ID mới: ' + account.id);
+    } else {
+      showToast('✅ Đăng nhập: ' + account.id);
     }
 
     currentUser = account;
     currentUserSub = account.sub || account.id;
     localStorage.setItem(ACTIVE_SESSION_KEY, '1');
-    showApp();
-  } catch (e) {
-    document.getElementById('loginError').textContent = '❌ Lỗi: ' + e.message;
-  } finally {
+    
     btn.classList.remove('loading');
     btn.disabled = false;
-  }
-});
-
-document.getElementById('oldIdBtn').addEventListener('click', async function() {
-    const inputVal = document.getElementById('oldIdInput').value.trim();
-    const errEl = document.getElementById('loginError');
-    if (!inputVal || !inputVal.startsWith('NCB_')) {
-        errEl.style.color = '#ffd166';
-        errEl.textContent = '⚠️ Vui lòng nhập đúng định dạng ID (NCB_...)';
-        return;
-    }
-    errEl.style.color = '#ffd166';
-    errEl.textContent = '⏳ Đang kiểm tra ID...';
-    
-    try {
-        const res = await fetch(NCB_SERVER_URL + '/verify?id=' + encodeURIComponent(inputVal));
-        const data = await res.json();
-        if (data.ok && data.exists) {
-            const account = { id: inputVal, name: 'GL ' + inputVal, sub: inputVal, createdAt: Date.now() };
-            saveAccount(account);
-            currentUser = account;
-            currentUserSub = account.sub || account.id;
-            localStorage.setItem(ACTIVE_SESSION_KEY, '1');
-            showToast('✅ Đăng nhập thành công: ' + account.id);
-            errEl.textContent = '';
-            document.getElementById('oldIdInput').value = '';
-            showApp();
-        } else {
-            errEl.style.color = 'var(--red)';
-            errEl.textContent = '❌ Server báo: Không tìm thấy ID này!';
-        }
-    } catch (e) {
-        errEl.style.color = 'var(--red)';
-        errEl.textContent = '❌ Lỗi kết nối Server!';
-    }
+    showApp();
+  }, 800);
 });
 
 function showApp(){
@@ -596,9 +620,6 @@ function updateLoginScreen(){
   const acc=getSavedAccount();
   if(acc){si.classList.remove('hidden');sid.textContent=acc.id;txt.textContent='VÀO LẠI TÀI KHOẢN'}
   else{si.classList.add('hidden');txt.textContent='ĐĂNG NHẬP NCB'}
-  
-  document.getElementById('loginError').textContent = '';
-  document.getElementById('oldIdInput').value = '';
 }
 
 // ===== TURNS & COUNTER =====
@@ -845,11 +866,18 @@ document.getElementById('sidebarClose').addEventListener('click',()=>document.ge
 
 function checkConnection(){
   const s=document.getElementById('status'),t=document.getElementById('statusText');
-  fetch(MODELS_URL,{headers:{'Authorization':'Bearer placeholder'}}).then(r=>{if(r.status!==401){s.classList.remove('error');t.textContent='Trực tuyến'}else{s.classList.remove('error');t.textContent='Trực tuyến'}}).catch(()=>{s.classList.add('error');t.textContent='Mất kết nối'});
+  fetch(MODELS_URL,{headers:{'Authorization':'Bearer '+API_KEY}}).then(r=>{if(r.ok){s.classList.remove('error');t.textContent='Trực tuyến'}else{s.classList.add('error');t.textContent='Lỗi API'}}).catch(()=>{s.classList.add('error');t.textContent='Mất kết nối'});
 }
 
 async function callGroqAPI(messages,model){
-  const res=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model,messages,temperature:0.7,max_tokens:getMaxTokensForRequest(messages[messages.length-1].content||'')})});
+  const res=await fetch(API_URL,{
+    method:'POST',
+    headers:{
+      'Authorization':'Bearer '+API_KEY,
+      'Content-Type':'application/json'
+    },
+    body:JSON.stringify({model,messages,temperature:0.7,max_tokens:getMaxTokensForRequest(messages[messages.length-1].content||'')})
+  });
   if(!res.ok)throw new Error('HTTP '+res.status);
   const d=await res.json();return d.choices&&d.choices[0]&&d.choices[0].message?d.choices[0].message.content||'':'';
 }
@@ -1064,6 +1092,10 @@ if(!SR){
 }
 
 window.addEventListener('DOMContentLoaded',()=>{
+  // 1. Luôn hiển thị khung thông báo khi mới load trang (dù đang ở login hay app)
+  initNotice();
+
+  // 2. Kiểm tra trạng thái đăng nhập
   const hasSession=localStorage.getItem(ACTIVE_SESSION_KEY);
   const account=getSavedAccount();
   if(hasSession&&account){
@@ -1083,6 +1115,7 @@ window.addEventListener('DOMContentLoaded',()=>{
   }else{
     updateLoginScreen();
   }
+  
   document.addEventListener('click',e=>{
     const s=document.getElementById('sidebar'),m=document.getElementById('menuBtn');
     if(window.innerWidth<=700&&s.classList.contains('open')){if(!s.contains(e.target)&&!m.contains(e.target))s.classList.remove('open')}
