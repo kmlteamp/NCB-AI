@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#10131a">
 <title>NCB_AI 1.5.0</title>
 <!-- FONT ICON MATERIAL -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=mood" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=mood,redeem" />
 <style>
 :root{--bg:#10131a;--panel:#171b25;--panel2:#202633;--border:#303746;--text:#f1f4fa;--muted:#929db2;--purple:#7657ee;--purple2:#5540b8;--green:#35d69a;--red:#ff3d5a;--yellow:#ffd166}
 *{box-sizing:border-box}
@@ -66,7 +66,7 @@ button{cursor:pointer}button,textarea,input{font:inherit}
 .sidebar-bottom .counter{color:#35d69a;font-weight:700}
 .sidebar-bottom .reset-timer{color:#ffd166;font-weight:700;font-family:'Courier New',monospace}
 .sidebar-close{display:none;position:absolute;top:10px;right:10px;width:30px;height:30px;border:1px solid var(--border);background:#1a1f2b;color:#fff;border-radius:8px;font-size:16px;font-weight:700;place-items:center;cursor:pointer;z-index:5}
-.main{flex:1;min-width:0;display:flex;flex-direction:column;height:100%}
+.main{flex:1;min-width:0;display:flex;flex-direction:column;height:100%;position:relative;}
 .topbar{height:68px;flex-shrink:0;padding:0 22px;display:flex;align-items:center;gap:13px;border-bottom:1px solid var(--border);background:rgba(23,27,37,.95)}
 .icon-btn{width:38px;height:38px;border:1px solid var(--border);background:transparent;color:var(--text);border-radius:10px;display:grid;place-items:center}
 .top-title{font-weight:700;font-size:15px}
@@ -186,6 +186,39 @@ button{cursor:pointer}button,textarea,input{font:inherit}
 .bubble .section-head{display:flex;align-items:center;gap:8px;font-weight:700;color:#fff;margin:10px 0 6px;padding-bottom:4px;border-bottom:1px solid #30394b}
 .bubble .section-head .ic{font-size:18px}
 
+/* NÚT TRÒN REDEEM (QUÀ TẶNG) */
+.redeem-fab {
+    position: fixed;
+    bottom: 100px;
+    right: 20px;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ffd166, #f0b429);
+    color: #10131a;
+    border: 2px solid #fff;
+    box-shadow: 0 4px 15px rgba(255, 209, 102, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 500;
+    transition: transform 0.2s, box-shadow 0.2s;
+    animation: floatGift 2s ease-in-out infinite;
+}
+.redeem-fab:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 25px rgba(255, 209, 102, 0.8);
+}
+.redeem-fab .material-symbols-outlined {
+    font-size: 28px;
+    font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 24;
+}
+@keyframes floatGift {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
 @media(max-width:700px){
 .sidebar{position:fixed;z-index:20;left:0;top:0;bottom:0;box-shadow:15px 0 45px #0007;transform:translateX(-105%)}
 .sidebar.open{transform:translateX(0)}
@@ -202,6 +235,8 @@ button{cursor:pointer}button,textarea,input{font:inherit}
 .mic-btn,.send-btn,.emoji-btn{width:36px;height:36px}.mic-btn svg{width:18px;height:18px}
 .login-box{padding:30px 22px}.login-logo{width:64px;height:64px}.login-title{font-size:22px}
 .emoji-picker { bottom: 65px; grid-template-columns:repeat(4,1fr); }
+.redeem-fab { bottom: 85px; right: 15px; width: 48px; height: 48px; }
+.redeem-fab .material-symbols-outlined { font-size: 24px; }
 }
 </style>
 </head>
@@ -260,6 +295,11 @@ button{cursor:pointer}button,textarea,input{font:inherit}
   </aside>
 
   <main class="main">
+    <!-- NÚT REDEEM NỔI -->
+    <button class="redeem-fab" id="redeemBtn" title="Nhập Code Nhận Lượt">
+        <span class="material-symbols-outlined">redeem</span>
+    </button>
+
     <header class="topbar">
       <button class="icon-btn" id="menuBtn">☰</button>
       <div>
@@ -338,8 +378,8 @@ button{cursor:pointer}button,textarea,input{font:inherit}
 
 <script>
 "use strict";
-// ĐÃ BỎ SERVER, DÙNG LẠI API KEY TRỰC TIẾP
-const API_KEY='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';
+// API KEY
+const API_KEY='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';
 const API_URL='https://api.groq.com/openai/v1/chat/completions';
 const MODELS_URL='https://api.groq.com/openai/v1/models';
 
@@ -348,7 +388,10 @@ const WEBSITE_URL='https://ncb-ai.vercel.app/';
 const IMAGE_CMD='/image';
 const CODE_CMD=':codencb';
 const MAX_TURNS_PER_ACCOUNT=50000;
-const TURNS_PER_CHAT=1;
+
+// ĐÃ ĐỔI: MỖI 1 LẦN CHAT TRỪ 100 LƯỢT
+const TURNS_PER_CHAT=100; 
+
 const DEVICE_ACCOUNT_KEY='ncb_device_account';
 const ACTIVE_SESSION_KEY='ncb_active_session';
 const HISTORY_KEY='ncbai_history';
@@ -392,6 +435,11 @@ document.querySelectorAll('.emoji-item').forEach(item => {
         autoResize();
         emojiPicker.classList.remove('show');
     });
+});
+
+// ====== NÚT REDEEM (QUÀ TẶNG) ======
+document.getElementById('redeemBtn').addEventListener('click', () => {
+    openCodeModal();
 });
 
 // ====== HÀM KIỂM TRA CODE ======
@@ -461,7 +509,7 @@ function saveAccount(u){localStorage.setItem(DEVICE_ACCOUNT_KEY,JSON.stringify(u
 
 function showToast(msg){const t=document.getElementById('toast');if(!t)return;t.textContent=msg;t.classList.remove('hidden');clearTimeout(showToast._t);showToast._t=setTimeout(()=>t.classList.add('hidden'),2800)}
 
-// ĐĂNG NHẬP (TẠO NGẪU NHIÊN)
+// ĐĂNG NHẬP
 document.getElementById('ncbLoginBtn').addEventListener('click', function(){
   const btn = this;
   btn.classList.add('loading');
@@ -575,6 +623,7 @@ function consumeTurns(){
   if(!currentUserSub)return false;
   checkAndResetDaily();
   const d=getTurnData(currentUserSub),max=MAX_TURNS_PER_ACCOUNT+d.bonus;
+  // Trừ 100 lượt mỗi lần gửi
   if(d.used+TURNS_PER_CHAT>max)return false;
   d.used+=TURNS_PER_CHAT;setTurnData(currentUserSub,d);return true;
 }
@@ -610,10 +659,17 @@ function startResetTimer(){
 document.getElementById('fbLogoBtn').addEventListener('click',()=>window.open(SUPPORT_URL,'_blank','noopener'));
 
 // ===== MÃ CODE & TIỆN ÍCH =====
+// Mã cũ 1: NCB_6790NCB
 const _k=[78,67,66,65,73,95,54,55,57,48,78,67,66];
 function checkCode(i){if(i.length!==_k.length)return false;for(let x=0;x<_k.length;x++)if(i.charCodeAt(x)!==_k[x])return false;return true}
+
+// Mã cũ 2: ncb1.0halqp
 const _k2=[110,99,98,49,46,48,104,97,108,113,112];
 function checkCode2(i){if(i.length!==_k2.length)return false;for(let x=0;x<_k2.length;x++)if(i.charCodeAt(x)!==_k2[x])return false;return true}
+
+// MÃ MỚI: NCB_HALLOWEN2026_01 (+1000 lượt)
+const _k3=[78,67,66,95,72,65,76,76,79,87,69,78,50,48,50,54,95,48,49];
+function checkCode3(i){if(i.length!==_k3.length)return false;for(let x=0;x<_k3.length;x++)if(i.charCodeAt(x)!==_k3[x])return false;return true}
 
 const WEBSITE_KEYWORDS=['website','trang web','web của','link web','đường dẫn','truy cập','vào web','web chính','trang chính','link truy cập','website của bạn','web của bạn','địa chỉ web','url'];
 function isWebsiteQuestion(t){const s=t.toLowerCase();return WEBSITE_KEYWORDS.some(k=>s.includes(k))&&(s.includes('ncb')||s.includes('bạn')||s.includes('ai')||s.includes('web')||s.includes('trang'))}
@@ -835,9 +891,22 @@ document.getElementById('codeSubmit').addEventListener('click',()=>{
   const v=document.getElementById('codeInput').value.trim();
   const err=document.getElementById('codeError');
   if(!v){err.style.color='#ff626e';err.textContent='⚠️ Vui lòng nhập code';return}
-  if(checkCode(v)){err.style.color='#35d69a';err.textContent='✅ Mã hợp lệ! +50.000 lượt';addBonusTurns(50000);showToast('🎉 Đã cộng 50.000 lượt!');setTimeout(closeCodeModal,1500)}
-  else if(checkCode2(v)){err.style.color='#35d69a';err.textContent='✅ Mã VIP hợp lệ! +100.000 lượt';addBonusTurns(100000);showToast('🎉 Đã cộng 100.000 lượt!');setTimeout(closeCodeModal,1500)}
-  else{err.style.color='#ff626e';err.textContent='❌ Mã không hợp lệ'}
+  
+  if(checkCode(v)){
+      err.style.color='#35d69a';err.textContent='✅ Mã hợp lệ! +50.000 lượt';
+      addBonusTurns(50000);showToast('🎉 Đã cộng 50.000 lượt!');setTimeout(closeCodeModal,1500);
+  }
+  else if(checkCode2(v)){
+      err.style.color='#35d69a';err.textContent='✅ Mã VIP hợp lệ! +100.000 lượt';
+      addBonusTurns(100000);showToast('🎉 Đã cộng 100.000 lượt!');setTimeout(closeCodeModal,1500);
+  }
+  else if(checkCode3(v)){
+      err.style.color='#ffd166';err.textContent='🎃 Mã Halloween hợp lệ! +1000 lượt';
+      addBonusTurns(1000);showToast('🎃 Đã cộng 1000 lượt chat!');setTimeout(closeCodeModal,1500);
+  }
+  else{
+      err.style.color='#ff626e';err.textContent='❌ Mã không hợp lệ';
+  }
 });
 document.getElementById('codeInput').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('codeSubmit').click()});
 
@@ -847,10 +916,13 @@ async function sendMessage(opts){
   const inp=document.getElementById('input');
   const text=inp.value.trim();
   if(!text)return;
+  
+  // Nếu không đủ 100 lượt sẽ báo lỗi
   if(!consumeTurns()){
-    showToast('⚠️ Bạn đã hết lượt chat hôm nay!\nNhập code để cộng thêm, hoặc chờ 00:00 mai reset 50.000 lượt.');
+    showToast('⚠️ Bạn đã hết lượt chat hoặc không đủ 100 lượt!\nNhập code để cộng thêm, hoặc chờ 00:00 mai reset.');
     openCodeModal();return;
   }
+  
   updateCounter();
   inp.value='';autoResize();document.getElementById('composer').classList.remove('is-typing');
   addMessage({role:'user',content:text,ts:Date.now()});
