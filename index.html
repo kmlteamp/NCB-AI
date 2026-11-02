@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#10131a">
 <title>NCB_AI 1.5.0</title>
 <!-- FONT ICON MATERIAL -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=mood,redeem,arrow_back" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=mood,redeem" />
 <style>
 :root{--bg:#10131a;--panel:#171b25;--panel2:#202633;--border:#303746;--text:#f1f4fa;--muted:#929db2;--purple:#7657ee;--purple2:#5540b8;--green:#35d69a;--red:#ff3d5a;--yellow:#ffd166}
 *{box-sizing:border-box}
@@ -247,132 +247,14 @@ button{cursor:pointer}button,textarea,input{font:inherit}
 .fab-close-btn:hover { background: #ff1a40; }
 .redeem-fab.hide-fab { display: none !important; }
 
-/* CSS CHO MINI GAME HALLOWEEN */
-.game-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    background: rgba(0, 0, 0, 0.9);
-    backdrop-filter: blur(5px);
-    display: none;
-    align-items: center;
-    justify-content: center;
-}
-.game-overlay.show { display: flex; }
-.game-container {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    overflow: hidden;
-    touch-action: none;
-}
-.game-target {
-    position: absolute;
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    user-select: none;
-    pointer-events: none;
-    box-shadow: 0 0 15px rgba(0,0,0,0.5);
-}
-.game-target.good { background-image: url('https://d2zia2w5autnlg.cloudfront.net/5952/5da26d4f0afd7'); }
-.game-target.bad { background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPMDaZW0ISsSqfZnIpPSMYUvgU_p1wektXYCx_f1GWUA&s'); box-shadow: 0 0 15px #ff0000; }
-
-.game-score-board {
-    position: absolute;
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 60px;
-    font-weight: 900;
-    color: #fff;
-    text-shadow: 0 0 20px #ff5e00, 0 0 40px #ff5e00;
-    z-index: 10;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-.game-score-board span { font-size: 24px; color: #ffd166; text-shadow: none; margin-bottom: 5px; letter-spacing: 2px;}
-.game-timer-board {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    width: 70px;
-    height: 70px;
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0,0,0,0.6);
-    border-radius: 50%;
-    border: 3px solid #ffd166;
-    box-shadow: 0 0 15px rgba(255, 209, 102, 0.5);
-}
-.game-timer-board span { font-size: 24px; font-weight: 800; color: #fff; }
-.start-game-btn {
-    position: absolute;
-    top: 60%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 15px 40px;
-    font-size: 20px;
-    font-weight: 800;
-    color: #fff;
-    background: linear-gradient(135deg, #ff5e00, #cc0000);
-    border: 2px solid #ffd166;
-    border-radius: 50px;
-    cursor: pointer;
-    box-shadow: 0 0 30px rgba(255, 94, 0, 0.8);
-    z-index: 20;
-    animation: pulseBtn 1.5s infinite;
-}
-@keyframes pulseBtn { 0%, 100% { transform: translate(-50%, -50%) scale(1); } 50% { transform: translate(-50%, -50%) scale(1.1); } }
-.close-game-btn {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    width: 45px;
-    height: 45px;
-    background: rgba(255, 255, 255, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 50%;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    z-index: 20;
-    transition: all 0.2s;
-}
-.close-game-btn:hover { background: rgba(255, 255, 255, 0.3); transform: scale(1.1); }
-.close-game-btn .material-symbols-outlined { font-size: 24px; font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
-
-/* MODAL KẾT THÚC VÀ ĐỔI ĐIỂM */
-.modal-overlay { position: fixed; inset: 0; z-index: 10000; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; padding: 20px; }
-.modal-overlay.show { display: flex; }
-.modal-box { background: linear-gradient(135deg, #171b25, #1a1f2e); border: 2px solid var(--purple); border-radius: 20px; padding: 30px 25px; max-width: 400px; width: 100%; text-align: center; box-shadow: 0 30px 100px rgba(118,87,238,.5); position: relative; }
-.modal-title { font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 20px; text-transform: uppercase; }
-.modal-score { font-size: 50px; font-weight: 900; color: #ffd166; text-shadow: 0 0 20px rgba(255, 209, 102, 0.5); margin-bottom: 25px; }
-.btn-primary { width: 100%; padding: 15px; border: none; border-radius: 12px; font-size: 16px; font-weight: 800; color: white; cursor: pointer; transition: all 0.2s; margin-bottom: 12px; }
-.btn-primary:hover { transform: translateY(-2px); }
-.btn-play { background: linear-gradient(135deg, #35d69a, #0f9d68); box-shadow: 0 6px 20px rgba(53, 214, 154, 0.4); }
-.btn-exchange { background: linear-gradient(135deg, #ffd166, #f0b429); color: #10131a; box-shadow: 0 6px 20px rgba(255, 209, 102, 0.4); }
-.modal-close { position: absolute; top: 15px; right: 15px; background: none; border: none; color: #ff4a6a; font-size: 24px; font-weight: bold; cursor: pointer; }
-
-.exchange-container { display: flex; gap: 15px; text-align: left; margin-bottom: 20px; }
-.exchange-left { flex: 1; }
-.exchange-right { width: 100px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #0a0e18; border-radius: 12px; border: 1px solid var(--border); }
-.exchange-right .points-label { font-size: 12px; color: var(--muted); margin-bottom: 5px; }
-.exchange-right .points-val { font-size: 24px; font-weight: 800; color: var(--green); }
-.square-input { width: 100%; height: 80px; border-radius: 12px; border: 1px dashed var(--purple); background: #0a0e18; color: #fff; padding: 10px; font-size: 12px; resize: none; outline: none; margin-bottom: 10px; }
-.square-input::placeholder { color: #555; }
-.btn-change-bg { width: 100%; padding: 10px; border-radius: 8px; border: none; background: var(--purple); color: white; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+/* KHUNG THÔNG BÁO ĐĂNG XUẤT */
+.logout-modal { position: fixed; inset: 0; z-index: 99999; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; padding: 20px; }
+.logout-modal.show { display: flex; }
+.logout-box { background: linear-gradient(135deg, #171b25, #1a1f2e); border: 2px solid var(--purple); border-radius: 20px; padding: 30px 25px; max-width: 350px; width: 100%; text-align: center; box-shadow: 0 30px 100px rgba(118,87,238,.5); }
+.logout-title { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 20px; line-height: 1.4; text-transform: uppercase; }
+.logout-btn-timer { width: 100%; padding: 15px; border: none; border-radius: 12px; font-size: 16px; font-weight: 800; color: white; cursor: pointer; transition: all 0.2s; background: #303747; opacity: 0.8; cursor: not-allowed; }
+.logout-btn-timer.ready { background: linear-gradient(135deg, #ff3d5a, #aa0000); box-shadow: 0 6px 20px rgba(255, 61, 90, 0.4); opacity: 1; cursor: pointer; animation: pulseBtn 1.5s infinite; }
+@keyframes pulseBtn { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
 
 @media(max-width:700px){
 .sidebar{position:fixed;z-index:20;left:0;top:0;bottom:0;box-shadow:15px 0 45px #0007;transform:translateX(-105%)}
@@ -520,49 +402,11 @@ button{cursor:pointer}button,textarea,input{font:inherit}
   </main>
 </div>
 
-<!-- MINI GAME HALLOWEEN OVERLAY -->
-<div class="game-overlay" id="gameOverlay">
-    <div class="game-container" id="gameContainer">
-        <button class="close-game-btn" id="closeGameBtn">
-            <span class="material-symbols-outlined">arrow_back</span>
-        </button>
-        <div class="game-score-board" id="gameScoreBoard">
-            <span>ĐIỂM</span>
-            <div id="gameScore">0</div>
-        </div>
-        <div class="game-timer-board">
-            <span id="gameTimer">60</span>
-        </div>
-        <button class="start-game-btn" id="startGameBtn">BẮT ĐẦU</button>
-    </div>
-</div>
-
-<!-- MODAL KẾT THÚC GAME -->
-<div class="modal-overlay" id="endGameModal">
-    <div class="modal-box">
-        <div class="modal-title">TỔNG ĐIỂM ĐÃ CHƠI</div>
-        <div class="modal-score" id="finalScore">0</div>
-        <button class="btn-primary btn-play" id="btnPlayAgain">CHƠI LẠI (<span id="livesLeft">5</span> LƯỢT)</button>
-        <button class="btn-primary btn-exchange" id="btnExchangePoints">ĐỔI ĐIỂM</button>
-    </div>
-</div>
-
-<!-- MODAL ĐỔI ĐIỂM -->
-<div class="modal-overlay" id="exchangeModal">
-    <div class="modal-box" style="max-width: 450px;">
-        <button class="modal-close" id="closeExchangeModal">×</button>
-        <div class="modal-title">ĐỔI NỀN CHAT</div>
-        
-        <div class="exchange-container">
-            <div class="exchange-left">
-                <textarea class="square-input" id="bgUrlInput" placeholder="Nhập link ảnh nền mới vào đây... (VD: https://...jpg)"></textarea>
-                <button class="btn-change-bg" id="btnApplyBg">ĐỔI</button>
-            </div>
-            <div class="exchange-right">
-                <div class="points-label">ĐIỂM</div>
-                <div class="points-val" id="exchangePointsVal">0</div>
-            </div>
-        </div>
+<!-- KHUNG THÔNG BÁO ĐĂNG XUẤT -->
+<div class="logout-modal" id="logoutModal">
+    <div class="logout-box">
+        <div class="logout-title">BẠN MUỐN TIẾP TỤC CHỨ?</div>
+        <button class="logout-btn-timer" id="logoutConfirmBtn" disabled>ĐIỂM NGƯỢC 5s</button>
     </div>
 </div>
 
@@ -587,7 +431,6 @@ const SUPPORT_URL='https://www.facebook.com/share/1HgLgZkQFR/';
 const WEBSITE_URL='https://ncb-ai.vercel.app/';
 const IMAGE_CMD='/image';
 const CODE_CMD=':codencb';
-const GAME_CMD=':ncbminigamehallowen1';
 const MAX_TURNS_PER_ACCOUNT=50000;
 const TURNS_PER_CHAT=100; 
 
@@ -602,6 +445,7 @@ const AI_TAGLINE='NCB AI là một trợ lí thông minh';
 let currentUser=null,currentUserSub=null;
 let conversations=[],activeId=null,currentMessages=[],isSending=false;
 let clockIntervals=[],resetTimerInterval=null;
+let logoutTimerInterval=null;
 
 // ====== KÉO THẢ NÚT REDEEM ======
 const fab = document.getElementById('redeemBtn');
@@ -665,286 +509,6 @@ closeFab.addEventListener('click', (e) => {
     e.stopPropagation();
     fab.classList.add('hide-fab');
 });
-
-// ====== MINI GAME HALLOWEEN LOGIC ======
-const gameOverlay = document.getElementById('gameOverlay');
-const gameContainer = document.getElementById('gameContainer');
-const startGameBtn = document.getElementById('startGameBtn');
-const closeGameBtn = document.getElementById('closeGameBtn');
-const gameScoreEl = document.getElementById('gameScore');
-const gameTimerEl = document.getElementById('gameTimer');
-
-const endGameModal = document.getElementById('endGameModal');
-const finalScoreEl = document.getElementById('finalScore');
-const livesLeftEl = document.getElementById('livesLeft');
-const btnPlayAgain = document.getElementById('btnPlayAgain');
-const btnExchangePoints = document.getElementById('btnExchangePoints');
-
-const exchangeModal = document.getElementById('exchangeModal');
-const closeExchangeModal = document.getElementById('closeExchangeModal');
-const exchangePointsVal = document.getElementById('exchangePointsVal');
-const bgUrlInput = document.getElementById('bgUrlInput');
-const btnApplyBg = document.getElementById('btnApplyBg');
-
-let gameActive = false;
-let gameScore = 0;
-let gameTime = 60;
-let gameTimerInterval = null;
-let targets = [];
-let animationFrameId = null;
-let gameLives = 5; 
-
-function loadSavedBackground() {
-    const savedBg = localStorage.getItem('ncb_chat_bg');
-    if (savedBg) {
-        document.querySelector('.messages').style.backgroundImage = `linear-gradient(rgba(16, 19, 26, 0.85), rgba(16, 19, 26, 0.85)), url('${savedBg}')`;
-    }
-}
-loadSavedBackground();
-
-function startMiniGame() {
-    // Reset toàn bộ trạng thái khi vào game từ lệnh chat
-    gameLives = 5;
-    livesLeftEl.textContent = gameLives;
-    endGameModal.classList.remove('show');
-    exchangeModal.classList.remove('show');
-    gameOverlay.classList.add('show');
-    startGameBtn.style.display = 'block';
-    startGameBtn.textContent = 'BẮT ĐẦU'; // Đảm bảo chữ luôn là BẮT ĐẦU
-    gameScoreEl.textContent = '0';
-    gameTimerEl.textContent = '60';
-    gameScore = 0;
-    gameTime = 60;
-    gameActive = false;
-    clearTargets();
-}
-
-function clearTargets() {
-    targets.forEach(t => t.el.remove());
-    targets = [];
-    if (animationFrameId) cancelAnimationFrame(animationFrameId);
-    animationFrameId = null;
-}
-
-startGameBtn.addEventListener('click', () => {
-    startGameBtn.style.display = 'none';
-    gameActive = true;
-    gameScore = 0;
-    gameTime = 60;
-    gameScoreEl.textContent = gameScore;
-    gameTimerEl.textContent = gameTime;
-    
-    clearTargets();
-    
-    if (gameTimerInterval) clearInterval(gameTimerInterval);
-    gameTimerInterval = setInterval(() => {
-        gameTime--;
-        gameTimerEl.textContent = gameTime;
-        if (gameTime <= 0) {
-            endGame();
-        }
-    }, 1000);
-    
-    spawnTarget();
-    updateGame();
-});
-
-// NÚT X (ARROW_BACK) TRÊN GAME: CHỈ THOÁT GAME, KHÔNG HIỆN KHUNG KẾT THÚC
-closeGameBtn.addEventListener('click', () => {
-    gameOverlay.classList.remove('show');
-    endGameModal.classList.remove('show');
-    exchangeModal.classList.remove('show');
-    gameActive = false;
-    clearInterval(gameTimerInterval);
-    clearTargets();
-    gameLives = 5; // Reset lượt khi thoát hẳn ra chat
-});
-
-function endGame() {
-    gameActive = false;
-    clearInterval(gameTimerInterval);
-    clearTargets();
-    
-    finalScoreEl.textContent = gameScore;
-    exchangePointsVal.textContent = gameScore;
-    endGameModal.classList.add('show');
-}
-
-btnPlayAgain.addEventListener('click', () => {
-    if (gameLives > 1) {
-        gameLives--;
-        livesLeftEl.textContent = gameLives;
-        endGameModal.classList.remove('show');
-        
-        // Reset game state and start
-        gameActive = true;
-        gameScore = 0;
-        gameTime = 60;
-        gameScoreEl.textContent = gameScore;
-        gameTimerEl.textContent = gameTime;
-        
-        clearTargets();
-        
-        if (gameTimerInterval) clearInterval(gameTimerInterval);
-        gameTimerInterval = setInterval(() => {
-            gameTime--;
-            gameTimerEl.textContent = gameTime;
-            if (gameTime <= 0) {
-                endGame();
-            }
-        }, 1000);
-        
-        spawnTarget();
-        updateGame();
-    } else {
-        showToast('⚠️ Bạn đã hết 5 lượt chơi!');
-    }
-});
-
-btnExchangePoints.addEventListener('click', () => {
-    endGameModal.classList.remove('show');
-    exchangeModal.classList.add('show');
-    exchangePointsVal.textContent = gameScore;
-});
-
-// NÚT X KHUNG ĐỔI ĐIỂM: THOÁT HẲN RA CHAT
-closeExchangeModal.addEventListener('click', () => {
-    exchangeModal.classList.remove('show');
-    gameOverlay.classList.remove('show');
-    gameLives = 5; 
-    livesLeftEl.textContent = gameLives;
-});
-
-btnApplyBg.addEventListener('click', () => {
-    const url = bgUrlInput.value.trim();
-    if (url) {
-        document.querySelector('.messages').style.backgroundImage = `linear-gradient(rgba(16, 19, 26, 0.85), rgba(16, 19, 26, 0.85)), url('${url}')`;
-        localStorage.setItem('ncb_chat_bg', url);
-        showToast('✅ Đã đổi nền chat thành công!');
-        bgUrlInput.value = '';
-        exchangeModal.classList.remove('show');
-        gameOverlay.classList.remove('show');
-        gameLives = 5; 
-        livesLeftEl.textContent = gameLives;
-    } else {
-        showToast('⚠️ Vui lòng nhập link ảnh nền!');
-    }
-});
-
-function spawnTarget() {
-    if (!gameActive) return;
-    
-    const size = 45;
-    const x = Math.random() * (gameContainer.clientWidth - size);
-    const y = gameContainer.clientHeight;
-    
-    const isBad = Math.random() < 0.3; 
-    
-    const el = document.createElement('div');
-    el.className = 'game-target ' + (isBad ? 'bad' : 'good');
-    el.style.left = x + 'px';
-    el.style.top = y + 'px';
-    gameContainer.appendChild(el);
-    
-    const targetObj = {
-        el,
-        x,
-        y,
-        size,
-        vx: (Math.random() - 0.5) * 4,
-        vy: -15,
-        gravity: 0.4,
-        isHit: false,
-        isBad: isBad
-    };
-    
-    targets.push(targetObj);
-}
-
-function updateGame() {
-    if (!gameActive) return;
-    
-    for (let i = targets.length - 1; i >= 0; i--) {
-        const t = targets[i];
-        if (t.isHit) continue;
-        
-        t.vy += t.gravity;
-        t.x += t.vx;
-        t.y += t.vy;
-        
-        if (t.x <= 0 || t.x >= gameContainer.clientWidth - t.size) {
-            t.vx *= -1;
-            t.x = Math.max(0, Math.min(t.x, gameContainer.clientWidth - t.size));
-        }
-        
-        t.el.style.left = t.x + 'px';
-        t.el.style.top = t.y + 'px';
-        
-        if (t.y > gameContainer.clientHeight) {
-            t.el.remove();
-            targets.splice(i, 1);
-            spawnTarget();
-        }
-        
-        t.el.style.transform = `rotate(${t.y}deg)`;
-    }
-    
-    animationFrameId = requestAnimationFrame(updateGame);
-}
-
-let pointerPath = [];
-
-gameContainer.addEventListener('pointerdown', (e) => {
-    if (!gameActive) return;
-    pointerPath = [{x: e.clientX, y: e.clientY}];
-    checkHit(e.clientX, e.clientY);
-});
-
-gameContainer.addEventListener('pointermove', (e) => {
-    if (!gameActive) return;
-    if (e.buttons > 0 || e.pointerType === 'touch') {
-        pointerPath.push({x: e.clientX, y: e.clientY});
-        checkHit(e.clientX, e.clientY);
-    }
-});
-
-function checkHit(clientX, clientY) {
-    const rect = gameContainer.getBoundingClientRect();
-    const localX = clientX - rect.left;
-    const localY = clientY - rect.top;
-    
-    for (let i = targets.length - 1; i >= 0; i--) {
-        const t = targets[i];
-        if (t.isHit) continue;
-        
-        const dx = localX - (t.x + t.size / 2);
-        const dy = localY - (t.y + t.size / 2);
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        
-        if (distance < (t.size / 2) + 15) { 
-            t.isHit = true;
-            
-            if (t.isBad) {
-                gameScore -= 9;
-                gameTime -= 10;
-                gameTimerEl.textContent = gameTime;
-                showToast('💥 Trúng hình xấu! -9 điểm, -10s');
-                if (gameTime <= 0) {
-                    endGame();
-                    return;
-                }
-            } else {
-                gameScore += 10;
-            }
-            
-            gameScoreEl.textContent = gameScore;
-            t.el.remove();
-            targets.splice(i, 1);
-            spawnTarget();
-            break; 
-        }
-    }
-}
 
 // ====== HÀM TẠO ID NGẪU NHIÊN ======
 function generateRandomDeviceID(){
@@ -1092,19 +656,49 @@ function showApp(){
   checkConnection();updateCounter();
 }
 
-function signOut(){
-  if(!confirm('Đăng xuất?\n\nTài khoản vẫn được lưu trên thiết bị này.'))return;
-  stopSpeaking();
-  localStorage.removeItem(ACTIVE_SESSION_KEY);
-  currentUser=null;currentUserSub=null;
-  document.getElementById('appMain').classList.add('hidden');
-  document.getElementById('loginScreen').classList.remove('hide');
-  updateLoginScreen();
-  currentMessages=[];conversations=[];activeId=null;
-  renderConversation();renderHistory();updateCounter();
-  showToast('👋 Đã đăng xuất.');
-}
-document.getElementById('logoutBtn').addEventListener('click',signOut);
+// ====== XỬ LÝ ĐĂNG XUẤT VỚI ĐẾM NGƯỢC 5s ======
+const logoutModal = document.getElementById('logoutModal');
+const logoutConfirmBtn = document.getElementById('logoutConfirmBtn');
+
+document.getElementById('logoutBtn').addEventListener('click', () => {
+    logoutModal.classList.add('show');
+    
+    let timeLeft = 5;
+    logoutConfirmBtn.textContent = 'ĐIỂM NGƯỢC ' + timeLeft + 's';
+    logoutConfirmBtn.classList.remove('ready');
+    logoutConfirmBtn.disabled = true;
+    
+    if (logoutTimerInterval) clearInterval(logoutTimerInterval);
+    
+    logoutTimerInterval = setInterval(() => {
+        timeLeft--;
+        if (timeLeft > 0) {
+            logoutConfirmBtn.textContent = 'ĐIỂM NGƯỢC ' + timeLeft + 's';
+        } else {
+            clearInterval(logoutTimerInterval);
+            logoutConfirmBtn.textContent = 'TIẾP TỤC';
+            logoutConfirmBtn.classList.add('ready');
+            logoutConfirmBtn.disabled = false;
+        }
+    }, 1000);
+});
+
+logoutConfirmBtn.addEventListener('click', () => {
+    if (!logoutConfirmBtn.disabled) {
+        logoutModal.classList.remove('show');
+        
+        if(!confirm('Đăng xuất?\n\nTài khoản vẫn được lưu trên thiết bị này.'))return;
+        stopSpeaking();
+        localStorage.removeItem(ACTIVE_SESSION_KEY);
+        currentUser=null;currentUserSub=null;
+        document.getElementById('appMain').classList.add('hidden');
+        document.getElementById('loginScreen').classList.remove('hide');
+        updateLoginScreen();
+        currentMessages=[];conversations=[];activeId=null;
+        renderConversation();renderHistory();updateCounter();
+        showToast('👋 Đã đăng xuất.');
+    }
+});
 
 document.getElementById('userName').addEventListener('click', () => {
     const idText = document.getElementById('userName').textContent.replace('GL ', '').trim();
@@ -1253,7 +847,7 @@ const MODEL_FALLBACK_CHAIN=[
   {model:'qwen/qwen3-32b'}
 ];
 
-const SYSTEM_PROMPT='Bạn là NCB_AI phiên bản 1.5.0 — một trợ lí thông minh, được phát triển bởi NGUYỄN CÔNG BẰNG. Website chính thức: '+WEBSITE_URL+' QUY TẮC: Đọc kỹ câu hỏi, trả lời đúng trọng tâm, không lạc đề. KHÔNG dùng *, **, ***, #, >. Hãy sử dụng linh hoạt các icon cảm xúc (🤣, 🤑, 🤩, 🥰, 🙃, 🤗, 🤨, 🫠, 😍, 🤢, 🤮, 😡, 🤬, 🥺, 😨, 🥱, 😮) vào trong câu trả lời để tăng tính biểu cảm và tự nhiên.';
+const SYSTEM_PROMPT='Bạn là NCB_AI phiên bản 1.5.0 — một trợ lí thông minh, được phát triển bởi NGUYỄN CÔNG BẰNG. Website chính thức: '+WEBSITE_URL+' QUY TẮC: Đọc kỹ câu hỏi, trả lời đúng trọng tâm, không lạc đề. KHÔNG lặp lại câu hỏi của người dùng, hãy phân tích và trả lời trực tiếp. KHÔNG dùng *, **, ***, #, >. Hãy sử dụng linh hoạt các icon cảm xúc (🤣, 🤑, 🤩, 🥰, 🙃, 🤗, 🤨, 🫠, 😍, 🤢, 🤮, 😡, 🤬, 🥺, 😨, 🥱, 😮) vào trong câu trả lời để tăng tính biểu cảm và tự nhiên.';
 
 const FALLBACK_REPLIES=[
   "⏳ Hệ thống AI đang quá tải tạm thời.\n\n🔹 Bạn chờ khoảng 30 giây rồi gửi lại câu hỏi nhé.",
@@ -1448,12 +1042,6 @@ async function sendMessage(opts){
   const text=inp.value.trim();
   if(!text)return;
   
-  if(text.toLowerCase() === GAME_CMD) {
-      inp.value = ''; 
-      startMiniGame();
-      return; 
-  }
-
   if(!consumeTurns()){
     showToast('⚠️ Bạn đã hết lượt chat hoặc không đủ 100 lượt!\nNhập code để cộng thêm, hoặc chờ 00:00 mai reset.');
     openCodeModal();return;
