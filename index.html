@@ -551,6 +551,67 @@ const AI_VERSION='1.5.1';
 const AI_TAGLINE='NCB AI là một trợ lí thông minh';
 const LANG_KEY='ncbai_lang';
 
+// ============================================================
+// CẤU HÌNH MÚI GIỜ THEO QUỐC GIA
+// ============================================================
+const TZ_CONFIG = {
+  vi: { tz: 'Asia/Ho_Chi_Minh', flag: '🇻🇳', country: 'Việt Nam',       label: 'THỜI GIAN THỰC', tzLabel: 'Giờ Việt Nam (UTC+7)' },
+  th: { tz: 'Asia/Bangkok',      flag: '🇹🇭', country: 'Thái Lan',      label: 'เวลาจริง',        tzLabel: 'เวลาไทย (UTC+7)' },
+  en: { tz: 'America/New_York',  flag: '🇺🇸', country: 'United States', label: 'REAL TIME',       tzLabel: 'US Eastern Time (UTC-5/-4)' }
+};
+
+// ============================================================
+// NHẬT KÝ CẬP NHẬT THEO PHIÊN BẢN
+// ============================================================
+const CHANGELOG = {
+  '1.5.1': {
+    date: '2025-01-15',
+    title: 'Bản cập nhật 1.5.1 — Widget giờ theo quốc gia & Avatar mới',
+    items: [
+      'Thay avatar AI mới toàn bộ giao diện',
+      'Widget đồng hồ hiển thị đúng múi giờ quốc gia đang chọn (VN/TH/US)',
+      'Mở rộng từ khóa nhận diện câu hỏi giờ đa ngôn ngữ',
+      'Cập nhật favicon động theo avatar mới',
+      'Tối ưu hiệu năng render tin nhắn'
+    ]
+  },
+  '1.5.0': {
+    date: '2025-01-01',
+    title: 'Bản cập nhật 1.5.0 — Đa ngôn ngữ & Vision',
+    items: [
+      'Hỗ trợ 3 ngôn ngữ: Tiếng Việt, ภาษาไทย, English',
+      'Gửi ảnh cho AI phân tích (vision model)',
+      'Ghi âm giọng nói → chuyển thành văn bản',
+      'Đọc tin nhắn AI bằng giọng nói (TTS)',
+      'Tạo ảnh AI qua lệnh /image',
+      'Widget đồng hồ thời gian thực',
+      'Hệ thống mã code cộng lượt chat'
+    ]
+  },
+  '1.4.0': {
+    date: '2024-12-15',
+    title: 'Bản cập nhật 1.4.0 — Lịch sử & Quản lý lượt',
+    items: [
+      'Lưu lịch sử trò chuyện theo thiết bị',
+      'Quản lý 50.000 lượt chat/ngày',
+      'Reset lượt tự động lúc 00:00',
+      'Giao diện sidebar lịch sử',
+      'Nút nhập code nhận thêm lượt'
+    ]
+  },
+  '1.3.0': {
+    date: '2024-12-01',
+    title: 'Bản cập nhật 1.3.0 — Giao diện mới',
+    items: [
+      'Thiết kế lại giao diện tối hiện đại',
+      'Hiệu ứng animation mượt mà',
+      'Tối ưu responsive mobile',
+      'Thêm emoji picker',
+      'Cải thiện trải nghiệm người dùng'
+    ]
+  }
+};
+
 const I18N={
   vi:{
     loginSub:'Đăng nhập để bắt đầu trò chuyện.',loginQuota:'Mỗi thiết bị được',loginQuotaSuffix:'lượt chat / ngày',
@@ -815,6 +876,7 @@ settingsSave.addEventListener('click',()=>{
   try{localStorage.setItem(LANG_KEY,currentLang)}catch(e){}
   closeSettings();
   applyI18n();
+  applyClockI18n();
   showToast(t('langSaved')+' '+LANG_NAMES[currentLang]);
 });
 
@@ -871,6 +933,16 @@ function applyI18n(){
   updateCounter();
   if(document.getElementById('content'))renderConversation();
   renderHistory();
+}
+
+// ============================================================
+// CẬP NHẬT CLOCK LABEL THEO QUỐC GIA
+// ============================================================
+function applyClockI18n(){
+  const cfg = TZ_CONFIG[currentLang] || TZ_CONFIG.vi;
+  if(!I18N[currentLang]) return;
+  I18N[currentLang].clockLabel = cfg.flag + ' ' + cfg.label;
+  I18N[currentLang].clockTz    = cfg.flag + ' ' + cfg.tzLabel;
 }
 
 const imageFileInput=document.getElementById('imageFileInput');
@@ -982,9 +1054,30 @@ function stopSpeaking(){
   document.querySelectorAll('.speak-btn.active').forEach(b=>{b.classList.remove('active');b.textContent=t('speak')});
 }
 
-function getVNNow(){const n=new Date();return new Date(n.getTime()+n.getTimezoneOffset()*60000+7*3600000)}
-function getVNDateKey(){const v=getVNNow();return v.getFullYear()+'-'+String(v.getMonth()+1).padStart(2,'0')+'-'+String(v.getDate()).padStart(2,'0')}
-function getSecondsUntilReset(){const v=getVNNow();return 86400-(v.getHours()*3600+v.getMinutes()*60+v.getSeconds())}
+// ============================================================
+// LẤY GIỜ THEO MÚI GIỜ QUỐC GIA
+// ============================================================
+function getNowInTZ(tz){
+  const now=new Date();
+  const s=now.toLocaleString('en-US',{timeZone:tz,hour12:false});
+  return new Date(s);
+}
+function getDateKeyInTZ(tz){
+  const d=getNowInTZ(tz);
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+function getVNNow(){
+  const cfg=TZ_CONFIG[currentLang]||TZ_CONFIG.vi;
+  return getNowInTZ(cfg.tz);
+}
+function getVNDateKey(){
+  const cfg=TZ_CONFIG[currentLang]||TZ_CONFIG.vi;
+  return getDateKeyInTZ(cfg.tz);
+}
+function getSecondsUntilReset(){
+  const v=getVNNow();
+  return 86400-(v.getHours()*3600+v.getMinutes()*60+v.getSeconds());
+}
 function formatHMS(s){return String(Math.floor(s/3600)).padStart(2,'0')+':'+String(Math.floor(s%3600/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')}
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
 function sleep(ms){return new Promise(r=>setTimeout(r,ms))}
@@ -1026,6 +1119,7 @@ function showApp(){
   setTimeout(()=>{const i=document.getElementById('input');if(i)i.focus()},300);
   checkConnection();updateCounter();
   applyI18n();
+  applyClockI18n();
 }
 
 const logoutModal=document.getElementById('logoutModal');
@@ -1147,8 +1241,73 @@ const WEBSITE_KEYWORDS=['website','trang web','web của','link web','đường 
 function isWebsiteQuestion(text){const s=text.toLowerCase();return WEBSITE_KEYWORDS.some(k=>s.includes(k))&&(s.includes('ncb')||s.includes('bạn')||s.includes('ai')||s.includes('web')||s.includes('trang'))}
 const SUPPORT_KEYWORDS=['hỗ trợ','giúp đỡ','liên hệ','contact','support','admin ơi','gặp admin','facebook admin','fb admin','cần giúp','trợ giúp','help','báo lỗi','khiếu nại'];
 function isSupportQuestion(text){const s=text.toLowerCase();return SUPPORT_KEYWORDS.some(k=>s.includes(k))}
-const TIME_KEYWORDS=['mấy giờ','mấy h','giờ hiện tại','giờ bây giờ','bây giờ là mấy giờ','hôm nay là ngày','hôm nay ngày','ngày hôm nay','ngày bao nhiêu','thứ mấy','thứ bao nhiêu','thời gian hiện tại','thời gian bây giờ','đồng hồ','xem giờ','cho tôi biết giờ','cho tôi biết ngày','giờ việt nam','giờ vn','date','time','ngày tháng','tháng mấy','năm nay','hiện tại là','giờ hệ thống','giờ máy'];
-function isTimeQuestion(text){const s=text.toLowerCase();return TIME_KEYWORDS.some(k=>s.includes(k))}
+
+// ============================================================
+// TỪ KHÓA NHẬN DIỆN CÂU HỎI GIỜ ĐA NGÔN NGỮ
+// ============================================================
+const TIME_KEYWORDS_MULTI={
+  vi:['mấy giờ','mấy h','giờ hiện tại','giờ bây giờ','bây giờ là mấy giờ','hôm nay là ngày','hôm nay ngày','ngày hôm nay','ngày bao nhiêu','thứ mấy','thứ bao nhiêu','thời gian hiện tại','thời gian bây giờ','đồng hồ','xem giờ','cho tôi biết giờ','cho tôi biết ngày','giờ việt nam','giờ vn','date','time','ngày tháng','tháng mấy','năm nay','hiện tại là','giờ hệ thống','giờ máy'],
+  th:['กี่โมง','เวลาเท่าไหร่','เวลาตอนนี้','วันนี้วันที่','วันนี้วันอะไร','วันที่เท่าไหร่','เวลาปัจจุบัน','ดูเวลา','บอกเวลา','บอกวันที่','เวลาไทย','date','time','วันเดือนปี','เดือนอะไร','ปีนี้'],
+  en:['what time','current time','time now','what is the time','today date','what date','what day','date today','today is','current date','tell me the time','tell me the date','clock','time please','date please']
+};
+function isTimeQuestion(text){
+  const s=text.toLowerCase();
+  const kw=TIME_KEYWORDS_MULTI[currentLang]||TIME_KEYWORDS_MULTI.vi;
+  return kw.some(k=>s.includes(k));
+}
+
+// ============================================================
+// NHẬN DIỆN CÂU HỎI VỀ CẬP NHẬT / TÍNH NĂNG MỚI
+// ============================================================
+const UPDATE_KEYWORDS={
+  vi:['cập nhật gì','có gì mới','tính năng mới','chức năng mới','thêm gì','update gì','version mới','phiên bản mới','bản mới có gì','mới update gì','mới cập nhật gì','có chức năng gì','có tính năng gì','changelog','lịch sử cập nhật','có gì hot','mới thêm gì','thay đổi gì'],
+  th:['อัปเดตอะไร','มีอะไรใหม่','ฟีเจอร์ใหม่','ฟังก์ชันใหม่','เพิ่มอะไร','เวอร์ชันใหม่','มีการเปลี่ยนแปลงอะไร','มีอะไรเพิ่ม','changelog'],
+  en:['what\'s new','whats new','what is new','new features','new update','update what','version new','what changed','changelog','what has changed','any new features','what did you add']
+};
+function isUpdateQuestion(text){
+  const s=text.toLowerCase();
+  const kw=UPDATE_KEYWORDS[currentLang]||UPDATE_KEYWORDS.vi;
+  return kw.some(k=>s.includes(k));
+}
+
+// ============================================================
+// TẠO NỘI DUNG PHẢN HỒI CHANGELOG
+// ============================================================
+function buildChangelogReply(){
+  const latest=CHANGELOG[AI_VERSION];
+  const older=Object.keys(CHANGELOG).filter(v=>v!==AI_VERSION).sort((a,b)=>b.localeCompare(a,undefined,{numeric:true}));
+  
+  let header='';
+  if(currentLang==='vi') header='📢 CẬP NHẬT NCB_AI PHIÊN BẢN '+AI_VERSION+'\n\n';
+  else if(currentLang==='th') header='📢 อัปเดต NCB_AI เวอร์ชัน '+AI_VERSION+'\n\n';
+  else header='📢 NCB_AI UPDATE VERSION '+AI_VERSION+'\n\n';
+  
+  let body='';
+  if(latest){
+    body+='🔹 '+latest.title+'\n';
+    latest.items.forEach(it=>{body+='   • '+it+'\n'});
+    body+='\n';
+  }
+  
+  if(currentLang==='vi') body+='📚 CÁC PHIÊN BẢN TRƯỚC:\n\n';
+  else if(currentLang==='th') body+='📚 เวอร์ชันก่อนหน้า:\n\n';
+  else body+='📚 PREVIOUS VERSIONS:\n\n';
+  
+  older.forEach(v=>{
+    const c=CHANGELOG[v];
+    body+='🔸 v'+v+' — '+c.title+'\n';
+    c.items.slice(0,3).forEach(it=>{body+='   • '+it+'\n'});
+    body+='\n';
+  });
+  
+  let footer='';
+  if(currentLang==='vi') footer='💡 Gõ "cập nhật gì" bất cứ lúc nào để xem lại.\n🌐 Website: '+WEBSITE_URL;
+  else if(currentLang==='th') footer='💡 พิมพ์ "อัปเดตอะไร" เพื่อดูอีกครั้ง\n🌐 เว็บไซต์: '+WEBSITE_URL;
+  else footer='💡 Type "what\'s new" anytime to review.\n🌐 Website: '+WEBSITE_URL;
+  
+  return header+body+footer;
+}
+
 const IMAGE_KEYWORDS=['tạo ảnh','vẽ ảnh','vẽ hình','tạo hình','sinh ảnh','generate ảnh','tạo hình ảnh','vẽ cho tôi','tạo cho tôi ảnh','ảnh ai','ai vẽ','vẽ tranh','tạo tranh','hình ảnh về','ảnh về','vẽ con','vẽ người','tạo poster','tạo logo','vẽ logo','tạo banner'];
 function isImageRequest(text){const s=text.toLowerCase();if(s.startsWith(IMAGE_CMD))return true;return IMAGE_KEYWORDS.some(k=>s.includes(k))}
 function extractImagePrompt(text){
@@ -1161,15 +1320,22 @@ function extractImagePrompt(text){
 }
 
 function stopAllClocks(){clockIntervals.forEach(id=>clearInterval(id));clockIntervals=[]}
+
+// ============================================================
+// WIDGET ĐỒNG HỒ THEO QUỐC GIA
+// ============================================================
 function createClockWidget(){
+  const cfg=TZ_CONFIG[currentLang]||TZ_CONFIG.vi;
   const box=document.createElement('div');box.className='clock-box';
-  const label=document.createElement('div');label.className='clock-label';label.textContent=t('clockLabel');
+  const label=document.createElement('div');label.className='clock-label';
+  label.textContent=cfg.flag+' '+cfg.label;
   const timeEl=document.createElement('div');timeEl.className='clock-time';
   const dateEl=document.createElement('div');dateEl.className='clock-date';
-  const tzEl=document.createElement('div');tzEl.className='clock-tz';tzEl.textContent=t('clockTz');
+  const tzEl=document.createElement('div');tzEl.className='clock-tz';
+  tzEl.textContent=cfg.flag+' '+cfg.tzLabel;
   box.appendChild(label);box.appendChild(timeEl);box.appendChild(dateEl);box.appendChild(tzEl);
   function update(){
-    const v=getVNNow();
+    const v=getNowInTZ(cfg.tz);
     timeEl.innerHTML=String(v.getHours()).padStart(2,'0')+':'+String(v.getMinutes()).padStart(2,'0')+':<span class="sec">'+String(v.getSeconds()).padStart(2,'0')+'</span>';
     const days=[t('day0'),t('day1'),t('day2'),t('day3'),t('day4'),t('day5'),t('day6')];
     dateEl.textContent=days[v.getDay()]+', '+String(v.getDate()).padStart(2,'0')+'/'+String(v.getMonth()+1).padStart(2,'0')+'/'+v.getFullYear();
@@ -1428,6 +1594,14 @@ async function sendMessage(){
     addMessage({role:'assistant',type:'clock',ts:Date.now()});
     return;
   }
+  // ============================================================
+  // XỬ LÝ CÂU HỎI VỀ CẬP NHẬT / TÍNH NĂNG MỚI
+  // ============================================================
+  if(isUpdateQuestion(text)){
+    pushAssistantPlaceholder();await sleep(500);removeTypingPlaceholder();
+    addMessage({role:'assistant',content:buildChangelogReply(),ts:Date.now()});
+    return;
+  }
   if(isImageRequest(text)){
     const prompt=extractImagePrompt(text);pushAssistantPlaceholder();await sleep(400);removeTypingPlaceholder();
     const url=buildImageUrl(prompt);addMessage({role:'assistant',type:'image',prompt,url,ts:Date.now()});
@@ -1561,6 +1735,7 @@ if(!SR){
 window.addEventListener('DOMContentLoaded',()=>{
   loadSavedLang();
   applyI18n();
+  applyClockI18n();
   const hasSession=localStorage.getItem(ACTIVE_SESSION_KEY);
   const account=getSavedAccount();
   if(hasSession&&account){
@@ -1577,7 +1752,7 @@ window.addEventListener('DOMContentLoaded',()=>{
     activeId=conversations[0]?conversations[0].id:null;
     currentMessages=activeId?conversations.find(x=>x.id===activeId).messages:[];
     renderConversation();renderHistory();checkConnection();updateCounter();
-    applyI18n();
+    applyI18n();applyClockI18n();
   }else updateLoginScreen();
   document.addEventListener('click',e=>{
     const s=document.getElementById('sidebar'),m=document.getElementById('menuBtn');
