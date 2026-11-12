@@ -325,7 +325,7 @@ button{cursor:pointer}button,textarea,input{font:inherit}
     <div class="login-content">
       <div class="login-logo"><img src="https://i.ibb.co/9kBTwhfq/file-000000007ae482099bddf96408f8a67f.png" alt="NCB_AI"></div>
       <div class="login-title">NCB_AI 1.5.0</div>
-      <div class="login-sub">Đăng nhập để bắt đầu trò chuyện.<br>Mỗi thiết bị được <b style="color:#ffd166">50.000 lượt chat / ngày</b><br>🎤 Ghi âm · 🔊 AI đọc · 🖼️ Phân tích ảnh</div>
+      <div class="login-sub" id="loginSub">Đăng nhập để bắt đầu trò chuyện.<br>Mỗi thiết bị được <b style="color:#ffd166">50.000 lượt chat / ngày</b><br>🎤 · 🔊 · 🖼️</div>
       
       <button class="ncb-login-btn" id="ncbLoginBtn">
         <svg viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
@@ -334,10 +334,10 @@ button{cursor:pointer}button,textarea,input{font:inherit}
       </button>
 
       <div class="saved-info hidden" id="savedInfo">
-        <div class="saved-label">Tài khoản đã lưu trên thiết bị</div>
+        <div class="saved-label" id="savedLabel">Tài khoản đã lưu trên thiết bị</div>
         <div class="saved-id" id="savedId">NCB_0</div>
       </div>
-      <div class="login-footer">NCB_AI 1.5.0<br>Admin: <strong>NGUYỄN CÔNG BẰNG</strong></div>
+      <div class="login-footer" id="loginFooter">NCB_AI 1.5.0<br>Admin: <strong>NGUYỄN CÔNG BẰNG</strong></div>
     </div>
   </div>
 </div>
@@ -359,13 +359,13 @@ button{cursor:pointer}button,textarea,input{font:inherit}
     </div>
     <button class="new-chat" id="newChat">＋ &nbsp; Cuộc trò chuyện mới</button>
     <div>
-      <div class="section-label">GẦN ĐÂY</div>
+      <div class="section-label" id="recentLabel">GẦN ĐÂY</div>
       <div class="history-list" id="historyList"></div>
     </div>
     <div class="sidebar-bottom">
       <div>✦ NCB_AI</div>
-      <div class="version">Phiên bản 1.5.0</div>
-      <div>NCB AI là một trợ lí thông minh</div>
+      <div class="version" id="sideVersion">Phiên bản 1.5.0</div>
+      <div id="sideTagline">NCB AI là một trợ lí thông minh</div>
       <div class="counter" id="counterLabel2">Lượt chat: 0 / 50000</div>
       <div class="reset-timer" id="resetTimer">Reset sau: --:--:--</div>
       <div class="admin">Admin: NGUYỄN CÔNG BẰNG</div>
@@ -382,7 +382,7 @@ button{cursor:pointer}button,textarea,input{font:inherit}
       <button class="icon-btn" id="menuBtn">☰</button>
       <div>
         <div class="top-title">NCB_AI 1.5.0</div>
-        <div class="top-subtitle">NCB AI là một trợ lí thông minh</div>
+        <div class="top-subtitle" id="topSubtitle">NCB AI là một trợ lí thông minh</div>
       </div>
       <div class="status" id="status"><span class="status-dot"></span><span id="statusText">Đang kết nối</span></div>
       
@@ -419,7 +419,7 @@ button{cursor:pointer}button,textarea,input{font:inherit}
           <div class="composer-bottom">
             <div class="composer-info">
               <span>✦</span><span>NCB_AI 1.5.0</span><span>·</span>
-              <span class="typing-hint" id="typingHint"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span>Đang nhập...</span></span>
+              <span class="typing-hint" id="typingHint"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span id="typingText">Đang nhập...</span></span>
               <span id="sendHint">Enter để gửi</span>
             </div>
             <div class="composer-actions">
@@ -463,7 +463,7 @@ button{cursor:pointer}button,textarea,input{font:inherit}
             <span class="emoji-item">💥</span>
           </div>
         </div>
-        <p class="disclaimer">NCB AI ĐƯỢC TẠO RA ĐỂ HỖ TRỢ TRẢ LỜI NHANH NGÔN NGỮ TIẾNG VIỆT</p>
+        <p class="disclaimer" id="disclaimer">NCB AI ĐƯỢC TẠO RA ĐỂ HỖ TRỢ TRẢ LỜI NHANH NGÔN NGỮ TIẾNG VIỆT</p>
       </div>
     </section>
   </main>
@@ -472,11 +472,11 @@ button{cursor:pointer}button,textarea,input{font:inherit}
 <div class="settings-overlay" id="settingsOverlay">
   <div class="settings-panel">
     <div class="settings-header">
-      <div class="settings-title">⚙ CÀI ĐẶT NGÔN NGỮ</div>
+      <div class="settings-title" id="settingsTitle">⚙ CÀI ĐẶT NGÔN NGỮ</div>
       <button class="settings-close" id="settingsClose">×</button>
     </div>
     <div class="settings-body">
-      <div class="settings-label">Chọn ngôn ngữ AI trả lời</div>
+      <div class="settings-label" id="settingsLabel">Chọn ngôn ngữ AI trả lời</div>
       <div class="lang-options" id="langOptions">
         <div class="lang-option" data-lang="vi">
           <div class="lang-flag">🇻🇳</div>
@@ -510,7 +510,7 @@ button{cursor:pointer}button,textarea,input{font:inherit}
 
 <div class="logout-modal" id="logoutModal">
     <div class="logout-box">
-        <div class="logout-title">BẠN MUỐN TIẾP TỤC CHỨ?</div>
+        <div class="logout-title" id="logoutTitle">BẠN MUỐN TIẾP TỤC CHỨ?</div>
         <button class="logout-btn-timer" id="logoutConfirmBtn" disabled>ĐIỂM NGƯỢC 5s</button>
     </div>
 </div>
@@ -519,7 +519,7 @@ button{cursor:pointer}button,textarea,input{font:inherit}
 
 <div class="ncb-overlay hidden" id="codeOverlay">
   <div class="ncb-box">
-    <div class="ncb-top"><b>⌘ NHẬP CODE</b><button class="ncb-close" id="codeClose">×</button></div>
+    <div class="ncb-top"><b id="codeTitle">⌘ NHẬP CODE</b><button class="ncb-close" id="codeClose">×</button></div>
     <input class="ncb-input" id="codeInput" placeholder="NCB_XXXXXXXXXX" autocomplete="off">
     <button class="ncb-submit" id="codeSubmit">XÁC NHẬN</button>
     <div class="ncb-msg" id="codeError"></div>
@@ -551,6 +551,193 @@ const AI_VERSION='1.5.0';
 const AI_TAGLINE='NCB AI là một trợ lí thông minh';
 const LANG_KEY='ncbai_lang';
 
+const I18N={
+  vi:{
+    loginSub:'Đăng nhập để bắt đầu trò chuyện.',loginQuota:'Mỗi thiết bị được',loginQuotaSuffix:'lượt chat / ngày',
+    loginBtn:'ĐĂNG NHẬP NCB',loginReBtn:'VÀO LẠI TÀI KHOẢN',
+    savedLabel:'Tài khoản đã lưu trên thiết bị',
+    logoutBtn:'Thoát',
+    topSub:'NCB AI là một trợ lí thông minh',
+    statusConnecting:'Đang kết nối',statusOnline:'Trực tuyến',statusApiErr:'Lỗi API',statusOffline:'Mất kết nối',
+    newChat:'＋   Cuộc trò chuyện mới',recent:'GẦN ĐÂY',
+    noChat:'Chưa có cuộc trò chuyện',chatNew:'Cuộc trò chuyện mới',
+    version:'Phiên bản 1.5.0',tagline:'NCB AI là một trợ lí thông minh',
+    counterLabel:'Lượt chat:',resetAfter:'Reset sau:',notLogged:'Chưa đăng nhập',
+    anonymousDevice:'Thiết bị ẩn danh',
+    welcome:'Xin chào 👋',
+    welcomeDesc:'NCB AI là một trợ lí thông minh. Gửi ảnh để AI phân tích nhân vật, bối cảnh, cảm xúc — hoặc hỏi bất cứ điều gì.',
+    suggestExplain:'💡 Giải thích',suggestExplainSub:'Blockchain là gì và ứng dụng ra sao?',
+    suggestCode:'💻 Viết code',suggestCodeSub:'Python tính giai thừa bằng đệ quy',
+    suggestTime:'🕐 Xem giờ',suggestTimeSub:'Cho tôi biết giờ và ngày hôm nay',
+    suggestImage:'🎨 Tạo ảnh',suggestImageSub:'Mèo phi hành gia trên sao Hỏa',
+    inputPlaceholder:'Nhập tin nhắn hoặc bấm micro để nói...',
+    sendHint:'Enter để gửi',typing:'Đang nhập...',
+    disclaimer:'NCB AI ĐƯỢC TẠO RA ĐỂ HỖ TRỢ TRẢ LỜI NHANH NGÔN NGỮ TIẾNG VIỆT',
+    copy:'Sao chép',speak:'🔊 Đọc',stop:'⏹ Dừng',copied:'📋 Đã sao chép',
+    settingsTitle:'⚙ CÀI ĐẶT NGÔN NGỮ',settingsLabel:'Chọn ngôn ngữ AI trả lời',settingsSave:'💾 LƯU NGÔN NGỮ',
+    langSaved:'✅ Đã lưu ngôn ngữ:',
+    codeTitle:'⌘ NHẬP CODE',codeSubmit:'XÁC NHẬN',
+    codeEmpty:'⚠️ Vui lòng nhập code',
+    codeOk50:'✅ Mã hợp lệ! +50.000 lượt',codeOkVip:'✅ Mã VIP hợp lệ! +100.000 lượt',codeOk1k:'✅ Mã hợp lệ! +1.000 lượt',
+    codeInvalid:'❌ Mã không hợp lệ',
+    toastOk50:'🎉 Đã cộng 50.000 lượt!',toastOkVip:'🎉 Đã cộng 100.000 lượt!',toastOk1k:'🎉 Đã cộng 1000 lượt chat!',
+    toastNewId:'✅ Đã tạo ID mới:',toastLogin:'✅ Đăng nhập:',toastLogout:'👋 Đã đăng xuất.',
+    toastImgAttached:'✅ Đã đính kèm ảnh — AI sẽ phân tích',
+    toastImgOnly:'⚠️ Chỉ hỗ trợ file ảnh',
+    toastImgLarge:'⚠️ Ảnh quá lớn (tối đa 4MB cho AI vision)',
+    toastNoMic:'⚠️ Trình duyệt không hỗ trợ ghi âm.\nVui lòng dùng Chrome hoặc Edge!',
+    toastNoTts:'⚠️ Trình duyệt không hỗ trợ đọc',
+    toastTurnOut:'⚠️ Bạn đã hết lượt chat hoặc không đủ 100 lượt!\nNhập code để cộng thêm, hoặc chờ 00:00 mai reset.',
+    toastReset:'🎉 Đã cộng lại 50.000 lượt chat cho ngày mới!',
+    toastCopiedId:'📋 Đã sao chép ID:',
+    logoutTitle:'BẠN MUỐN TIẾP TỤC CHỨ?',logoutCount:'ĐIỂM NGƯỢC',logoutGo:'TIẾP TỤC',
+    logoutConfirm:'Đăng xuất?\n\nTài khoản vẫn được lưu trên thiết bị này.',
+    voiceTitle:'Ghi âm giọng nói',
+    voiceSub:'Nhấn nút bên dưới và nói. AI sẽ nghe, trả lời và đọc to cho bạn.',
+    voiceListening:'🔴 Đang nghe...',voiceListenHint:'Hãy nói rõ ràng. Nhấn "Dừng" khi xong.',
+    voiceStopped:'Đã dừng ghi âm',voiceDone:'Bạn có thể sửa hoặc gửi cho AI.',voiceNoSpeech:'Không nhận diện được giọng nói.',
+    voiceStart:'🎤 Bắt đầu nói',voiceStop:'⏹ Dừng lại',voiceAgain:'🎤 Nói lại',
+    voiceClose:'Đóng',voiceSend:'➤ Gửi cho AI',
+    voiceEmptyHint:'🎤 Nhấn nút bên dưới và bắt đầu nói...',
+    voiceMicDenied:'❌ Bạn cần cho phép micro trong trình duyệt!',
+    voiceMicNoSpeech:'⚠️ Không nghe thấy gì, thử lại nhé.',
+    voiceMicNetwork:'⚠️ Lỗi mạng, kiểm tra kết nối.',
+    removeImg:'Bỏ ảnh',
+    websiteReply:'Đây là website chính thức của NCB AI:\n\n🔹 ',
+    websiteReplyTail:'\n\nBạn truy cập để dùng phiên bản mới nhất nhé! 🤩',
+    supportReply:'Bạn cần hỗ trợ? Liên hệ admin qua Facebook:\n\n🔹 ',
+    supportReplyTail:'\n\nAdmin: NGUYỄN CÔNG BẰNG sẽ phản hồi sớm nhất có thể. 🥰',
+    imageGenLabel:'🎨 ẢNH ĐÃ TẠO',imageDownload:'⬇ Tải xuống',imageRegen:'🔄 Tạo lại',
+    clockLabel:'THỜI GIAN THỰC',clockTz:'🇻🇳 Giờ Việt Nam (UTC+7)',
+    day0:'Chủ nhật',day1:'Thứ hai',day2:'Thứ ba',day3:'Thứ tư',day4:'Thứ năm',day5:'Thứ sáu',day6:'Thứ bảy',
+    retryImgFail:'⏳ Không phân tích được ảnh lúc này.\n\n🔹 Kiểm tra: ảnh < 4MB, API key còn hạn mức vision.\n🔹 Hoặc thử gửi lại sau 30 giây.',
+    closeTitle:'Đóng'
+  },
+  th:{
+    loginSub:'เข้าสู่ระบบเพื่อเริ่มแชท',loginQuota:'แต่ละอุปกรณ์ได้รับ',loginQuotaSuffix:'ข้อความ / วัน',
+    loginBtn:'เข้าสู่ระบบ NCB',loginReBtn:'กลับเข้าสู่บัญชี',
+    savedLabel:'บัญชีที่บันทึกไว้ในอุปกรณ์',
+    logoutBtn:'ออก',
+    topSub:'NCB AI เป็นผู้ช่วยอัจฉริยะ',
+    statusConnecting:'กำลังเชื่อมต่อ',statusOnline:'ออนไลน์',statusApiErr:'API ผิดพลาด',statusOffline:'ขาดการเชื่อมต่อ',
+    newChat:'＋   แชทใหม่',recent:'ล่าสุด',
+    noChat:'ยังไม่มีการสนทนา',chatNew:'แชทใหม่',
+    version:'เวอร์ชัน 1.5.0',tagline:'NCB AI เป็นผู้ช่วยอัจฉริยะ',
+    counterLabel:'จำนวนแชท:',resetAfter:'รีเซ็ตใน:',notLogged:'ยังไม่เข้าสู่ระบบ',
+    anonymousDevice:'อุปกรณ์ไม่ระบุตัวตน',
+    welcome:'สวัสดี 👋',
+    welcomeDesc:'NCB AI เป็นผู้ช่วยอัจฉริยะ ส่งภาพให้ AI วิเคราะห์ตัวละคร ฉาก อารมณ์ หรือถามอะไรก็ได้',
+    suggestExplain:'💡 อธิบาย',suggestExplainSub:'Blockchain คืออะไรและใช้อย่างไร?',
+    suggestCode:'💻 เขียนโค้ด',suggestCodeSub:'Python คำนวณแฟกทอเรียลแบบเรียกซ้ำ',
+    suggestTime:'🕐 ดูเวลา',suggestTimeSub:'บอกเวลาและวันที่วันนี้',
+    suggestImage:'🎨 สร้างภาพ',suggestImageSub:'แมวนักบินอวกาศบนดาวอังคาร',
+    inputPlaceholder:'พิมพ์ข้อความหรือกดไมค์เพื่อพูด...',
+    sendHint:'Enter เพื่อส่ง',typing:'กำลังพิมพ์...',
+    disclaimer:'NCB AI ถูกสร้างขึ้นเพื่อช่วยตอบคำถามอย่างรวดเร็ว',
+    copy:'คัดลอก',speak:'🔊 อ่าน',stop:'⏹ หยุด',copied:'📋 คัดลอกแล้ว',
+    settingsTitle:'⚙ ตั้งค่าภาษา',settingsLabel:'เลือกภาษาที่ AI ตอบ',settingsSave:'💾 บันทึกภาษา',
+    langSaved:'✅ บันทึกภาษาแล้ว:',
+    codeTitle:'⌘ ใส่โค้ด',codeSubmit:'ยืนยัน',
+    codeEmpty:'⚠️ กรุณาใส่โค้ด',
+    codeOk50:'✅ โค้ดถูกต้อง! +50,000 ครั้ง',codeOkVip:'✅ โค้ด VIP ถูกต้อง! +100,000 ครั้ง',codeOk1k:'✅ โค้ดถูกต้อง! +1,000 ครั้ง',
+    codeInvalid:'❌ โค้ดไม่ถูกต้อง',
+    toastOk50:'🎉 เพิ่ม 50,000 ครั้งแล้ว!',toastOkVip:'🎉 เพิ่ม 100,000 ครั้งแล้ว!',toastOk1k:'🎉 เพิ่ม 1,000 ครั้งแล้ว!',
+    toastNewId:'✅ สร้าง ID ใหม่:',toastLogin:'✅ เข้าสู่ระบบ:',toastLogout:'👋 ออกจากระบบแล้ว',
+    toastImgAttached:'✅ แนบภาพแล้ว — AI จะวิเคราะห์',
+    toastImgOnly:'⚠️ รองรับเฉพาะไฟล์ภาพ',
+    toastImgLarge:'⚠️ ภาพใหญ่เกินไป (สูงสุด 4MB)',
+    toastNoMic:'⚠️ เบราว์เซอร์ไม่รองรับการบันทึกเสียง\nกรุณาใช้ Chrome หรือ Edge!',
+    toastNoTts:'⚠️ เบราว์เซอร์ไม่รองรับการอ่าน',
+    toastTurnOut:'⚠️ คุณใช้สิทธิ์แชทหมดหรือเหลือไม่ถึง 100 ครั้ง!\nใส่โค้ดเพื่อเพิ่ม หรือรอ 00:00 พรุ่งนี้รีเซ็ต',
+    toastReset:'🎉 เพิ่ม 50,000 ครั้งสำหรับวันใหม่แล้ว!',
+    toastCopiedId:'📋 คัดลอก ID แล้ว:',
+    logoutTitle:'คุณต้องการดำเนินการต่อหรือไม่?',logoutCount:'นับถอยหลัง',logoutGo:'ดำเนินการต่อ',
+    logoutConfirm:'ออกจากระบบ?\n\nบัญชียังคงถูกบันทึกในอุปกรณ์นี้',
+    voiceTitle:'บันทึกเสียง',
+    voiceSub:'กดปุ่มด้านล่างแล้วพูด AI จะฟัง ตอบ และอ่านออกเสียง',
+    voiceListening:'🔴 กำลังฟัง...',voiceListenHint:'พูดให้ชัดเจน กด "หยุด" เมื่อเสร็จ',
+    voiceStopped:'หยุดบันทึกแล้ว',voiceDone:'คุณสามารถแก้ไขหรือส่งให้ AI',voiceNoSpeech:'ไม่รู้จำเสียงได้',
+    voiceStart:'🎤 เริ่มพูด',voiceStop:'⏹ หยุด',voiceAgain:'🎤 พูดอีกครั้ง',
+    voiceClose:'ปิด',voiceSend:'➤ ส่งให้ AI',
+    voiceEmptyHint:'🎤 กดปุ่มด้านล่างและเริ่มพูด...',
+    voiceMicDenied:'❌ คุณต้องอนุญาตไมโครโฟนในเบราว์เซอร์!',
+    voiceMicNoSpeech:'⚠️ ไม่ได้ยินเสียง ลองอีกครั้ง',
+    voiceMicNetwork:'⚠️ เครือข่ายผิดพลาด ตรวจสอบการเชื่อมต่อ',
+    removeImg:'ลบภาพ',
+    websiteReply:'นี่คือเว็บไซต์อย่างเป็นทางการของ NCB AI:\n\n🔹 ',
+    websiteReplyTail:'\n\nเข้าชมเพื่อใช้เวอร์ชันล่าสุดได้เลย! 🤩',
+    supportReply:'ต้องการความช่วยเหลือ? ติดต่อผู้ดูแลผ่าน Facebook:\n\n🔹 ',
+    supportReplyTail:'\n\nผู้ดูแล: NGUYỄN CÔNG BẰNG จะตอบกลับโดยเร็วที่สุด 🥰',
+    imageGenLabel:'🎨 ภาพที่สร้างแล้ว',imageDownload:'⬇ ดาวน์โหลด',imageRegen:'🔄 สร้างใหม่',
+    clockLabel:'เวลาจริง',clockTz:'🇻🇳 เวลาเวียดนาม (UTC+7)',
+    day0:'อาทิตย์',day1:'จันทร์',day2:'อังคาร',day3:'พุธ',day4:'พฤหัสบดี',day5:'ศุกร์',day6:'เสาร์',
+    retryImgFail:'⏳ ไม่สามารถวิเคราะห์ภาพได้ในขณะนี้\n\n🔹 ตรวจสอบ: ภาพ < 4MB, API key ยังมีโควตา vision\n🔹 หรือลองส่งใหม่ใน 30 วินาที',
+    closeTitle:'ปิด'
+  },
+  en:{
+    loginSub:'Sign in to start chatting.',loginQuota:'Each device gets',loginQuotaSuffix:'messages / day',
+    loginBtn:'SIGN IN NCB',loginReBtn:'RETURN TO ACCOUNT',
+    savedLabel:'Account saved on this device',
+    logoutBtn:'Logout',
+    topSub:'NCB AI is an intelligent assistant',
+    statusConnecting:'Connecting',statusOnline:'Online',statusApiErr:'API Error',statusOffline:'Disconnected',
+    newChat:'＋   New chat',recent:'RECENT',
+    noChat:'No conversations yet',chatNew:'New conversation',
+    version:'Version 1.5.0',tagline:'NCB AI is an intelligent assistant',
+    counterLabel:'Messages:',resetAfter:'Reset in:',notLogged:'Not signed in',
+    anonymousDevice:'Anonymous device',
+    welcome:'Hello 👋',
+    welcomeDesc:'NCB AI is an intelligent assistant. Send an image for AI to analyze characters, scenes, emotions — or ask anything.',
+    suggestExplain:'💡 Explain',suggestExplainSub:'What is blockchain and how is it used?',
+    suggestCode:'💻 Write code',suggestCodeSub:'Python factorial using recursion',
+    suggestTime:'🕐 Check time',suggestTimeSub:"Tell me today's time and date",
+    suggestImage:'🎨 Create image',suggestImageSub:'Astronaut cat on Mars',
+    inputPlaceholder:'Type a message or tap mic to speak...',
+    sendHint:'Enter to send',typing:'Typing...',
+    disclaimer:'NCB AI IS BUILT TO PROVIDE FAST RESPONSES IN VIETNAMESE',
+    copy:'Copy',speak:'🔊 Read',stop:'⏹ Stop',copied:'📋 Copied',
+    settingsTitle:'⚙ LANGUAGE SETTINGS',settingsLabel:'Choose AI response language',settingsSave:'💾 SAVE LANGUAGE',
+    langSaved:'✅ Language saved:',
+    codeTitle:'⌘ ENTER CODE',codeSubmit:'CONFIRM',
+    codeEmpty:'⚠️ Please enter code',
+    codeOk50:'✅ Valid code! +50,000 turns',codeOkVip:'✅ Valid VIP code! +100,000 turns',codeOk1k:'✅ Valid code! +1,000 turns',
+    codeInvalid:'❌ Invalid code',
+    toastOk50:'🎉 Added 50,000 turns!',toastOkVip:'🎉 Added 100,000 turns!',toastOk1k:'🎉 Added 1,000 turns!',
+    toastNewId:'✅ New ID created:',toastLogin:'✅ Signed in:',toastLogout:'👋 Signed out.',
+    toastImgAttached:'✅ Image attached — AI will analyze',
+    toastImgOnly:'⚠️ Only image files supported',
+    toastImgLarge:'⚠️ Image too large (max 4MB)',
+    toastNoMic:'⚠️ Browser does not support recording.\nPlease use Chrome or Edge!',
+    toastNoTts:'⚠️ Browser does not support speech',
+    toastTurnOut:'⚠️ Out of turns or fewer than 100!\nEnter code to add more, or wait until 00:00 for reset.',
+    toastReset:'🎉 50,000 turns recharged for a new day!',
+    toastCopiedId:'📋 Copied ID:',
+    logoutTitle:'DO YOU WANT TO CONTINUE?',logoutCount:'COUNTDOWN',logoutGo:'CONTINUE',
+    logoutConfirm:'Sign out?\n\nThe account remains saved on this device.',
+    voiceTitle:'Voice recording',
+    voiceSub:'Tap the button below and speak. AI will listen, reply and read aloud.',
+    voiceListening:'🔴 Listening...',voiceListenHint:'Speak clearly. Tap "Stop" when done.',
+    voiceStopped:'Recording stopped',voiceDone:'You can edit or send to AI.',voiceNoSpeech:'Could not recognize speech.',
+    voiceStart:'🎤 Start speaking',voiceStop:'⏹ Stop',voiceAgain:'🎤 Speak again',
+    voiceClose:'Close',voiceSend:'➤ Send to AI',
+    voiceEmptyHint:'🎤 Tap the button below and start speaking...',
+    voiceMicDenied:'❌ You must allow microphone in your browser!',
+    voiceMicNoSpeech:'⚠️ No speech detected, try again.',
+    voiceMicNetwork:'⚠️ Network error, check connection.',
+    removeImg:'Remove image',
+    websiteReply:'This is the official NCB AI website:\n\n🔹 ',
+    websiteReplyTail:'\n\nVisit to use the latest version! 🤩',
+    supportReply:'Need help? Contact admin via Facebook:\n\n🔹 ',
+    supportReplyTail:'\n\nAdmin: NGUYỄN CÔNG BẰNG will respond as soon as possible. 🥰',
+    imageGenLabel:'🎨 GENERATED IMAGE',imageDownload:'⬇ Download',imageRegen:'🔄 Regenerate',
+    clockLabel:'REAL TIME',clockTz:'🇻🇳 Vietnam Time (UTC+7)',
+    day0:'Sunday',day1:'Monday',day2:'Tuesday',day3:'Wednesday',day4:'Thursday',day5:'Friday',day6:'Saturday',
+    retryImgFail:'⏳ Cannot analyze image right now.\n\n🔹 Check: image < 4MB, API key vision quota.\n🔹 Or try again in 30 seconds.',
+    closeTitle:'Close'
+  }
+};
+function t(key){return (I18N[currentLang]&&I18N[currentLang][key])||(I18N.vi[key])||key}
+
 const LANG_PROMPTS={
   vi:'Bạn PHẢI trả lời hoàn toàn bằng TIẾNG VIỆT. Không dùng ngôn ngữ khác.',
   th:'คุณต้องตอบเป็นภาษาไทยเท่านั้น ห้ามใช้ภาษาอื่น',
@@ -559,7 +746,6 @@ const LANG_PROMPTS={
 const LANG_NAMES={vi:'Tiếng Việt',th:'ภาษาไทย',en:'English'};
 
 let currentLang='vi';
-
 let currentUser=null,currentUserSub=null;
 let conversations=[],activeId=null,currentMessages=[],isSending=false;
 let clockIntervals=[],resetTimerInterval=null;
@@ -600,7 +786,6 @@ document.addEventListener('touchend',dragEnd);
 fab.addEventListener('click',e=>{if(e.target===closeFab)return;if(hasDragged)return;openCodeModal()});
 closeFab.addEventListener('click',e=>{e.stopPropagation();fab.classList.add('hide-fab')});
 
-// SETTINGS LANGUAGE
 const settingsOverlay=document.getElementById('settingsOverlay');
 const settingsBtn=document.getElementById('settingsBtn');
 const settingsClose=document.getElementById('settingsClose');
@@ -608,10 +793,7 @@ const settingsSave=document.getElementById('settingsSave');
 const langOptionsEl=document.getElementById('langOptions');
 
 function loadSavedLang(){
-  try{
-    const s=localStorage.getItem(LANG_KEY);
-    if(s&&LANG_PROMPTS[s])currentLang=s;
-  }catch(e){}
+  try{const s=localStorage.getItem(LANG_KEY);if(s&&I18N[s])currentLang=s}catch(e){}
 }
 function applyLangSelection(lang){
   selectedLangTemp=lang;
@@ -619,11 +801,7 @@ function applyLangSelection(lang){
     el.classList.toggle('selected',el.dataset.lang===lang);
   });
 }
-function openSettings(){
-  selectedLangTemp=currentLang;
-  applyLangSelection(currentLang);
-  settingsOverlay.classList.add('show');
-}
+function openSettings(){selectedLangTemp=currentLang;applyLangSelection(currentLang);settingsOverlay.classList.add('show')}
 function closeSettings(){settingsOverlay.classList.remove('show')}
 
 settingsBtn.addEventListener('click',openSettings);
@@ -636,8 +814,64 @@ settingsSave.addEventListener('click',()=>{
   currentLang=selectedLangTemp;
   try{localStorage.setItem(LANG_KEY,currentLang)}catch(e){}
   closeSettings();
-  showToast('✅ Đã lưu ngôn ngữ: '+LANG_NAMES[currentLang]);
+  applyI18n();
+  showToast(t('langSaved')+' '+LANG_NAMES[currentLang]);
 });
+
+function applyI18n(){
+  document.documentElement.lang=currentLang;
+  const ls=document.getElementById('loginSub');
+  if(ls)ls.innerHTML=t('loginSub')+'<br>'+t('loginQuota')+' <b style="color:#ffd166">50.000 '+t('loginQuotaSuffix')+'</b><br>🎤 · 🔊 · 🖼️';
+  const lb=document.getElementById('loginBtnText');
+  if(lb)lb.textContent=localStorage.getItem(ACTIVE_SESSION_KEY)?t('loginReBtn'):t('loginBtn');
+  const sl=document.getElementById('savedLabel');if(sl)sl.textContent=t('savedLabel');
+  const lo=document.getElementById('logoutBtn');if(lo)lo.textContent=t('logoutBtn');
+  const ts=document.getElementById('topSubtitle');if(ts)ts.textContent=t('topSub');
+  const nc=document.getElementById('newChat');if(nc)nc.textContent=t('newChat');
+  const rl=document.getElementById('recentLabel');if(rl)rl.textContent=t('recent');
+  const sv=document.getElementById('sideVersion');if(sv)sv.textContent=t('version');
+  const st=document.getElementById('sideTagline');if(st)st.textContent=t('tagline');
+  const ue=document.getElementById('userEmail');if(ue)ue.textContent=t('anonymousDevice');
+  const inp=document.getElementById('input');if(inp)inp.placeholder=t('inputPlaceholder');
+  const sh=document.getElementById('sendHint');if(sh)sh.textContent=t('sendHint');
+  const tt=document.getElementById('typingText');if(tt)tt.textContent=t('typing');
+  const dis=document.getElementById('disclaimer');if(dis)dis.textContent=t('disclaimer');
+  const rip=document.getElementById('imagePreviewRemove');if(rip)rip.title=t('removeImg');
+  const sttl=document.getElementById('settingsTitle');if(sttl)sttl.textContent=t('settingsTitle');
+  const slbl=document.getElementById('settingsLabel');if(slbl)slbl.textContent=t('settingsLabel');
+  const ssave=document.getElementById('settingsSave');if(ssave)ssave.textContent=t('settingsSave');
+  const scl=document.getElementById('settingsClose');if(scl)scl.title=t('closeTitle');
+  const ct=document.getElementById('codeTitle');if(ct)ct.textContent=t('codeTitle');
+  const cs=document.getElementById('codeSubmit');if(cs)cs.textContent=t('codeSubmit');
+  const lt=document.getElementById('logoutTitle');if(lt)lt.textContent=t('logoutTitle');
+  const vt=document.getElementById('voiceTitle');if(vt)vt.textContent=t('voiceTitle');
+  const vs=document.getElementById('voiceSub');if(vs)vs.textContent=t('voiceSub');
+  const vc=document.getElementById('voiceClose');if(vc)vc.textContent=t('voiceClose');
+  const vst=document.getElementById('voiceStart');if(vst&&!isRecording)vst.textContent=t('voiceStart');
+  const vsd=document.getElementById('voiceSend');if(vsd)vsd.textContent=t('voiceSend');
+  const vtr=document.getElementById('voiceTranscript');
+  if(vtr){vtr.setAttribute('data-empty',t('voiceEmptyHint'));
+    if(!document.getElementById('i18nVoiceStyle')){
+      const s=document.createElement('style');s.id='i18nVoiceStyle';
+      s.textContent='.voice-transcript:empty::before{content:attr(data-empty)!important}';
+      document.head.appendChild(s);
+    }
+  }
+  const lcb=document.getElementById('logoutConfirmBtn');
+  if(lcb){
+    if(lcb.disabled){const m=lcb.textContent.match(/(\d+)/);lcb.textContent=t('logoutCount')+' '+(m?m[1]:'5')+'s'}
+    else lcb.textContent=t('logoutGo');
+  }
+  const statusEl=document.getElementById('status');const stText=document.getElementById('statusText');
+  if(stText){
+    if(statusEl.classList.contains('error'))stText.textContent=t('statusOffline');
+    else if(stText.textContent==='Trực tuyến'||stText.textContent==='Online'||stText.textContent==='ออนไลน์')stText.textContent=t('statusOnline');
+    else stText.textContent=t('statusConnecting');
+  }
+  updateCounter();
+  if(document.getElementById('content'))renderConversation();
+  renderHistory();
+}
 
 const imageFileInput=document.getElementById('imageFileInput');
 const imgUploadBtn=document.getElementById('imgUploadBtn');
@@ -656,8 +890,8 @@ function formatBytes(b){
 imageFileInput.addEventListener('change',e=>{
   const file=e.target.files&&e.target.files[0];
   if(!file)return;
-  if(!file.type.startsWith('image/')){showToast('⚠️ Chỉ hỗ trợ file ảnh');imageFileInput.value='';return}
-  if(file.size>MAX_IMAGE_BYTES){showToast('⚠️ Ảnh quá lớn (tối đa 4MB cho AI vision)');imageFileInput.value='';return}
+  if(!file.type.startsWith('image/')){showToast(t('toastImgOnly'));imageFileInput.value='';return}
+  if(file.size>MAX_IMAGE_BYTES){showToast(t('toastImgLarge'));imageFileInput.value='';return}
   const reader=new FileReader();
   reader.onload=ev=>{
     pendingImageData={dataUrl:ev.target.result,name:file.name,size:file.size};
@@ -666,7 +900,7 @@ imageFileInput.addEventListener('change',e=>{
     imagePreviewSize.textContent=formatBytes(file.size);
     imagePreviewBar.classList.add('show');
     imgUploadBtn.classList.add('has-file');
-    showToast('✅ Đã đính kèm ảnh — AI sẽ phân tích');
+    showToast(t('toastImgAttached'));
   };
   reader.readAsDataURL(file);
   imageFileInput.value='';
@@ -705,7 +939,7 @@ function isCodeResponse(text){
   let m=0;for(const k of kws){if(text.includes(k))m++}
   if(m>=3)return true;
   const lines=text.split('\n');let c=0;
-  for(const l of lines){const t=l.trim();if(t.endsWith(';')||t.endsWith('{')||t.endsWith('}'))c++}
+  for(const l of lines){const tt=l.trim();if(tt.endsWith(';')||tt.endsWith('{')||tt.endsWith('}'))c++}
   return c>=3;
 }
 
@@ -717,9 +951,9 @@ function loadVietnameseVoice(){
   vietnameseVoice=v.find(x=>x.lang==='vi-VN')||v.find(x=>x.lang&&x.lang.startsWith('vi'))||v.find(x=>x.name&&x.name.toLowerCase().includes('vietnam'))||null;
 }
 if(speechSynth){loadVietnameseVoice();speechSynth.onvoiceschanged=loadVietnameseVoice}
-function cleanTextForSpeech(t){
-  if(!t)return '';
-  return t.replace(/https?:\/\/\S+/g,' liên kết ').replace(/[*#>`_~]/g,'').replace(/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\u{FE00}-\u{FE0F}]/gu,'').replace(/\s+/g,' ').trim();
+function cleanTextForSpeech(text){
+  if(!text)return '';
+  return text.replace(/https?:\/\/\S+/g,' ').replace(/[*#>`_~]/g,'').replace(/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\u{FE00}-\u{FE0F}]/gu,'').replace(/\s+/g,' ').trim();
 }
 function getVoiceForLang(){
   if(!speechSynth)return null;
@@ -729,7 +963,7 @@ function getVoiceForLang(){
   return voices.find(v=>v.lang===target)||voices.find(v=>v.lang&&v.lang.startsWith(target.slice(0,2)))||null;
 }
 function speakText(text,btn){
-  if(!speechSynth){showToast('⚠️ Trình duyệt không hỗ trợ đọc');return}
+  if(!speechSynth){showToast(t('toastNoTts'));return}
   speechSynth.cancel();
   const c=cleanTextForSpeech(text);if(!c)return;
   const u=new SpeechSynthesisUtterance(c);
@@ -738,14 +972,14 @@ function speakText(text,btn){
   u.rate=1;u.pitch=1;u.volume=1;
   const v=getVoiceForLang();
   if(v)u.voice=v;
-  u.onstart=()=>{if(btn){btn.classList.add('active');btn.textContent='⏹ Dừng'}};
-  u.onend=()=>{if(btn){btn.classList.remove('active');btn.textContent='🔊 Đọc'}};
-  u.onerror=()=>{if(btn){btn.classList.remove('active');btn.textContent='🔊 Đọc'}};
+  u.onstart=()=>{if(btn){btn.classList.add('active');btn.textContent=t('stop')}};
+  u.onend=()=>{if(btn){btn.classList.remove('active');btn.textContent=t('speak')}};
+  u.onerror=()=>{if(btn){btn.classList.remove('active');btn.textContent=t('speak')}};
   speechSynth.speak(u);
 }
 function stopSpeaking(){
   if(speechSynth)speechSynth.cancel();
-  document.querySelectorAll('.speak-btn.active').forEach(b=>{b.classList.remove('active');b.textContent='🔊 Đọc'});
+  document.querySelectorAll('.speak-btn.active').forEach(b=>{b.classList.remove('active');b.textContent=t('speak')});
 }
 
 function getVNNow(){const n=new Date();return new Date(n.getTime()+n.getTimezoneOffset()*60000+7*3600000)}
@@ -756,7 +990,7 @@ function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2
 function sleep(ms){return new Promise(r=>setTimeout(r,ms))}
 function getSavedAccount(){try{const s=localStorage.getItem(DEVICE_ACCOUNT_KEY);return s?JSON.parse(s):null}catch(e){return null}}
 function saveAccount(u){localStorage.setItem(DEVICE_ACCOUNT_KEY,JSON.stringify(u))}
-function showToast(msg){const t=document.getElementById('toast');if(!t)return;t.textContent=msg;t.classList.remove('hidden');clearTimeout(showToast._t);showToast._t=setTimeout(()=>t.classList.add('hidden'),2800)}
+function showToast(msg){const tt=document.getElementById('toast');if(!tt)return;tt.textContent=msg;tt.classList.remove('hidden');clearTimeout(showToast._t);showToast._t=setTimeout(()=>tt.classList.add('hidden'),2800)}
 
 document.getElementById('ncbLoginBtn').addEventListener('click',function(){
   const btn=this;btn.classList.add('loading');btn.disabled=true;
@@ -765,8 +999,8 @@ document.getElementById('ncbLoginBtn').addEventListener('click',function(){
     if(!account){
       const id=generateRandomDeviceID();
       account={id,name:'GL '+id,sub:id,createdAt:Date.now()};
-      saveAccount(account);showToast('✅ Đã tạo ID mới: '+account.id);
-    }else showToast('✅ Đăng nhập: '+account.id);
+      saveAccount(account);showToast(t('toastNewId')+' '+account.id);
+    }else showToast(t('toastLogin')+' '+account.id);
     currentUser=account;currentUserSub=account.sub||account.id;
     localStorage.setItem(ACTIVE_SESSION_KEY,'1');
     btn.classList.remove('loading');btn.disabled=false;
@@ -780,7 +1014,7 @@ function showApp(){
   if(currentUser){
     const id=currentUser.id||'NCB_0';
     document.getElementById('userName').textContent='GL '+id;
-    document.getElementById('userEmail').textContent='Thiết bị ẩn danh';
+    document.getElementById('userEmail').textContent=t('anonymousDevice');
     document.getElementById('userEmail').title=id;
     document.getElementById('userAvatar').textContent=id.slice(-2);
   }
@@ -791,6 +1025,7 @@ function showApp(){
   renderConversation();renderHistory();
   setTimeout(()=>{const i=document.getElementById('input');if(i)i.focus()},300);
   checkConnection();updateCounter();
+  applyI18n();
 }
 
 const logoutModal=document.getElementById('logoutModal');
@@ -798,19 +1033,19 @@ const logoutConfirmBtn=document.getElementById('logoutConfirmBtn');
 document.getElementById('logoutBtn').addEventListener('click',()=>{
   logoutModal.classList.add('show');
   let timeLeft=5;
-  logoutConfirmBtn.textContent='ĐIỂM NGƯỢC '+timeLeft+'s';
+  logoutConfirmBtn.textContent=t('logoutCount')+' '+timeLeft+'s';
   logoutConfirmBtn.classList.remove('ready');logoutConfirmBtn.disabled=true;
   if(logoutTimerInterval)clearInterval(logoutTimerInterval);
   logoutTimerInterval=setInterval(()=>{
     timeLeft--;
-    if(timeLeft>0)logoutConfirmBtn.textContent='ĐIỂM NGƯỢC '+timeLeft+'s';
-    else{clearInterval(logoutTimerInterval);logoutConfirmBtn.textContent='TIẾP TỤC';logoutConfirmBtn.classList.add('ready');logoutConfirmBtn.disabled=false}
+    if(timeLeft>0)logoutConfirmBtn.textContent=t('logoutCount')+' '+timeLeft+'s';
+    else{clearInterval(logoutTimerInterval);logoutConfirmBtn.textContent=t('logoutGo');logoutConfirmBtn.classList.add('ready');logoutConfirmBtn.disabled=false}
   },1000);
 });
 logoutConfirmBtn.addEventListener('click',()=>{
   if(!logoutConfirmBtn.disabled){
     logoutModal.classList.remove('show');
-    if(!confirm('Đăng xuất?\n\nTài khoản vẫn được lưu trên thiết bị này.'))return;
+    if(!confirm(t('logoutConfirm')))return;
     stopSpeaking();
     localStorage.removeItem(ACTIVE_SESSION_KEY);
     currentUser=null;currentUserSub=null;
@@ -819,16 +1054,16 @@ logoutConfirmBtn.addEventListener('click',()=>{
     updateLoginScreen();
     currentMessages=[];conversations=[];activeId=null;
     renderConversation();renderHistory();updateCounter();
-    showToast('👋 Đã đăng xuất.');
+    showToast(t('toastLogout'));
   }
 });
 
 document.getElementById('userName').addEventListener('click',()=>{
   const idText=document.getElementById('userName').textContent.replace('GL ','').trim();
   if(idText&&idText!=='NCB_...'){
-    navigator.clipboard.writeText(idText).then(()=>showToast('📋 Đã sao chép ID: '+idText)).catch(()=>{
+    navigator.clipboard.writeText(idText).then(()=>showToast(t('toastCopiedId')+' '+idText)).catch(()=>{
       const ta=document.createElement('textarea');ta.value=idText;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();
-      showToast('📋 Đã sao chép ID: '+idText);
+      showToast(t('toastCopiedId')+' '+idText);
     });
   }
 });
@@ -836,8 +1071,8 @@ document.getElementById('userName').addEventListener('click',()=>{
 function updateLoginScreen(){
   const si=document.getElementById('savedInfo'),sid=document.getElementById('savedId'),txt=document.getElementById('loginBtnText');
   const acc=getSavedAccount();
-  if(acc){si.classList.remove('hidden');sid.textContent=acc.id;txt.textContent='VÀO LẠI TÀI KHOẢN'}
-  else{si.classList.add('hidden');txt.textContent='ĐĂNG NHẬP NCB'}
+  if(acc){si.classList.remove('hidden');sid.textContent=acc.id;txt.textContent=t('loginReBtn')}
+  else{si.classList.add('hidden');txt.textContent=t('loginBtn')}
 }
 
 function getTurnKey(s){return 'ncb_turns_'+(s||'guest')}
@@ -874,12 +1109,12 @@ function addBonusTurns(amount){
   const d=getTurnData(currentUserSub);d.bonus+=amount;setTurnData(currentUserSub,d);updateCounter();
 }
 function updateCounter(){
-  if(!currentUserSub){const c=document.getElementById('counterLabel2');if(c)c.textContent='Chưa đăng nhập';return}
+  if(!currentUserSub){const c=document.getElementById('counterLabel2');if(c)c.textContent=t('notLogged');return}
   checkAndResetDaily();
   const d=getTurnData(currentUserSub),max=MAX_TURNS_PER_ACCOUNT+d.bonus,left=Math.max(0,max-d.used);
   const c=document.getElementById('counterLabel2');
   if(c){
-    c.textContent='Lượt chat: '+left.toLocaleString('vi-VN')+' / '+max.toLocaleString('vi-VN');
+    c.textContent=t('counterLabel')+' '+left.toLocaleString('vi-VN')+' / '+max.toLocaleString('vi-VN');
     c.style.color=left<=0?'#ff626e':left<=max*0.1?'#ffd166':'#35d69a';
   }
 }
@@ -888,11 +1123,15 @@ function startResetTimer(){
   const el=document.getElementById('resetTimer');
   function tick(){
     if(!el)return;
+    if(checkAndResetDaily()){
+      updateCounter();
+      showToast(t('toastReset'));
+    }
     const sec=getSecondsUntilReset();
-    el.textContent='Reset sau: '+formatHMS(sec);
-    if(sec>=86399){if(checkAndResetDaily())showToast('🎉 Đã cộng lại 50.000 lượt chat cho ngày mới!');updateCounter()}
+    el.textContent=t('resetAfter')+' '+formatHMS(sec);
   }
-  tick();resetTimerInterval=setInterval(tick,1000);
+  tick();
+  resetTimerInterval=setInterval(tick,1000);
 }
 
 document.getElementById('fbLogoBtn').addEventListener('click',()=>window.open(SUPPORT_URL,'_blank','noopener'));
@@ -905,15 +1144,15 @@ const _k3=[78,67,66,95,85,80,68,69,49,46,53,46,48,77,32,68,79,82,65,69,77,79,78,
 function checkCode3(i){if(i.length!==_k3.length)return false;for(let x=0;x<_k3.length;x++)if(i.charCodeAt(x)!==_k3[x])return false;return true}
 
 const WEBSITE_KEYWORDS=['website','trang web','web của','link web','đường dẫn','truy cập','vào web','web chính','trang chính','link truy cập','website của bạn','web của bạn','địa chỉ web','url'];
-function isWebsiteQuestion(t){const s=t.toLowerCase();return WEBSITE_KEYWORDS.some(k=>s.includes(k))&&(s.includes('ncb')||s.includes('bạn')||s.includes('ai')||s.includes('web')||s.includes('trang'))}
+function isWebsiteQuestion(text){const s=text.toLowerCase();return WEBSITE_KEYWORDS.some(k=>s.includes(k))&&(s.includes('ncb')||s.includes('bạn')||s.includes('ai')||s.includes('web')||s.includes('trang'))}
 const SUPPORT_KEYWORDS=['hỗ trợ','giúp đỡ','liên hệ','contact','support','admin ơi','gặp admin','facebook admin','fb admin','cần giúp','trợ giúp','help','báo lỗi','khiếu nại'];
-function isSupportQuestion(t){const s=t.toLowerCase();return SUPPORT_KEYWORDS.some(k=>s.includes(k))}
+function isSupportQuestion(text){const s=text.toLowerCase();return SUPPORT_KEYWORDS.some(k=>s.includes(k))}
 const TIME_KEYWORDS=['mấy giờ','mấy h','giờ hiện tại','giờ bây giờ','bây giờ là mấy giờ','hôm nay là ngày','hôm nay ngày','ngày hôm nay','ngày bao nhiêu','thứ mấy','thứ bao nhiêu','thời gian hiện tại','thời gian bây giờ','đồng hồ','xem giờ','cho tôi biết giờ','cho tôi biết ngày','giờ việt nam','giờ vn','date','time','ngày tháng','tháng mấy','năm nay','hiện tại là','giờ hệ thống','giờ máy'];
-function isTimeQuestion(t){const s=t.toLowerCase();return TIME_KEYWORDS.some(k=>s.includes(k))}
+function isTimeQuestion(text){const s=text.toLowerCase();return TIME_KEYWORDS.some(k=>s.includes(k))}
 const IMAGE_KEYWORDS=['tạo ảnh','vẽ ảnh','vẽ hình','tạo hình','sinh ảnh','generate ảnh','tạo hình ảnh','vẽ cho tôi','tạo cho tôi ảnh','ảnh ai','ai vẽ','vẽ tranh','tạo tranh','hình ảnh về','ảnh về','vẽ con','vẽ người','tạo poster','tạo logo','vẽ logo','tạo banner'];
-function isImageRequest(t){const s=t.toLowerCase();if(s.startsWith(IMAGE_CMD))return true;return IMAGE_KEYWORDS.some(k=>s.includes(k))}
-function extractImagePrompt(t){
-  let s=t.trim();
+function isImageRequest(text){const s=text.toLowerCase();if(s.startsWith(IMAGE_CMD))return true;return IMAGE_KEYWORDS.some(k=>s.includes(k))}
+function extractImagePrompt(text){
+  let s=text.trim();
   if(s.toLowerCase().startsWith(IMAGE_CMD))return s.slice(IMAGE_CMD.length).trim();
   s=s.replace(/^(hãy|vui lòng|giúp tôi|giúp mình|cho tôi|cho mình)\s+/i,'');
   s=s.replace(/^(tạo|vẽ|sinh|generate|make|create)\s+(ảnh|hình|tranh|poster|banner|logo)\s+/i,'');
@@ -924,15 +1163,15 @@ function extractImagePrompt(t){
 function stopAllClocks(){clockIntervals.forEach(id=>clearInterval(id));clockIntervals=[]}
 function createClockWidget(){
   const box=document.createElement('div');box.className='clock-box';
-  const label=document.createElement('div');label.className='clock-label';label.textContent='THỜI GIAN THỰC';
+  const label=document.createElement('div');label.className='clock-label';label.textContent=t('clockLabel');
   const timeEl=document.createElement('div');timeEl.className='clock-time';
   const dateEl=document.createElement('div');dateEl.className='clock-date';
-  const tzEl=document.createElement('div');tzEl.className='clock-tz';tzEl.textContent='🇻🇳 Giờ Việt Nam (UTC+7)';
+  const tzEl=document.createElement('div');tzEl.className='clock-tz';tzEl.textContent=t('clockTz');
   box.appendChild(label);box.appendChild(timeEl);box.appendChild(dateEl);box.appendChild(tzEl);
   function update(){
     const v=getVNNow();
     timeEl.innerHTML=String(v.getHours()).padStart(2,'0')+':'+String(v.getMinutes()).padStart(2,'0')+':<span class="sec">'+String(v.getSeconds()).padStart(2,'0')+'</span>';
-    const days=['Chủ nhật','Thứ hai','Thứ ba','Thứ tư','Thứ năm','Thứ sáu','Thứ bảy'];
+    const days=[t('day0'),t('day1'),t('day2'),t('day3'),t('day4'),t('day5'),t('day6')];
     dateEl.textContent=days[v.getDay()]+', '+String(v.getDate()).padStart(2,'0')+'/'+String(v.getMonth()+1).padStart(2,'0')+'/'+v.getFullYear();
   }
   update();const id=setInterval(update,1000);clockIntervals.push(id);
@@ -957,9 +1196,7 @@ const MODEL_FALLBACK_CHAIN=[
 
 const BASE_SYSTEM_PROMPT='Bạn là NCB_AI phiên bản 1.5.0 — một trợ lí thông minh, được phát triển bởi NGUYỄN CÔNG BẰNG. Website chính thức: '+WEBSITE_URL+' QUY TẮC: Đọc kỹ câu hỏi, trả lời đúng trọng tâm, không lạc đề. KHÔNG lặp lại câu hỏi của người dùng, hãy phân tích và trả lời trực tiếp. KHÔNG dùng *, **, ***, #, >. Hãy sử dụng linh hoạt các icon cảm xúc (🤣, 🤑, 🤩, 🥰, 🙃, 🤗, 🤨, 🫠, 😍, 🤢, 🤮, 😡, 🤬, 🥺, 😨, 🥱, 😮) vào trong câu trả lời để tăng tính biểu cảm và tự nhiên.';
 
-function buildSystemPrompt(){
-  return BASE_SYSTEM_PROMPT+'\n\nNGÔN NGỮ: '+LANG_PROMPTS[currentLang];
-}
+function buildSystemPrompt(){return BASE_SYSTEM_PROMPT+'\n\nNGÔN NGỮ: '+LANG_PROMPTS[currentLang]}
 
 const FALLBACK_REPLIES={
   vi:["⏳ Hệ thống AI đang quá tải tạm thời.\n\n🔹 Bạn chờ khoảng 30 giây rồi gửi lại câu hỏi nhé.","⏳ Máy chủ AI đang bận.\n\n🔹 Bạn vui lòng chờ 20-30 giây rồi thử lại.","⏳ Tất cả model đều quá tải.\n\n🔹 Bạn thử lại sau 1 phút nhé."],
@@ -972,18 +1209,18 @@ function formatAIText(text){
   if(typeof text!=='string')return document.createTextNode(String(text));
   const container=document.createElement('div');
   text.split('\n').forEach(line=>{
-    const t=line.trim();
-    if(t===''){const sp=document.createElement('div');sp.style.height='6px';container.appendChild(sp);return}
+    const tt=line.trim();
+    if(tt===''){const sp=document.createElement('div');sp.style.height='6px';container.appendChild(sp);return}
     let isHead=false,headText='';
-    const hm=t.match(/^#{1,6}\s+(.+)$/);
+    const hm=tt.match(/^#{1,6}\s+(.+)$/);
     if(hm){isHead=true;headText=hm[1].replace(/\*\*/g,'').trim()}
-    else{const bm=t.match(/^\*{2,3}([^*]+)\*{2,3}\s*:?\s*$/);if(bm){isHead=true;headText=bm[1].trim()}}
+    else{const bm=tt.match(/^\*{2,3}([^*]+)\*{2,3}\s*:?\s*$/);if(bm){isHead=true;headText=bm[1].trim()}}
     if(isHead){const h=document.createElement('div');h.className='section-head';h.innerHTML='<span class="ic">📌</span><span></span>';h.querySelector('span:last-child').textContent=headText;container.appendChild(h);return}
-    const lm=t.match(/^[-*•]\s+(.+)$/);
-    if(lm){const row=document.createElement('div');row.className='icon-line';row.innerHTML='<span class="ic">🔹</span>';const tt=document.createElement('span');tt.className='txt';tt.textContent=lm[1].replace(/\*\*/g,'').replace(/\*/g,'');row.appendChild(tt);container.appendChild(row);return}
-    const nm=t.match(/^(\d+)\.\s+(.+)$/);
-    if(nm){const row=document.createElement('div');row.className='icon-line';const ic=document.createElement('span');ic.className='ic';ic.textContent=nm[1]+'.';ic.style.color='#a78bfa';ic.style.fontWeight='700';const tt=document.createElement('span');tt.className='txt';tt.textContent=nm[2].replace(/\*\*/g,'').replace(/\*/g,'');row.appendChild(ic);row.appendChild(tt);container.appendChild(row);return}
-    const el=document.createElement('div');el.textContent=t.replace(/\*{2,3}([^*]+)\*{2,3}/g,'$1').replace(/\*([^*\n]+)\*/g,'$1');container.appendChild(el);
+    const lm=tt.match(/^[-*•]\s+(.+)$/);
+    if(lm){const row=document.createElement('div');row.className='icon-line';row.innerHTML='<span class="ic">🔹</span>';const ttt=document.createElement('span');ttt.className='txt';ttt.textContent=lm[1].replace(/\*\*/g,'').replace(/\*/g,'');row.appendChild(ttt);container.appendChild(row);return}
+    const nm=tt.match(/^(\d+)\.\s+(.+)$/);
+    if(nm){const row=document.createElement('div');row.className='icon-line';const ic=document.createElement('span');ic.className='ic';ic.textContent=nm[1]+'.';ic.style.color='#a78bfa';ic.style.fontWeight='700';const ttt=document.createElement('span');ttt.className='txt';ttt.textContent=nm[2].replace(/\*\*/g,'').replace(/\*/g,'');row.appendChild(ic);row.appendChild(ttt);container.appendChild(row);return}
+    const el=document.createElement('div');el.textContent=tt.replace(/\*{2,3}([^*]+)\*{2,3}/g,'$1').replace(/\*([^*\n]+)\*/g,'$1');container.appendChild(el);
   });
   return container;
 }
@@ -993,11 +1230,11 @@ function loadHistoryFromStorage(){try{const r=localStorage.getItem(HISTORY_KEY+'
 
 function renderHistory(){
   const list=document.getElementById('historyList');if(!list)return;list.innerHTML='';
-  if(!conversations.length){const e=document.createElement('div');e.style.cssText='color:#6b7484;font-size:12px;padding:8px;font-style:italic';e.textContent='Chưa có cuộc trò chuyện';list.appendChild(e);return}
+  if(!conversations.length){const e=document.createElement('div');e.style.cssText='color:#6b7484;font-size:12px;padding:8px;font-style:italic';e.textContent=t('noChat');list.appendChild(e);return}
   conversations.forEach(c=>{
     const item=document.createElement('div');item.className='history-item'+(c.id===activeId?' active':'');
-    const title=document.createElement('div');title.className='title';title.textContent=c.title||'Cuộc trò chuyện mới';
-    const del=document.createElement('button');del.className='del-x';del.textContent='×';del.title='Xóa';
+    const title=document.createElement('div');title.className='title';title.textContent=c.title||t('chatNew');
+    const del=document.createElement('button');del.className='del-x';del.textContent='×';del.title='×';
     del.addEventListener('click',ev=>{ev.stopPropagation();conversations=conversations.filter(x=>x.id!==c.id);if(activeId===c.id){activeId=conversations[0]?conversations[0].id:null;currentMessages=activeId?conversations.find(x=>x.id===activeId).messages:[];renderConversation()}saveHistoryToStorage();renderHistory()});
     item.appendChild(title);item.appendChild(del);
     item.addEventListener('click',()=>{activeId=c.id;currentMessages=c.messages;renderConversation();renderHistory();document.getElementById('sidebar').classList.remove('open')});
@@ -1008,7 +1245,7 @@ function renderHistory(){
 function renderConversation(){
   const content=document.getElementById('content');if(!content)return;content.innerHTML='';stopAllClocks();
   if(!currentMessages.length){
-    content.innerHTML='<div class="welcome"><div class="welcome-logo"><img src="'+LOGO_URL+'" alt="NCB_AI"></div><div class="ver">PHIÊN BẢN '+AI_VERSION+'</div><h1>Xin chào 👋</h1><p>'+AI_TAGLINE+'. Gửi ảnh để AI phân tích nhân vật, bối cảnh, cảm xúc — hoặc hỏi bất cứ điều gì.</p><div class="suggestions"><button class="suggestion" data-prompt="Giải thích blockchain là gì?"><strong>💡 Giải thích</strong><span>Blockchain là gì và ứng dụng ra sao?</span></button><button class="suggestion" data-prompt="Viết đoạn code Python tính giai thừa"><strong>💻 Viết code</strong><span>Python tính giai thừa bằng đệ quy</span></button><button class="suggestion" data-prompt="Bây giờ là mấy giờ?"><strong>🕐 Xem giờ</strong><span>Cho tôi biết giờ và ngày hôm nay</span></button><button class="suggestion" data-prompt="/image một chú mèo phi hành gia trên sao Hỏa"><strong>🎨 Tạo ảnh</strong><span>Mèo phi hành gia trên sao Hỏa</span></button></div></div>';
+    content.innerHTML='<div class="welcome"><div class="welcome-logo"><img src="'+LOGO_URL+'" alt="NCB_AI"></div><div class="ver">'+t('version').toUpperCase()+'</div><h1>'+t('welcome')+'</h1><p>'+t('welcomeDesc')+'</p><div class="suggestions"><button class="suggestion" data-prompt="Giải thích blockchain là gì?"><strong>'+t('suggestExplain')+'</strong><span>'+t('suggestExplainSub')+'</span></button><button class="suggestion" data-prompt="Viết đoạn code Python tính giai thừa"><strong>'+t('suggestCode')+'</strong><span>'+t('suggestCodeSub')+'</span></button><button class="suggestion" data-prompt="Bây giờ là mấy giờ?"><strong>'+t('suggestTime')+'</strong><span>'+t('suggestTimeSub')+'</span></button><button class="suggestion" data-prompt="/image một chú mèo phi hành gia trên sao Hỏa"><strong>'+t('suggestImage')+'</strong><span>'+t('suggestImageSub')+'</span></button></div></div>';
     content.querySelectorAll('.suggestion').forEach(b=>b.addEventListener('click',()=>{const inp=document.getElementById('input');inp.value=b.dataset.prompt;inp.focus();autoResize()}));
     return;
   }
@@ -1031,11 +1268,11 @@ function renderConversation(){
     bw.appendChild(bubble);
     if(m.role==='assistant'&&m.type!=='clock'&&m.type!=='image'){
       const a=document.createElement('div');a.className='msg-actions';
-      const cp=document.createElement('button');cp.innerHTML='<svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Sao chép';
-      cp.addEventListener('click',()=>{navigator.clipboard.writeText(m.content||'').then(()=>{cp.classList.add('active');showToast('📋 Đã sao chép');setTimeout(()=>cp.classList.remove('active'),1500)})});
+      const cp=document.createElement('button');cp.innerHTML='<svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> '+t('copy');
+      cp.addEventListener('click',()=>{navigator.clipboard.writeText(m.content||'').then(()=>{cp.classList.add('active');showToast(t('copied'));setTimeout(()=>cp.classList.remove('active'),1500)})});
       a.appendChild(cp);
       if(!isCodeResponse(m.content)){
-        const sp=document.createElement('button');sp.className='speak-btn';sp.textContent='🔊 Đọc';
+        const sp=document.createElement('button');sp.className='speak-btn';sp.textContent=t('speak');
         sp.addEventListener('click',()=>{if(sp.classList.contains('active'))stopSpeaking();else speakText(m.content||'',sp)});
         a.appendChild(sp);
       }
@@ -1050,15 +1287,15 @@ function scrollToBottom(){const m=document.getElementById('messages');if(m)m.scr
 
 function buildImageNode(m){
   const box=document.createElement('div');box.className='image-gen-box';
-  const label=document.createElement('div');label.className='image-prompt-label';label.textContent='🎨 ẢNH ĐÃ TẠO';
+  const label=document.createElement('div');label.className='image-prompt-label';label.textContent=t('imageGenLabel');
   const prompt=document.createElement('div');prompt.className='image-prompt-text';prompt.textContent=m.prompt||'';
   const result=document.createElement('div');result.className='image-result';
   const img=document.createElement('img');img.src=m.url;img.alt=m.prompt||'Generated';img.loading='lazy';
   result.appendChild(img);
   const actions=document.createElement('div');actions.className='image-actions';
-  const save=document.createElement('button');save.textContent='⬇ Tải xuống';
+  const save=document.createElement('button');save.textContent=t('imageDownload');
   save.addEventListener('click',()=>{const a=document.createElement('a');a.href=m.url;a.download='ncb-ai-'+Date.now()+'.jpg';a.target='_blank';a.click()});
-  const regen=document.createElement('button');regen.textContent='🔄 Tạo lại';
+  const regen=document.createElement('button');regen.textContent=t('imageRegen');
   regen.addEventListener('click',()=>{const inp=document.getElementById('input');inp.value=IMAGE_CMD+' '+(m.prompt||'');inp.focus();autoResize()});
   actions.appendChild(save);actions.appendChild(regen);
   box.appendChild(label);box.appendChild(prompt);box.appendChild(result);box.appendChild(actions);
@@ -1067,8 +1304,8 @@ function buildImageNode(m){
 
 function addMessage(msg){
   currentMessages.push(msg);
-  if(!activeId){activeId=uid();conversations.unshift({id:activeId,title:(msg.content||msg.name||'').slice(0,40)||'Cuộc trò chuyện mới',messages:currentMessages,createdAt:Date.now()})}
-  else{const c=conversations.find(x=>x.id===activeId);if(c){c.messages=currentMessages;if(msg.role==='user'&&(!c.title||c.title==='Cuộc trò chuyện mới'))c.title=(msg.content||msg.name||'').slice(0,40)}}
+  if(!activeId){activeId=uid();conversations.unshift({id:activeId,title:(msg.content||msg.name||'').slice(0,40)||t('chatNew'),messages:currentMessages,createdAt:Date.now()})}
+  else{const c=conversations.find(x=>x.id===activeId);if(c){c.messages=currentMessages;if(msg.role==='user'&&(!c.title||c.title===t('chatNew')))c.title=(msg.content||msg.name||'').slice(0,40)}}
   saveHistoryToStorage();renderConversation();renderHistory();
 }
 
@@ -1081,8 +1318,8 @@ document.getElementById('menuBtn').addEventListener('click',()=>document.getElem
 document.getElementById('sidebarClose').addEventListener('click',()=>document.getElementById('sidebar').classList.remove('open'));
 
 function checkConnection(){
-  const s=document.getElementById('status'),t=document.getElementById('statusText');
-  fetch(MODELS_URL,{headers:{'Authorization':'Bearer '+API_KEY}}).then(r=>{if(r.ok){s.classList.remove('error');t.textContent='Trực tuyến'}else{s.classList.add('error');t.textContent='Lỗi API'}}).catch(()=>{s.classList.add('error');t.textContent='Mất kết nối'});
+  const s=document.getElementById('status'),tt=document.getElementById('statusText');
+  fetch(MODELS_URL,{headers:{'Authorization':'Bearer '+API_KEY}}).then(r=>{if(r.ok){s.classList.remove('error');tt.textContent=t('statusOnline')}else{s.classList.add('error');tt.textContent=t('statusApiErr')}}).catch(()=>{s.classList.add('error');tt.textContent=t('statusOffline')});
 }
 
 async function callGroqAPI(messages,model){
@@ -1114,12 +1351,12 @@ async function callGroqVisionAPI(dataUrl,caption){
       max_tokens:2048
     })
   });
-  if(!res.ok){const t=await res.text();throw new Error('HTTP '+res.status+' '+t.slice(0,200))}
+  if(!res.ok){const ttt=await res.text();throw new Error('HTTP '+res.status+' '+ttt.slice(0,200))}
   const d=await res.json();return d.choices&&d.choices[0]&&d.choices[0].message?d.choices[0].message.content||'':'';
 }
 
-function getMaxTokensForRequest(t){const l=(t||'').length;if(l<50)return 1536;if(l<=200)return 2560;if(l<=500)return 4096;return 6144}
-function getResponseDelay(t){const l=(t||'').length;if(l<50)return 1200;if(l<=200)return 2000;return 2800}
+function getMaxTokensForRequest(text){const l=(text||'').length;if(l<50)return 1536;if(l<=200)return 2560;if(l<=500)return 4096;return 6144}
+function getResponseDelay(text){const l=(text||'').length;if(l<50)return 1200;if(l<=200)return 2000;return 2800}
 function showTyping(){const h=document.getElementById('typingHint');if(h)h.classList.add('show')}
 function hideTyping(){const h=document.getElementById('typingHint');if(h)h.classList.remove('show')}
 
@@ -1148,11 +1385,11 @@ document.getElementById('codeOverlay').addEventListener('click',e=>{if(e.target.
 document.getElementById('codeSubmit').addEventListener('click',()=>{
   const v=document.getElementById('codeInput').value.trim();
   const err=document.getElementById('codeError');
-  if(!v){err.style.color='#ff626e';err.textContent='⚠️ Vui lòng nhập code';return}
-  if(checkCode(v)){err.style.color='#35d69a';err.textContent='✅ Mã hợp lệ! +50.000 lượt';addBonusTurns(50000);showToast('🎉 Đã cộng 50.000 lượt!');setTimeout(closeCodeModal,1500)}
-  else if(checkCode2(v)){err.style.color='#35d69a';err.textContent='✅ Mã VIP hợp lệ! +100.000 lượt';addBonusTurns(100000);showToast('🎉 Đã cộng 100.000 lượt!');setTimeout(closeCodeModal,1500)}
-  else if(checkCode3(v)){err.style.color='#35d69a';err.textContent='✅ Mã hợp lệ! +1.000 lượt';addBonusTurns(1000);showToast('🎉 Đã cộng 1000 lượt chat!');setTimeout(closeCodeModal,1500)}
-  else{err.style.color='#ff626e';err.textContent='❌ Mã không hợp lệ'}
+  if(!v){err.style.color='#ff626e';err.textContent=t('codeEmpty');return}
+  if(checkCode(v)){err.style.color='#35d69a';err.textContent=t('codeOk50');addBonusTurns(50000);showToast(t('toastOk50'));setTimeout(closeCodeModal,1500)}
+  else if(checkCode2(v)){err.style.color='#35d69a';err.textContent=t('codeOkVip');addBonusTurns(100000);showToast(t('toastOkVip'));setTimeout(closeCodeModal,1500)}
+  else if(checkCode3(v)){err.style.color='#35d69a';err.textContent=t('codeOk1k');addBonusTurns(1000);showToast(t('toastOk1k'));setTimeout(closeCodeModal,1500)}
+  else{err.style.color='#ff626e';err.textContent=t('codeInvalid')}
 });
 document.getElementById('codeInput').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('codeSubmit').click()});
 
@@ -1162,7 +1399,7 @@ async function sendMessage(){
   const text=inp.value.trim();
   const hasImage=!!pendingImageData;
   if(!text&&!hasImage)return;
-  if(!consumeTurns()){showToast('⚠️ Bạn đã hết lượt chat hoặc không đủ 100 lượt!\nNhập code để cộng thêm, hoặc chờ 00:00 mai reset.');openCodeModal();return}
+  if(!consumeTurns()){showToast(t('toastTurnOut'));openCodeModal();return}
   updateCounter();
   inp.value='';autoResize();document.getElementById('composer').classList.remove('is-typing');
 
@@ -1179,7 +1416,7 @@ async function sendMessage(){
     try{reply=await callGroqVisionAPI(userMsg.dataUrl,text)}
     catch(err){console.warn('Vision fail:',err.message);reply=''}
     removeTypingPlaceholder();hideTyping();
-    if(!reply)reply=pickFallbackReply();
+    if(!reply)reply=t('retryImgFail');
     isSending=false;
     addMessage({role:'assistant',content:reply,ts:Date.now()});
     return;
@@ -1197,11 +1434,11 @@ async function sendMessage(){
     return;
   }
   if(isWebsiteQuestion(text)){
-    addMessage({role:'assistant',content:'Đây là website chính thức của NCB AI:\n\n🔹 '+WEBSITE_URL+'\n\nBạn truy cập để dùng phiên bản mới nhất nhé! 🤩',ts:Date.now()});
+    addMessage({role:'assistant',content:t('websiteReply')+WEBSITE_URL+t('websiteReplyTail'),ts:Date.now()});
     return;
   }
   if(isSupportQuestion(text)){
-    addMessage({role:'assistant',content:'Bạn cần hỗ trợ? Liên hệ admin qua Facebook:\n\n🔹 '+SUPPORT_URL+'\n\nAdmin: '+ADMIN_NAME+' sẽ phản hồi sớm nhất có thể. 🥰',ts:Date.now()});
+    addMessage({role:'assistant',content:t('supportReply')+SUPPORT_URL+t('supportReplyTail'),ts:Date.now()});
     return;
   }
 
@@ -1224,16 +1461,21 @@ voiceOverlay.id='voiceOverlay';
 voiceOverlay.innerHTML=`
   <div class="voice-box">
     <div class="voice-mic" id="voiceMicIcon">🎤</div>
-    <div class="voice-title" id="voiceTitle">Ghi âm giọng nói</div>
-    <div class="voice-sub" id="voiceSub">Nhấn nút bên dưới và nói. AI sẽ nghe, trả lời và đọc to cho bạn.</div>
-    <div class="voice-transcript" id="voiceTranscript"></div>
+    <div class="voice-title" id="voiceTitle">${t('voiceTitle')}</div>
+    <div class="voice-sub" id="voiceSub">${t('voiceSub')}</div>
+    <div class="voice-transcript" id="voiceTranscript" data-empty="${t('voiceEmptyHint')}"></div>
     <div class="voice-actions">
-      <button class="voice-btn cancel" id="voiceClose">Đóng</button>
-      <button class="voice-btn start" id="voiceStart">🎤 Bắt đầu nói</button>
-      <button class="voice-btn send" id="voiceSend" style="display:none">➤ Gửi cho AI</button>
+      <button class="voice-btn cancel" id="voiceClose">${t('voiceClose')}</button>
+      <button class="voice-btn start" id="voiceStart">${t('voiceStart')}</button>
+      <button class="voice-btn send" id="voiceSend" style="display:none">${t('voiceSend')}</button>
     </div>
   </div>`;
 document.body.appendChild(voiceOverlay);
+if(!document.getElementById('i18nVoiceStyle')){
+  const s=document.createElement('style');s.id='i18nVoiceStyle';
+  s.textContent='.voice-transcript:empty::before{content:attr(data-empty)!important}';
+  document.head.appendChild(s);
+}
 
 let recognition=null;
 let isRecording=false;
@@ -1242,7 +1484,7 @@ const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
 const micBtnEl=document.getElementById('micBtn');
 
 if(!SR){
-  micBtnEl.addEventListener('click',()=>showToast('⚠️ Trình duyệt không hỗ trợ ghi âm.\nVui lòng dùng Chrome hoặc Edge!'));
+  micBtnEl.addEventListener('click',()=>showToast(t('toastNoMic')));
 }else{
   recognition=new SR();
   const langMap={vi:'vi-VN',th:'th-TH',en:'en-US'};
@@ -1254,9 +1496,9 @@ if(!SR){
     isRecording=true;voiceTranscriptText='';stopSpeaking();
     document.getElementById('voiceMicIcon').textContent='⏹';
     document.getElementById('voiceMicIcon').classList.add('recording');
-    document.getElementById('voiceTitle').textContent='🔴 Đang nghe...';
-    document.getElementById('voiceSub').textContent='Hãy nói rõ ràng. Nhấn "Dừng" khi xong.';
-    document.getElementById('voiceStart').textContent='⏹ Dừng lại';
+    document.getElementById('voiceTitle').textContent=t('voiceListening');
+    document.getElementById('voiceSub').textContent=t('voiceListenHint');
+    document.getElementById('voiceStart').textContent=t('voiceStop');
     document.getElementById('voiceStart').classList.add('cancel');
     document.getElementById('voiceStart').classList.remove('start');
     document.getElementById('voiceTranscript').textContent='';
@@ -1266,8 +1508,8 @@ if(!SR){
   recognition.onresult=e=>{
     let interim='',final='';
     for(let i=e.resultIndex;i<e.results.length;i++){
-      const t=e.results[i][0].transcript;
-      if(e.results[i].isFinal)final+=t+' ';else interim+=t;
+      const tt=e.results[i][0].transcript;
+      if(e.results[i].isFinal)final+=tt+' ';else interim+=tt;
     }
     if(final)voiceTranscriptText+=final;
     document.getElementById('voiceTranscript').textContent=(voiceTranscriptText+interim).trim();
@@ -1276,18 +1518,18 @@ if(!SR){
   recognition.onerror=e=>{
     console.error('Speech error:',e.error);
     let msg='Lỗi: '+e.error;
-    if(e.error==='not-allowed')msg='❌ Bạn cần cho phép micro trong trình duyệt!';
-    else if(e.error==='no-speech')msg='⚠️ Không nghe thấy gì, thử lại nhé.';
-    else if(e.error==='network')msg='⚠️ Lỗi mạng, kiểm tra kết nối.';
+    if(e.error==='not-allowed')msg=t('voiceMicDenied');
+    else if(e.error==='no-speech')msg=t('voiceMicNoSpeech');
+    else if(e.error==='network')msg=t('voiceMicNetwork');
     document.getElementById('voiceSub').textContent=msg;
   };
   recognition.onend=()=>{
     isRecording=false;
     document.getElementById('voiceMicIcon').textContent='🎤';
     document.getElementById('voiceMicIcon').classList.remove('recording');
-    document.getElementById('voiceTitle').textContent='Đã dừng ghi âm';
-    document.getElementById('voiceSub').textContent=voiceTranscriptText.trim()?'Bạn có thể sửa hoặc gửi cho AI.':'Không nhận diện được giọng nói.';
-    document.getElementById('voiceStart').textContent='🎤 Nói lại';
+    document.getElementById('voiceTitle').textContent=t('voiceStopped');
+    document.getElementById('voiceSub').textContent=voiceTranscriptText.trim()?t('voiceDone'):t('voiceNoSpeech');
+    document.getElementById('voiceStart').textContent=t('voiceAgain');
     document.getElementById('voiceStart').classList.add('start');
     document.getElementById('voiceStart').classList.remove('cancel');
     micBtnEl.classList.remove('recording');
@@ -1318,7 +1560,7 @@ if(!SR){
 
 window.addEventListener('DOMContentLoaded',()=>{
   loadSavedLang();
-  applyLangSelection(currentLang);
+  applyI18n();
   const hasSession=localStorage.getItem(ACTIVE_SESSION_KEY);
   const account=getSavedAccount();
   if(hasSession&&account){
@@ -1327,7 +1569,7 @@ window.addEventListener('DOMContentLoaded',()=>{
     document.getElementById('appMain').classList.remove('hidden');
     const id=account.id||'NCB_0';
     document.getElementById('userName').textContent='GL '+id;
-    document.getElementById('userEmail').textContent='Thiết bị ẩn danh';
+    document.getElementById('userEmail').textContent=t('anonymousDevice');
     document.getElementById('userEmail').title=id;
     document.getElementById('userAvatar').textContent=id.slice(-2);
     initUserSession();startResetTimer();
@@ -1335,6 +1577,7 @@ window.addEventListener('DOMContentLoaded',()=>{
     activeId=conversations[0]?conversations[0].id:null;
     currentMessages=activeId?conversations.find(x=>x.id===activeId).messages:[];
     renderConversation();renderHistory();checkConnection();updateCounter();
+    applyI18n();
   }else updateLoginScreen();
   document.addEventListener('click',e=>{
     const s=document.getElementById('sidebar'),m=document.getElementById('menuBtn');
