@@ -274,12 +274,13 @@ button{cursor:pointer}button,textarea,input{font:inherit}
 .music-key-input:focus{border-color:var(--purple);box-shadow:0 0 0 3px rgba(118,87,238,.15)}
 .music-key-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
 .music-key-btn{padding:13px;border-radius:10px;border:0;font-size:13px;font-weight:800;cursor:pointer;transition:all .2s;letter-spacing:.5px}
-.music-key-btn.getkey{background:linear-gradient(135deg,#ffd166,#f0b429);color:#10131a}
-.music-key-btn.getkey:hover{filter:brightness(1.1);transform:translateY(-1px)}
 .music-key-btn.confirm{background:linear-gradient(135deg,#7657ee,#5540b8);color:#fff}
 .music-key-btn.confirm:hover{filter:brightness(1.15)}
 .music-key-error{color:#ff626e;font-size:12px;font-weight:600;min-height:18px;margin-top:12px;text-align:center}
 .music-key-hint{color:#a78bfa;font-size:11px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);line-height:1.6;text-align:center}
+.music-key-countdown{color:#35d69a;font-size:14px;font-weight:800;font-family:'Courier New',monospace;text-align:center;margin-top:10px;letter-spacing:1px;padding:10px;background:#0a0e18;border:1px solid #30394b;border-radius:10px}
+.music-key-countdown.expiring{color:#ffd166;animation:pulseDot 1s infinite}
+.music-key-countdown.expired{color:#ff626e}
 .music-picker-body{padding:16px;overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:10px}
 .music-track{display:flex;align-items:center;gap:12px;padding:14px;background:#0d1017;border:1px solid #303746;border-radius:12px;cursor:pointer;transition:all .2s;user-select:none}
 .music-track:hover{border-color:var(--purple);background:#141926;transform:translateX(3px)}
@@ -406,6 +407,7 @@ body.music-playing .messages{padding-bottom:90px}
       <div id="sideTagline">NCB AI là một trợ lí thông minh</div>
       <div class="counter" id="counterLabel2">Lượt chat: 0 / 50000</div>
       <div class="reset-timer" id="resetTimer">Reset sau: --:--:--</div>
+      <div class="reset-timer" id="musicKeyStatus" style="display:none"></div>
       <div class="admin">Admin: NGUYỄN CÔNG BẰNG</div>
     </div>
   </aside>
@@ -530,15 +532,14 @@ body.music-playing .messages{padding-bottom:90px}
 <div class="music-key-overlay" id="musicKeyOverlay">
   <div class="music-key-box">
     <div class="music-key-header">
-      <div class="music-key-title">🎵 NHẬP KEY PHÁT NHẠC</div>
+      <div class="music-key-title">🎵 NHẬP KEY DO ADMIN LÀM</div>
       <button class="music-key-close" id="musicKeyClose">×</button>
     </div>
     <div class="music-key-body">
-      <div class="music-key-desc">Nhập key để mở khóa tính năng phát nhạc. Key có hiệu lực <b style="color:#ffd166">5 tiếng</b> kể từ khi nhập.</div>
-      <input class="music-key-input" id="musicKeyInput" placeholder="Dán key vào đây..." autocomplete="off">
-      <div class="music-key-actions">
-        <button class="music-key-btn getkey" id="musicKeyGet">🔑 GET KEY</button>
-        <button class="music-key-btn confirm" id="musicKeyConfirm">✓ XÁC NHẬN</button>
+      <div class="music-key-desc">Nhập key do admin cấp để mở khóa tính năng phát nhạc. Key có hiệu lực <b style="color:#ffd166">5 tiếng</b> tính theo giờ Việt Nam (UTC+7).</div>
+      <input class="music-key-input" id="musicKeyInput" placeholder="Nhập key admin..." autocomplete="off">
+      <div class="music-key-actions" style="grid-template-columns:1fr">
+        <button class="music-key-btn confirm" id="musicKeyConfirm">✓ KÍCH HOẠT</button>
       </div>
       <div class="music-key-error" id="musicKeyError"></div>
       <div class="music-key-hint" id="musicKeyHint"></div>
@@ -574,7 +575,6 @@ body.music-playing .messages{padding-bottom:90px}
 const API_KEY='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';
 const API_URL='https://api.groq.com/openai/v1/chat/completions';
 const MODELS_URL='https://api.groq.com/openai/v1/models';
-const VISION_MODEL='meta-llama/llama-4-scout-17b-16e-instruct';
 const MAX_IMAGE_BYTES=4*1024*1024;
 const SUPPORT_URL='https://www.facebook.com/share/1HgLgZkQFR/';
 const WEBSITE_URL='https://ncb-ai.vercel.app/';
@@ -594,12 +594,11 @@ const AI_TAGLINE='NCB AI là một trợ lí thông minh';
 const LANG_KEY='ncbai_lang';
 const PIN_HASH_KEY='ncb_pin_hash';
 const PIN_SESSION_KEY='ncb_pin_ok';
-const MUSIC_KEY='335c2c33-4042-417f-a70f-95009e9ebee6';
 const MUSIC_KEY_STORAGE='ncb_music_key';
 const MUSIC_KEY_TTL=5*3600*1000;
-const MUSIC_GET_URL='https://work.ink/34jy/da3123ba-adfe-4958-b159-6bab8ef0b24f';
+const MUSIC_VALID_KEYS=['NCB_2SPSAL','NCB_MDLQQPAO9','NCB_PQKSOZNmzzj'];
 const MUSIC_TRACKS=[
-  {id:1,name:'Giai điệu 1',artist:'NCB Music',url:'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',cover:'🎵'},
+  {id:1,name:'Nhạc 1',artist:'NCB Music',url:'https://files.cdn4.app/m/7708430433951747346/705db6d37db87f8ffe90cdf9e3377c65/27b138e06517ee16ebc9ed0ed61454f9?token=1794777199_17eb252b92c3e93ea572790c2cf7deb277da8a050db5a2366b61c524f42444fd&_m=2001%3Aee0%3A5679%3A2440%3A3532%3Aa7b3%3Ad15b%3Aa51f&_ms=7655b4bf9ec47889dfdefb93d4ef0622f92739231e023751bba037ed3d5dccc4&_a=45899&_u=424a3f2b1e98&_l=0b0c5813696af6da2aec428d1b1103a4',cover:'🎵'},
   {id:2,name:'Giai điệu 2',artist:'NCB Music',url:'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3',cover:'🎶'},
   {id:3,name:'Giai điệu 3',artist:'NCB Music',url:'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',cover:'🎼'},
   {id:4,name:'Giai điệu 4',artist:'NCB Music',url:'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3',cover:'🎧'},
@@ -619,6 +618,7 @@ let currentUser=null,currentUserSub=null;
 let conversations=[],activeId=null,currentMessages=[],isSending=false;
 let clockIntervals=[],resetTimerInterval=null;
 let logoutTimerInterval=null;
+let musicCountdownInterval=null;
 let selectedLangTemp='vi';
 let currentTrack=null;
 
@@ -671,22 +671,62 @@ document.getElementById('pinOk').addEventListener('click',async()=>{
 document.getElementById('pinResetBtn').addEventListener('click',()=>{if(!hasPin()){showToast('⚠️ Chưa có PIN để đổi');return}openPinScreen('change')});
 
 function getMusicKeyData(){try{const r=localStorage.getItem(MUSIC_KEY_STORAGE);if(!r)return null;const d=JSON.parse(r);if(!d.key||!d.exp)return null;if(Date.now()>d.exp)return null;return d}catch(e){return null}}
-function setMusicKey(){localStorage.setItem(MUSIC_KEY_STORAGE,JSON.stringify({key:MUSIC_KEY,exp:Date.now()+MUSIC_KEY_TTL}))}
+function setMusicKey(inputKey){localStorage.setItem(MUSIC_KEY_STORAGE,JSON.stringify({key:inputKey,exp:Date.now()+MUSIC_KEY_TTL}))}
 function hasValidMusicKey(){return !!getMusicKeyData()}
-function openMusicKeyModal(){document.getElementById('musicKeyOverlay').classList.add('show');document.getElementById('musicKeyInput').value='';document.getElementById('musicKeyError').textContent='';const k=getMusicKeyData();document.getElementById('musicKeyHint').textContent=k?('Key hiện tại còn hiệu lực đến '+new Date(k.exp).toLocaleString('vi-VN')):'Key chưa nhập hoặc đã hết hạn';setTimeout(()=>document.getElementById('musicKeyInput').focus(),100)}
-function closeMusicKeyModal(){document.getElementById('musicKeyOverlay').classList.remove('show')}
+function formatVNTime(ts){
+  const vn=new Date(ts+7*3600*1000);
+  const dd=String(vn.getUTCDate()).padStart(2,'0');
+  const mm=String(vn.getUTCMonth()+1).padStart(2,'0');
+  const yy=vn.getUTCFullYear();
+  const hh=String(vn.getUTCHours()).padStart(2,'0');
+  const mi=String(vn.getUTCMinutes()).padStart(2,'0');
+  const ss=String(vn.getUTCSeconds()).padStart(2,'0');
+  return dd+'/'+mm+'/'+yy+' '+hh+':'+mi+':'+ss+' (giờ VN)';
+}
+function startMusicCountdown(){
+  if(musicCountdownInterval)clearInterval(musicCountdownInterval);
+  const hintEl=document.getElementById('musicKeyHint');
+  if(!hintEl)return;
+  let cdEl=document.getElementById('musicKeyCountdown');
+  if(!cdEl){cdEl=document.createElement('div');cdEl.id='musicKeyCountdown';cdEl.className='music-key-countdown';hintEl.parentNode.insertBefore(cdEl,hintEl)}
+  function tick(){
+    const k=getMusicKeyData();
+    if(!k){cdEl.textContent='⏹ Chưa kích hoạt hoặc key đã hết hạn';cdEl.className='music-key-countdown expired';hintEl.textContent='Liên hệ admin để nhận key phát nhạc.';return}
+    const remain=k.exp-Date.now();
+    if(remain<=0){cdEl.textContent='⏹ Key đã hết hạn';cdEl.className='music-key-countdown expired';hintEl.textContent='Liên hệ admin để nhận key mới.';return}
+    const h=Math.floor(remain/3600000);
+    const m=Math.floor((remain%3600000)/60000);
+    const s=Math.floor((remain%60000)/1000);
+    cdEl.textContent='⏱ Còn lại: '+String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+    cdEl.className='music-key-countdown'+(remain<600000?' expiring':'');
+    hintEl.textContent='Hết hạn lúc: '+formatVNTime(k.exp);
+  }
+  tick();
+  musicCountdownInterval=setInterval(tick,1000);
+}
+function stopMusicCountdown(){if(musicCountdownInterval){clearInterval(musicCountdownInterval);musicCountdownInterval=null}}
+function openMusicKeyModal(){
+  document.getElementById('musicKeyOverlay').classList.add('show');
+  document.getElementById('musicKeyInput').value='';
+  document.getElementById('musicKeyError').textContent='';
+  startMusicCountdown();
+  setTimeout(()=>document.getElementById('musicKeyInput').focus(),100);
+}
+function closeMusicKeyModal(){document.getElementById('musicKeyOverlay').classList.remove('show');stopMusicCountdown()}
 document.getElementById('musicKeyClose').addEventListener('click',closeMusicKeyModal);
 document.getElementById('musicKeyOverlay').addEventListener('click',e=>{if(e.target.id==='musicKeyOverlay')closeMusicKeyModal()});
-document.getElementById('musicKeyGet').addEventListener('click',()=>{window.open(MUSIC_GET_URL,'_blank','noopener')});
 document.getElementById('musicKeyConfirm').addEventListener('click',()=>{
   const v=document.getElementById('musicKeyInput').value.trim();
   const err=document.getElementById('musicKeyError');
   if(!v){err.style.color='#ff626e';err.textContent='⚠️ Vui lòng nhập key';return}
-  if(v!==MUSIC_KEY){err.style.color='#ff626e';err.textContent='❌ Key không đúng';return}
-  setMusicKey();err.style.color='#35d69a';err.textContent='✅ Key hợp lệ! Mở khóa 5 tiếng';
-  setTimeout(()=>{closeMusicKeyModal();openMusicPicker()},800);
+  if(!MUSIC_VALID_KEYS.includes(v)){err.style.color='#ff626e';err.textContent='❌ Key không hợp lệ';return}
+  setMusicKey(v);
+  err.style.color='#35d69a';err.textContent='✅ Kích hoạt thành công! 5 tiếng từ bây giờ';
+  startMusicCountdown();
+  setTimeout(()=>{closeMusicKeyModal();openMusicPicker()},1200);
 });
 document.getElementById('musicKeyInput').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('musicKeyConfirm').click()});
+
 function openMusicPicker(){
   const body=document.getElementById('musicPickerBody');body.innerHTML='';
   MUSIC_TRACKS.forEach(tr=>{
@@ -714,7 +754,11 @@ const musicPlayerName=document.getElementById('musicPlayerName');
 const musicPlayerStatus=document.getElementById('musicPlayerStatus');
 const musicPlayerToggle=document.getElementById('musicPlayerToggle');
 function playTrack(tr){
-  currentTrack=tr;musicAudio.src=tr.url;musicAudio.play().catch(err=>console.warn('Play fail:',err));
+  currentTrack=tr;musicAudio.src=tr.url;
+  musicAudio.play().catch(err=>{
+    console.warn('Play fail:',err);
+    musicPlayerStatus.textContent='⚠️ Lỗi phát nhạc';
+  });
   musicPlayerBar.classList.add('show');document.body.classList.add('music-playing');
   musicPlayerCover.textContent=tr.cover;musicPlayerName.textContent=tr.name;
   musicPlayerStatus.textContent='▶ Đang phát';musicPlayerCover.classList.add('playing');musicPlayerToggle.textContent='⏸';
@@ -941,7 +985,36 @@ function updateCounter(){
     c.style.color=left<=0?'#ff626e':left<=max*0.1?'#ffd166':'#35d69a';
   }
 }
-function startResetTimer(){if(resetTimerInterval)clearInterval(resetTimerInterval);const el=document.getElementById('resetTimer');function tick(){if(!el)return;if(checkAndResetDaily()){updateCounter();showToast(t('toastReset'))}const sec=getSecondsUntilReset();el.textContent=t('resetAfter')+' '+formatHMS(sec)}tick();resetTimerInterval=setInterval(tick,1000)}
+function startResetTimer(){
+  if(resetTimerInterval)clearInterval(resetTimerInterval);
+  const el=document.getElementById('resetTimer');
+  function tick(){
+    if(!el)return;
+    if(checkAndResetDaily()){updateCounter();showToast(t('toastReset'))}
+    const sec=getSecondsUntilReset();
+    el.textContent=t('resetAfter')+' '+formatHMS(sec);
+    const mkStatusEl=document.getElementById('musicKeyStatus');
+    if(mkStatusEl){
+      const mk=getMusicKeyData();
+      if(mk){
+        const remain=mk.exp-Date.now();
+        if(remain>0){
+          const h=Math.floor(remain/3600000),m=Math.floor((remain%3600000)/60000),s=Math.floor((remain%60000)/1000);
+          mkStatusEl.style.display='block';
+          mkStatusEl.innerHTML='🔑 Music: '+String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+          mkStatusEl.style.color='#35d69a';
+        }else{
+          mkStatusEl.style.display='block';
+          mkStatusEl.innerHTML='🔑 Music: <span style="color:#ff626e">Hết hạn</span>';
+        }
+      }else{
+        mkStatusEl.style.display='none';
+      }
+    }
+  }
+  tick();
+  resetTimerInterval=setInterval(tick,1000);
+}
 
 document.getElementById('fbLogoBtn').addEventListener('click',()=>window.open(SUPPORT_URL,'_blank','noopener'));
 
@@ -1154,12 +1227,13 @@ async function sendMessage(){
   if(text.toLowerCase()===MUSIC_CMD){
     inp.value='';autoResize();document.getElementById('composer').classList.remove('is-typing');
     if(hasValidMusicKey()){
+      const k=getMusicKeyData();
       addMessage({role:'user',content:text,ts:Date.now()});
-      addMessage({role:'assistant',content:'🎵 Chọn bài hát trong khung bên dưới để phát',ts:Date.now()});
+      addMessage({role:'assistant',content:'🎵 Chọn bài hát trong khung bên dưới để phát\n\n⏱ Key còn hiệu lực đến: '+formatVNTime(k.exp),ts:Date.now()});
       setTimeout(()=>openMusicPicker(),400);
     }else{
       addMessage({role:'user',content:text,ts:Date.now()});
-      addMessage({role:'assistant',content:'🔐 Bạn cần nhập key để sử dụng tính năng phát nhạc.\n\n🔹 Key có hiệu lực 5 tiếng sau khi nhập.\n🔹 Nhấn "GET KEY" trong khung để lấy key.',ts:Date.now()});
+      addMessage({role:'assistant',content:'🔐 Bạn cần nhập key do admin cấp để sử dụng tính năng phát nhạc.\n\n🔹 Key có hiệu lực 5 tiếng (giờ Việt Nam).\n🔹 Vui lòng liên hệ admin để nhận key.',ts:Date.now()});
       setTimeout(()=>openMusicKeyModal(),400);
     }
     return;
