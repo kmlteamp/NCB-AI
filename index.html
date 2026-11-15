@@ -567,7 +567,7 @@ body.music-playing .messages{padding-bottom:90px}
     <button class="music-player-btn" id="musicPlayerToggle">▶</button>
     <button class="music-player-btn close" id="musicPlayerClose">×</button>
   </div>
-  <audio id="musicAudio" preload="none"></audio>
+  <audio id="musicAudio" preload="metadata" referrerpolicy="no-referrer" crossorigin="anonymous"></audio>
 </div>
 
 <script>
@@ -797,22 +797,72 @@ const musicPlayerCover=document.getElementById('musicPlayerCover');
 const musicPlayerName=document.getElementById('musicPlayerName');
 const musicPlayerStatus=document.getElementById('musicPlayerStatus');
 const musicPlayerToggle=document.getElementById('musicPlayerToggle');
-function playTrack(tr){
-  currentTrack=tr;musicAudio.src=tr.url;
-  musicAudio.play().catch(err=>{console.warn('Play fail:',err);musicPlayerStatus.textContent='⚠️ Lỗi phát nhạc'});
+
+function tryPlayUrl(url){
+  return new Promise((resolve,reject)=>{
+    let settled=false;
+    const onError=()=>{if(settled)return;settled=true;cleanup();reject(new Error('media error'))};
+    const onCanPlay=()=>{if(settled)return;settled=true;cleanup();resolve()};
+    const cleanup=()=>{musicAudio.removeEventListener('error',onError);musicAudio.removeEventListener('canplay',onCanPlay)};
+    musicAudio.addEventListener('error',onError,{once:true});
+    musicAudio.addEventListener('canplay',onCanPlay,{once:true});
+    try{musicAudio.src=url;musicAudio.load()}catch(e){cleanup();reject(e);return}
+    const p=musicAudio.play();
+    if(p&&p.catch)p.catch(err=>{if(!settled){settled=true;cleanup();reject(err)}});
+    setTimeout(()=>{if(!settled){settled=true;cleanup();reject(new Error('timeout'))}},8000);
+  });
+}
+async function playTrack(tr){
+  currentTrack=tr;
   musicPlayerBar.classList.add('show');document.body.classList.add('music-playing');
   musicPlayerCover.textContent=tr.cover;musicPlayerName.textContent=tr.name;
-  musicPlayerStatus.textContent='▶ Đang phát';musicPlayerCover.classList.add('playing');musicPlayerToggle.textContent='⏸';
+  musicPlayerCover.classList.add('playing');musicPlayerToggle.textContent='⏸';
+  musicPlayerStatus.textContent='⏳ Đang tải...';
+  const fallbackMap={1:'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',2:'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3',3:'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',4:'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3',5:'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3',6:'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3',7:'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3'};
+  try{
+    await tryPlayUrl(tr.url);
+    musicPlayerStatus.textContent='▶ Đang phát';
+  }catch(err){
+    console.warn('Primary URL fail:',err.message,tr.url);
+    musicPlayerStatus.textContent='⚠️ Link lỗi, thử nguồn dự phòng...';
+    const fb=tr.fallback||fallbackMap[tr.id];
+    if(fb){
+      try{
+        await tryPlayUrl(fb);
+        musicPlayerStatus.textContent='▶ Đang phát (dự phòng)';
+        showToast('⚠️ Link gốc lỗi, đã chuyển sang nhạc dự phòng');
+        return;
+      }catch(err2){console.warn('Fallback fail:',err2.message)}
+    }
+    musicPlayerStatus.textContent='⚠️ Không phát được';
+    musicPlayerCover.classList.remove('playing');
+    musicPlayerToggle.textContent='▶';
+    showToast('❌ Không phát được bài này.\nLink CDN có thể đã hết hạn hoặc chặn hotlink.');
+  }
 }
 function toggleMusic(){
   if(!currentTrack){showToast('⚠️ Chưa chọn bài hát');return}
-  if(musicAudio.paused){musicAudio.play();musicPlayerCover.classList.add('playing');musicPlayerToggle.textContent='⏸';musicPlayerStatus.textContent='▶ Đang phát'}
-  else{musicAudio.pause();musicPlayerCover.classList.remove('playing');musicPlayerToggle.textContent='▶';musicPlayerStatus.textContent='⏸ Tạm dừng'}
+  if(musicAudio.paused){
+    musicAudio.play().then(()=>{musicPlayerCover.classList.add('playing');musicPlayerToggle.textContent='⏸';musicPlayerStatus.textContent='▶ Đang phát'}).catch(err=>{
+      console.warn('Resume fail:',err);
+      showToast('❌ Không thể phát tiếp. Thử chọn bài khác.');
+    });
+  }else{musicAudio.pause();musicPlayerCover.classList.remove('playing');musicPlayerToggle.textContent='▶';musicPlayerStatus.textContent='⏸ Tạm dừng'}
 }
 function closeMusicPlayer(){musicAudio.pause();musicAudio.src='';musicPlayerBar.classList.remove('show');document.body.classList.remove('music-playing');musicPlayerCover.classList.remove('playing');currentTrack=null}
 musicPlayerToggle.addEventListener('click',toggleMusic);
 document.getElementById('musicPlayerClose').addEventListener('click',closeMusicPlayer);
 musicAudio.addEventListener('ended',()=>{musicPlayerCover.classList.remove('playing');musicPlayerToggle.textContent='▶';musicPlayerStatus.textContent='⏹ Đã kết thúc'});
+musicAudio.addEventListener('error',()=>{
+  const e=musicAudio.error;
+  if(!e)return;
+  const codes={1:'MEDIA_ERR_ABORTED',2:'MEDIA_ERR_NETWORK',3:'MEDIA_ERR_DECODE',4:'MEDIA_ERR_SRC_NOT_SUPPORTED'};
+  console.warn('Audio error:',codes[e.code]||e.code,e.message);
+});
+musicAudio.addEventListener('stalled',()=>{
+  console.warn('Audio stalled — mạng chậm hoặc server không phản hồi');
+  if(currentTrack)musicPlayerStatus.textContent='⚠️ Kết nối chậm...';
+});
 
 const fab=document.getElementById('redeemBtn');
 const closeFab=document.getElementById('closeFabBtn');
