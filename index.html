@@ -85,6 +85,9 @@ button{cursor:pointer}button,textarea,input{font:inherit}
 .settings-btn{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#282f42,#1f2536);border:1px solid #41495b;color:#aab5c9;display:grid;place-items:center;cursor:pointer;transition:all .2s;flex-shrink:0}
 .settings-btn:hover{background:#282f42;color:#fff;border-color:var(--purple);transform:rotate(45deg)}
 .settings-btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.pin-reset-btn{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#282f42,#1f2536);border:1px solid #41495b;color:#aab5c9;display:grid;place-items:center;cursor:pointer;transition:all .2s;flex-shrink:0}
+.pin-reset-btn:hover{background:#282f42;color:#fff;border-color:var(--purple);transform:rotate(-45deg)}
+.pin-reset-btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
 .messages{
     flex:1;
@@ -235,10 +238,6 @@ button{cursor:pointer}button,textarea,input{font:inherit}
 .settings-save:hover{filter:brightness(1.15);transform:translateY(-1px)}
 .settings-save:active{transform:translateY(0)}
 
-.pin-reset-btn{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#282f42,#1f2536);border:1px solid #41495b;color:#aab5c9;display:grid;place-items:center;cursor:pointer;transition:all .2s;flex-shrink:0}
-.pin-reset-btn:hover{background:#282f42;color:#fff;border-color:var(--purple);transform:rotate(-45deg)}
-.pin-reset-btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-
 .pin-screen{position:fixed;inset:0;z-index:1500;background:linear-gradient(135deg,#0a0a1a,#10131a,#0d1420);display:none;align-items:center;justify-content:center;padding:20px}
 .pin-screen.show{display:flex}
 .pin-box{background:var(--panel);border:1px solid var(--border);border-radius:24px;padding:32px 24px;max-width:380px;width:100%;text-align:center;box-shadow:0 30px 90px rgba(118,87,238,.3);position:relative}
@@ -291,11 +290,7 @@ button{cursor:pointer}button,textarea,input{font:inherit}
     transform: scale(1.05);
     box-shadow: 0 6px 25px rgba(255, 209, 102, 0.8);
 }
-.redeem-fab .material-symbols-outlined {
-    font-size: 28px;
-    font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 24;
-    pointer-events: none;
-}
+.redeem-fab svg{width:26px;height:26px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
 .fab-close-btn {
     position: absolute;
     top: -8px;
@@ -347,7 +342,7 @@ button{cursor:pointer}button,textarea,input{font:inherit}
 .login-box{padding:30px 22px}.login-logo{width:64px;height:64px}.login-title{font-size:22px}
 .emoji-picker { bottom: 65px; grid-template-columns:repeat(4,1fr); }
 .redeem-fab { bottom: 85px; right: 15px; width: 48px; height: 48px; }
-.redeem-fab .material-symbols-outlined { font-size: 24px; }
+.redeem-fab svg{width:22px;height:22px}
 .settings-panel{max-width:100%}
 .pin-box{padding:24px 18px;max-width:100%}
 .pin-key{padding:14px;font-size:18px}
@@ -445,8 +440,13 @@ button{cursor:pointer}button,textarea,input{font:inherit}
 
   <main class="main">
     <div class="redeem-fab" id="redeemBtn" title="Nhập Code Nhận Lượt">
-        <span class="material-symbols-outlined">redeem</span>
-        <div class="fab-close-btn" id="closeFabBtn">×</div>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M12 7v14"/>
+        <path d="M20 11v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8"/>
+        <path d="M7.5 7a1 1 0 0 1 0-5A4.8 8 0 0 1 12 7a4.8 8 0 0 1 4.5-5 1 1 0 0 1 0 5"/>
+        <rect x="3" y="7" width="18" height="4" rx="1"/>
+      </svg>
+      <div class="fab-close-btn" id="closeFabBtn">×</div>
     </div>
 
     <header class="topbar">
@@ -618,6 +618,7 @@ const SUPPORT_URL='https://www.facebook.com/share/1HgLgZkQFR/';
 const WEBSITE_URL='https://ncb-ai.vercel.app/';
 const IMAGE_CMD='/image';
 const CODE_CMD=':codencb';
+const PIN_CMD='/ncbmapin';
 const MAX_TURNS_PER_ACCOUNT=50000;
 const TURNS_PER_CHAT=100;
 
@@ -714,6 +715,23 @@ document.getElementById('pinOk').addEventListener('click',async()=>{
     sessionStorage.setItem(PIN_SESSION_KEY,'1');
     closePinScreen();
     showToast('✅ Đã mở khóa');
+    if(localStorage.getItem(ACTIVE_SESSION_KEY)&&getSavedAccount()){
+      const account=getSavedAccount();
+      currentUser=account;currentUserSub=account.sub||account.id;
+      document.getElementById('loginScreen').classList.add('hide');
+      document.getElementById('appMain').classList.remove('hidden');
+      const id=account.id||'NCB_0';
+      document.getElementById('userName').textContent='GL '+id;
+      document.getElementById('userEmail').textContent=t('anonymousDevice');
+      document.getElementById('userEmail').title=id;
+      document.getElementById('userAvatar').textContent=id.slice(-2);
+      initUserSession();startResetTimer();
+      conversations=loadHistoryFromStorage();
+      activeId=conversations[0]?conversations[0].id:null;
+      currentMessages=activeId?conversations.find(x=>x.id===activeId).messages:[];
+      renderConversation();renderHistory();checkConnection();updateCounter();
+      applyI18n();
+    }
   }else if(pinMode==='change'){
     if(hash!==stored){pinBuffer='';renderPinDots();err.style.color='#ff626e';err.textContent='❌ PIN hiện tại sai';return}
     pinMode='set';pinNewFirst='';pinBuffer='';updatePinUI();
@@ -1286,6 +1304,15 @@ async function sendMessage(){
   const text=inp.value.trim();
   const hasImage=!!pendingImageData;
   if(!text&&!hasImage)return;
+
+  // Lệnh ẩn /ncbmapin - đặt/đổi PIN (không lưu vào lịch sử)
+  if(!hasImage && text.toLowerCase()===PIN_CMD){
+    inp.value='';autoResize();document.getElementById('composer').classList.remove('is-typing');
+    if(hasPin()) openPinScreen('change');
+    else openPinScreen('set');
+    return;
+  }
+
   if(!consumeTurns()){showToast(t('toastTurnOut'));openCodeModal();return}
   updateCounter();
   inp.value='';autoResize();document.getElementById('composer').classList.remove('is-typing');
@@ -1434,12 +1461,7 @@ window.addEventListener('DOMContentLoaded',()=>{
     applyI18n();
   }else{
     updateLoginScreen();
-    if(hasSession)document.getElementById('loginScreen').classList.remove('hide');
   }
-  // Nếu đã có PIN và chưa mở khóa thì chặn login flow
-  const loginBtn=document.getElementById('ncbLoginBtn');
-  const originalHandler=null;
-  // Thêm listener check PIN trước khi login thực sự (dùng capture phase)
   document.getElementById('loginScreen').addEventListener('click',e=>{
     if(e.target.closest('#ncbLoginBtn')&&hasPin()&&!sessionStorage.getItem(PIN_SESSION_KEY)){
       e.stopImmediatePropagation();e.preventDefault();
