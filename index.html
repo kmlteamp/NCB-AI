@@ -152,10 +152,15 @@ button{cursor:pointer}button,textarea,input{font:inherit}
 .material-symbols-outlined { font-size: 20px; font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
 
 .img-upload-btn{width:39px;height:39px;border-radius:12px;background:#202633;border:1px solid #41495b;color:#aab5c9;display:grid;place-items:center;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
-.img-upload-btn:hover{background:#282f42;color:#fff;border-color:var(--purple)}
 .img-upload-btn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.img-upload-btn input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer}
+.img-upload-btn input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;display:none}
 .img-upload-btn.has-file{border-color:var(--green);color:var(--green);background:#0f2a20}
+
+/* Ảnh upload khóa - sắp ra mắt */
+.img-upload-btn.locked{opacity:.55;background:#181d28;border-color:#2c3444;color:#6b7484;cursor:not-allowed;position:relative}
+.img-upload-btn.locked:hover{background:#181d28;border-color:#2c3444;color:#6b7484}
+.img-upload-btn.locked::after{content:'SOON';position:absolute;top:-5px;right:-5px;font-size:7px;font-weight:900;background:linear-gradient(135deg,#ff3d5a,#aa0000);color:#fff;padding:2px 4px;border-radius:6px;letter-spacing:.5px;box-shadow:0 2px 6px rgba(255,61,90,.5);animation:soonPulse 1.8s infinite}
+@keyframes soonPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
 
 .emoji-picker{position:absolute;bottom:75px;right:0;background:#171b25;border:1px solid var(--purple);border-radius:12px;padding:10px;box-shadow:0 10px 30px rgba(0,0,0,0.5);display:grid;grid-template-columns:repeat(5,1fr);gap:8px;z-index:100;opacity:0;pointer-events:none;transform:translateY(10px);transition:all 0.2s ease;}
 .emoji-picker.show{opacity:1;pointer-events:auto;transform:translateY(0);}
@@ -178,8 +183,11 @@ button{cursor:pointer}button,textarea,input{font:inherit}
 .mic-btn:hover{background:#282f42;color:#fff;border-color:var(--purple)}
 .mic-btn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .mic-btn.recording{background:#ff4a6a !important;color:#fff !important;border-color:#ff4a6a !important;animation:pulseDot 1s infinite}
-.send-btn{width:39px;height:39px;display:grid;place-items:center;border:0;border-radius:12px;background:var(--purple);color:white;font-size:19px}
+
+.send-btn{width:39px;height:39px;display:grid;place-items:center;border:0;border-radius:12px;background:var(--purple);color:white;transition:all .2s}
+.send-btn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .send-btn:hover{background:#8c75ff}
+
 .disclaimer{text-align:center;font-size:10px;color:#747f94;margin:10px 0 0;padding:0 8px;line-height:1.4}
 .toast{position:fixed;left:50%;bottom:105px;transform:translateX(-50%);background:#303747;color:#fff;border:1px solid #4b566b;padding:11px 16px;border-radius:10px;font-size:13px;z-index:10;max-width:90%;text-align:center;white-space:pre-line}
 .hidden{display:none!important}
@@ -339,6 +347,7 @@ button{cursor:pointer}button,textarea,input{font:inherit}
 .suggestions{grid-template-columns:1fr;margin-top:23px}
 .bubble{font-size:13px;padding:10px 12px}
 .mic-btn,.send-btn,.emoji-btn,.img-upload-btn{width:36px;height:36px}.mic-btn svg,.img-upload-btn svg{width:18px;height:18px}
+.send-btn svg{width:18px;height:18px}
 .login-box{padding:30px 22px}.login-logo{width:64px;height:64px}.login-title{font-size:22px}
 .emoji-picker { bottom: 65px; grid-template-columns:repeat(4,1fr); }
 .redeem-fab { bottom: 85px; right: 15px; width: 48px; height: 48px; }
@@ -506,19 +515,24 @@ button{cursor:pointer}button,textarea,input{font:inherit}
                 <span class="material-symbols-outlined">mood</span>
               </button>
 
-              <button class="img-upload-btn" id="imgUploadBtn" title="Gửi ảnh">
+              <button class="img-upload-btn locked" id="imgUploadBtn" title="Gửi ảnh (sắp ra mắt)">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>
                   <circle cx="9" cy="9" r="2"/>
                   <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
                 </svg>
-                <input type="file" id="imageFileInput" accept="image/*" />
+                <input type="file" id="imageFileInput" accept="image/*" disabled />
               </button>
               
               <button class="mic-btn" id="micBtn" title="Ghi âm giọng nói">
                 <svg viewBox="0 0 24 24"><path d="M12 19v3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><rect x="9" y="2" width="6" height="13" rx="3"/></svg>
               </button>
-              <button class="send-btn" id="sendBtn">↑</button>
+              <button class="send-btn" id="sendBtn" title="Gửi">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3.714 3.048a.498.498 0 0 0-.683.627l2.843 7.627a2 2 0 0 1 0 1.396l-2.842 7.627a.498.498 0 0 0 .682.627l18-8.5a.5.5 0 0 0 0-.904z"/>
+                  <path d="M6 12h16"/>
+                </svg>
+              </button>
             </div>
           </div>
           
@@ -613,6 +627,7 @@ const MODELS_URL='https://api.groq.com/openai/v1/models';
 
 const VISION_MODEL='meta-llama/llama-4-scout-17b-16e-instruct';
 const MAX_IMAGE_BYTES=4*1024*1024;
+const IMAGE_FEATURE_ENABLED=false;
 
 const SUPPORT_URL='https://www.facebook.com/share/1HgLgZkQFR/';
 const WEBSITE_URL='https://ncb-ai.vercel.app/';
@@ -634,9 +649,9 @@ const PIN_HASH_KEY='ncb_pin_hash';
 const PIN_SESSION_KEY='ncb_pin_ok';
 
 const I18N={
-  vi:{loginSub:'Đăng nhập để bắt đầu trò chuyện.',loginQuota:'Mỗi thiết bị được',loginQuotaSuffix:'lượt chat / ngày',loginBtn:'ĐĂNG NHẬP NCB',loginReBtn:'VÀO LẠI TÀI KHOẢN',savedLabel:'Tài khoản đã lưu trên thiết bị',logoutBtn:'Thoát',topSub:'NCB AI là một trợ lí thông minh',statusConnecting:'Đang kết nối',statusOnline:'Trực tuyến',statusApiErr:'Lỗi API',statusOffline:'Mất kết nối',newChat:'＋   Cuộc trò chuyện mới',recent:'GẦN ĐÂY',noChat:'Chưa có cuộc trò chuyện',chatNew:'Cuộc trò chuyện mới',version:'Phiên bản 1.5.1',tagline:'NCB AI là một trợ lí thông minh',counterLabel:'Lượt chat:',resetAfter:'Reset sau:',notLogged:'Chưa đăng nhập',anonymousDevice:'Thiết bị ẩn danh',welcome:'Xin chào 👋',welcomeDesc:'NCB AI là một trợ lí thông minh. Gửi ảnh để AI phân tích nhân vật, bối cảnh, cảm xúc — hoặc hỏi bất cứ điều gì.',suggestExplain:'💡 Giải thích',suggestExplainSub:'Blockchain là gì và ứng dụng ra sao?',suggestCode:'💻 Viết code',suggestCodeSub:'Python tính giai thừa bằng đệ quy',suggestTime:'🕐 Xem giờ',suggestTimeSub:'Cho tôi biết giờ và ngày hôm nay',suggestImage:'🎨 Tạo ảnh',suggestImageSub:'Mèo phi hành gia trên sao Hỏa',inputPlaceholder:'Nhập tin nhắn hoặc bấm micro để nói...',sendHint:'Enter để gửi',typing:'Đang nhập...',disclaimer:'NCB AI ĐƯỢC TẠO RA ĐỂ HỖ TRỢ TRẢ LỜI NHANH NGÔN NGỮ TIẾNG VIỆT',copy:'Sao chép',speak:'🔊 Đọc',stop:'⏹ Dừng',copied:'📋 Đã sao chép',settingsTitle:'⚙ CÀI ĐẶT NGÔN NGỮ',settingsLabel:'Chọn ngôn ngữ AI trả lời',settingsSave:'💾 LƯU NGÔN NGỮ',langSaved:'✅ Đã lưu ngôn ngữ:',codeTitle:'⌘ NHẬP CODE',codeSubmit:'XÁC NHẬN',codeEmpty:'⚠️ Vui lòng nhập code',codeOk50:'✅ Mã hợp lệ! +50.000 lượt',codeOkVip:'✅ Mã VIP hợp lệ! +100.000 lượt',codeOk1k:'✅ Mã hợp lệ! +1.000 lượt',codeInvalid:'❌ Mã không hợp lệ',toastOk50:'🎉 Đã cộng 50.000 lượt!',toastOkVip:'🎉 Đã cộng 100.000 lượt!',toastOk1k:'🎉 Đã cộng 1000 lượt chat!',toastNewId:'✅ Đã tạo ID mới:',toastLogin:'✅ Đăng nhập:',toastLogout:'👋 Đã đăng xuất.',toastImgAttached:'✅ Đã đính kèm ảnh — AI sẽ phân tích',toastImgOnly:'⚠️ Chỉ hỗ trợ file ảnh',toastImgLarge:'⚠️ Ảnh quá lớn (tối đa 4MB cho AI vision)',toastNoMic:'⚠️ Trình duyệt không hỗ trợ ghi âm.\nVui lòng dùng Chrome hoặc Edge!',toastNoTts:'⚠️ Trình duyệt không hỗ trợ đọc',toastTurnOut:'⚠️ Bạn đã hết lượt chat hoặc không đủ 100 lượt!\nNhập code để cộng thêm, hoặc chờ 00:00 mai reset.',toastReset:'🎉 Đã cộng lại 50.000 lượt chat cho ngày mới!',toastCopiedId:'📋 Đã sao chép ID:',logoutTitle:'BẠN MUỐN TIẾP TỤC CHỨ?',logoutCount:'ĐIỂM NGƯỢC',logoutGo:'TIẾP TỤC',logoutConfirm:'Đăng xuất?\n\nTài khoản vẫn được lưu trên thiết bị này.',voiceTitle:'Ghi âm giọng nói',voiceSub:'Nhấn nút bên dưới và nói. AI sẽ nghe, trả lời và đọc to cho bạn.',voiceListening:'🔴 Đang nghe...',voiceListenHint:'Hãy nói rõ ràng. Nhấn "Dừng" khi xong.',voiceStopped:'Đã dừng ghi âm',voiceDone:'Bạn có thể sửa hoặc gửi cho AI.',voiceNoSpeech:'Không nhận diện được giọng nói.',voiceStart:'🎤 Bắt đầu nói',voiceStop:'⏹ Dừng lại',voiceAgain:'🎤 Nói lại',voiceClose:'Đóng',voiceSend:'➤ Gửi cho AI',voiceEmptyHint:'🎤 Nhấn nút bên dưới và bắt đầu nói...',voiceMicDenied:'❌ Bạn cần cho phép micro trong trình duyệt!',voiceMicNoSpeech:'⚠️ Không nghe thấy gì, thử lại nhé.',voiceMicNetwork:'⚠️ Lỗi mạng, kiểm tra kết nối.',removeImg:'Bỏ ảnh',websiteReply:'Đây là website chính thức của NCB AI:\n\n🔹 ',websiteReplyTail:'\n\nBạn truy cập để dùng phiên bản mới nhất nhé! 🤩',supportReply:'Bạn cần hỗ trợ? Liên hệ admin qua Facebook:\n\n🔹 ',supportReplyTail:'\n\nAdmin: NGUYỄN CÔNG BẰNG sẽ phản hồi sớm nhất có thể. 🥰',imageGenLabel:'🎨 ẢNH ĐÃ TẠO',imageDownload:'⬇ Tải xuống',imageRegen:'🔄 Tạo lại',clockLabel:'THỜI GIAN THỰC',clockTz:'🇻🇳 Giờ Việt Nam (UTC+7)',day0:'Chủ nhật',day1:'Thứ hai',day2:'Thứ ba',day3:'Thứ tư',day4:'Thứ năm',day5:'Thứ sáu',day6:'Thứ bảy',retryImgFail:'⏳ Không phân tích được ảnh lúc này.\n\n🔹 Kiểm tra: ảnh < 4MB, API key còn hạn mức vision.\n🔹 Hoặc thử gửi lại sau 30 giây.',closeTitle:'Đóng'},
-  th:{loginSub:'เข้าสู่ระบบเพื่อเริ่มแชท',loginQuota:'แต่ละอุปกรณ์ได้รับ',loginQuotaSuffix:'ข้อความ / วัน',loginBtn:'เข้าสู่ระบบ NCB',loginReBtn:'กลับเข้าสู่บัญชี',savedLabel:'บัญชีที่บันทึกไว้ในอุปกรณ์',logoutBtn:'ออก',topSub:'NCB AI เป็นผู้ช่วยอัจฉริยะ',statusConnecting:'กำลังเชื่อมต่อ',statusOnline:'ออนไลน์',statusApiErr:'API ผิดพลาด',statusOffline:'ขาดการเชื่อมต่อ',newChat:'＋   แชทใหม่',recent:'ล่าสุด',noChat:'ยังไม่มีการสนทนา',chatNew:'แชทใหม่',version:'เวอร์ชัน 1.5.1',tagline:'NCB AI เป็นผู้ช่วยอัจฉริยะ',counterLabel:'จำนวนแชท:',resetAfter:'รีเซ็ตใน:',notLogged:'ยังไม่เข้าสู่ระบบ',anonymousDevice:'อุปกรณ์ไม่ระบุตัวตน',welcome:'สวัสดี 👋',welcomeDesc:'NCB AI เป็นผู้ช่วยอัจฉริยะ ส่งภาพให้ AI วิเคราะห์ตัวละคร ฉาก อารมณ์ หรือถามอะไรก็ได้',suggestExplain:'💡 อธิบาย',suggestExplainSub:'Blockchain คืออะไรและใช้อย่างไร?',suggestCode:'💻 เขียนโค้ด',suggestCodeSub:'Python คำนวณแฟกทอเรียลแบบเรียกซ้ำ',suggestTime:'🕐 ดูเวลา',suggestTimeSub:'บอกเวลาและวันที่วันนี้',suggestImage:'🎨 สร้างภาพ',suggestImageSub:'แมวนักบินอวกาศบนดาวอังคาร',inputPlaceholder:'พิมพ์ข้อความหรือกดไมค์เพื่อพูด...',sendHint:'Enter เพื่อส่ง',typing:'กำลังพิมพ์...',disclaimer:'NCB AI ถูกสร้างขึ้นเพื่อช่วยตอบคำถามอย่างรวดเร็ว',copy:'คัดลอก',speak:'🔊 อ่าน',stop:'⏹ หยุด',copied:'📋 คัดลอกแล้ว',settingsTitle:'⚙ ตั้งค่าภาษา',settingsLabel:'เลือกภาษาที่ AI ตอบ',settingsSave:'💾 บันทึกภาษา',langSaved:'✅ บันทึกภาษาแล้ว:',codeTitle:'⌘ ใส่โค้ด',codeSubmit:'ยืนยัน',codeEmpty:'⚠️ กรุณาใส่โค้ด',codeOk50:'✅ โค้ดถูกต้อง! +50,000 ครั้ง',codeOkVip:'✅ โค้ด VIP ถูกต้อง! +100,000 ครั้ง',codeOk1k:'✅ โค้ดถูกต้อง! +1,000 ครั้ง',codeInvalid:'❌ โค้ดไม่ถูกต้อง',toastOk50:'🎉 เพิ่ม 50,000 ครั้งแล้ว!',toastOkVip:'🎉 เพิ่ม 100,000 ครั้งแล้ว!',toastOk1k:'🎉 เพิ่ม 1,000 ครั้งแล้ว!',toastNewId:'✅ สร้าง ID ใหม่:',toastLogin:'✅ เข้าสู่ระบบ:',toastLogout:'👋 ออกจากระบบแล้ว',toastImgAttached:'✅ แนบภาพแล้ว — AI จะวิเคราะห์',toastImgOnly:'⚠️ รองรับเฉพาะไฟล์ภาพ',toastImgLarge:'⚠️ ภาพใหญ่เกินไป (สูงสุด 4MB)',toastNoMic:'⚠️ เบราว์เซอร์ไม่รองรับการบันทึกเสียง\nกรุณาใช้ Chrome หรือ Edge!',toastNoTts:'⚠️ เบราว์เซอร์ไม่รองรับการอ่าน',toastTurnOut:'⚠️ คุณใช้สิทธิ์แชทหมดหรือเหลือไม่ถึง 100 ครั้ง!\nใส่โค้ดเพื่อเพิ่ม หรือรอ 00:00 พรุ่งนี้รีเซ็ต',toastReset:'🎉 เพิ่ม 50,000 ครั้งสำหรับวันใหม่แล้ว!',toastCopiedId:'📋 คัดลอก ID แล้ว:',logoutTitle:'คุณต้องการดำเนินการต่อหรือไม่?',logoutCount:'นับถอยหลัง',logoutGo:'ดำเนินการต่อ',logoutConfirm:'ออกจากระบบ?\n\nบัญชียังคงถูกบันทึกในอุปกรณ์นี้',voiceTitle:'บันทึกเสียง',voiceSub:'กดปุ่มด้านล่างแล้วพูด AI จะฟัง ตอบ และอ่านออกเสียง',voiceListening:'🔴 กำลังฟัง...',voiceListenHint:'พูดให้ชัดเจน กด "หยุด" เมื่อเสร็จ',voiceStopped:'หยุดบันทึกแล้ว',voiceDone:'คุณสามารถแก้ไขหรือส่งให้ AI',voiceNoSpeech:'ไม่รู้จำเสียงได้',voiceStart:'🎤 เริ่มพูด',voiceStop:'⏹ หยุด',voiceAgain:'🎤 พูดอีกครั้ง',voiceClose:'ปิด',voiceSend:'➤ ส่งให้ AI',voiceEmptyHint:'🎤 กดปุ่มด้านล่างและเริ่มพูด...',voiceMicDenied:'❌ คุณต้องอนุญาตไมโครโฟนในเบราว์เซอร์!',voiceMicNoSpeech:'⚠️ ไม่ได้ยินเสียง ลองอีกครั้ง',voiceMicNetwork:'⚠️ เครือข่ายผิดพลาด ตรวจสอบการเชื่อมต่อ',removeImg:'ลบภาพ',websiteReply:'นี่คือเว็บไซต์อย่างเป็นทางการของ NCB AI:\n\n🔹 ',websiteReplyTail:'\n\nเข้าชมเพื่อใช้เวอร์ชันล่าสุดได้เลย! 🤩',supportReply:'ต้องการความช่วยเหลือ? ติดต่อผู้ดูแลผ่าน Facebook:\n\n🔹 ',supportReplyTail:'\n\nผู้ดูแล: NGUYỄN CÔNG BẰNG จะตอบกลับโดยเร็วที่สุด 🥰',imageGenLabel:'🎨 ภาพที่สร้างแล้ว',imageDownload:'⬇ ดาวน์โหลด',imageRegen:'🔄 สร้างใหม่',clockLabel:'เวลาจริง',clockTz:'🇻🇳 เวลาเวียดนาม (UTC+7)',day0:'อาทิตย์',day1:'จันทร์',day2:'อังคาร',day3:'พุธ',day4:'พฤหัสบดี',day5:'ศุกร์',day6:'เสาร์',retryImgFail:'⏳ ไม่สามารถวิเคราะห์ภาพได้ในขณะนี้\n\n🔹 ตรวจสอบ: ภาพ < 4MB, API key ยังมีโควตา vision\n🔹 หรือลองส่งใหม่ใน 30 วินาที',closeTitle:'ปิด'},
-  en:{loginSub:'Sign in to start chatting.',loginQuota:'Each device gets',loginQuotaSuffix:'messages / day',loginBtn:'SIGN IN NCB',loginReBtn:'RETURN TO ACCOUNT',savedLabel:'Account saved on this device',logoutBtn:'Logout',topSub:'NCB AI is an intelligent assistant',statusConnecting:'Connecting',statusOnline:'Online',statusApiErr:'API Error',statusOffline:'Disconnected',newChat:'＋   New chat',recent:'RECENT',noChat:'No conversations yet',chatNew:'New conversation',version:'Version 1.5.1',tagline:'NCB AI is an intelligent assistant',counterLabel:'Messages:',resetAfter:'Reset in:',notLogged:'Not signed in',anonymousDevice:'Anonymous device',welcome:'Hello 👋',welcomeDesc:'NCB AI is an intelligent assistant. Send an image for AI to analyze characters, scenes, emotions — or ask anything.',suggestExplain:'💡 Explain',suggestExplainSub:'What is blockchain and how is it used?',suggestCode:'💻 Write code',suggestCodeSub:'Python factorial using recursion',suggestTime:'🕐 Check time',suggestTimeSub:"Tell me today's time and date",suggestImage:'🎨 Create image',suggestImageSub:'Astronaut cat on Mars',inputPlaceholder:'Type a message or tap mic to speak...',sendHint:'Enter to send',typing:'Typing...',disclaimer:'NCB AI IS BUILT TO PROVIDE FAST RESPONSES IN VIETNAMESE',copy:'Copy',speak:'🔊 Read',stop:'⏹ Stop',copied:'📋 Copied',settingsTitle:'⚙ LANGUAGE SETTINGS',settingsLabel:'Choose AI response language',settingsSave:'💾 SAVE LANGUAGE',langSaved:'✅ Language saved:',codeTitle:'⌘ ENTER CODE',codeSubmit:'CONFIRM',codeEmpty:'⚠️ Please enter code',codeOk50:'✅ Valid code! +50,000 turns',codeOkVip:'✅ Valid VIP code! +100,000 turns',codeOk1k:'✅ Valid code! +1,000 turns',codeInvalid:'❌ Invalid code',toastOk50:'🎉 Added 50,000 turns!',toastOkVip:'🎉 Added 100,000 turns!',toastOk1k:'🎉 Added 1,000 turns!',toastNewId:'✅ New ID created:',toastLogin:'✅ Signed in:',toastLogout:'👋 Signed out.',toastImgAttached:'✅ Image attached — AI will analyze',toastImgOnly:'⚠️ Only image files supported',toastImgLarge:'⚠️ Image too large (max 4MB)',toastNoMic:'⚠️ Browser does not support recording.\nPlease use Chrome or Edge!',toastNoTts:'⚠️ Browser does not support speech',toastTurnOut:'⚠️ Out of turns or fewer than 100!\nEnter code to add more, or wait until 00:00 for reset.',toastReset:'🎉 50,000 turns recharged for a new day!',toastCopiedId:'📋 Copied ID:',logoutTitle:'DO YOU WANT TO CONTINUE?',logoutCount:'COUNTDOWN',logoutGo:'CONTINUE',logoutConfirm:'Sign out?\n\nThe account remains saved on this device.',voiceTitle:'Voice recording',voiceSub:'Tap the button below and speak. AI will listen, reply and read aloud.',voiceListening:'🔴 Listening...',voiceListenHint:'Speak clearly. Tap "Stop" when done.',voiceStopped:'Recording stopped',voiceDone:'You can edit or send to AI.',voiceNoSpeech:'Could not recognize speech.',voiceStart:'🎤 Start speaking',voiceStop:'⏹ Stop',voiceAgain:'🎤 Speak again',voiceClose:'Close',voiceSend:'➤ Send to AI',voiceEmptyHint:'🎤 Tap the button below and start speaking...',voiceMicDenied:'❌ You must allow microphone in your browser!',voiceMicNoSpeech:'⚠️ No speech detected, try again.',voiceMicNetwork:'⚠️ Network error, check connection.',removeImg:'Remove image',websiteReply:'This is the official NCB AI website:\n\n🔹 ',websiteReplyTail:'\n\nVisit to use the latest version! 🤩',supportReply:'Need help? Contact admin via Facebook:\n\n🔹 ',supportReplyTail:'\n\nAdmin: NGUYỄN CÔNG BẰNG will respond as soon as possible. 🥰',imageGenLabel:'🎨 GENERATED IMAGE',imageDownload:'⬇ Download',imageRegen:'🔄 Regenerate',clockLabel:'REAL TIME',clockTz:'🇻🇳 Vietnam Time (UTC+7)',day0:'Sunday',day1:'Monday',day2:'Tuesday',day3:'Wednesday',day4:'Thursday',day5:'Friday',day6:'Saturday',retryImgFail:'⏳ Cannot analyze image right now.\n\n🔹 Check: image < 4MB, API key vision quota.\n🔹 Or try again in 30 seconds.',closeTitle:'Close'}
+  vi:{loginSub:'Đăng nhập để bắt đầu trò chuyện.',loginQuota:'Mỗi thiết bị được',loginQuotaSuffix:'lượt chat / ngày',loginBtn:'ĐĂNG NHẬP NCB',loginReBtn:'VÀO LẠI TÀI KHOẢN',savedLabel:'Tài khoản đã lưu trên thiết bị',logoutBtn:'Thoát',topSub:'NCB AI là một trợ lí thông minh',statusConnecting:'Đang kết nối',statusOnline:'Trực tuyến',statusApiErr:'Lỗi API',statusOffline:'Mất kết nối',newChat:'＋   Cuộc trò chuyện mới',recent:'GẦN ĐÂY',noChat:'Chưa có cuộc trò chuyện',chatNew:'Cuộc trò chuyện mới',version:'Phiên bản 1.5.1',tagline:'NCB AI là một trợ lí thông minh',counterLabel:'Lượt chat:',resetAfter:'Reset sau:',notLogged:'Chưa đăng nhập',anonymousDevice:'Thiết bị ẩn danh',welcome:'Xin chào 👋',welcomeDesc:'NCB AI là một trợ lí thông minh. Hỏi bất cứ điều gì — từ học tập, code, đến sáng tạo nội dung.',suggestExplain:'💡 Giải thích',suggestExplainSub:'Blockchain là gì và ứng dụng ra sao?',suggestCode:'💻 Viết code',suggestCodeSub:'Python tính giai thừa bằng đệ quy',suggestTime:'🕐 Xem giờ',suggestTimeSub:'Cho tôi biết giờ và ngày hôm nay',suggestImage:'🎨 Tạo ảnh',suggestImageSub:'Mèo phi hành gia trên sao Hỏa',inputPlaceholder:'Nhập tin nhắn hoặc bấm micro để nói...',sendHint:'Enter để gửi',typing:'Đang nhập...',disclaimer:'NCB AI ĐƯỢC TẠO RA ĐỂ HỖ TRỢ TRẢ LỜI NHANH NGÔN NGỮ TIẾNG VIỆT',copy:'Sao chép',speak:'Đọc',stop:'Dừng',copied:'📋 Đã sao chép',settingsTitle:'⚙ CÀI ĐẶT NGÔN NGỮ',settingsLabel:'Chọn ngôn ngữ AI trả lời',settingsSave:'💾 LƯU NGÔN NGỮ',langSaved:'✅ Đã lưu ngôn ngữ:',codeTitle:'⌘ NHẬP CODE',codeSubmit:'XÁC NHẬN',codeEmpty:'⚠️ Vui lòng nhập code',codeOk50:'✅ Mã hợp lệ! +50.000 lượt',codeOkVip:'✅ Mã VIP hợp lệ! +100.000 lượt',codeOk1k:'✅ Mã hợp lệ! +1.000 lượt',codeInvalid:'❌ Mã không hợp lệ',toastOk50:'🎉 Đã cộng 50.000 lượt!',toastOkVip:'🎉 Đã cộng 100.000 lượt!',toastOk1k:'🎉 Đã cộng 1000 lượt chat!',toastNewId:'✅ Đã tạo ID mới:',toastLogin:'✅ Đăng nhập:',toastLogout:'👋 Đã đăng xuất.',toastImgAttached:'✅ Đã đính kèm ảnh — AI sẽ phân tích',toastImgOnly:'⚠️ Chỉ hỗ trợ file ảnh',toastImgLarge:'⚠️ Ảnh quá lớn (tối đa 4MB cho AI vision)',toastImgComingSoon:'🚧 Chức năng gửi ảnh sẽ sớm ra mắt trong phiên bản tiếp theo!',toastNoMic:'⚠️ Trình duyệt không hỗ trợ ghi âm.\nVui lòng dùng Chrome hoặc Edge!',toastNoTts:'⚠️ Trình duyệt không hỗ trợ đọc',toastTurnOut:'⚠️ Bạn đã hết lượt chat hoặc không đủ 100 lượt!\nNhập code để cộng thêm, hoặc chờ 00:00 mai reset.',toastReset:'🎉 Đã cộng lại 50.000 lượt chat cho ngày mới!',toastCopiedId:'📋 Đã sao chép ID:',logoutTitle:'BẠN MUỐN TIẾP TỤC CHỨ?',logoutCount:'ĐIỂM NGƯỢC',logoutGo:'TIẾP TỤC',logoutConfirm:'Đăng xuất?\n\nTài khoản vẫn được lưu trên thiết bị này.',voiceTitle:'Ghi âm giọng nói',voiceSub:'Nhấn nút bên dưới và nói. AI sẽ nghe, trả lời và đọc to cho bạn.',voiceListening:'🔴 Đang nghe...',voiceListenHint:'Hãy nói rõ ràng. Nhấn "Dừng" khi xong.',voiceStopped:'Đã dừng ghi âm',voiceDone:'Bạn có thể sửa hoặc gửi cho AI.',voiceNoSpeech:'Không nhận diện được giọng nói.',voiceStart:'🎤 Bắt đầu nói',voiceStop:'⏹ Dừng lại',voiceAgain:'🎤 Nói lại',voiceClose:'Đóng',voiceSend:'➤ Gửi cho AI',voiceEmptyHint:'🎤 Nhấn nút bên dưới và bắt đầu nói...',voiceMicDenied:'❌ Bạn cần cho phép micro trong trình duyệt!',voiceMicNoSpeech:'⚠️ Không nghe thấy gì, thử lại nhé.',voiceMicNetwork:'⚠️ Lỗi mạng, kiểm tra kết nối.',removeImg:'Bỏ ảnh',websiteReply:'Đây là website chính thức của NCB AI:\n\n🔹 ',websiteReplyTail:'\n\nBạn truy cập để dùng phiên bản mới nhất nhé! 🤩',supportReply:'Bạn cần hỗ trợ? Liên hệ admin qua Facebook:\n\n🔹 ',supportReplyTail:'\n\nAdmin: NGUYỄN CÔNG BẰNG sẽ phản hồi sớm nhất có thể. 🥰',imageGenLabel:'🎨 ẢNH ĐÃ TẠO',imageDownload:'⬇ Tải xuống',imageRegen:'🔄 Tạo lại',clockLabel:'THỜI GIAN THỰC',clockTz:'🇻🇳 Giờ Việt Nam (UTC+7)',day0:'Chủ nhật',day1:'Thứ hai',day2:'Thứ ba',day3:'Thứ tư',day4:'Thứ năm',day5:'Thứ sáu',day6:'Thứ bảy',retryImgFail:'⏳ Không phân tích được ảnh lúc này.\n\n🔹 Kiểm tra: ảnh < 4MB, API key còn hạn mức vision.\n🔹 Hoặc thử gửi lại sau 30 giây.',closeTitle:'Đóng'},
+  th:{loginSub:'เข้าสู่ระบบเพื่อเริ่มแชท',loginQuota:'แต่ละอุปกรณ์ได้รับ',loginQuotaSuffix:'ข้อความ / วัน',loginBtn:'เข้าสู่ระบบ NCB',loginReBtn:'กลับเข้าสู่บัญชี',savedLabel:'บัญชีที่บันทึกไว้ในอุปกรณ์',logoutBtn:'ออก',topSub:'NCB AI เป็นผู้ช่วยอัจฉริยะ',statusConnecting:'กำลังเชื่อมต่อ',statusOnline:'ออนไลน์',statusApiErr:'API ผิดพลาด',statusOffline:'ขาดการเชื่อมต่อ',newChat:'＋   แชทใหม่',recent:'ล่าสุด',noChat:'ยังไม่มีการสนทนา',chatNew:'แชทใหม่',version:'เวอร์ชัน 1.5.1',tagline:'NCB AI เป็นผู้ช่วยอัจฉริยะ',counterLabel:'จำนวนแชท:',resetAfter:'รีเซ็ตใน:',notLogged:'ยังไม่เข้าสู่ระบบ',anonymousDevice:'อุปกรณ์ไม่ระบุตัวตน',welcome:'สวัสดี 👋',welcomeDesc:'NCB AI เป็นผู้ช่วยอัจฉริยะ ถามอะไรก็ได้',suggestExplain:'💡 อธิบาย',suggestExplainSub:'Blockchain คืออะไรและใช้อย่างไร?',suggestCode:'💻 เขียนโค้ด',suggestCodeSub:'Python คำนวณแฟกทอเรียลแบบเรียกซ้ำ',suggestTime:'🕐 ดูเวลา',suggestTimeSub:'บอกเวลาและวันที่วันนี้',suggestImage:'🎨 สร้างภาพ',suggestImageSub:'แมวนักบินอวกาศบนดาวอังคาร',inputPlaceholder:'พิมพ์ข้อความหรือกดไมค์เพื่อพูด...',sendHint:'Enter เพื่อส่ง',typing:'กำลังพิมพ์...',disclaimer:'NCB AI ถูกสร้างขึ้นเพื่อช่วยตอบคำถามอย่างรวดเร็ว',copy:'คัดลอก',speak:'อ่าน',stop:'หยุด',copied:'📋 คัดลอกแล้ว',settingsTitle:'⚙ ตั้งค่าภาษา',settingsLabel:'เลือกภาษาที่ AI ตอบ',settingsSave:'💾 บันทึกภาษา',langSaved:'✅ บันทึกภาษาแล้ว:',codeTitle:'⌘ ใส่โค้ด',codeSubmit:'ยืนยัน',codeEmpty:'⚠️ กรุณาใส่โค้ด',codeOk50:'✅ โค้ดถูกต้อง! +50,000 ครั้ง',codeOkVip:'✅ โค้ด VIP ถูกต้อง! +100,000 ครั้ง',codeOk1k:'✅ โค้ดถูกต้อง! +1,000 ครั้ง',codeInvalid:'❌ โค้ดไม่ถูกต้อง',toastOk50:'🎉 เพิ่ม 50,000 ครั้งแล้ว!',toastOkVip:'🎉 เพิ่ม 100,000 ครั้งแล้ว!',toastOk1k:'🎉 เพิ่ม 1,000 ครั้งแล้ว!',toastNewId:'✅ สร้าง ID ใหม่:',toastLogin:'✅ เข้าสู่ระบบ:',toastLogout:'👋 ออกจากระบบแล้ว',toastImgAttached:'✅ แนบภาพแล้ว — AI จะวิเคราะห์',toastImgOnly:'⚠️ รองรับเฉพาะไฟล์ภาพ',toastImgLarge:'⚠️ ภาพใหญ่เกินไป (สูงสุด 4MB)',toastImgComingSoon:'🚧 ฟีเจอร์ส่งรูปภาพจะมาเร็ว ๆ นี้!',toastNoMic:'⚠️ เบราว์เซอร์ไม่รองรับการบันทึกเสียง\nกรุณาใช้ Chrome หรือ Edge!',toastNoTts:'⚠️ เบราว์เซอร์ไม่รองรับการอ่าน',toastTurnOut:'⚠️ คุณใช้สิทธิ์แชทหมดหรือเหลือไม่ถึง 100 ครั้ง!\nใส่โค้ดเพื่อเพิ่ม หรือรอ 00:00 พรุ่งนี้รีเซ็ต',toastReset:'🎉 เพิ่ม 50,000 ครั้งสำหรับวันใหม่แล้ว!',toastCopiedId:'📋 คัดลอก ID แล้ว:',logoutTitle:'คุณต้องการดำเนินการต่อหรือไม่?',logoutCount:'นับถอยหลัง',logoutGo:'ดำเนินการต่อ',logoutConfirm:'ออกจากระบบ?\n\nบัญชียังคงถูกบันทึกในอุปกรณ์นี้',voiceTitle:'บันทึกเสียง',voiceSub:'กดปุ่มด้านล่างแล้วพูด AI จะฟัง ตอบ และอ่านออกเสียง',voiceListening:'🔴 กำลังฟัง...',voiceListenHint:'พูดให้ชัดเจน กด "หยุด" เมื่อเสร็จ',voiceStopped:'หยุดบันทึกแล้ว',voiceDone:'คุณสามารถแก้ไขหรือส่งให้ AI',voiceNoSpeech:'ไม่รู้จำเสียงได้',voiceStart:'🎤 เริ่มพูด',voiceStop:'⏹ หยุด',voiceAgain:'🎤 พูดอีกครั้ง',voiceClose:'ปิด',voiceSend:'➤ ส่งให้ AI',voiceEmptyHint:'🎤 กดปุ่มด้านล่างและเริ่มพูด...',voiceMicDenied:'❌ คุณต้องอนุญาตไมโครโฟนในเบราว์เซอร์!',voiceMicNoSpeech:'⚠️ ไม่ได้ยินเสียง ลองอีกครั้ง',voiceMicNetwork:'⚠️ เครือข่ายผิดพลาด ตรวจสอบการเชื่อมต่อ',removeImg:'ลบภาพ',websiteReply:'นี่คือเว็บไซต์อย่างเป็นทางการของ NCB AI:\n\n🔹 ',websiteReplyTail:'\n\nเข้าชมเพื่อใช้เวอร์ชันล่าสุดได้เลย! 🤩',supportReply:'ต้องการความช่วยเหลือ? ติดต่อผู้ดูแลผ่าน Facebook:\n\n🔹 ',supportReplyTail:'\n\nผู้ดูแล: NGUYỄN CÔNG BẰNG จะตอบกลับโดยเร็วที่สุด 🥰',imageGenLabel:'🎨 ภาพที่สร้างแล้ว',imageDownload:'⬇ ดาวน์โหลด',imageRegen:'🔄 สร้างใหม่',clockLabel:'เวลาจริง',clockTz:'🇻🇳 เวลาเวียดนาม (UTC+7)',day0:'อาทิตย์',day1:'จันทร์',day2:'อังคาร',day3:'พุธ',day4:'พฤหัสบดี',day5:'ศุกร์',day6:'เสาร์',retryImgFail:'⏳ ไม่สามารถวิเคราะห์ภาพได้ในขณะนี้',closeTitle:'ปิด'},
+  en:{loginSub:'Sign in to start chatting.',loginQuota:'Each device gets',loginQuotaSuffix:'messages / day',loginBtn:'SIGN IN NCB',loginReBtn:'RETURN TO ACCOUNT',savedLabel:'Account saved on this device',logoutBtn:'Logout',topSub:'NCB AI is an intelligent assistant',statusConnecting:'Connecting',statusOnline:'Online',statusApiErr:'API Error',statusOffline:'Disconnected',newChat:'＋   New chat',recent:'RECENT',noChat:'No conversations yet',chatNew:'New conversation',version:'Version 1.5.1',tagline:'NCB AI is an intelligent assistant',counterLabel:'Messages:',resetAfter:'Reset in:',notLogged:'Not signed in',anonymousDevice:'Anonymous device',welcome:'Hello 👋',welcomeDesc:'NCB AI is an intelligent assistant. Ask anything.',suggestExplain:'💡 Explain',suggestExplainSub:'What is blockchain and how is it used?',suggestCode:'💻 Write code',suggestCodeSub:'Python factorial using recursion',suggestTime:'🕐 Check time',suggestTimeSub:"Tell me today's time and date",suggestImage:'🎨 Create image',suggestImageSub:'Astronaut cat on Mars',inputPlaceholder:'Type a message or tap mic to speak...',sendHint:'Enter to send',typing:'Typing...',disclaimer:'NCB AI IS BUILT TO PROVIDE FAST RESPONSES IN VIETNAMESE',copy:'Copy',speak:'Read',stop:'Stop',copied:'📋 Copied',settingsTitle:'⚙ LANGUAGE SETTINGS',settingsLabel:'Choose AI response language',settingsSave:'💾 SAVE LANGUAGE',langSaved:'✅ Language saved:',codeTitle:'⌘ ENTER CODE',codeSubmit:'CONFIRM',codeEmpty:'⚠️ Please enter code',codeOk50:'✅ Valid code! +50,000 turns',codeOkVip:'✅ Valid VIP code! +100,000 turns',codeOk1k:'✅ Valid code! +1,000 turns',codeInvalid:'❌ Invalid code',toastOk50:'🎉 Added 50,000 turns!',toastOkVip:'🎉 Added 100,000 turns!',toastOk1k:'🎉 Added 1,000 turns!',toastNewId:'✅ New ID created:',toastLogin:'✅ Signed in:',toastLogout:'👋 Signed out.',toastImgAttached:'✅ Image attached — AI will analyze',toastImgOnly:'⚠️ Only image files supported',toastImgLarge:'⚠️ Image too large (max 4MB)',toastImgComingSoon:'🚧 Image upload is coming soon in the next version!',toastNoMic:'⚠️ Browser does not support recording.\nPlease use Chrome or Edge!',toastNoTts:'⚠️ Browser does not support speech',toastTurnOut:'⚠️ Out of turns or fewer than 100!\nEnter code to add more, or wait until 00:00 for reset.',toastReset:'🎉 50,000 turns recharged for a new day!',toastCopiedId:'📋 Copied ID:',logoutTitle:'DO YOU WANT TO CONTINUE?',logoutCount:'COUNTDOWN',logoutGo:'CONTINUE',logoutConfirm:'Sign out?\n\nThe account remains saved on this device.',voiceTitle:'Voice recording',voiceSub:'Tap the button below and speak. AI will listen, reply and read aloud.',voiceListening:'🔴 Listening...',voiceListenHint:'Speak clearly. Tap "Stop" when done.',voiceStopped:'Recording stopped',voiceDone:'You can edit or send to AI.',voiceNoSpeech:'Could not recognize speech.',voiceStart:'🎤 Start speaking',voiceStop:'⏹ Stop',voiceAgain:'🎤 Speak again',voiceClose:'Close',voiceSend:'➤ Send to AI',voiceEmptyHint:'🎤 Tap the button below and start speaking...',voiceMicDenied:'❌ You must allow microphone in your browser!',voiceMicNoSpeech:'⚠️ No speech detected, try again.',voiceMicNetwork:'⚠️ Network error, check connection.',removeImg:'Remove image',websiteReply:'This is the official NCB AI website:\n\n🔹 ',websiteReplyTail:'\n\nVisit to use the latest version! 🤩',supportReply:'Need help? Contact admin via Facebook:\n\n🔹 ',supportReplyTail:'\n\nAdmin: NGUYỄN CÔNG BẰNG will respond as soon as possible. 🥰',imageGenLabel:'🎨 GENERATED IMAGE',imageDownload:'⬇ Download',imageRegen:'🔄 Regenerate',clockLabel:'REAL TIME',clockTz:'🇻🇳 Vietnam Time (UTC+7)',day0:'Sunday',day1:'Monday',day2:'Tuesday',day3:'Wednesday',day4:'Thursday',day5:'Friday',day6:'Saturday',retryImgFail:'⏳ Cannot analyze image right now.',closeTitle:'Close'}
 };
 function t(key){return (I18N[currentLang]&&I18N[currentLang][key])||(I18N.vi[key])||key}
 
@@ -856,23 +871,11 @@ const imagePreviewRemove=document.getElementById('imagePreviewRemove');
 
 function formatBytes(b){if(b<1024)return b+' B';if(b<1024*1024)return (b/1024).toFixed(1)+' KB';return (b/(1024*1024)).toFixed(2)+' MB'}
 
-imageFileInput.addEventListener('change',e=>{
-  const file=e.target.files&&e.target.files[0];
-  if(!file)return;
-  if(!file.type.startsWith('image/')){showToast(t('toastImgOnly'));imageFileInput.value='';return}
-  if(file.size>MAX_IMAGE_BYTES){showToast(t('toastImgLarge'));imageFileInput.value='';return}
-  const reader=new FileReader();
-  reader.onload=ev=>{
-    pendingImageData={dataUrl:ev.target.result,name:file.name,size:file.size};
-    imagePreviewThumb.src=ev.target.result;
-    imagePreviewName.textContent=file.name;
-    imagePreviewSize.textContent=formatBytes(file.size);
-    imagePreviewBar.classList.add('show');
-    imgUploadBtn.classList.add('has-file');
-    showToast(t('toastImgAttached'));
-  };
-  reader.readAsDataURL(file);
-  imageFileInput.value='';
+// Nút upload ảnh - đã khóa (sắp ra mắt)
+imgUploadBtn.addEventListener('click',(e)=>{
+  e.preventDefault();
+  e.stopPropagation();
+  showToast(t('toastImgComingSoon'));
 });
 
 imagePreviewRemove.addEventListener('click',()=>{pendingImageData=null;imagePreviewBar.classList.remove('show');imagePreviewThumb.src='';imgUploadBtn.classList.remove('has-file')});
@@ -909,6 +912,8 @@ function loadVietnameseVoice(){if(!speechSynth)return;const v=speechSynth.getVoi
 if(speechSynth){loadVietnameseVoice();speechSynth.onvoiceschanged=loadVietnameseVoice}
 function cleanTextForSpeech(text){if(!text)return '';return text.replace(/https?:\/\/\S+/g,' ').replace(/[*#>`_~]/g,'').replace(/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\u{FE00}-\u{FE0F}]/gu,'').replace(/\s+/g,' ').trim()}
 function getVoiceForLang(){if(!speechSynth)return null;const voices=speechSynth.getVoices();const map={vi:'vi-VN',th:'th-TH',en:'en-US'};const target=map[currentLang]||'vi-VN';return voices.find(v=>v.lang===target)||voices.find(v=>v.lang&&v.lang.startsWith(target.slice(0,2)))||null}
+const ICON_SPEAK='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/><path d="M16 9a5 5 0 0 1 0 6"/></svg>';
+const ICON_STOP='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>';
 function speakText(text,btn){
   if(!speechSynth){showToast(t('toastNoTts'));return}
   speechSynth.cancel();
@@ -917,12 +922,15 @@ function speakText(text,btn){
   const map={vi:'vi-VN',th:'th-TH',en:'en-US'};
   u.lang=map[currentLang]||'vi-VN';u.rate=1;u.pitch=1;u.volume=1;
   const v=getVoiceForLang();if(v)u.voice=v;
-  u.onstart=()=>{if(btn){btn.classList.add('active');btn.textContent=t('stop')}};
-  u.onend=()=>{if(btn){btn.classList.remove('active');btn.textContent=t('speak')}};
-  u.onerror=()=>{if(btn){btn.classList.remove('active');btn.textContent=t('speak')}};
+  u.onstart=()=>{if(btn){btn.classList.add('active');btn.innerHTML=ICON_STOP+' '+t('stop')}};
+  u.onend=()=>{if(btn){btn.classList.remove('active');btn.innerHTML=ICON_SPEAK+' '+t('speak')}};
+  u.onerror=()=>{if(btn){btn.classList.remove('active');btn.innerHTML=ICON_SPEAK+' '+t('speak')}};
   speechSynth.speak(u);
 }
-function stopSpeaking(){if(speechSynth)speechSynth.cancel();document.querySelectorAll('.speak-btn.active').forEach(b=>{b.classList.remove('active');b.textContent=t('speak')})}
+function stopSpeaking(){
+  if(speechSynth)speechSynth.cancel();
+  document.querySelectorAll('.speak-btn.active').forEach(b=>{b.classList.remove('active');b.innerHTML=ICON_SPEAK+' '+t('speak')});
+}
 
 function getVNNow(){const n=new Date();return new Date(n.getTime()+n.getTimezoneOffset()*60000+7*3600000)}
 function getVNDateKey(){const v=getVNNow();return v.getFullYear()+'-'+String(v.getMonth()+1).padStart(2,'0')+'-'+String(v.getDate()).padStart(2,'0')}
@@ -1177,8 +1185,16 @@ function renderConversation(){
       cp.addEventListener('click',()=>{navigator.clipboard.writeText(m.content||'').then(()=>{cp.classList.add('active');showToast(t('copied'));setTimeout(()=>cp.classList.remove('active'),1500)})});
       a.appendChild(cp);
       if(!isCodeResponse(m.content)){
-        const sp=document.createElement('button');sp.className='speak-btn';sp.textContent=t('speak');
-        sp.addEventListener('click',()=>{if(sp.classList.contains('active'))stopSpeaking();else speakText(m.content||'',sp)});
+        const sp=document.createElement('button');
+        sp.className='speak-btn';
+        sp.innerHTML=ICON_SPEAK+' '+t('speak');
+        sp.addEventListener('click',()=>{
+          if(sp.classList.contains('active')){
+            stopSpeaking();
+          }else{
+            speakText(m.content||'',sp);
+          }
+        });
         a.appendChild(sp);
       }
       bw.appendChild(a);
@@ -1237,29 +1253,6 @@ async function callGroqAPI(messages,model){
   const d=await res.json();return d.choices&&d.choices[0]&&d.choices[0].message?d.choices[0].message.content||'':'';
 }
 
-async function callGroqVisionAPI(dataUrl,caption){
-  const sysPrompt='Bạn là NCB_AI — trợ lí phân tích ảnh. NGÔN NGỮ: '+LANG_PROMPTS[currentLang];
-  const userText=caption||'Hãy phân tích ảnh này chi tiết: mô tả nhân vật/vật thể, bối cảnh, màu sắc, cảm xúc, hành động, và chữ trong ảnh nếu có.';
-  const res=await fetch(API_URL,{
-    method:'POST',
-    headers:{'Authorization':'Bearer '+API_KEY,'Content-Type':'application/json'},
-    body:JSON.stringify({
-      model:VISION_MODEL,
-      messages:[
-        {role:'system',content:sysPrompt},
-        {role:'user',content:[
-          {type:'text',text:userText},
-          {type:'image_url',image_url:{url:dataUrl}}
-        ]}
-      ],
-      temperature:0.7,
-      max_tokens:2048
-    })
-  });
-  if(!res.ok){const ttt=await res.text();throw new Error('HTTP '+res.status+' '+ttt.slice(0,200))}
-  const d=await res.json();return d.choices&&d.choices[0]&&d.choices[0].message?d.choices[0].message.content||'':'';
-}
-
 function getMaxTokensForRequest(text){const l=(text||'').length;if(l<50)return 1536;if(l<=200)return 2560;if(l<=500)return 4096;return 6144}
 function getResponseDelay(text){const l=(text||'').length;if(l<50)return 1200;if(l<=200)return 2000;return 2800}
 function showTyping(){const h=document.getElementById('typingHint');if(h)h.classList.add('show')}
@@ -1302,11 +1295,9 @@ async function sendMessage(){
   if(isSending)return;
   const inp=document.getElementById('input');
   const text=inp.value.trim();
-  const hasImage=!!pendingImageData;
-  if(!text&&!hasImage)return;
+  if(!text)return;
 
-  // Lệnh ẩn /ncbmapin - đặt/đổi PIN (không lưu vào lịch sử)
-  if(!hasImage && text.toLowerCase()===PIN_CMD){
+  if(text.toLowerCase()===PIN_CMD){
     inp.value='';autoResize();document.getElementById('composer').classList.remove('is-typing');
     if(hasPin()) openPinScreen('change');
     else openPinScreen('set');
@@ -1316,25 +1307,7 @@ async function sendMessage(){
   if(!consumeTurns()){showToast(t('toastTurnOut'));openCodeModal();return}
   updateCounter();
   inp.value='';autoResize();document.getElementById('composer').classList.remove('is-typing');
-
-  let userMsg;
-  if(hasImage){
-    userMsg={role:'user',type:'user-image',dataUrl:pendingImageData.dataUrl,name:pendingImageData.name,content:text,ts:Date.now()};
-    pendingImageData=null;imagePreviewBar.classList.remove('show');imagePreviewThumb.src='';imgUploadBtn.classList.remove('has-file');
-  }else userMsg={role:'user',content:text,ts:Date.now()};
-  addMessage(userMsg);
-
-  if(hasImage){
-    isSending=true;showTyping();pushAssistantPlaceholder();
-    let reply='';
-    try{reply=await callGroqVisionAPI(userMsg.dataUrl,text)}
-    catch(err){console.warn('Vision fail:',err.message);reply=''}
-    removeTypingPlaceholder();hideTyping();
-    if(!reply)reply=t('retryImgFail');
-    isSending=false;
-    addMessage({role:'assistant',content:reply,ts:Date.now()});
-    return;
-  }
+  addMessage({role:'user',content:text,ts:Date.now()});
 
   if(text.toLowerCase()===CODE_CMD){openCodeModal();return}
   if(isTimeQuestion(text)){pushAssistantPlaceholder();await sleep(600);removeTypingPlaceholder();addMessage({role:'assistant',type:'clock',ts:Date.now()});return}
