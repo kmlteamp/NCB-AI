@@ -536,7 +536,7 @@ body.music-playing .messages{padding-bottom:90px}
       <button class="music-key-close" id="musicKeyClose">×</button>
     </div>
     <div class="music-key-body">
-      <div class="music-key-desc">Nhập key do admin cấp để mở khóa tính năng phát nhạc. Key có hiệu lực <b style="color:#ffd166">5 tiếng</b> tính theo giờ Việt Nam (UTC+7).</div>
+      <div class="music-key-desc">Nhập key do admin cấp để mở khóa tính năng phát nhạc. Thời hạn key tùy loại (5 tiếng, 7 tiếng, hoặc dài hạn).</div>
       <input class="music-key-input" id="musicKeyInput" placeholder="Nhập key admin..." autocomplete="off">
       <div class="music-key-actions" style="grid-template-columns:1fr">
         <button class="music-key-btn confirm" id="musicKeyConfirm">✓ KÍCH HOẠT</button>
@@ -596,13 +596,27 @@ const PIN_HASH_KEY='ncb_pin_hash';
 const PIN_SESSION_KEY='ncb_pin_ok';
 const MUSIC_KEY_STORAGE='ncb_music_key';
 const MUSIC_KEY_TTL=5*3600*1000;
-const MUSIC_VALID_KEYS=['NCB_2SPSAL','NCB_MDLQQPAO9','NCB_PQKSOZNmzzj'];
+const MUSIC_KEYS_MAP={
+  'NCB_2SPSAL':{ms:5*3600*1000,deviceLock:false},
+  'NCB_MDLQQPAO9':{ms:5*3600*1000,deviceLock:false},
+  'NCB_PQKSOZNmzzj':{ms:5*3600*1000,deviceLock:false},
+  'NCB_MSOWQPQ0':{ms:5*3600*1000,deviceLock:false},
+  'NCB_MSPQQ01':{ms:5*3600*1000,deviceLock:false},
+  'NCB_QKAJWUNSS':{ms:5*3600*1000,deviceLock:false},
+  'NCB_28QPPWDK':{ms:7*3600*1000,deviceLock:false},
+  'NCB_829PSK':{ms:7*3600*1000,deviceLock:false},
+  'NCB_KWWWOS':{ms:7*3600*1000,deviceLock:false},
+  'NGUYENCONGBANHXNCB':{ms:7*3600*1000,deviceLock:false},
+  'NCB_DR10LAP':{ms:9000*24*3600*1000,deviceLock:true}
+};
 const MUSIC_TRACKS=[
-  {id:1,name:'Nhạc 1',artist:'NCB Music',url:'https://files.cdn4.app/m/7708430433951747346/705db6d37db87f8ffe90cdf9e3377c65/27b138e06517ee16ebc9ed0ed61454f9?token=1794777199_17eb252b92c3e93ea572790c2cf7deb277da8a050db5a2366b61c524f42444fd&_m=2001%3Aee0%3A5679%3A2440%3A3532%3Aa7b3%3Ad15b%3Aa51f&_ms=7655b4bf9ec47889dfdefb93d4ef0622f92739231e023751bba037ed3d5dccc4&_a=45899&_u=424a3f2b1e98&_l=0b0c5813696af6da2aec428d1b1103a4',cover:'🎵'},
-  {id:2,name:'Giai điệu 2',artist:'NCB Music',url:'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3',cover:'🎶'},
-  {id:3,name:'Giai điệu 3',artist:'NCB Music',url:'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',cover:'🎼'},
-  {id:4,name:'Giai điệu 4',artist:'NCB Music',url:'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3',cover:'🎧'},
-  {id:5,name:'Giai điệu 5',artist:'NCB Music',url:'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3',cover:'🎤'}
+  {id:1,name:'Nhạc 1',artist:'NCB Music',url:'https://files.cdn4.app/m/7708430433951747346/705db6d37db87f8ffe90cdf9e3377c65/27b138e06517ee16ebc9ed0ed61454f9?token=1794777199_17eb252b92c3e93ea572790c2cf7deb277da8a050db5a2366b61c524f42444fd&_m=2001%3Aee%3A5679%3A2440%3A3532%3Aa7b3%3Ad15b%3Aa51f&_ms=7655b4bf9ec47889dfdefb93d4ef0622f92739231e023751bba037ed3d5dccc4&_a=45899&_u=424a3f2b1e98&_l=0b0c5813696af6da2aec428d1b1103a4',cover:'🎵'},
+  {id:2,name:'Nhạc 2',artist:'NCB Music',url:'https://files.cdn4.app/m/7668018094333283605/7906f8888100c5ede9353bfa152dc36b/346880efa9c7c70b880dd5d72c53054d?token=1794777714_90c8bb0ba2f09709bbab0ef3d0365df99acfd6ac59e1f20307d075d2828429e6&_m=2001%3Aee%3A5679%3A2440%3A3532%3Aa7b3%3Ad15b%3Aa51f&_ms=2cb7969d367f4663c23e7fb6979499969aa658a76a0a2eec51317ec29b8d1b30&_a=45899&_u=424a3f2b1e98&_l=89f344eb49aa3d152f226c0ba0281df8',cover:'🎶'},
+  {id:3,name:'Nhạc 3',artist:'NCB Music',url:'https://files.cdn4.app/m/7681153193887272213/8b5819d14faa7b34a42d0cb94a37339b/46847d82bc463cdc18b81c9aa21233e0?token=1794777865_ac5d81f1e6fca529cde2f979ea22bb72fe53a1577419eea58b965f1318a2a43e&_m=2001%3Aee%3A5679%3A2440%3A3532%3Aa7b3%3Ad15b%3Aa51f&_ms=26a4436af8999fcb0fc06425551c7311ddb59a3cf57b9b9a4c6c8ef365013deb&_a=45899&_u=424a3f2b1e98&_l=1df7aa18899d07162dca4004124e500a',cover:'🎼'},
+  {id:4,name:'Nhạc 4',artist:'NCB Music',url:'https://files.cdn4.app/m/7491594075347356936/a8d020f590a439edefc8906a9224bced/5bd4b8137559b82ef2b54a1880035732?token=1794777990_6f3520dadfe7f485d1b3e17b4cc0d7b29521a95aff79bedeca0b951ef1145c98&_m=2001%3Aee%3A5679%3A2440%3A3532%3Aa7b3%3Ad15b%3Aa51f&_ms=7e7a02eab2c648c90d23dcf5dcbfe8ea06b039ea9bdabab30e874e0b404f5579&_a=45899&_u=424a3f2b1e98&_l=3120ae03bc74be2149551988cd456f3a',cover:'🎧'},
+  {id:5,name:'Nhạc 5',artist:'NCB Music',url:'https://files.cdn4.app/m/7619574160599059733/39d85c6f0c6a5689ddb73e57dc0386e0/e6ccae1a258584659c8917d4af8c4573?token=1794778068_776b77dfedf9a017e4818bf2f9b5eb86cf31f9ed6cbd5193876088d721501610&_m=2001%3Aee%3A5679%3A2440%3A3532%3Aa7b3%3Ad15b%3Aa51f&_ms=ab57e05aafec89f409a1a23eb00a92c5d550e74c601ef59dba68be5afa1336b9&_a=45899&_u=424a3f2b1e98&_l=a2cce945290ab89c7d24503274d7f409',cover:'🎤'},
+  {id:6,name:'Nhạc 6',artist:'NCB Music',url:'https://files.cdn4.app/m/7459939345357638919/9b2e19111c2fc164ae76ae041231dd1b/eda53c5be8f1b67e0d6f517096622cf7?token=1794778153_486ed3fe8f31e5c8b0114eea5c1c0388751b139d5444af7eb4ef69904126d6d1&_m=2001%3Aee%3A5679%3A2440%3A3532%3Aa7b3%3Ad15b%3Aa51f&_ms=4d950fe4dac4cba486b72647eefe0e4f1da778425f786a7dadcf9c170911752e&_a=45899&_u=424a3f2b1e98&_l=f396ae25a5d3673a2739bca1eab1ad85',cover:'🎸'},
+  {id:7,name:'Nhạc 7',artist:'NCB Music',url:'https://files.cdn4.app/m/7590928159357275413/0deec7571f075550b9bed9bdc6de38c1/b1d2a36672c57f5bd7676e2e38ffdfab?token=1794778243_8bd985a91ba2be0e5258834d7b41d9a007f0412c9fae921b49d0952632b63111&_m=2001%3Aee%3A5679%3A2440%3A3532%3Aa7b3%3Ad15b%3Aa51f&_ms=7c7c164054b9e2f40891821944db0b7c55ecb2501fb22a3ffe66ad789bd4c1fa&_a=45899&_u=424a3f2b1e98&_l=a0ebe53041fb6aa802f3fa1e43d6e103',cover:'🎺'}
 ];
 const I18N={
   vi:{loginSub:'Đăng nhập để bắt đầu trò chuyện.',loginQuota:'Mỗi thiết bị được',loginQuotaSuffix:'lượt chat / ngày',loginBtn:'ĐĂNG NHẬP NCB',loginReBtn:'VÀO LẠI TÀI KHOẢN',savedLabel:'Tài khoản đã lưu trên thiết bị',logoutBtn:'Thoát',topSub:'NCB AI là một trợ lí thông minh',statusConnecting:'Đang kết nối',statusOnline:'Trực tuyến',statusApiErr:'Lỗi API',statusOffline:'Mất kết nối',newChat:'＋   Cuộc trò chuyện mới',recent:'GẦN ĐÂY',noChat:'Chưa có cuộc trò chuyện',chatNew:'Cuộc trò chuyện mới',version:'Phiên bản 1.5.1',tagline:'NCB AI là một trợ lí thông minh',counterLabel:'Lượt chat:',resetAfter:'Reset sau:',notLogged:'Chưa đăng nhập',anonymousDevice:'Thiết bị ẩn danh',welcome:'Xin chào 👋',welcomeDesc:'NCB AI là một trợ lí thông minh. Hỏi bất cứ điều gì — từ học tập, code, đến sáng tạo nội dung.',suggestExplain:'💡 Giải thích',suggestExplainSub:'Blockchain là gì và ứng dụng ra sao?',suggestCode:'💻 Viết code',suggestCodeSub:'Python tính giai thừa bằng đệ quy',suggestTime:'🕐 Xem giờ',suggestTimeSub:'Cho tôi biết giờ và ngày hôm nay',suggestImage:'🎨 Tạo ảnh',suggestImageSub:'Mèo phi hành gia trên sao Hỏa',inputPlaceholder:'Nhập tin nhắn hoặc bấm micro để nói...',sendHint:'Enter để gửi',typing:'Đang nhập...',disclaimer:'NCB AI ĐƯỢC TẠO RA ĐỂ HỖ TRỢ TRẢ LỜI NHANH NGÔN NGỮ TIẾNG VIỆT',copy:'Sao chép',speak:'Đọc',stop:'Dừng',copied:'📋 Đã sao chép',settingsTitle:'⚙ CÀI ĐẶT NGÔN NGỮ',settingsLabel:'Chọn ngôn ngữ AI trả lời',settingsSave:'💾 LƯU NGÔN NGỮ',langSaved:'✅ Đã lưu ngôn ngữ:',codeTitle:'⌘ NHẬP CODE',codeSubmit:'XÁC NHẬN',codeEmpty:'⚠️ Vui lòng nhập code',codeOk50:'✅ Mã hợp lệ! +50.000 lượt',codeOkVip:'✅ Mã VIP hợp lệ! +100.000 lượt',codeOk1k:'✅ Mã hợp lệ! +1.000 lượt',codeInvalid:'❌ Mã không hợp lệ',toastOk50:'🎉 Đã cộng 50.000 lượt!',toastOkVip:'🎉 Đã cộng 100.000 lượt!',toastOk1k:'🎉 Đã cộng 1000 lượt chat!',toastNewId:'✅ Đã tạo ID mới:',toastLogin:'✅ Đăng nhập:',toastLogout:'👋 Đã đăng xuất.',toastImgComingSoon:'🚧 Chức năng gửi ảnh sẽ sớm ra mắt trong phiên bản tiếp theo!',toastNoMic:'⚠️ Trình duyệt không hỗ trợ ghi âm.\nVui lòng dùng Chrome hoặc Edge!',toastNoTts:'⚠️ Trình duyệt không hỗ trợ đọc',toastTurnOut:'⚠️ Bạn đã hết lượt chat hoặc không đủ 100 lượt!\nNhập code để cộng thêm, hoặc chờ 00:00 mai reset.',toastReset:'🎉 Đã cộng lại 50.000 lượt chat cho ngày mới!',toastCopiedId:'📋 Đã sao chép ID:',logoutTitle:'BẠN MUỐN TIẾP TỤC CHỨ?',logoutCount:'ĐIỂM NGƯỢC',logoutGo:'TIẾP TỤC',voiceTitle:'Ghi âm giọng nói',voiceSub:'Nhấn nút bên dưới và nói. AI sẽ nghe, trả lời và đọc to cho bạn.',voiceListening:'🔴 Đang nghe...',voiceListenHint:'Hãy nói rõ ràng. Nhấn "Dừng" khi xong.',voiceStopped:'Đã dừng ghi âm',voiceDone:'Bạn có thể sửa hoặc gửi cho AI.',voiceNoSpeech:'Không nhận diện được giọng nói.',voiceStart:'🎤 Bắt đầu nói',voiceStop:'⏹ Dừng lại',voiceAgain:'🎤 Nói lại',voiceClose:'Đóng',voiceSend:'➤ Gửi cho AI',voiceEmptyHint:'🎤 Nhấn nút bên dưới và bắt đầu nói...',voiceMicDenied:'❌ Bạn cần cho phép micro trong trình duyệt!',voiceMicNoSpeech:'⚠️ Không nghe thấy gì, thử lại nhé.',voiceMicNetwork:'⚠️ Lỗi mạng, kiểm tra kết nối.',removeImg:'Bỏ ảnh',websiteReply:'Đây là website chính thức của NCB AI:\n\n🔹 ',websiteReplyTail:'\n\nBạn truy cập để dùng phiên bản mới nhất nhé! 🤩',supportReply:'Bạn cần hỗ trợ? Liên hệ admin qua Facebook:\n\n🔹 ',supportReplyTail:'\n\nAdmin: NGUYỄN CÔNG BẰNG sẽ phản hồi sớm nhất có thể. 🥰',imageGenLabel:'🎨 ẢNH ĐÃ TẠO',imageDownload:'⬇ Tải xuống',imageRegen:'🔄 Tạo lại',clockLabel:'THỜI GIAN THỰC',clockTz:'🇻🇳 Giờ Việt Nam (UTC+7)',day0:'Chủ nhật',day1:'Thứ hai',day2:'Thứ ba',day3:'Thứ tư',day4:'Thứ năm',day5:'Thứ sáu',day6:'Thứ bảy',closeTitle:'Đóng'},
@@ -670,8 +684,27 @@ document.getElementById('pinOk').addEventListener('click',async()=>{
 });
 document.getElementById('pinResetBtn').addEventListener('click',()=>{if(!hasPin()){showToast('⚠️ Chưa có PIN để đổi');return}openPinScreen('change')});
 
-function getMusicKeyData(){try{const r=localStorage.getItem(MUSIC_KEY_STORAGE);if(!r)return null;const d=JSON.parse(r);if(!d.key||!d.exp)return null;if(Date.now()>d.exp)return null;return d}catch(e){return null}}
-function setMusicKey(inputKey){localStorage.setItem(MUSIC_KEY_STORAGE,JSON.stringify({key:inputKey,exp:Date.now()+MUSIC_KEY_TTL}))}
+function getMusicKeyData(){
+  try{
+    const r=localStorage.getItem(MUSIC_KEY_STORAGE);
+    if(!r)return null;
+    const d=JSON.parse(r);
+    if(!d.key||!d.exp)return null;
+    if(Date.now()>d.exp)return null;
+    const info=MUSIC_KEYS_MAP[d.key];
+    if(info&&info.deviceLock){
+      const curDevice=currentUserSub||'guest';
+      if(d.deviceId!==curDevice)return null;
+    }
+    return d;
+  }catch(e){return null}
+}
+function setMusicKey(inputKey){
+  const info=MUSIC_KEYS_MAP[inputKey]||{ms:MUSIC_KEY_TTL,deviceLock:false};
+  const data={key:inputKey,exp:Date.now()+info.ms};
+  if(info.deviceLock)data.deviceId=currentUserSub||'guest';
+  localStorage.setItem(MUSIC_KEY_STORAGE,JSON.stringify(data));
+}
 function hasValidMusicKey(){return !!getMusicKeyData()}
 function formatVNTime(ts){
   const vn=new Date(ts+7*3600*1000);
@@ -682,6 +715,15 @@ function formatVNTime(ts){
   const mi=String(vn.getUTCMinutes()).padStart(2,'0');
   const ss=String(vn.getUTCSeconds()).padStart(2,'0');
   return dd+'/'+mm+'/'+yy+' '+hh+':'+mi+':'+ss+' (giờ VN)';
+}
+function formatCountdownLong(remain){
+  if(remain<=0)return '00:00:00';
+  const days=Math.floor(remain/86400000);
+  const hours=Math.floor((remain%86400000)/3600000);
+  const mins=Math.floor((remain%3600000)/60000);
+  const secs=Math.floor((remain%60000)/1000);
+  if(days>0)return days+' ngày '+String(hours).padStart(2,'0')+':'+String(mins).padStart(2,'0')+':'+String(secs).padStart(2,'0');
+  return String(hours).padStart(2,'0')+':'+String(mins).padStart(2,'0')+':'+String(secs).padStart(2,'0');
 }
 function startMusicCountdown(){
   if(musicCountdownInterval)clearInterval(musicCountdownInterval);
@@ -694,12 +736,11 @@ function startMusicCountdown(){
     if(!k){cdEl.textContent='⏹ Chưa kích hoạt hoặc key đã hết hạn';cdEl.className='music-key-countdown expired';hintEl.textContent='Liên hệ admin để nhận key phát nhạc.';return}
     const remain=k.exp-Date.now();
     if(remain<=0){cdEl.textContent='⏹ Key đã hết hạn';cdEl.className='music-key-countdown expired';hintEl.textContent='Liên hệ admin để nhận key mới.';return}
-    const h=Math.floor(remain/3600000);
-    const m=Math.floor((remain%3600000)/60000);
-    const s=Math.floor((remain%60000)/1000);
-    cdEl.textContent='⏱ Còn lại: '+String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+    cdEl.textContent='⏱ Còn lại: '+formatCountdownLong(remain);
     cdEl.className='music-key-countdown'+(remain<600000?' expiring':'');
-    hintEl.textContent='Hết hạn lúc: '+formatVNTime(k.exp);
+    const info=MUSIC_KEYS_MAP[k.key];
+    const lockText=info&&info.deviceLock?' • 🔒 Khóa 1 thiết bị':'';
+    hintEl.textContent='Hết hạn lúc: '+formatVNTime(k.exp)+lockText;
   }
   tick();
   musicCountdownInterval=setInterval(tick,1000);
@@ -719,9 +760,12 @@ document.getElementById('musicKeyConfirm').addEventListener('click',()=>{
   const v=document.getElementById('musicKeyInput').value.trim();
   const err=document.getElementById('musicKeyError');
   if(!v){err.style.color='#ff626e';err.textContent='⚠️ Vui lòng nhập key';return}
-  if(!MUSIC_VALID_KEYS.includes(v)){err.style.color='#ff626e';err.textContent='❌ Key không hợp lệ';return}
+  const info=MUSIC_KEYS_MAP[v];
+  if(!info){err.style.color='#ff626e';err.textContent='❌ Key không hợp lệ';return}
   setMusicKey(v);
-  err.style.color='#35d69a';err.textContent='✅ Kích hoạt thành công! 5 tiếng từ bây giờ';
+  const durText=info.deviceLock?Math.round(info.ms/86400000)+' ngày (khóa 1 thiết bị)':Math.round(info.ms/3600000)+' tiếng';
+  err.style.color='#35d69a';
+  err.textContent='✅ Kích hoạt thành công! '+durText;
   startMusicCountdown();
   setTimeout(()=>{closeMusicKeyModal();openMusicPicker()},1200);
 });
@@ -755,10 +799,7 @@ const musicPlayerStatus=document.getElementById('musicPlayerStatus');
 const musicPlayerToggle=document.getElementById('musicPlayerToggle');
 function playTrack(tr){
   currentTrack=tr;musicAudio.src=tr.url;
-  musicAudio.play().catch(err=>{
-    console.warn('Play fail:',err);
-    musicPlayerStatus.textContent='⚠️ Lỗi phát nhạc';
-  });
+  musicAudio.play().catch(err=>{console.warn('Play fail:',err);musicPlayerStatus.textContent='⚠️ Lỗi phát nhạc'});
   musicPlayerBar.classList.add('show');document.body.classList.add('music-playing');
   musicPlayerCover.textContent=tr.cover;musicPlayerName.textContent=tr.name;
   musicPlayerStatus.textContent='▶ Đang phát';musicPlayerCover.classList.add('playing');musicPlayerToggle.textContent='⏸';
@@ -999,9 +1040,8 @@ function startResetTimer(){
       if(mk){
         const remain=mk.exp-Date.now();
         if(remain>0){
-          const h=Math.floor(remain/3600000),m=Math.floor((remain%3600000)/60000),s=Math.floor((remain%60000)/1000);
           mkStatusEl.style.display='block';
-          mkStatusEl.innerHTML='🔑 Music: '+String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+          mkStatusEl.innerHTML='🔑 Music: '+formatCountdownLong(remain);
           mkStatusEl.style.color='#35d69a';
         }else{
           mkStatusEl.style.display='block';
@@ -1233,7 +1273,7 @@ async function sendMessage(){
       setTimeout(()=>openMusicPicker(),400);
     }else{
       addMessage({role:'user',content:text,ts:Date.now()});
-      addMessage({role:'assistant',content:'🔐 Bạn cần nhập key do admin cấp để sử dụng tính năng phát nhạc.\n\n🔹 Key có hiệu lực 5 tiếng (giờ Việt Nam).\n🔹 Vui lòng liên hệ admin để nhận key.',ts:Date.now()});
+      addMessage({role:'assistant',content:'🔐 Bạn cần nhập key do admin cấp để sử dụng tính năng phát nhạc.\n\n🔹 Key có thời hạn tùy loại (5h/7h/dài hạn).\n🔹 Vui lòng liên hệ admin để nhận key.',ts:Date.now()});
       setTimeout(()=>openMusicKeyModal(),400);
     }
     return;
