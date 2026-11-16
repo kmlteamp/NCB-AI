@@ -296,7 +296,7 @@ button{cursor:pointer}button,textarea,input{font:inherit}
 @keyframes musicSpin{to{transform:rotate(360deg)}}
 .music-player-info{flex:1;min-width:0}
 .music-player-name{color:#fff;font-size:13px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-bottom:2px}
-.music-player-status{color:var(--muted);font-size:10px;font-family:'Courier New',monospace}
+.music-player-status{color:var(--muted);font-size:10px;font-family:'Courier New',monospace;transition:color .3s}
 .music-player-controls{display:flex;gap:6px;flex-shrink:0}
 .music-player-btn{width:38px;height:38px;border-radius:10px;border:1px solid #41495b;background:#202633;color:#fff;font-size:16px;font-weight:700;cursor:pointer;display:grid;place-items:center;transition:all .2s}
 .music-player-btn:hover{background:#282f42;border-color:var(--purple)}
@@ -304,6 +304,15 @@ button{cursor:pointer}button,textarea,input{font:inherit}
 .music-player-btn.close:hover{background:#aa0000;color:#fff;border-color:#aa0000}
 body.music-playing .composer-area{padding-bottom:90px}
 body.music-playing .messages{padding-bottom:90px}
+.music-key-info-box{background:linear-gradient(135deg,#171b25,#1a1f2e);border:2px solid var(--purple);border-radius:14px;padding:16px;margin:4px 0;box-shadow:0 4px 20px rgba(118,87,238,.3)}
+.music-key-info-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #30394b;gap:8px}
+.music-key-info-row:last-child{border-bottom:0}
+.music-key-info-label{color:var(--muted);font-size:12px;font-weight:600}
+.music-key-info-value{color:#fff;font-size:13px;font-weight:800;font-family:'Courier New',monospace;text-align:right}
+.music-key-info-countdown{color:#35d69a;font-size:18px;font-weight:900;letter-spacing:1px}
+.music-key-info-countdown.expiring{color:#ffd166;animation:pulseDot 1s infinite}
+.music-key-info-countdown.expired{color:#ff626e}
+.music-key-info-empty{color:var(--muted);font-size:13px;text-align:center;padding:12px;line-height:1.6}
 @media(max-width:700px){
 .sidebar{position:fixed;z-index:20;left:0;top:0;bottom:0;box-shadow:15px 0 45px #0007;transform:translateX(-105%)}
 .sidebar.open{transform:translateX(0)}
@@ -334,6 +343,8 @@ body.music-playing .messages{padding-bottom:90px}
 .music-track-name{font-size:13px}
 .music-player-bar{left:8px;right:8px;bottom:8px;padding:8px 10px}
 .music-player-cover{width:40px;height:40px;font-size:20px}
+.music-key-info-row{flex-direction:column;align-items:flex-start;gap:4px}
+.music-key-info-value{text-align:left;width:100%}
 }
 </style>
 </head>
@@ -536,7 +547,7 @@ body.music-playing .messages{padding-bottom:90px}
       <button class="music-key-close" id="musicKeyClose">×</button>
     </div>
     <div class="music-key-body">
-      <div class="music-key-desc">Nhập key do admin cấp để mở khóa tính năng phát nhạc. Thời hạn key tùy loại (5 tiếng, 7 tiếng, hoặc dài hạn).</div>
+      <div class="music-key-desc">Nhập key do admin cấp để mở khóa tính năng phát nhạc. Key khóa 1 thiết bị duy nhất.</div>
       <input class="music-key-input" id="musicKeyInput" placeholder="Nhập key admin..." autocomplete="off">
       <div class="music-key-actions" style="grid-template-columns:1fr">
         <button class="music-key-btn confirm" id="musicKeyConfirm">✓ KÍCH HOẠT</button>
@@ -582,6 +593,7 @@ const IMAGE_CMD='/image';
 const CODE_CMD=':codencb';
 const PIN_CMD='/ncbmapin';
 const MUSIC_CMD='/ncbphatnhac';
+const XEMKEY_CMD='/ncbxemthoigiankey';
 const MAX_TURNS_PER_ACCOUNT=50000;
 const TURNS_PER_CHAT=100;
 const DEVICE_ACCOUNT_KEY='ncb_device_account';
@@ -597,16 +609,16 @@ const PIN_SESSION_KEY='ncb_pin_ok';
 const MUSIC_KEY_STORAGE='ncb_music_key';
 const MUSIC_KEY_TTL=5*3600*1000;
 const MUSIC_KEYS_MAP={
-  'NCB_2SPSAL':{ms:5*3600*1000,deviceLock:false},
-  'NCB_MDLQQPAO9':{ms:5*3600*1000,deviceLock:false},
-  'NCB_PQKSOZNmzzj':{ms:5*3600*1000,deviceLock:false},
-  'NCB_MSOWQPQ0':{ms:5*3600*1000,deviceLock:false},
-  'NCB_MSPQQ01':{ms:5*3600*1000,deviceLock:false},
-  'NCB_QKAJWUNSS':{ms:5*3600*1000,deviceLock:false},
-  'NCB_28QPPWDK':{ms:7*3600*1000,deviceLock:false},
-  'NCB_829PSK':{ms:7*3600*1000,deviceLock:false},
-  'NCB_KWWWOS':{ms:7*3600*1000,deviceLock:false},
-  'NGUYENCONGBANHXNCB':{ms:7*3600*1000,deviceLock:false},
+  'NCB_2SPSAL':{ms:5*3600*1000,deviceLock:true},
+  'NCB_MDLQQPAO9':{ms:5*3600*1000,deviceLock:true},
+  'NCB_PQKSOZNmzzj':{ms:5*3600*1000,deviceLock:true},
+  'NCB_MSOWQPQ0':{ms:5*3600*1000,deviceLock:true},
+  'NCB_MSPQQ01':{ms:5*3600*1000,deviceLock:true},
+  'NCB_QKAJWUNSS':{ms:5*3600*1000,deviceLock:true},
+  'NCB_28QPPWDK':{ms:7*3600*1000,deviceLock:true},
+  'NCB_829PSK':{ms:7*3600*1000,deviceLock:true},
+  'NCB_KWWWOS':{ms:7*3600*1000,deviceLock:true},
+  'NGUYENCONGBANHXNCB':{ms:7*3600*1000,deviceLock:true},
   'NCB_DR10LAP':{ms:9000*24*3600*1000,deviceLock:true}
 };
 const MUSIC_TRACKS=[
@@ -700,7 +712,7 @@ function getMusicKeyData(){
   }catch(e){return null}
 }
 function setMusicKey(inputKey){
-  const info=MUSIC_KEYS_MAP[inputKey]||{ms:MUSIC_KEY_TTL,deviceLock:false};
+  const info=MUSIC_KEYS_MAP[inputKey]||{ms:MUSIC_KEY_TTL,deviceLock:true};
   const data={key:inputKey,exp:Date.now()+info.ms};
   if(info.deviceLock)data.deviceId=currentUserSub||'guest';
   localStorage.setItem(MUSIC_KEY_STORAGE,JSON.stringify(data));
@@ -763,13 +775,45 @@ document.getElementById('musicKeyConfirm').addEventListener('click',()=>{
   const info=MUSIC_KEYS_MAP[v];
   if(!info){err.style.color='#ff626e';err.textContent='❌ Key không hợp lệ';return}
   setMusicKey(v);
-  const durText=info.deviceLock?Math.round(info.ms/86400000)+' ngày (khóa 1 thiết bị)':Math.round(info.ms/3600000)+' tiếng';
+  const durText=info.ms>=86400000?Math.round(info.ms/86400000)+' ngày (khóa 1 thiết bị)':Math.round(info.ms/3600000)+' tiếng (khóa 1 thiết bị)';
   err.style.color='#35d69a';
   err.textContent='✅ Kích hoạt thành công! '+durText;
   startMusicCountdown();
   setTimeout(()=>{closeMusicKeyModal();openMusicPicker()},1200);
 });
 document.getElementById('musicKeyInput').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('musicKeyConfirm').click()});
+
+function createMusicKeyInfoWidget(){
+  const box=document.createElement('div');box.className='music-key-info-box';
+  const k=getMusicKeyData();
+  if(!k){box.innerHTML='<div class="music-key-info-empty">🔐 Chưa kích hoạt key phát nhạc<br>Nhập <b style="color:#a78bfa">/ncbphatnhac</b> để kích hoạt</div>';return box}
+  const info=MUSIC_KEYS_MAP[k.key]||{deviceLock:true};
+  const row1=document.createElement('div');row1.className='music-key-info-row';
+  row1.innerHTML='<span class="music-key-info-label">🔑 Key đang dùng</span><span class="music-key-info-value" style="color:#a78bfa">'+k.key+'</span>';
+  const row2=document.createElement('div');row2.className='music-key-info-row';
+  row2.innerHTML='<span class="music-key-info-label">⏱ Còn lại</span><span class="music-key-info-value music-key-info-countdown" id="mkiCountdown">--:--:--</span>';
+  const row3=document.createElement('div');row3.className='music-key-info-row';
+  row3.innerHTML='<span class="music-key-info-label">📅 Hết hạn lúc</span><span class="music-key-info-value" style="color:#ffd166">'+formatVNTime(k.exp)+'</span>';
+  const row4=document.createElement('div');row4.className='music-key-info-row';
+  const lockText='🔒 Có (chỉ thiết bị này)';
+  row4.innerHTML='<span class="music-key-info-label">🔐 Khóa thiết bị</span><span class="music-key-info-value" style="color:#ffd166">'+lockText+'</span>';
+  const row5=document.createElement('div');row5.className='music-key-info-row';
+  const durText=info.ms?(info.ms>=86400000?Math.round(info.ms/86400000)+' ngày':Math.round(info.ms/3600000)+' tiếng'):'--';
+  row5.innerHTML='<span class="music-key-info-label">⏳ Tổng thời hạn</span><span class="music-key-info-value" style="color:#35d69a">'+durText+'</span>';
+  box.appendChild(row1);box.appendChild(row2);box.appendChild(row3);box.appendChild(row4);box.appendChild(row5);
+  const cdEl=row2.querySelector('#mkiCountdown');
+  const interval=setInterval(()=>{
+    if(!document.body.contains(box)){clearInterval(interval);return}
+    const kk=getMusicKeyData();
+    if(!kk){cdEl.textContent='⏹ Hết hạn';cdEl.className='music-key-info-value music-key-info-countdown expired';clearInterval(interval);return}
+    const remain=kk.exp-Date.now();
+    if(remain<=0){cdEl.textContent='⏹ Hết hạn';cdEl.className='music-key-info-value music-key-info-countdown expired';clearInterval(interval);return}
+    cdEl.textContent=formatCountdownLong(remain);
+    cdEl.className='music-key-info-value music-key-info-countdown'+(remain<600000?' expiring':'');
+  },1000);
+  clockIntervals.push(interval);
+  return box;
+}
 
 function openMusicPicker(){
   const body=document.getElementById('musicPickerBody');body.innerHTML='';
@@ -843,26 +887,15 @@ async function playTrack(tr){
 function toggleMusic(){
   if(!currentTrack){showToast('⚠️ Chưa chọn bài hát');return}
   if(musicAudio.paused){
-    musicAudio.play().then(()=>{musicPlayerCover.classList.add('playing');musicPlayerToggle.textContent='⏸';musicPlayerStatus.textContent='▶ Đang phát'}).catch(err=>{
-      console.warn('Resume fail:',err);
-      showToast('❌ Không thể phát tiếp. Thử chọn bài khác.');
-    });
+    musicAudio.play().then(()=>{musicPlayerCover.classList.add('playing');musicPlayerToggle.textContent='⏸';musicPlayerStatus.textContent='▶ Đang phát'}).catch(err=>{console.warn('Resume fail:',err);showToast('❌ Không thể phát tiếp. Thử chọn bài khác.')});
   }else{musicAudio.pause();musicPlayerCover.classList.remove('playing');musicPlayerToggle.textContent='▶';musicPlayerStatus.textContent='⏸ Tạm dừng'}
 }
 function closeMusicPlayer(){musicAudio.pause();musicAudio.src='';musicPlayerBar.classList.remove('show');document.body.classList.remove('music-playing');musicPlayerCover.classList.remove('playing');currentTrack=null}
 musicPlayerToggle.addEventListener('click',toggleMusic);
 document.getElementById('musicPlayerClose').addEventListener('click',closeMusicPlayer);
 musicAudio.addEventListener('ended',()=>{musicPlayerCover.classList.remove('playing');musicPlayerToggle.textContent='▶';musicPlayerStatus.textContent='⏹ Đã kết thúc'});
-musicAudio.addEventListener('error',()=>{
-  const e=musicAudio.error;
-  if(!e)return;
-  const codes={1:'MEDIA_ERR_ABORTED',2:'MEDIA_ERR_NETWORK',3:'MEDIA_ERR_DECODE',4:'MEDIA_ERR_SRC_NOT_SUPPORTED'};
-  console.warn('Audio error:',codes[e.code]||e.code,e.message);
-});
-musicAudio.addEventListener('stalled',()=>{
-  console.warn('Audio stalled — mạng chậm hoặc server không phản hồi');
-  if(currentTrack)musicPlayerStatus.textContent='⚠️ Kết nối chậm...';
-});
+musicAudio.addEventListener('error',()=>{const e=musicAudio.error;if(!e)return;const codes={1:'MEDIA_ERR_ABORTED',2:'MEDIA_ERR_NETWORK',3:'MEDIA_ERR_DECODE',4:'MEDIA_ERR_SRC_NOT_SUPPORTED'};console.warn('Audio error:',codes[e.code]||e.code,e.message)});
+musicAudio.addEventListener('stalled',()=>{console.warn('Audio stalled');if(currentTrack)musicPlayerStatus.textContent='⚠️ Kết nối chậm...'});
 
 const fab=document.getElementById('redeemBtn');
 const closeFab=document.getElementById('closeFabBtn');
@@ -1089,17 +1122,9 @@ function startResetTimer(){
       const mk=getMusicKeyData();
       if(mk){
         const remain=mk.exp-Date.now();
-        if(remain>0){
-          mkStatusEl.style.display='block';
-          mkStatusEl.innerHTML='🔑 Music: '+formatCountdownLong(remain);
-          mkStatusEl.style.color='#35d69a';
-        }else{
-          mkStatusEl.style.display='block';
-          mkStatusEl.innerHTML='🔑 Music: <span style="color:#ff626e">Hết hạn</span>';
-        }
-      }else{
-        mkStatusEl.style.display='none';
-      }
+        if(remain>0){mkStatusEl.style.display='block';mkStatusEl.innerHTML='🔑 Music: '+formatCountdownLong(remain);mkStatusEl.style.color='#35d69a'}
+        else{mkStatusEl.style.display='block';mkStatusEl.innerHTML='🔑 Music: <span style="color:#ff626e">Hết hạn</span>'}
+      }else mkStatusEl.style.display='none';
     }
   }
   tick();
@@ -1211,9 +1236,10 @@ function renderConversation(){
     const bubble=document.createElement('div');bubble.className='bubble';
     if(m.type==='clock')bubble.appendChild(createClockWidget());
     else if(m.type==='image')bubble.appendChild(buildImageNode(m));
+    else if(m.type==='music-key-info')bubble.appendChild(createMusicKeyInfoWidget());
     else bubble.appendChild(formatAIText(m.content||''));
     bw.appendChild(bubble);
-    if(m.role==='assistant'&&m.type!=='clock'&&m.type!=='image'){
+    if(m.role==='assistant'&&m.type!=='clock'&&m.type!=='image'&&m.type!=='music-key-info'){
       const a=document.createElement('div');a.className='msg-actions';
       const cp=document.createElement('button');cp.innerHTML='<svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> '+t('copy');
       cp.addEventListener('click',()=>{navigator.clipboard.writeText(m.content||'').then(()=>{cp.classList.add('active');showToast(t('copied'));setTimeout(()=>cp.classList.remove('active'),1500)})});
@@ -1314,6 +1340,19 @@ async function sendMessage(){
 
   if(text.toLowerCase()===PIN_CMD){inp.value='';autoResize();document.getElementById('composer').classList.remove('is-typing');if(hasPin())openPinScreen('change');else openPinScreen('set');return}
 
+  if(text.toLowerCase()===XEMKEY_CMD){
+    inp.value='';autoResize();document.getElementById('composer').classList.remove('is-typing');
+    addMessage({role:'user',content:text,ts:Date.now()});
+    const k=getMusicKeyData();
+    if(k){
+      addMessage({role:'assistant',content:'🔑 Thông tin key phát nhạc của bạn:',ts:Date.now()});
+      setTimeout(()=>addMessage({role:'assistant',type:'music-key-info',ts:Date.now()}),300);
+    }else{
+      addMessage({role:'assistant',content:'🔐 Bạn chưa kích hoạt key phát nhạc.\n\n🔹 Nhập /ncbphatnhac để kích hoạt\n🔹 Liên hệ admin để nhận key',ts:Date.now()});
+    }
+    return;
+  }
+
   if(text.toLowerCase()===MUSIC_CMD){
     inp.value='';autoResize();document.getElementById('composer').classList.remove('is-typing');
     if(hasValidMusicKey()){
@@ -1323,7 +1362,7 @@ async function sendMessage(){
       setTimeout(()=>openMusicPicker(),400);
     }else{
       addMessage({role:'user',content:text,ts:Date.now()});
-      addMessage({role:'assistant',content:'🔐 Bạn cần nhập key do admin cấp để sử dụng tính năng phát nhạc.\n\n🔹 Key có thời hạn tùy loại (5h/7h/dài hạn).\n🔹 Vui lòng liên hệ admin để nhận key.',ts:Date.now()});
+      addMessage({role:'assistant',content:'🔐 Bạn cần nhập key do admin cấp để sử dụng tính năng phát nhạc.\n\n🔹 Key khóa 1 thiết bị duy nhất.\n🔹 Vui lòng liên hệ admin để nhận key.',ts:Date.now()});
       setTimeout(()=>openMusicKeyModal(),400);
     }
     return;
